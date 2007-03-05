@@ -169,7 +169,7 @@ and <code>y</code> attributes, but that is not yet so with our
 >>> p2 = Point()
 >>> p2.x
 Traceback (most recent call last):
-  File "<stdin>", line 1, in ?
+  File "&lt;stdin&gt;", line 1, in ?
 AttributeError: Point instance has no attribute 'x'
 >>>
 </pre>
