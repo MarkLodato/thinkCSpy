@@ -94,12 +94,12 @@ function named (you guessed it) <code>Point</code>:</p>
 <pre class="python-interpreter">
 >>> type(Point)
 &lt;type 'classobj'>
->>> blank = Point()
->>> type(blank)
+>>> p = Point()
+>>> type(p)
 &lt;type 'instance'>
 </pre>
 
-<p>The variable <code>blank</code> is assigned a reference to a new
+<p>The variable <code>p</code> is assigned a reference to a new
 <code>Point</code> object.  A function like <code>Point</code> that creates
 new objects is called a <b>constructor</b>.</p>
 
@@ -110,8 +110,8 @@ new objects is called a <b>constructor</b>.</p>
 <p>We can add new data to an instance using dot notation:</p>
 
 <pre class="python-interpreter">
->>> blank.x = 3.0
->>> blank.y = 4.0
+>>> p.x = 3.0
+>>> p.y = 4.0
 </pre>
 
 <p>This syntax is similar to the syntax for selecting a variable from a module, 
@@ -124,38 +124,68 @@ attribute we are selecting is a data item from an instance.</p>
 
 <img src="illustrations/point.png" />
 
-<p>The variable <code>blank</code> refers to a Point object, which contains two 
+<p>The variable <code>p</code> refers to a Point object, which contains two 
 attributes.  Each attribute refers to a floating-point number.</p>
 
 <p>We can read the value of an attribute using the same syntax:</p>
 
 <pre class="python-interpreter">
->>> print blank.y
+>>> print p.y
 4.0
->>> x = blank.x
+>>> x = p.x
 >>> print x
 3.0
 </pre>
 
-<p>The expression <code>blank.x</code> means, <q>Go to the object
-<code>blank</code> refers to and get the value of <code>x</code>.</q> In this
-case, we assign that value to a variable named <code>x</code>.  There is no
-conflict between the variable <code>x</code> and the attribute <code>x</code>.  
-The purpose of dot notation is to identify which variable you are referring to
-unambiguously.</p>
+<p>The expression <code>p.x</code> means, <q>Go to the object <code>p</code>
+refers to and get the value of <code>x</code>.</q> In this case, we assign that 
+value to a variable named <code>x</code>.  There is no conflict between the
+variable <code>x</code> and the attribute <code>x</code>.  The purpose of dot
+notation is to identify which variable you are referring to unambiguously.</p>
 
 <p>You can use dot notation as part of any expression, so the following
 statements are legal:</p>
 
 <pre class="python">
-print '(' + str(blank.x) + ', ' + str(blank.y) + ')'
-distanceSquared = blank.x * blank.x + blank.y * blank.y
+print '(' + str(p.x) + ', ' + str(p.y) + ')'
+distanceSquared = p.x * p.x + p.y * p.y
 </pre>
 
 <p>The first line outputs <code>(3.0, 4.0)</code>; the second line calculates
 the value 25.0.</p>
 
 
+<h2>The <b>initialization method</b> and <code>self</code></h2>
+<span class="index" value="initialization method" />
+<span class="index" value="instance!initialization" />
+<span class="index" value="__init__" />
+
+<p>Since our <code>Point</code> class is intended to represent two dimensional 
+mathematical points, <em>all</em> point instances ought to have <code>x</code>
+and <code>y</code> attributes, but that is not yet so with our
+<code>Point</code> objects.</p>
+
+<pre class="python-interpreter">
+>>> p2 = Point()
+>>> p2.x
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+AttributeError: Point instance has no attribute 'x'
+>>>
+</pre>
+
+<p>To solve this problem we add an <b>initialization method</b> to our class.
+</p>
+
+<pre class="python">
+class Point:
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y 
+</pre>
+
+
+<h2>The <code>__str__</code> method</h2>
 
 <p>You might be tempted to print the value of <code>blank</code> itself:</p>
 
