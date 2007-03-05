@@ -1,0 +1,247 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>How to Think Like a Computer Scientist: 10. Dictionaries</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">10. Dictionaries</h1><div class="toc"><ol><li><a href="#auto0">Dictionary operations</a></li><li><a href="#auto1">Dictionary methods</a></li><li><a href="#auto2">Aliasing and copying</a></li><li><a href="#auto3">Sparse matrices </a></li><li><a href="#auto4">Hints</a></li><li><a href="#auto5">Long integers</a></li><li><a href="#auto6">Counting letters</a></li><li><a href="#auto7">Glossary</a></li><li><a href="#auto8">Exercises</a></li></ol></div><div class="content"><span></span><a name="index01"></a><a name="index02"></a><a name="index03"></a><a name="index04"></a><a name="index05"></a><p>The compound types you have learned about---strings, lists, and tuples---use 
+integers as indices.  If you try to use any other type as an index, you get an
+error.</p><p><b>Dictionaries</b> are similar to other compound types except
+that they can use any immutable type as an index.  As an example, we will
+create a dictionary to translate English words into Spanish.  For this
+dictionary, the indices are strings.</p><p>One way to create a dictionary is to start with the empty dictionary and add 
+elements.  The empty dictionary is denoted <code>{}</code>:</p><pre class="python-interpreter">
+&gt;&gt;&gt; eng2sp = {}
+&gt;&gt;&gt; eng2sp['one'] = 'uno'
+&gt;&gt;&gt; eng2sp['two'] = 'dos'
+</pre><p>The first assignment creates a dictionary named <code>eng2sp</code>; the
+other assignments add new elements to the dictionary.  We can print the current 
+value of the dictionary in the usual way:</p><pre class="python-interpreter">
+&gt;&gt;&gt; print eng2sp
+{'one': 'uno', 'two': 'dos'}
+</pre><p>The elements of a dictionary appear in a comma-separated list.  Each entry
+contains an index and a value separated by a colon.  In a dictionary, the
+indices are called <b>keys</b>, so the elements are called
+<b>key-value pairs</b>.</p><p>Another way to create a dictionary is to provide a list of key-value pairs
+using the same syntax as the previous output:</p><pre class="python-interpreter">
+&gt;&gt;&gt; eng2sp = {'one': 'uno', 'two': 'dos', 'three': 'tres'}
+</pre><p>If we print the value of <code>eng2sp</code> again, we get a surprise:</p><pre class="python-interpreter">
+&gt;&gt;&gt; print eng2sp
+{'one': 'uno', 'three': 'tres', 'two': 'dos'}
+</pre><p>The key-value pairs are not in order!  Fortunately, there is no reason to
+care about the order, since the elements of a dictionary are never indexed with 
+integer indices.  Instead, we use the keys to look up the corresponding values:
+</p><pre class="python-interpreter">
+&gt;&gt;&gt; print eng2sp['two']
+'dos'
+</pre><p>The key <code>'two'</code> yields the value <code>'dos'</code> even though
+it appears in the third key-value pair.</p><h2>10.1 Dictionary operations<a name="auto0"></a></h2><a name="index06"></a><a name="index07"></a><p>The <code>del</code> statement removes a key-value pair from a dictionary.
+For example, the following dictionary contains the names of various fruits and
+the number of each fruit in stock:</p><pre class="python-interpreter">
+&gt;&gt;&gt; inventory = {'apples': 430, 'bananas': 312, 'oranges': 525,
+'pears': 217}
+&gt;&gt;&gt; print inventory
+{'oranges': 525, 'apples': 430, 'pears': 217, 'bananas': 312}
+</pre><p>If someone buys all of the pears, we can remove the entry from the
+dictionary:</p><pre class="python-interpreter">
+&gt;&gt;&gt; del inventory['pears']
+&gt;&gt;&gt; print inventory
+{'oranges': 525, 'apples': 430, 'bananas': 312}
+</pre><p>Or if we're expecting more pears soon, we might just change the value
+associated with pears:</p><pre class="python-interpreter">
+&gt;&gt;&gt; inventory['pears'] = 0
+&gt;&gt;&gt; print inventory
+{'oranges': 525, 'apples': 430, 'pears': 0, 'bananas': 312}
+</pre><p>The <code>len</code> function also works on dictionaries; it returns the
+number of key-value pairs:</p><pre class="python-interpreter">
+&gt;&gt;&gt; len(inventory)
+4
+</pre><h2>10.2 Dictionary methods<a name="auto1"></a></h2><a name="index08"></a><a name="index09"></a><a name="index10"></a><a name="index11"></a><a name="index12"></a><p>A <b>method</b> is similar to a function---it takes parameters and
+returns a value---but the syntax is different.  For example, the
+<code>keys</code> method takes a dictionary and returns a list of the keys that
+appear, but instead of the function syntax <code>keys(eng2sp)</code>, we use
+the method syntax <code>eng2sp.keys()</code>.</p><a name="index13"></a><pre class="python-interpreter">
+&gt;&gt;&gt; eng2sp.keys()
+['one', 'three', 'two']
+</pre><p>This form of dot notation specifies the name of the method, 
+<code>keys</code>, and the name of the object on which to apply the method,
+<code>eng2sp</code>.  The parentheses indicate that this method takes no
+parameters.</p><p>A method call is called an <b>invocation</b>; in this case, we
+would say that we are invoking the <code>keys</code> method on the object
+<code>eng2sp</code>. As we will see in a few chapters when we talk about object 
+oriented programming, the object on which a method is invoked is actually the
+first argument to the method.</p><p>The <code>values</code> method is similar; it returns a list of the values
+in the dictionary:</p><pre class="python-interpreter">
+&gt;&gt;&gt; eng2sp.values()
+['uno', 'tres', 'dos']
+</pre><p>The <code>items</code> method returns both, in the form of a list of
+tuples---one for each key-value pair:</p><pre class="python-interpreter">
+&gt;&gt;&gt; eng2sp.items()
+[('one','uno'), ('three', 'tres'), ('two', 'dos')]
+</pre><p>The syntax provides useful type information.  The square brackets indicate
+that this is a list.  The parentheses indicate that the elements of the list
+are tuples.</p><p>If a method takes an argument, it uses the same syntax as a function call.
+For example, the method <code>has_key</code> takes a key and returns true (1)
+if the key appears in the dictionary:</p><pre class="python-interpreter">
+&gt;&gt;&gt; eng2sp.has_key('one')
+True
+&gt;&gt;&gt; eng2sp.has_key('deux')
+False
+</pre><p>If you try to call a method without specifying an object, you get an error.  
+In this case, the error message is not very helpful:</p><pre class="python-interpreter">
+&gt;&gt;&gt; has_key('one')
+NameError: name 'has_key' is not defined
+</pre><a name="index14"></a><h2>10.3 Aliasing and copying<a name="auto2"></a></h2><a name="index15"></a><a name="index16"></a><a name="index17"></a><p>Because dictionaries are mutable, you need to be aware of aliasing.
+Whenever two variables refer to the same object, changes to one affect the
+other.</p><p>If you want to modify a dictionary and keep a copy of the original, use the
+<code>copy</code> method.  For example, <code>opposites</code> is a dictionary
+that contains pairs of opposites:</p><pre class="python-interpreter">
+&gt;&gt;&gt; opposites = {'up': 'down', 'right': 'wrong', 'true': 'false'}
+&gt;&gt;&gt; alias = opposites
+&gt;&gt;&gt; copy = opposites.copy()
+</pre><p><code>alias</code> and <code>opposites</code> refer to the same object;
+<code>copy</code> refers to a fresh copy of the same dictionary.  If we modify
+<code>alias</code>, <code>opposites</code> is also changed:</p><pre class="python-interpreter">
+&gt;&gt;&gt; alias['right'] = 'left'
+&gt;&gt;&gt; opposites['right']
+'left'
+</pre><p>If we modify <code>copy</code>, <code>opposites</code> is unchanged:</p><pre class="python-interpreter">
+&gt;&gt;&gt; copy['right'] = 'privilege'
+&gt;&gt;&gt; opposites['right']
+'left'
+</pre><h2>10.4 Sparse matrices <a name="auto3"></a></h2><a name="index18"></a><a name="index19"></a><a name="index20"></a><p>We previously used a list of lists to represent a matrix.  That is a good
+choice for a matrix with mostly nonzero values, but consider a sparse matrix
+like this one:</p><img src="illustrations/sparse.png" /><p>The list representation contains a lot of zeroes:</p><pre class="python">
+<span class="py-src-variable">matrix</span> = [ [<span class="py-src-number">0</span>,<span class="py-src-number">0</span>,<span class="py-src-number">0</span>,<span class="py-src-number">1</span>,<span class="py-src-number">0</span>],
+   [<span class="py-src-number">0</span>,<span class="py-src-number">0</span>,<span class="py-src-number">0</span>,<span class="py-src-number">0</span>,<span class="py-src-number">0</span>],
+   [<span class="py-src-number">0</span>,<span class="py-src-number">2</span>,<span class="py-src-number">0</span>,<span class="py-src-number">0</span>,<span class="py-src-number">0</span>],
+   [<span class="py-src-number">0</span>,<span class="py-src-number">0</span>,<span class="py-src-number">0</span>,<span class="py-src-number">0</span>,<span class="py-src-number">0</span>],
+   [<span class="py-src-number">0</span>,<span class="py-src-number">0</span>,<span class="py-src-number">0</span>,<span class="py-src-number">3</span>,<span class="py-src-number">0</span>] ]
+</pre><p>An alternative is to use a dictionary.  For the keys, we can use tuples
+that contain the row and column numbers.  Here is the dictionary
+representation of the same matrix:</p><pre class="python">
+<span class="py-src-variable">matrix</span> = {(<span class="py-src-number">0</span>,<span class="py-src-number">3</span>): <span class="py-src-number">1</span>, (<span class="py-src-number">2</span>, <span class="py-src-number">1</span>): <span class="py-src-number">2</span>, (<span class="py-src-number">4</span>, <span class="py-src-number">3</span>): <span class="py-src-number">3</span>}
+</pre><p>We only need three key-value pairs, one for each nonzero element of the
+matrix.  Each key is a tuple, and each value is an integer.</p><p>To access an element of the matrix, we could use the <code>[]</code>
+operator:</p><pre class="python">
+<span class="py-src-variable">matrix</span>[(<span class="py-src-number">0</span>, <span class="py-src-number">3</span>)]
+<span class="py-src-number">1</span>
+</pre><p>Notice that the syntax for the dictionary representation is not the
+same as the syntax for the nested list representation.  Instead of
+two integer indices, we use one index, which is a tuple of integers.</p><p>There is one problem.  If we specify an element that is zero, we get an
+error, because there is no entry in the dictionary with that key:</p><a name="index21"></a><pre class="python-interpreter">
+&gt;&gt;&gt; matrix[(1, 3)]
+KeyError: (1, 3)
+</pre><p>The <code>get</code> method solves this problem:</p><pre class="python">
+&gt;&gt;&gt; <span class="py-src-variable">matrix</span>.<span class="py-src-variable">get</span>((<span class="py-src-number">0</span>, <span class="py-src-number">3</span>), <span class="py-src-number">0</span>)
+<span class="py-src-number">1</span>
+</pre><p>The first argument is the key; the second argument is the value
+<code>get</code> should return if the key is not in the dictionary:</p><pre class="python">
+&gt;&gt;&gt; <span class="py-src-variable">matrix</span>.<span class="py-src-variable">get</span>((<span class="py-src-number">1</span>, <span class="py-src-number">3</span>), <span class="py-src-number">0</span>)
+<span class="py-src-number">0</span>
+</pre><p><code>get</code> definitely improves the semantics of accessing a sparse
+matrix.  Shame about the syntax.</p><h2>10.5 Hints<a name="auto4"></a></h2><a name="index22"></a><a name="index23"></a><p>If you played around with the <code>fibonacci</code> function from
+chapter 5, you might have noticed that the bigger the argument you provide,
+the longer the function takes to run.  Furthermore, the run time increases very 
+quickly.  On one of our machines, <code>fibonacci(20)</code> finishes
+instantly, <code>fibonacci(30)</code> takes about a second, and
+<code>fibonacci(40)</code> takes roughly forever.</p><p>To understand why, consider this <b>call graph</b> for
+<code>fibonacci</code> with <code>n=4</code>:</p><img src="illustrations/fibonacci.png" /><p>A call graph shows a set function frames, with lines connecting each frame
+to the frames of the functions it calls.  At the top of the graph,
+<code>fibonacci</code> with <code>n=4</code> calls <code>fibonacci</code> with
+<code>n=3</code> and <code>n=2</code>.  In turn, <code>fibonacci</code> with
+<code>n=3</code> calls <code>fibonacci</code> with <code>n=2</code> and
+<code>n=1</code>.  And so on.</p><a name="index24"></a><a name="index25"></a><a name="index26"></a><p>Count how many times <code>fibonacci(0)</code> and <code>fibonacci(1)</code> 
+are called.  This is an inefficient solution to the problem, and it gets far
+worse as the argument gets bigger.</p><p>A good solution is to keep track of values that have already been computed
+by storing them in a dictionary.  A previously computed value that is stored
+for later use is called a <b>hint</b>.  Here is an implementation of
+<code>fibonacci</code> using hints:</p><pre class="python">
+<span class="py-src-variable">previous</span> = {<span class="py-src-number">0</span>:<span class="py-src-number">1</span>, <span class="py-src-number">1</span>:<span class="py-src-number">1</span>}
+   
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">fibonacci</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">previous</span>.<span class="py-src-variable">has_key</span>(<span class="py-src-variable">n</span>):
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">previous</span>[<span class="py-src-variable">n</span>]
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-variable">newValue</span> = <span class="py-src-variable">fibonacci</span>(<span class="py-src-variable">n</span>-<span class="py-src-number">1</span>) + <span class="py-src-variable">fibonacci</span>(<span class="py-src-variable">n</span>-<span class="py-src-number">2</span>)
+        <span class="py-src-variable">previous</span>[<span class="py-src-variable">n</span>] = <span class="py-src-variable">newValue</span>
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">newValue</span>
+</pre><p>The dictionary named <code>previous</code> keeps track of the Fibonacci
+numbers we already know.  We start with only two pairs: 0 maps to 1; and 1 maps 
+to 1.</p><p>Whenever <code>fibonacci</code> is called, it checks the dictionary to
+determine if it contains the result.  If it's there, the function can return
+immediately without making any more recursive calls.  If not, it has to compute 
+the new value.  The new value is added to the dictionary before the function
+returns.</p><p>Using this version of <code>fibonacci</code>, our machines can compute
+<code>fibonacci(100)</code> in an eyeblink.
+</p><pre class="python-interpreter">
+&gt;&gt;&gt; fibonacci(100)
+573147844013817084101L
+</pre><p>The <code>L</code> at the end of the number indicates that it is a
+<code>long</code> integer.
+</p><h2>10.6 Long integers<a name="auto5"></a></h2><a name="index27"></a><a name="index28"></a><a name="index29"></a><p>Python provides a type called <code>long</code> that can handle any size
+integer (limited only by the amount of memory you have on your computer).
+</p><p>There are three ways to create a <code>long</code> value.  The first one is
+to compute an arithmetic expression too large to fit inside an <code>int</code>.
+We already saw this in the <code>fibonacci(100)</code> example above.
+Another way is to write an integer with a capital <code>L</code> at the
+end of your number:</p><pre class="python-interpreter">
+&gt;&gt;&gt; type(1L)
+&lt;type 'long'&gt;
+</pre><p>The third is to use the <code>long</code> function to convert a value to a
+<code>long</code>.  The <code>long</code> function, just like the
+<code>int</code> and <code>float</code> functions, can accept any numerical
+type and even strings of digits:</p><pre class="python-interpreter">
+&gt;&gt;&gt; long(1)
+1L
+&gt;&gt;&gt; long(3.9)
+3L
+&gt;&gt;&gt; long('57')
+57L
+</pre><a name="index30"></a><a name="index31"></a><h2>10.7 Counting letters<a name="auto6"></a></h2><a name="index32"></a><a name="index33"></a><a name="index34"></a><p>In Chapter 7, we wrote a function that counted the number of occurrences of
+a letter in a string.  A more general version of this problem is to form a
+histogram of the letters in the string, that is, how many times each letter
+appears.</p><p>Such a histogram might be useful for compressing a text file.  Because
+different letters appear with different frequencies, we can compress a file by
+using shorter codes for common letters and longer codes for letters that
+appear less frequently.</p><p>Dictionaries provide an elegant way to generate a histogram:</p><pre class="python-interpreter">
+&gt;&gt;&gt; letter_counts = {}
+&gt;&gt;&gt; for letter in &quot;Mississippi&quot;:
+...   letter_counts[letter] = letter_counts.get (letter, 0) + 1
+...
+&gt;&gt;&gt; letter_counts
+{'M': 1, 's': 4, 'p': 2, 'i': 4}
+</pre><p>We start with an empty dictionary.  For each letter in the string, we find
+the current count (possibly zero) and increment it.  At the end, the dictionary 
+contains pairs of letters and their frequencies.</p><p>It might be more appealing to display the histogram in alphabetical order.
+We can do that with the <code>items</code> and <code>sort</code> methods:</p><pre class="python-interpreter">
+&gt;&gt;&gt; letter_items = letter_counts.items()
+&gt;&gt;&gt; letter_items.sort()
+&gt;&gt;&gt; print letter_items
+[('M', 1), ('i', 4), ('p', 2), ('s', 4)]
+</pre><p>You have seen the <code>items</code> method before, but <code>sort</code> is 
+the first method you have encountered that applies to lists.  There are several 
+other list methods, including <code>append</code>, <code>extend</code>, and
+<code>reverse</code>.  Consult the Python documentation for details.</p><a name="index35"></a><a name="index36"></a><h2>10.8 Glossary<a name="auto7"></a></h2><a name="index37"></a><a name="index38"></a><a name="index39"></a><a name="index40"></a><a name="index41"></a><a name="index42"></a><dl><dt>dictionary:</dt><dd>A collection of key-value pairs that maps from keys to values.  The keys
+can be any immutable type, and the values can be any type.</dd><dt>key:</dt><dd>A value that is used to look up an entry in a dictionary.</dd><dt>key-value pair:</dt><dd>One of the items in a dictionary.</dd><dt>method:</dt><dd>A kind of function that is called with a different syntax and invoked
+<q>on</q> an object.</dd><dt>invoke:</dt><dd>To call a method.</dd><dt>hint:</dt><dd>Temporary storage of a precomputed value to avoid redundant computation.
+</dd><dt>overflow:</dt><dd>A numerical result that is too large to be represented in a numerical
+format.</dd></dl><h2>10.9 Exercises<a name="auto8"></a></h2><ol><li><div class="exercise"><p>Write a program that reads in a string on the command line and returns a
+table of the letters of the alphabet in alphabetical order which occur in
+the string together with the number of times each letter occurs.  Case
+should be ignored.   A sample run of the program would look this this:</p><pre class="shell">
+$ python letter_counts.py &quot;ThiS is String with Upper and lower case Letters.&quot;
+a  2
+c  1
+d  1
+e  5
+g  1
+h  2
+i  4
+l  2
+n  2
+o  1
+p  2
+r  4
+s  5
+t  5
+u  1
+w  2
+$
+</pre></div></li></ol></div><p><a href="index.html">Table of Contents</a> |
+    <a href="dex.html">Index</a></p></body></html>

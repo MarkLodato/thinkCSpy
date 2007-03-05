@@ -1,0 +1,603 @@
+<html>
+<head>
+  <title>Doctest Exercises</title>
+</head>
+<body>
+
+<h1>Doctest Exercises</h1>
+<p>
+In each of the exercises below, write just enough code to make the doctests
+pass.
+</p>
+
+<h2>Chapter 2</h2>
+<ol>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> n
+  17
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> s
+  'I am a string!'
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> type(m)
+  &lt;type 'float'&gt;
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> type(r)
+  &lt;type 'int'&gt;
+"""
+</pre>
+</div></li>
+
+</ol>
+
+<h2>Chapter 5</h2>
+<ol>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> avg(3, 5)
+  4.0
+  >>> avg(8, 10)
+  9.0
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> is_even(8)
+  True
+  >>> is_even(11)
+  False
+  >>> is_even(2)
+  True
+  >>> is_even(5)
+  False
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> is_odd(8)
+  False
+  >>> is_odd(11)
+  True
+  >>> is_odd(2)
+  False
+  >>> is_odd(5)
+  True
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> double(3)
+  6
+  >>> double(4.5)
+  9.0
+  >>> double("Pizza")
+  'PizzaPizza' 
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> f(0)
+  5
+  >>> f(1)
+  8
+  >>> f(2)
+  11
+  >>> f(3)
+  14 
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> g(0)
+  -7
+  >>> g(1)
+  -2
+  >>> g(2)
+  3
+  >>> g(3)
+  8
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> str_double("Python")
+  'Python Python' 
+  >>> str_double(5)
+  '5 5'
+  >>> str_double(None)
+  'None None' 
+  >>> str_double(True)
+  'True True' 
+"""
+</pre>
+</div></li>
+
+</ol>
+
+
+<h2>Chapter 6</h2>
+<ol>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> is_prime(3)
+  True
+  >>> is_prime(6)
+  False
+  >>> is_prime(2)
+  True
+  >>> is_prime(9)
+  False
+  >>> is_prime(19)
+  True
+  >>> is_prime(53)
+  True
+  >>> is_prime(55)
+  False
+"""
+</pre>
+</div></li>
+
+</ol>
+
+
+<h2>Chapter 7</h2>
+<ol>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> s1[4]
+  '3'
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> len(message) 
+  15
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> s2[4:]
+  'Python!'
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> type(s3)
+  &lt;type 'str'&gt;
+  >>> s3[3]
+  'q'
+  >>> s3[7]
+  '3'
+  >>> len(s3)
+  22
+  >>> s3[10:16]
+  'cheese'
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> s4 + s5
+  'happy birthday!'
+  >>> s4 &lt; s5
+  True
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> count_letters('a', 'banana')
+  3 
+  >>> count_letters('b', 'banana')
+  1 
+  >>> count_letters('n', 'banana')
+  2
+  >>> count_letters('x', 'banana')
+  0
+  >>> count_letters('i', 'Mississippi')
+  4
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> replace('a', 'i', 'banana')
+  'binini' 
+  >>> replace('i', 'o', 'Mississippi')
+  'Mossossoppo'
+  >>> replace('a', '', 'banana')
+  'bnn'
+  >>> replace('a', 'aba', 'banana')
+  'babanabanaba'
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> reverse("Python")
+  'nohtyP'
+  >>> reverse("Try to say this backwards!")
+  '!sdrawkcab siht yas ot yrT'
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> extract_email("This has bill@gmail.com in it.")
+  'bill@gmail.com'
+  >>> extract_email("Can you find an email address bob@bob.com in this string?")
+  'bob@bob.com'
+"""
+</pre>
+</div></li>
+
+</ol>
+
+
+<h2>Chapter 8</h2>
+<ol>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> lst1[4]
+  3
+  >>> lst1[0]
+  5
+  >>> lst1[2]
+  17
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> lst2[1]
+  'banana' 
+  >>> lst2[0] &lt; lst2[1]
+  True 
+  >>> lst2[2:]
+  ['cherry', 'date', 'elderberry', 'fig', 'grapefruit'] 
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> 43 in lst3
+  False 
+  >>> 22 in lst3
+  True 
+  >>> len(lst3)
+  5
+  >>> lst3[1:3]
+  [12, 22]
+  >>> lst3[0] &lt; lst3[1]
+  True
+  >>> lst3[4] &lt; lst3[3]
+  False
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> find_sum([3, 1, 1, 0]) 
+  5 
+  >>> find_sum([1, 2]) 
+  3
+  >>> find_sum([1, 2, 3, 4, 5, 6]) 
+  21 
+  >>> find_sum([42]) 
+  42
+  >>> find_sum([]) 
+  0
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> find_max([1, 2, 3, 4]) 
+  4
+  >>> find_max([4, 3, 2, 1]) 
+  4
+  >>> find_max([8, 51, 5, 73, 4, 67])
+  73
+  >>> find_max(['Tsagaank', 'Shitaye', 'Xavier', 'Bao', 'Julia'])
+  'Xavier' 
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> only_evens([1, 2, 3, 4, 5, 6, 7, 8])
+  [2, 4, 6, 8]
+  >>> only_evens([12, 34, 37, 43, 58, 60, 88])
+  [12, 34, 58, 60, 88]
+  >>> only_evens([12, 34, 36, 44])
+  [12, 34, 36, 44]
+  >>> only_evens([13, 35, 37, 49])
+  []
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> only_odds([1, 2, 3, 4, 5, 6, 7, 8])
+  [1, 3, 5, 7]
+  >>> only_odds([12, 34, 37, 43, 58, 60, 88])
+  [37, 42]
+  >>> only_odds([12, 34, 36, 44])
+  []
+  >>> only_odds([13, 35, 37, 49])
+  [13, 35, 37, 49]
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> index_of(12, [4, 8, 12, 16, 20]) 
+  2
+  >>> index_of(20, [4, 8, 12, 16, 20]) 
+  4
+  >>> index_of(8, [4, 8, 12, 16, 20]) 
+  1
+  >>> index_of(9, [4, 8, 12, 16, 20]) 
+  -1
+  >>> index_of('Bao', ['Tsagaank', 'Shitaye', 'Xavier', 'Bao', 'Julia'])
+  3
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> remove_at(0, [5, 4, 3, 2])
+  [4, 3, 2] 
+  >>> remove_at(2, [5, 4, 3, 2])
+  [5, 4, 2] 
+  >>> remove_at(4, ['a', 'b', 'c', 'd', 'e', 'f'])
+  ['a', 'b', 'c', 'd', 'f']
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> remove_val(3, [5, 4, 3, 2])
+  [5, 4, 2]
+  >>> remove_val(5, [5, 4, 3, 2])
+  [4, 3, 2]
+  >>> remove_val('e', ['a', 'b', 'c', 'd', 'e', 'f'])
+  ['a', 'b', 'c', 'd', 'f']
+  >>> remove_val(6, [5, 4, 3, 2])
+  [5, 4, 3, 2]
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> sort_list([3, 7, 1, 8, 2])
+  [1, 2, 3, 7, 8]
+  >>> sort_list([6, 5, 4, 3, 2, 1])
+  [1, 2, 3, 4, 5, 6]
+  >>> sort_list(['cherries', 'pears', 'apples', 'bananas', 'apricots'])
+  ['apples', 'apricots', 'bananas', 'cherries', 'pears']
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> mean([1, 2])
+  1.5
+  >>> mean([1, 2, 4, 7])
+  3.5
+  >>> mean([1, 1, 1, 1, 1])
+  1.0
+  >>> mean([5, 10, 15, 20, 25])
+  15.0
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> median([1, 1, 2, 3, 3])
+  2
+  >>> median([3, 2, 1, 1, 3])
+  2
+  >>> median([1, 1, 3, 3])
+  2.0
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> mode([1, 2, 2, 3, 4, 5, 6])
+  2
+  >>> mode([1, 2, 3, 4, 4, 5, 6])
+  4
+  >>> mode([1, 2, 3, 4, 4, 5, 6, 6, 6, 7])
+  6
+"""
+</pre>
+</div></li>
+
+</ol>
+
+
+<h2>Chapter 9</h2>
+<ol>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> encapsulate(5, ())
+  (5, )
+  >>> encapsulate(5, [])
+  [5]
+  >>> encapsulate(5, '')
+  '5'
+  >>> encapsulate('bob', (1, 2))
+  ('bob', )
+  >>> encapsulate((1, 2), ['a', 'b', 'c'])
+  [(1, 2)]
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> insert_at_end(3, (1, 2))
+  (1, 2, 3)
+  >>> insert_at_end(3, [1, 2])
+  [1, 2, 3]
+  >>> insert_at_end(3, 'ab')
+  'ab3'
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> insert_in_front('x', 'ab')
+  'xab'
+  >>> insert_in_front('x', (1, 2))
+  ('x', 1, 2)
+  >>> insert_in_front('x', [1, 2])
+  ['x', 1, 2]
+"""
+</pre>
+</div></li>
+
+</ol>
+
+
+<h2>Chapter 10</h2>
+<ol>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> d1 = make_dictionary([('this', 'that')])
+  >>> d1
+  {'this': 'that'}
+  >>> d2 = make_dictionary([('this', 'that'), ('some', 'other'), (4, 'cheese')])
+  >>> d2.has_key('some')
+  True
+  >>> d2.has_key('other')
+  False
+  >>> d2[4]
+  'cheese'
+"""
+</pre>
+</div></li>
+
+<!-- li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> 
+
+"""
+</pre>
+</div></li>
+
+<li><div class="exercise">
+<pre class="python-interpreter">
+"""
+  >>> 
+
+"""
+</pre>
+</div></li -->
+
+</ol>
+
+</body>
+</html>

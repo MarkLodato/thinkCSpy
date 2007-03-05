@@ -1,0 +1,343 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>How to Think Like a Computer Scientist: 6. Iteration</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">6. Iteration</h1><div class="toc"><ol><li><a href="#auto0">Multiple assignment</a></li><li><a href="#auto1">The while statement</a></li><li><a href="#auto2">Tables</a></li><li><a href="#auto3">Two-dimensional tables</a></li><li><a href="#auto4">Encapsulation and generalization</a></li><li><a href="#auto5">More encapsulation</a></li><li><a href="#auto6">Local variables</a></li><li><a href="#auto7">More generalization</a></li><li><a href="#auto8">Functions</a></li><li><a href="#auto9">Glossary</a></li><li><a href="#auto10">Exercises</a></li></ol></div><div class="content"><span></span><a name="index01"></a><h2>6.1 Multiple assignment<a name="auto0"></a></h2><a name="index02"></a><a name="index03"></a><a name="index04"></a><p>As you may have discovered, it is legal to make more than one assignment to
+the same variable.  A new assignment makes an existing variable refer to a new
+value (and stop referring to the old value).</p><pre class="python">
+<span class="py-src-variable">bruce</span> = <span class="py-src-number">5</span>
+<span class="py-src-keyword">print</span> <span class="py-src-variable">bruce</span>,
+<span class="py-src-variable">bruce</span> = <span class="py-src-number">7</span>
+<span class="py-src-keyword">print</span> <span class="py-src-variable">bruce</span>
+</pre><p>The output of this program is <code>5 7</code>, because the first time
+<code>bruce</code> is printed, his value is 5, and the second time, his value
+is 7.  The comma at the end of the first <code>print</code> statement
+suppresses the newline after the output, which is why both outputs appear on
+the same line.</p><p>Here is what <b>multiple assignment</b> looks like in a state
+diagram:</p><img src="illustrations/assign2.png" /><p>With multiple assignment it is especially important to distinguish between
+an assignment operation and a statement of equality.  Because Python uses the
+equal sign (<code>=</code>) for assignment, it is tempting to interpret a
+statement like <code>a = b</code> as a statement of equality. It is not!</p><p>First, equality is symmetric and assignment is not.  For example, in
+mathematics, if a = 7 then 7 = a.  But in Python, the statement
+<code>a = 7</code> is legal and <code>7 = a</code> is not.</p><p>Furthermore, in mathematics, a statement of equality is always true.
+If a = b now, then a will always equal b.  In Python, an assignment statement
+can make two variables equal, but they don't have to stay that way:</p><pre class="python">
+<span class="py-src-variable">a</span> = <span class="py-src-number">5</span>
+<span class="py-src-variable">b</span> = <span class="py-src-variable">a</span>    <span class="py-src-comment"># a and b are now equal</span>
+<span class="py-src-variable">a</span> = <span class="py-src-number">3</span>    <span class="py-src-comment"># a and b are no longer equal</span>
+</pre><p>The third line changes the value of <code>a</code> but does not change the
+value of <code>b</code>, so they are no longer equal. (In some programming
+languages, a different symbol is used for assignment, such as
+<code>&lt;-</code> or <code>:=</code>, to avoid confusion.)</p><p>Although multiple assignment is frequently helpful, you should use it with
+caution.  If the values of variables change frequently, it can make the code
+difficult to read and debug.</p><h2>6.2 The <code>while</code> statement<a name="auto1"></a></h2><a name="index05"></a><a name="index06"></a><a name="index07"></a><a name="index08"></a><p>Computers are often used to automate repetitive tasks.  Repeating identical
+or similar tasks without making errors is something that computers do well and
+people do poorly.</p><p>We have seen two programs, <code>nLines</code> and <code>countdown</code>,
+that use recursion to perform repetition, which is also called
+<b>iteration</b>.  Because iteration is so common, Python provides
+several language features to make it easier.  The first feature we are going to 
+look at is the <code>while</code> statement.</p><p>Here is what <code>countdown</code> looks like with a <code>while</code>
+statement:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">countdown</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">n</span> &gt; <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">n</span>
+        <span class="py-src-variable">n</span> = <span class="py-src-variable">n</span>-<span class="py-src-number">1</span>
+    <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;Blastoff!&quot;</span>
+</pre><p>Since we removed the recursive call, this function is not recursive.</p><p>You can almost read the <code>while</code> statement as if it were English.
+It means, <q>While <code>n</code> is greater than 0, continue displaying the
+value of <code>n</code> and then reducing the value of <code>n</code> by 1.
+When you get to 0, display the word <code>Blastoff!</code></q></p><p>More formally, here is the flow of execution for a <code>while</code>
+statement:</p><ol><li>Evaluate the condition, yielding <code>False</code> or <code>True</code>.
+</li><li>If the condition is false, exit the <code>while</code> statement and
+continue execution at the next statement.</li><li>If the condition is true, execute each of the statements in the body
+and then go back to step 1.</li></ol><p>The body consists of all of the statements below the header with the same
+indentation.</p><p>This type of flow is called a <b>loop</b> because the third step
+loops back around to the top.  Notice that if the condition is false the first
+time through the loop, the statements inside the loop are never executed.</p><a name="index09"></a><a name="index10"></a><a name="index11"></a><a name="index12"></a><a name="index13"></a><a name="index14"></a><p>The body of the loop should change the value of one or more variables
+so that eventually the condition becomes false and the loop terminates.
+Otherwise the loop will repeat forever, which is called an
+<b>infinite loop</b>.  An endless source of amusement for computer
+scientists is the observation that the directions on shampoo, <q>Lather, rinse, repeat,</q> are an infinite loop.</p><p>In the case of <code>countdown</code>, we can prove that the loop terminates 
+because we know that the value of <code>n</code> is finite, and we can see that 
+the value of <code>n</code> gets smaller each time through the loop, so
+eventually we have to get to 0.  In other cases, it is not so easy to tell:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">sequence</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">n</span> != <span class="py-src-number">1</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">n</span>,
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">n</span>%<span class="py-src-number">2</span> == <span class="py-src-number">0</span>:        <span class="py-src-comment"># n is even</span>
+            <span class="py-src-variable">n</span> = <span class="py-src-variable">n</span>/<span class="py-src-number">2</span>
+        <span class="py-src-keyword">else</span>:               <span class="py-src-comment"># n is odd</span>
+            <span class="py-src-variable">n</span> = <span class="py-src-variable">n</span>*<span class="py-src-number">3</span>+<span class="py-src-number">1</span>
+</pre><p>The condition for this loop is <code>n != 1</code>, so the loop will
+continue until <code>n</code> is <code>1</code>, which will make the condition
+false.</p><p>Each time through the loop, the program outputs the value of <code>n</code>
+and then checks whether it is even or odd.  If it is even, the value of
+<code>n</code> is divided by 2.  If it is odd, the value is replaced by
+<code>n*3+1</code>. For example, if the starting value (the argument passed
+to sequence) is 3, the resulting sequence is 3, 10, 5, 16, 8, 4, 2, 1.</p><p>Since <code>n</code> sometimes increases and sometimes decreases, there is
+no obvious proof that <code>n</code> will ever reach 1, or that the program
+terminates.  For some particular values of <code>n</code>, we can prove
+termination.  For example, if the starting value is a power of two, then the
+value of <code>n</code> will be even each time through the loop until it
+reaches 1. The previous example ends with such a sequence, starting with 16.
+</p><p>Particular values aside, the interesting question is whether we can prove
+that this program terminates for <em>all</em> values of <code>n</code>.  So
+far, no one has been able to prove it <em>or</em> disprove it!</p><h2>6.3 Tables<a name="auto2"></a></h2><a name="tables"></a><a name="index15"></a><a name="index16"></a><p>One of the things loops are good for is generating tabular data.  Before
+computers were readily available, people had to calculate logarithms, sines and 
+cosines, and other mathematical functions by hand.  To make that easier,
+mathematics books contained long tables listing the values of these functions.  
+Creating the tables was slow and boring, and they tended to be full of errors.
+</p><p>When computers appeared on the scene, one of the initial reactions was,
+<q>This is great!  We can use the computers to generate the tables, so there
+will be no errors.</q> That turned out to be true (mostly) but shortsighted.
+Soon thereafter, computers and calculators were so pervasive that the tables
+became obsolete.</p><p>Well, almost.  For some operations, computers use tables of values to get an 
+approximate answer and then perform computations to improve the approximation.  
+In some cases, there have been errors in the underlying tables, most famously
+in the table the Intel Pentium used to perform floating-point division.</p><a name="index17"></a><a name="index18"></a><p>Although a log table is not as useful as it once was, it still makes a good
+example of iteration.  The following program outputs a sequence of values in
+the left column and their logarithms in the right column:</p><pre class="python">
+<span class="py-src-variable">x</span> = <span class="py-src-number">1.0</span>
+<span class="py-src-keyword">while</span> <span class="py-src-variable">x</span> &lt; <span class="py-src-number">10.0</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">'\t'</span>, <span class="py-src-variable">math</span>.<span class="py-src-variable">log</span>(<span class="py-src-variable">x</span>)
+    <span class="py-src-variable">x</span> = <span class="py-src-variable">x</span> + <span class="py-src-number">1.0</span>
+</pre><p>The string '\t' represents a <b>tab</b> character.</p><p>As characters and strings are displayed on the screen, an invisible marker
+called the <b>cursor</b> keeps track of where the next character will 
+go.  After a <code>print</code> statement, the cursor normally goes to the
+beginning of the next line.</p><p>The tab character shifts the cursor to the right until it reaches one of the 
+tab stops.  Tabs are useful for making columns of text line up, as in the
+output of the previous program:</p><pre class="shell">
+   1.0     0.0
+   2.0     0.69314718056
+   3.0     1.09861228867
+   4.0     1.38629436112
+   5.0     1.60943791243
+   6.0     1.79175946923
+   7.0     1.94591014906
+   8.0     2.07944154168
+   9.0     2.19722457734
+</pre><p>If these values seem odd, remember that the <code>log</code> function uses
+base <code>e</code>. Since powers of two are so important in computer science,
+we often want to find logarithms with respect to base 2.  To do that, we can
+use the following formula:</p><p>
+log<sub>2</sub> x = log<sub>e</sub> x / log<sub>e</sub> 2
+</p><p>Changing the output statement to:</p><pre class="python">
+<span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">'\t'</span>,  <span class="py-src-variable">math</span>.<span class="py-src-variable">log</span>(<span class="py-src-variable">x</span>)/<span class="py-src-variable">math</span>.<span class="py-src-variable">log</span>(<span class="py-src-number">2.0</span>)
+</pre><p>yields:</p><pre class="shell">
+   1.0     0.0
+   2.0     1.0
+   3.0     1.58496250072
+   4.0     2.0
+   5.0     2.32192809489
+   6.0     2.58496250072
+   7.0     2.80735492206
+   8.0     3.0
+   9.0     3.16992500144
+</pre><p>We can see that 1, 2, 4, and 8 are powers of two because their
+logarithms base 2 are round numbers.  If we wanted to find the
+logarithms of other powers of two, we could modify the program like
+this:</p><pre class="python">
+<span class="py-src-variable">x</span> = <span class="py-src-number">1.0</span>
+<span class="py-src-keyword">while</span> <span class="py-src-variable">x</span> &lt; <span class="py-src-number">100.0</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">'\t'</span>, <span class="py-src-variable">math</span>.<span class="py-src-variable">log</span>(<span class="py-src-variable">x</span>)/<span class="py-src-variable">math</span>.<span class="py-src-variable">log</span>(<span class="py-src-number">2.0</span>)
+    <span class="py-src-variable">x</span> = <span class="py-src-variable">x</span> * <span class="py-src-number">2.0</span>
+</pre><p>Now instead of adding something to <code>x</code> each time through the
+loop, which yields an arithmetic sequence, we multiply <code>x</code> by
+something, yielding a geometric sequence.  The result is:</p><a name="index19"></a><a name="index20"></a><pre class="shell">
+   1.0     0.0
+   2.0     1.0
+   4.0     2.0
+   8.0     3.0
+   16.0    4.0
+   32.0    5.0
+   64.0    6.0
+</pre><p>Because of the tab characters between the columns, the position of the
+second column does not depend on the number of digits in the first column.</p><p>Logarithm tables may not be useful any more, but for computer scientists,
+knowing the powers of two is!</p><div class="exercise">
+As an exercise, modify this program so that it outputs the powers of two up to
+65,536 (that's 2<sup>16</sup>).  Print it out and memorize it.
+</div><a name="index21"></a><p>The backslash character in '\t' indicates the beginning of an
+<b>escape sequence</b>.  Escape sequences are used to represent
+invisible characters like tabs and newlines.  The sequence \n represents a
+newline.</p><p>An escape sequence can appear anywhere in a string; in the example, the tab
+escape sequence is the only thing in the string.</p><p>How do you think you represent a backslash in a string?</p><h2>6.4 Two-dimensional tables<a name="auto3"></a></h2><a name="index22"></a><p>A two-dimensional table is a table where you read the value at the
+intersection of a row and a column.  A multiplication table is a good example.
+Let's say you want to print a multiplication table for the values from 1 to 6.
+</p><p>A good way to start is to write a loop that prints the multiples of 2, all
+on one line:</p><pre class="python">
+<span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+<span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-number">6</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-number">2</span>*<span class="py-src-variable">i</span>, <span class="py-src-string">'   '</span>,
+    <span class="py-src-variable">i</span> = <span class="py-src-variable">i</span> + <span class="py-src-number">1</span>
+<span class="py-src-keyword">print</span>
+</pre><p>The first line initializes a variable named <code>i</code>, which acts as a
+counter or <b>loop variable</b>.  As the loop executes, the value of
+<code>i</code> increases from 1 to 6.  When <code>i</code> is 7, the loop
+terminates.  Each time through the loop, it displays the value of
+<code>2*i</code>, followed by three spaces.</p><p>Again, the comma in the <code>print</code> statement suppresses the newline.
+After the loop completes, the second <code>print</code> statement starts a new
+line.</p><p>The output of the program is:</p><pre class="shell">
+   2      4      6      8      10     12
+</pre><p>So far, so good. The next step is to <b>encapsulate</b> and
+<b>generalize</b>.</p><h2>6.5 Encapsulation and generalization<a name="auto4"></a></h2><a name="encapsulation"></a><a name="index23"></a><a name="index24"></a><a name="index25"></a><a name="index26"></a><p>Encapsulation is the process of wrapping a piece of code in a function,
+allowing you to take advantage of all the things functions are good for.  You
+have already seen two examples of encapsulation: <code>printParity</code> in
+chapter 4; and <code>isDivisible</code> in chapter 5.</p><p>Generalization means taking something specific, such as printing the
+multiples of 2, and making it more general, such as printing the multiples of
+any integer.</p><p>This function encapsulates the previous loop and generalizes it to print
+multiples of <code>n</code>:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_multiples</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-number">6</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">n</span>*<span class="py-src-variable">i</span>, <span class="py-src-string">'\t'</span>,
+        <span class="py-src-variable">i</span> = <span class="py-src-variable">i</span> + <span class="py-src-number">1</span>
+    <span class="py-src-keyword">print</span>
+</pre><p>To encapsulate, all we had to do was add the first line, which declares the
+name of the function and the parameter list.  To generalize, all we had to do
+was replace the value 2 with the parameter <code>n</code>.</p><p>If we call this function with the argument 2, we get the same output as
+before.  With the argument 3, the output is:</p><pre class="shell">
+   3      6      9      12     15     18
+</pre><p>With the argument 4, the output is:</p><pre class="shell">
+   4      8      12     16     20     24
+</pre><p>By now you can probably guess how to print a multiplication table---by
+calling <code>print_multiples</code> repeatedly with different arguments.  In
+fact, we can use another loop:</p><pre class="python">
+<span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+<span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-number">6</span>:
+    <span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>)
+    <span class="py-src-variable">i</span> = <span class="py-src-variable">i</span> + <span class="py-src-number">1</span>
+</pre><p>Notice how similar this loop is to the one inside
+<code>print_multiples</code>.  All we did was replace the <code>print</code>
+statement with a function call.</p><p>The output of this program is a multiplication table:</p><pre class="shell">
+   1      2      3      4      5      6
+   2      4      6      8      10     12
+   3      6      9      12     15     18
+   4      8      12     16     20     24
+   5      10     15     20     25     30
+   6      12     18     24     30     36
+</pre><h2>6.6 More encapsulation<a name="auto5"></a></h2><p>To demonstrate encapsulation again, let's take the code the last 
+section and wrap it up in a function:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_mult_table</span>():
+    <span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-number">6</span>:
+        <span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>)
+        <span class="py-src-variable">i</span> = <span class="py-src-variable">i</span> + <span class="py-src-number">1</span>
+</pre><p>This process is a common <b>development plan</b>.  We develop code 
+by writing lines of code outside any function, or typing them in to the
+interpreter.  When we get the code working, we extract it and wrap it up in a
+function.</p><p>This development plan is particularly useful if you don't know, when you
+start writing, how to divide the program into functions.  This approach lets
+you design as you go along.</p><h2>6.7 Local variables<a name="auto6"></a></h2><a name="index27"></a><a name="index28"></a><p>You might be wondering how we can use the same variable, <code>i</code>, in
+both <code>print_multiples</code> and <code>print_mult_table</code>.  Doesn't it
+cause problems when one of the functions changes the value of the variable?</p><p>The answer is no, because the <code>i</code> in <code>print_multiples</code>
+and the <code>i</code> in <code>print_mult_table</code> are <em>not</em> the same 
+variable.</p><p>Variables created inside a function definition are local; you can't access a 
+local variable from outside its <q>home</q> function.  That means you are free
+to have multiple variables with the same name as long as they are not in the
+same function.</p><p>The stack diagram for this program shows that the two variables named
+<code>i</code> are not the same variable.  They can refer to different values,
+and changing one does not affect the other.</p><img src="illustrations/stack4.png" /><p>The value of <code>i</code> in <code>print_mult_table</code> goes from 1 to 6. 
+In the diagram it happens to be 3.  The next time through the loop it will be 4.
+Each time through the loop, <code>print_mult_table</code> calls
+<code>print_multiples</code> with the current value of <code>i</code> as an
+argument.  That value gets assigned to the parameter <code>n</code>.</p><p>Inside <code>print_multiples</code>, the value of <code>i</code> goes from
+1 to 6.  In the diagram, it happens to be 2.  Changing this variable has no
+effect on the value of <code>i</code> in <code>print_mult_table</code>.</p><p>It is common and perfectly legal to have different local variables with the
+same name.  In particular, names like <code>i</code> and <code>j</code> are
+used frequently as loop variables.  If you avoid using them in one function
+just because you used them somewhere else, you will probably make the program
+harder to read.</p><h2>6.8 More generalization<a name="auto7"></a></h2><p>As another example of generalization, imagine you wanted a program that
+would print a multiplication table of any size, not just the six-by-six table.
+You could add a parameter to <code>print_mult_table</code>:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_mult_table</span>(<span class="py-src-parameter">high</span>):
+    <span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-variable">high</span>:
+        <span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>)
+        <span class="py-src-variable">i</span> = <span class="py-src-variable">i</span> + <span class="py-src-number">1</span>
+</pre><p>We replaced the value 6 with the parameter <code>high</code>.  If we call
+<code>print_mult_table</code> with the argument 7, it displays:</p><pre class="shell">
+   1      2      3      4      5      6
+   2      4      6      8      10     12
+   3      6      9      12     15     18
+   4      8      12     16     20     24
+   5      10     15     20     25     30
+   6      12     18     24     30     36
+   7      14     21     28     35     42
+</pre><p>This is fine, except that we probably want the table to be square---with the 
+same number of rows and columns.  To do that, we add another parameter to
+<code>print_multiples</code> to specify how many columns the table should have.
+</p><p>Just to be annoying, we call this parameter <code>high</code>, demonstrating
+that different functions can have parameters with the same name (just like
+local variables).  Here's the whole program:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_multiples</span>(<span class="py-src-parameter">n</span>, <span class="py-src-parameter">high</span>):
+    <span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-variable">high</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">n</span>*<span class="py-src-variable">i</span>, <span class="py-src-string">'\t'</span>,
+        <span class="py-src-variable">i</span> = <span class="py-src-variable">i</span> + <span class="py-src-number">1</span>
+    <span class="py-src-keyword">print</span>
+   
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_mult_table</span>(<span class="py-src-parameter">high</span>):
+    <span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-variable">high</span>:
+        <span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>, <span class="py-src-variable">high</span>)
+        <span class="py-src-variable">i</span> = <span class="py-src-variable">i</span> + <span class="py-src-number">1</span>
+</pre><p>Notice that when we added a new parameter, we had to change the first line
+of the function (the function heading), and we also had to change the place
+where the function is called in <code>print_mult_table</code>.</p><p>As expected, this program generates a square seven-by-seven table:</p><pre class="shell">
+   1      2      3      4      5      6      7
+   2      4      6      8      10     12     14
+   3      6      9      12     15     18     21
+   4      8      12     16     20     24     28
+   5      10     15     20     25     30     35
+   6      12     18     24     30     36     42
+   7      14     21     28     35     42     49
+</pre><p>When you generalize a function appropriately, you often get a program with
+capabilities you didn't plan.  For example, you might notice that, because
+ab = ba, all the entries in the table appear twice.  You could save ink by
+printing only half the table.  To do that, you only have to change one line of
+<code>print_mult_table</code>.  Change</p><pre class="python">
+<span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>, <span class="py-src-variable">high</span>)
+</pre><p>to</p><pre class="python">
+<span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>, <span class="py-src-variable">i</span>)
+</pre><p>and you get</p><pre class="shell">
+   1
+   2      4
+   3      6      9
+   4      8      12     16
+   5      10     15     20     25
+   6      12     18     24     30     36
+   7      14     21     28     35     42     49
+</pre><h2>6.9 Functions<a name="auto8"></a></h2><a name="index29"></a><p>A few times now, we have mentioned <q>all the things functions are good
+for.</q>  By now, you might be wondering what exactly those things are.  Here
+are some of them:</p><ol><li>Giving a name to a sequence of statements makes your program easier to read 
+and debug.</li><li>Dividing a long program into functions allows you to separate parts of the
+program, debug them in isolation, and then compose them into a whole.</li><li>Functions facilitate both recursion and iteration.</li><li>Well-designed functions are often useful for many programs.  Once you write 
+and debug one, you can reuse it.</li></ol><h2>6.10 Glossary<a name="auto9"></a></h2><a name="index30"></a><a name="index31"></a><a name="index32"></a><a name="index33"></a><a name="index34"></a><a name="index35"></a><a name="index36"></a><a name="index37"></a><a name="index38"></a><a name="index39"></a><a name="index40"></a><a name="index41"></a><a name="index42"></a><a name="index43"></a><a name="index44"></a><dl><dt>multiple assignment:</dt><dd>Making more than one assignment to the same variable during the execution
+of a program.</dd><dt>iteration:</dt><dd>Repeated execution of a set of statements using either a recursive function 
+call or a loop.</dd><dt>loop:</dt><dd>A statement or group of statements that execute repeatedly until a
+terminating condition is satisfied.</dd><dt>infinite loop:</dt><dd>A loop in which the terminating condition is never satisfied.</dd><dt>body:</dt><dd>The statements inside a loop.</dd><dt>loop variable:</dt><dd>A variable used as part of the terminating condition of a loop.</dd><dt>tab:</dt><dd>A special character that causes the cursor to move to the next tab stop on
+the current line.</dd><dt>newline:</dt><dd>A special character that causes the cursor to move to the beginning of the
+next line.</dd><dt>cursor:</dt><dd>An invisible marker that keeps track of where the next character will be
+printed.</dd><dt>escape sequence:</dt><dd>An escape character, \, followed by one or more printable characters used
+to designate a nonprintable character.</dd><dt>encapsulate:</dt><dd>To divide a large complex program into components (like functions) and
+isolate the components from each other (by using local variables, for example).
+</dd><dt>generalize:</dt><dd>To replace something unnecessarily specific (like a constant value) with
+something appropriately general (like a variable or parameter).  Generalization 
+makes code more versatile, more likely to be reused, and sometimes even easier
+to write.</dd><dt>development plan:</dt><dd>A process for developing a program. In this chapter, we demonstrated a
+style of development based on developing code to do simple, specific things and 
+then encapsulating and generalizing.</dd></dl><h2>6.11 Exercises<a name="auto10"></a></h2><ol><li><div class="exercise">
+Rewrite the function <code>nLines</code> from Chapter 4 using iteration instead 
+of recursion.
+</div></li><li><div class="exercise">
+Write a single string that
+<pre class="shell">
+   produces
+   this
+   output.
+</pre>&nbsp;</div></li><li><div class="exercise">
+Trace the execution of the last version of <code>print_mult_table</code> and
+figure out how it works.
+</div></li><li><div class="exercise">
+Write a function, <code>is_prime</code>, which takes a single integral argument
+and returns <code>True</code> when the argument is a <b>prime number</b>  and
+<code>False</code> otherwise.
+</div></li></ol></div><p><a href="index.html">Table of Contents</a> |
+    <a href="dex.html">Index</a></p></body></html>

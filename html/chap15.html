@@ -1,0 +1,262 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>How to Think Like a Computer Scientist: 15. Sets of objects</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">15. Sets of objects</h1><div class="toc"><ol><li><a href="#auto0">Composition</a></li><li><a href="#auto1">Card objects</a></li><li><a href="#auto2">Class attributes and the __str__ method</a></li><li><a href="#auto3">Comparing cards</a></li><li><a href="#auto4">Decks</a></li><li><a href="#auto5">Printing the deck</a></li><li><a href="#auto6">Shuffling the deck</a></li><li><a href="#auto7">Removing and dealing cards</a></li><li><a href="#auto8">Glossary</a></li><li><a href="#auto9">Exercises</a></li></ol></div><div class="content"><span></span><h2>15.1 Composition<a name="auto0"></a></h2><a name="index01"></a><a name="index02"></a><p>By now, you have seen several examples of composition.  One of the first
+examples was using a method invocation as part of an expression.  Another
+example is the nested structure of statements; you can put an <code>if</code>
+statement within a <code>while</code> loop, within another <code>if</code>
+statement, and so on.</p><p>Having seen this pattern, and having learned about lists and objects, you
+should not be surprised to learn that you can create lists of objects.  You can 
+also create objects that contain lists (as attributes); you can create lists
+that contain lists; you can create objects that contain objects; and so on.</p><p>In this chapter and the next, we will look at some examples of these
+combinations, using <code>Card</code> objects as an example.</p><h2>15.2 <code>Card</code> objects<a name="auto1"></a></h2><a name="index03"></a><a name="index04"></a><p>If you are not familiar with common playing cards, now would be a good time
+to get a deck, or else this chapter might not make much sense.  There are
+fifty-two cards in a deck, each of which belongs to one of four suits and one
+of thirteen ranks.  The suits are Spades, Hearts, Diamonds, and Clubs (in
+descending order in bridge).  The ranks are Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+Jack, Queen, and King.  Depending on the game that you are playing, the rank of 
+Ace may be higher than King or lower than 2.</p><a name="index05"></a><a name="index06"></a><p>If we want to define a new object to represent a playing card, it is obvious 
+what the attributes should be: <code>rank</code> and <code>suit</code>.  It is
+not as obvious what type the attributes should be.  One possibility is to use
+strings containing words like <code>&quot;Spade&quot;</code> for suits and
+<code>&quot;Queen&quot;</code> for ranks.  One problem with this implementation is that
+it would not be easy to compare cards to see which had a higher rank or suit.
+</p><a name="index07"></a><a name="index08"></a><a name="index09"></a><p>An alternative is to use integers to <b>encode</b> the ranks and
+suits.  By <q>encode,</q> we do not mean what some people think, which is to
+encrypt or translate into a secret code.  What a computer scientist means by
+<q>encode</q> is <q>to define a mapping between a sequence of numbers and the
+items I want to represent.</q> For example:</p><pre>
+Spades   --&gt;  3
+Hearts   --&gt;  2
+Diamonds --&gt;  1
+Clubs    --&gt;  0
+</pre><p>An obvious feature of this mapping is that the suits map to integers in
+order, so we can compare suits by comparing integers.  The mapping for ranks is 
+fairly obvious; each of the numerical ranks maps to the corresponding integer,
+and for face cards:</p><pre>
+Jack   --&gt;  11
+Queen  --&gt;  12
+King   --&gt;  13
+</pre><p>The reason we are using mathematical notation for these mappings is that
+they are not part of the Python program.  They are part of the program design,
+but they never appear explicitly in the code.  The class definition for the
+<code>Card</code> type looks like this:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Card</span>:
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__init__</span>(<span class="py-src-parameter">self</span>, <span class="py-src-parameter">suit</span>=<span class="py-src-number">0</span>, <span class="py-src-parameter">rank</span>=<span class="py-src-number">0</span>):
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">suit</span> = <span class="py-src-variable">suit</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">rank</span> = <span class="py-src-variable">rank</span>
+</pre><p>As usual, we provide an initialization method that takes an optional
+parameter for each attribute.</p><a name="index10"></a><p>To create an object that represents the 3 of Clubs, use this command:</p><pre class="python">
+<span class="py-src-variable">three_of_clubs</span> = <span class="py-src-variable">Card</span>(<span class="py-src-number">0</span>, <span class="py-src-number">3</span>)
+</pre><p>The first argument, <code>0</code>, represents the suit Clubs.</p><h2>15.3 Class attributes and the <code>__str__</code> method<a name="auto2"></a></h2><a name="index11"></a><a name="index12"></a><p>In order to print <code>Card</code> objects in a way that people can easily
+read, we want to map the integer codes onto words.  A natural way to do that is 
+with lists of strings.  We assign these lists to
+<b>class attributes</b> at the top of the class definition:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Card</span>:
+    <span class="py-src-variable">suits</span> = [<span class="py-src-string">&quot;Clubs&quot;</span>, <span class="py-src-string">&quot;Diamonds&quot;</span>, <span class="py-src-string">&quot;Hearts&quot;</span>, <span class="py-src-string">&quot;Spades&quot;</span>]
+    <span class="py-src-variable">ranks</span> = [<span class="py-src-string">&quot;narf&quot;</span>, <span class="py-src-string">&quot;Ace&quot;</span>, <span class="py-src-string">&quot;2&quot;</span>, <span class="py-src-string">&quot;3&quot;</span>, <span class="py-src-string">&quot;4&quot;</span>, <span class="py-src-string">&quot;5&quot;</span>, <span class="py-src-string">&quot;6&quot;</span>, <span class="py-src-string">&quot;7&quot;</span>,
+                <span class="py-src-string">&quot;8&quot;</span>, <span class="py-src-string">&quot;9&quot;</span>, <span class="py-src-string">&quot;10&quot;</span>, <span class="py-src-string">&quot;Jack&quot;</span>, <span class="py-src-string">&quot;Queen&quot;</span>, <span class="py-src-string">&quot;King&quot;</span>]
+   
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__str__</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-keyword">return</span> (<span class="py-src-variable">self</span>.<span class="py-src-variable">ranks</span>[<span class="py-src-variable">self</span>.<span class="py-src-variable">rank</span>] + <span class="py-src-string">&quot; of &quot;</span> +
+                <span class="py-src-variable">self</span>.<span class="py-src-variable">suits</span>[<span class="py-src-variable">self</span>.<span class="py-src-variable">suit</span>])
+</pre><p>A class attribute is defined outside of any method, and it can be accessed
+from any of the methods in the class.</p><p>Inside <code>__str__</code>, we can use <code>suits</code> and
+<code>ranks</code> to map the numerical values of <code>suit</code> and
+<code>rank</code> to strings.  For example, the expression
+<code>self.suits[self.suit]</code> means <q>use the attribute
+<code>suit</code> from the object <code>self</code> as an index into the class
+attribute named <code>suits</code>, and select the appropriate string.</q></p><p>The reason for the <code>&quot;narf&quot;</code> in the first element in
+<code>ranks</code> is to act as a place keeper for the zero-eth element of
+the list, which will never be used.  The only valid ranks are 1 to 13.  This
+wasted item is not entirely necessary.  We could have started at 0, as usual,
+but it is less confusing to encode 2 as 2, 3 as 3, and so on.</p><p>With the methods we have so far, we can create and print cards:</p><pre class="python-interpreter">
+&gt;&gt;&gt; card1 = Card(1, 11)
+&gt;&gt;&gt; print card1
+Jack of Diamonds
+</pre><p>Class attributes like <code>suits</code> are shared by all <code>Card</code> 
+objects.  The advantage of this is that we can use any <code>Card</code> object 
+to access the class attributes:</p><pre class="python-interpreter">
+&gt;&gt;&gt; card2 = Card(1, 3)
+&gt;&gt;&gt; print card2
+3 of Diamonds
+&gt;&gt;&gt; print card2.suits[1]
+Diamonds
+</pre><p>The disadvantage is that if we modify a class attribute, it affects every
+instance of the class.  For example, if we decide that <q>Jack of Diamonds</q>
+should really be called <q>Jack of Swirly Whales,</q> we could do this:</p><a name="index13"></a><a name="index14"></a><pre class="python-interpreter">
+&gt;&gt;&gt; card1.suits[1] = &quot;Swirly Whales&quot;
+&gt;&gt;&gt; print card1
+Jack of Swirly Whales
+</pre><p>The problem is that <em>all</em> of the Diamonds just became Swirly Whales:
+</p><pre class="python-interpreter">
+&gt;&gt;&gt; print card2
+3 of Swirly Whales
+</pre><p>It is usually not a good idea to modify class attributes.</p><h2>15.4 Comparing cards<a name="auto3"></a></h2><a name="comparecard"></a><a name="index15"></a><a name="index16"></a><p>For primitive types, there are conditional operators
+(<code>&lt;</code>, <code>&gt;</code>, <code>==</code>, etc.)
+that compare values and determine when one is greater than, less than, or
+equal to another.  For user-defined types, we can override the behavior of
+the built-in operators by providing a method named <code>__cmp__</code>.  By
+convention, <code>__cmp__</code> takes two parameters, <code>self</code> and
+<code>other</code>, and returns 1 if the first object is greater, -1 if the
+second object is greater, and 0 if they are equal to each other.</p><a name="index17"></a><a name="index18"></a><a name="index19"></a><a name="index20"></a><a name="index21"></a><p>Some types are completely ordered, which means that you can compare any two
+elements and tell which is bigger.  For example, the integers and the
+floating-point numbers are completely ordered.  Some sets are unordered, which
+means that there is no meaningful way to say that one element is bigger than
+another.  For example, the fruits are unordered, which is why you cannot
+compare apples and oranges.</p><p>The set of playing cards is partially ordered, which means that sometimes
+you can compare cards and sometimes not.  For example, you know that the 3 of
+Clubs is higher than the 2 of Clubs, and the 3 of Diamonds is higher than the 3 
+of Clubs.  But which is better, the 3 of Clubs or the 2 of Diamonds?  One has a 
+higher rank, but the other has a higher suit.</p><a name="index22"></a><p>In order to make cards comparable, you have to decide which is more
+important, rank or suit.  To be honest, the choice is arbitrary.  For the sake
+of choosing, we will say that suit is more important, because a new deck of
+cards comes sorted with all the Clubs together, followed by all the Diamonds,
+and so on.</p><p>With that decided, we can write <code>__cmp__</code>:</p><pre class="python-interpreter">
+def __cmp__(self, other):
+    # check the suits
+    if self.suit &gt; other.suit: return 1
+    if self.suit &lt; other.suit: return -1
+    # suits are the same... check ranks
+    if self.rank &gt; other.rank: return 1
+    if self.rank &lt; other.rank: return -1
+    # ranks are the same... it's a tie
+    return 0
+</pre><p>In this ordering, Aces appear lower than Deuces (2s).</p><h2>15.5 Decks<a name="auto4"></a></h2><a name="index23"></a><a name="index24"></a><a name="index25"></a><p>Now that we have objects to represent <code>Card</code>s, the next logical
+step is to define a class to represent a <code>Deck</code>.  Of course, a deck
+is made up of cards, so each <code>Deck</code> object will contain a list of
+cards as an attribute.</p><a name="index26"></a><a name="index27"></a><p>The following is a class definition for the <code>Deck</code> class.  The
+initialization method creates the attribute <code>cards</code> and generates
+the standard set of fifty-two cards:</p><a name="index28"></a><a name="index29"></a><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Deck</span>:
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__init__</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span> = []
+        <span class="py-src-keyword">for</span> <span class="py-src-variable">suit</span> <span class="py-src-keyword">in</span> <span class="py-src-variable">range</span>(<span class="py-src-number">4</span>):
+            <span class="py-src-keyword">for</span> <span class="py-src-variable">rank</span> <span class="py-src-keyword">in</span> <span class="py-src-variable">range</span>(<span class="py-src-number">1</span>, <span class="py-src-number">14</span>):
+                <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>.<span class="py-src-variable">append</span>(<span class="py-src-variable">Card</span>(<span class="py-src-variable">suit</span>, <span class="py-src-variable">rank</span>))
+</pre><p>The easiest way to populate the deck is with a nested loop.  The outer loop
+enumerates the suits from 0 to 3.  The inner loop enumerates the ranks from 1
+to 13.  Since the outer loop iterates four times, and the inner loop iterates
+thirteen times, the total number of times the body is executed is fifty-two
+(thirteen times four).  Each iteration creates a new instance of
+<code>Card</code> with the current suit and rank, and appends that card to the
+<code>cards</code> list.</p><p>The <code>append</code> method works on lists but not, of course, tuples.
+</p><a name="index30"></a><a name="index31"></a><a name="index32"></a><h2>15.6 Printing the deck<a name="auto5"></a></h2><a name="printdeck"></a><a name="index33"></a><p>As usual, when we define a new type of object we want a method that prints
+the contents of an object.  To print a <code>Deck</code>, we traverse the list
+and print each <code>Card</code>:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Deck</span>:
+    ...
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">print_deck</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-keyword">for</span> <span class="py-src-variable">card</span> <span class="py-src-keyword">in</span> <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>:
+            <span class="py-src-keyword">print</span> <span class="py-src-variable">card</span>
+</pre><p>Here, and from now on, the ellipsis (<code>...</code>) indicates that we
+have omitted the other methods in the class.</p><p>As an alternative to <code>print_deck</code>, we could write a
+<code>__str__</code> method for the <code>Deck</code> class.  The advantage of
+<code>__str__</code> is that it is more flexible.  Rather than just printing
+the contents of the object, it generates a string representation that other
+parts of the program can manipulate before printing, or store for later use.
+</p><p>Here is a version of <code>__str__</code> that returns a string
+representation of a <code>Deck</code>.  To add a bit of pizzazz, it arranges
+the cards in a cascade where each card is indented one space more than the
+previous card:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Deck</span>:
+    ...
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__str__</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-variable">s</span> = <span class="py-src-string">&quot;&quot;</span>
+        <span class="py-src-keyword">for</span> <span class="py-src-variable">i</span> <span class="py-src-keyword">in</span> <span class="py-src-variable">range</span>(<span class="py-src-variable">len</span>(<span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>)):
+            <span class="py-src-variable">s</span> = <span class="py-src-variable">s</span> + <span class="py-src-string">&quot; &quot;</span>*<span class="py-src-variable">i</span> + <span class="py-src-variable">str</span>(<span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>[<span class="py-src-variable">i</span>]) + <span class="py-src-string">&quot;\n&quot;</span>
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">s</span>
+</pre><p>This example demonstrates several features.  First, instead of traversing
+<code>self.cards</code> and assigning each card to a variable, we are using
+<code>i</code> as a loop variable and an index into the list of cards.</p><p>Second, we are using the string multiplication operator to indent each card
+by one more space than the last.  The expression <code>&quot; &quot;*i</code> yields a
+number of spaces equal to the current value of <code>i</code>.</p><p>Third, instead of using the <code>print</code> command to print the cards,
+we use the <code>str</code> function.  Passing an object as an argument to
+<code>str</code> is equivalent to invoking the <code>__str__</code> method on
+the object.</p><a name="index34"></a><p>Finally, we are using the variable <code>s</code> as an
+<b>accumulator</b>.  Initially, <code>s</code> is the empty string.
+Each time through the loop, a new string is generated and concatenated with the 
+old value of <code>s</code> to get the new value.  When the loop ends,
+<code>s</code> contains the complete string representation of the
+<code>Deck</code>, which looks like this:</p><pre class="python-interpreter">
+&gt;&gt;&gt; deck = Deck()
+&gt;&gt;&gt; print deck
+Ace of Clubs
+ 2 of Clubs
+  3 of Clubs
+   4 of Clubs
+     5 of Clubs
+       6 of Clubs
+        7 of Clubs
+         8 of Clubs
+          9 of Clubs
+           10 of Clubs
+            Jack of Clubs
+             Queen of Clubs
+              King of Clubs
+               Ace of Diamonds
+</pre><p>And so on.  Even though the result appears on 52 lines, it is one long
+string that contains newlines.</p><h2>15.7 Shuffling the deck<a name="auto6"></a></h2><a name="index35"></a><p>If a deck is perfectly shuffled, then any card is equally likely to appear
+anywhere in the deck, and any location in the deck is equally likely to contain 
+any card.</p><a name="index36"></a><a name="index37"></a><p>To shuffle the deck, we will use the <code>randrange</code> function from
+the <code>random</code> module.  With two integer arguments, <code>a</code> and 
+<code>b</code>, <code>randrange</code> chooses a random integer in the range
+<code>a &lt;= x &lt; b</code>.  Since the upper bound is strictly less than
+<code>b</code>, we can use the length of a list as the second parameter, and we 
+are guaranteed to get a legal index.  For example, this expression chooses the
+index of a random card in a deck:</p><pre class="python">
+<span class="py-src-variable">random</span>.<span class="py-src-variable">randrange</span>(<span class="py-src-number">0</span>, <span class="py-src-variable">len</span>(<span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>))
+</pre><p>An easy way to shuffle the deck is by traversing the cards and swapping each 
+card with a randomly chosen one.  It is possible that the card will be swapped
+with itself, but that is fine.  In fact, if we precluded that possibility, the
+order of the cards would be less than entirely random:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Deck</span>:
+    ...
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">shuffle</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-keyword">import</span> <span class="py-src-variable">random</span>
+        <span class="py-src-variable">num_cards</span> = <span class="py-src-variable">len</span>(<span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>)
+        <span class="py-src-keyword">for</span> <span class="py-src-variable">i</span> <span class="py-src-keyword">in</span> <span class="py-src-variable">range</span>(<span class="py-src-variable">num_cards</span>):
+            <span class="py-src-variable">j</span> = <span class="py-src-variable">random</span>.<span class="py-src-variable">randrange</span>(<span class="py-src-variable">i</span>, <span class="py-src-variable">num_cards</span>)
+            <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>[<span class="py-src-variable">i</span>], <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>[<span class="py-src-variable">j</span>] = <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>[<span class="py-src-variable">j</span>], <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>[<span class="py-src-variable">i</span>]
+</pre><p>Rather than assume that there are fifty-two cards in the deck, we get the
+actual length of the list and store it in <code>num_cards</code>.</p><a name="index38"></a><a name="index39"></a><a name="index40"></a><p>For each card in the deck, we choose a random card from among the cards that 
+haven't been shuffled yet.  Then we swap the current card (<code>i</code>) with 
+the selected card (<code>j</code>).  To swap the cards we use a tuple
+assignment:</p><pre class="python">
+<span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>[<span class="py-src-variable">i</span>], <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>[<span class="py-src-variable">j</span>] = <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>[<span class="py-src-variable">j</span>], <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>[<span class="py-src-variable">i</span>]
+</pre><h2>15.8 Removing and dealing cards<a name="auto7"></a></h2><a name="index41"></a><p>Another method that would be useful for the <code>Deck</code> class is
+<code>remove</code>, which takes a card as a parameter, removes it, and
+returns <code>True</code> if the card was in the deck and <code>False</code>
+otherwise:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Deck</span>:
+    ...
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">remove</span>(<span class="py-src-parameter">self</span>, <span class="py-src-parameter">card</span>):
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">card</span> <span class="py-src-keyword">in</span> <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>:
+            <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>.<span class="py-src-variable">remove</span>(<span class="py-src-variable">card</span>)
+            <span class="py-src-keyword">return</span> <span class="py-src-variable">True</span> 
+        <span class="py-src-keyword">else</span>:
+            <span class="py-src-keyword">return</span> <span class="py-src-variable">False</span>
+</pre><p>The <code>in</code> operator returns <code>True</code> if the first operand
+is in the second, which must be a list or a tuple.  If the first operand is an
+object, Python uses the object's <code>__cmp__</code> method to determine
+equality with items in the list.  Since the <code>__cmp__</code> in the
+<code>Card</code> class checks for deep equality, the <code>remove</code>
+method checks for deep equality.</p><a name="index42"></a><a name="index43"></a><p>To deal cards, we want to remove and return the top card.  The list method
+<code>pop</code> provides a convenient way to do that:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Deck</span>:
+    ...
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">pop</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>.<span class="py-src-variable">pop</span>()
+</pre><p>Actually, <code>pop</code> removes the <em>last</em> card in the list, so we 
+are in effect dealing from the bottom of the deck.</p><a name="index44"></a><a name="index45"></a><p>One more operation that we are likely to want is the boolean function
+<code>is_empty</code>, which returns true if the deck contains no cards:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Deck</span>:
+    ...
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">is_empty</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-keyword">return</span> (<span class="py-src-variable">len</span>(<span class="py-src-variable">self</span>.<span class="py-src-variable">cards</span>) == <span class="py-src-number">0</span>)
+</pre><h2>15.9 Glossary<a name="auto8"></a></h2><a name="index46"></a><a name="index47"></a><a name="index48"></a><a name="index49"></a><dl><dt>encode:</dt><dd>To represent one set of values using another set of values by constructing
+a mapping between them.</dd><dt>class attribute:</dt><dd>A variable that is defined inside a class definition but outside any method.
+Class attributes are accessible from any method in the class and are shared by
+all instances of the class.</dd><dt>accumulator:</dt><dd>A variable used in a loop to accumulate a series of values, such as by
+concatenating them onto a string or adding them to a running sum.</dd></dl><h2>15.10 Exercises<a name="auto9"></a></h2><ol><li><div class="exercise">
+Modify <code>__cmp__</code> so that Aces are ranked higher than Kings.
+</div></li></ol></div><p><a href="index.html">Table of Contents</a> |
+    <a href="dex.html">Index</a></p></body></html>

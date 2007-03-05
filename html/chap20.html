@@ -1,0 +1,363 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>How to Think Like a Computer Scientist: 20. Trees</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">20. Trees</h1><div class="toc"><ol><li><a href="#auto0">Building trees</a></li><li><a href="#auto1">Traversing trees</a></li><li><a href="#auto2">Expression trees</a></li><li><a href="#auto3">Tree traversal</a></li><li><a href="#auto4">Building an expression tree</a></li><li><a href="#auto5">Handling errors</a></li><li><a href="#auto6">The animal tree</a></li><li><a href="#auto7">Glossary</a></li><li><a href="#auto8">Exercises</a></li></ol></div><div class="content"><span></span><a name="index01"></a><a name="index02"></a><a name="index03"></a><a name="index04"></a><a name="index05"></a><a name="index06"></a><p>Like linked lists, trees are made up of nodes.  A common kind of tree is a
+<b>binary tree</b>, in which each node contains a reference to two
+other nodes (possibly <code>None</code>).  These references are referred to as
+the left and right subtrees.  Like list nodes, tree nodes also contain cargo.
+A state diagram for a tree looks like this:</p><a name="tree"></a><img src="illustrations/tree1.png" /><p>To avoid cluttering up the picture, we often omit the <code>None</code>s.
+</p><p>The top of the tree (the node <code>tree</code> refers to) is called the
+<b>root</b>.  In keeping with the tree metaphor, the other nodes are
+called branches and the nodes at the tips with null references are called
+<b>leaves</b>.  It may seem odd that we draw the picture with the
+root at the top and the leaves at the bottom, but that is not the strangest
+thing.</p><a name="index07"></a><a name="index08"></a><a name="index09"></a><a name="index10"></a><a name="index11"></a><p>To make things worse, computer scientists mix in another metaphor---the
+family tree.  The top node is sometimes called a <b>parent</b> and
+the nodes it refers to are its <b>children</b>.  Nodes with the same
+parent are called <b>siblings</b>.</p><p>Finally, there is a geometric vocabulary for talking about trees.  We
+already mentioned left and right, but there is also <q>up</q> (toward the
+parent/root) and <q>down</q> (toward the children/leaves).  Also, all of the
+nodes that are the same distance from the root comprise a
+<b>level</b> of the tree.</p><p>We probably don't need three metaphors for talking about trees, but there
+they are.</p><p>Like linked lists, trees are recursive data structures because they are
+defined recursively.</p><a name="index12"></a><a name="index13"></a><blockquote>
+A tree is either:<br /><ol><li>the empty tree, represented by <code>None</code>, or</li><li>a node that contains an object reference (cargo) and two tree references.
+</li></ol></blockquote><a name="index14"></a><h2>20.1 Building trees<a name="auto0"></a></h2><p>The process of assembling a tree is similar to the process of assembling a
+linked list.  Each constructor invocation builds a single node.</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Tree</span>:
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__init__</span>(<span class="py-src-parameter">self</span>, <span class="py-src-parameter">cargo</span>, <span class="py-src-parameter">left</span>=<span class="py-src-parameter">None</span>, <span class="py-src-parameter">right</span>=<span class="py-src-parameter">None</span>):
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">cargo</span> = <span class="py-src-variable">cargo</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">left</span>  = <span class="py-src-variable">left</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">right</span> = <span class="py-src-variable">right</span>
+ 
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__str__</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">str</span>(<span class="py-src-variable">self</span>.<span class="py-src-variable">cargo</span>)
+</pre><p>The <code>cargo</code> can be any type, but the <code>left</code> and
+<code>right</code> parameters should be tree nodes.  <code>left</code> and
+<code>right</code> are optional; the default value is <code>None</code>.</p><p>To print a node, we just print the cargo.</p><p>One way to build a tree is from the bottom up.  Allocate the child nodes
+first:</p><pre class="python">
+<span class="py-src-variable">left</span> = <span class="py-src-variable">Tree</span>(<span class="py-src-number">2</span>)
+<span class="py-src-variable">right</span> = <span class="py-src-variable">Tree</span>(<span class="py-src-number">3</span>)
+</pre><p>Then create the parent node and link it to the children:</p><pre class="python">
+<span class="py-src-variable">tree</span> = <span class="py-src-variable">Tree</span>(<span class="py-src-number">1</span>, <span class="py-src-variable">left</span>, <span class="py-src-variable">right</span>);
+</pre><p>We can write this code more concisely by nesting constructor invocations:
+</p><pre class="python-interpreter">
+&gt;&gt;&gt; tree = Tree(1, Tree(2), Tree(3))
+</pre><p>Either way, the result is the tree at the beginning of the chapter.</p><h2>20.2 Traversing trees<a name="auto1"></a></h2><a name="index15"></a><a name="index16"></a><a name="index17"></a><p>Any time you see a new data structure, your first question should be,
+<q>How do I traverse it?</q>  The most natural way to traverse a tree is
+recursively.  For example, if the tree contains integers as cargo, this
+function returns their sum:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">total</span>(<span class="py-src-parameter">tree</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">tree</span> == <span class="py-src-variable">None</span>: <span class="py-src-keyword">return</span> <span class="py-src-number">0</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">total</span>(<span class="py-src-variable">tree</span>.<span class="py-src-variable">left</span>) + <span class="py-src-variable">total</span>(<span class="py-src-variable">tree</span>.<span class="py-src-variable">right</span>) + <span class="py-src-variable">tree</span>.<span class="py-src-variable">cargo</span>
+</pre><p>The base case is the empty tree, which contains no cargo, so the sum is 0.
+The recursive step makes two recursive calls to find the sum of the child
+trees.  When the recursive calls complete, we add the cargo of the parent and
+return the total.</p><h2>20.3 Expression trees<a name="auto2"></a></h2><a name="index18"></a><a name="index19"></a><a name="index20"></a><a name="index21"></a><a name="index22"></a><a name="index23"></a><p>A tree is a natural way to represent the structure of an expression.  Unlike 
+other notations, it can represent the computation unambiguously.  For example,
+the infix expression <code>1 + 2 * 3</code> is ambiguous unless we know that
+the multiplication happens before the addition.</p><p>This expression tree represents the same computation:</p><img src="illustrations/tree2.png" /><p>The nodes of an expression tree can be operands like <code>1</code> and
+<code>2</code> or operators like <code>+</code> and <code>*</code>.  Operands
+are leaf nodes; operator nodes contain references to their operands.  (All of
+these operators are <b>binary</b>, meaning they have exactly two
+operands.)</p><p>We can build this tree like this:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tree = Tree('+', Tree(1), Tree('*', Tree(2), Tree(3)))
+</pre><p>Looking at the figure, there is no question what the order of operations is; 
+the multiplication happens first in order to compute the second operand of the
+addition.</p><p>Expression trees have many uses.  The example in this chapter uses trees to
+translate expressions to postfix, prefix, and infix.  Similar trees are used
+inside compilers to parse, optimize, and translate programs.</p><h2>20.4 Tree traversal<a name="auto3"></a></h2><a name="index24"></a><a name="index25"></a><a name="index26"></a><a name="index27"></a><a name="index28"></a><a name="index29"></a><p>We can traverse an expression tree and print the contents like this:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">printTree</span>(<span class="py-src-parameter">tree</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">tree</span> == <span class="py-src-variable">None</span>: <span class="py-src-keyword">return</span>
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">tree</span>.<span class="py-src-variable">cargo</span>,
+    <span class="py-src-variable">printTree</span>(<span class="py-src-variable">tree</span>.<span class="py-src-variable">left</span>)
+    <span class="py-src-variable">printTree</span>(<span class="py-src-variable">tree</span>.<span class="py-src-variable">right</span>)
+</pre><a name="index30"></a><a name="index31"></a><p>In other words, to print a tree, first print the contents of the root, then
+print the entire left subtree, and then print the entire right subtree.  This
+way of traversing a tree is called a <b>preorder</b>, because the
+contents of the root appear <em>before</em> the contents of the children.
+For the previous example, the output is:</p><pre class="python">
+&gt;&gt;&gt; <span class="py-src-variable">tree</span> = <span class="py-src-variable">Tree</span>(<span class="py-src-string">'+'</span>, <span class="py-src-variable">Tree</span>(<span class="py-src-number">1</span>), <span class="py-src-variable">Tree</span>(<span class="py-src-string">'*'</span>, <span class="py-src-variable">Tree</span>(<span class="py-src-number">2</span>), <span class="py-src-variable">Tree</span>(<span class="py-src-number">3</span>)))
+&gt;&gt;&gt; <span class="py-src-variable">printTree</span>(<span class="py-src-variable">tree</span>)
++ <span class="py-src-number">1</span> * <span class="py-src-number">2</span> <span class="py-src-number">3</span>
+</pre><p>This format is different from both postfix and infix; it is another notation 
+called <b>prefix</b>, in which the operators appear before their
+operands.</p><p>You might suspect that if you traverse the tree in a different order, you
+will get the expression in a different notation.  For example, if you print the 
+subtrees first and then the root node, you get:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">printTreePostorder</span>(<span class="py-src-parameter">tree</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">tree</span> == <span class="py-src-variable">None</span>: <span class="py-src-keyword">return</span>
+    <span class="py-src-variable">printTreePostorder</span>(<span class="py-src-variable">tree</span>.<span class="py-src-variable">left</span>)
+    <span class="py-src-variable">printTreePostorder</span>(<span class="py-src-variable">tree</span>.<span class="py-src-variable">right</span>)
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">tree</span>.<span class="py-src-variable">cargo</span>,
+</pre><a name="index32"></a><a name="index33"></a><p>The result, <code>1 2 3 * +</code>, is in postfix!  This order of traversal
+is called <b>postorder</b>.</p><p>Finally, to traverse a tree <b>inorder</b>, you print the left
+tree, then the root, and then the right tree:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">printTreeInorder</span>(<span class="py-src-parameter">tree</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">tree</span> == <span class="py-src-variable">None</span>: <span class="py-src-keyword">return</span>
+    <span class="py-src-variable">printTreeInorder</span>(<span class="py-src-variable">tree</span>.<span class="py-src-variable">left</span>)
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">tree</span>.<span class="py-src-variable">cargo</span>,
+    <span class="py-src-variable">printTreeInorder</span>(<span class="py-src-variable">tree</span>.<span class="py-src-variable">right</span>)
+</pre><p>The result is <code>1 + 2 * 3</code>, which is the expression in infix.</p><p>To be fair, we should point out that we have omitted an important
+complication.  Sometimes when we write an expression in infix, we have to use
+parentheses to preserve the order of operations.  So an inorder traversal is
+not quite sufficient to generate an infix expression.</p><p>Nevertheless, with a few improvements, the expression tree and the three
+recursive traversals provide a general way to translate expressions from one
+format to another.</p><p>If we do an inorder traversal and keep track of what level in the tree we
+are on, we can generate a graphical representation of a tree:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">printTreeIndented</span>(<span class="py-src-parameter">tree</span>, <span class="py-src-parameter">level</span>=<span class="py-src-number">0</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">tree</span> == <span class="py-src-variable">None</span>: <span class="py-src-keyword">return</span>
+    <span class="py-src-variable">printTreeIndented</span>(<span class="py-src-variable">tree</span>.<span class="py-src-variable">right</span>, <span class="py-src-variable">level</span>+<span class="py-src-number">1</span>)
+    <span class="py-src-keyword">print</span> <span class="py-src-string">'  '</span>*<span class="py-src-variable">level</span> + <span class="py-src-variable">str</span>(<span class="py-src-variable">tree</span>.<span class="py-src-variable">cargo</span>)
+    <span class="py-src-variable">printTreeIndented</span>(<span class="py-src-variable">tree</span>.<span class="py-src-variable">left</span>, <span class="py-src-variable">level</span>+<span class="py-src-number">1</span>)
+</pre><p>The parameter <code>level</code> keeps track of where we are in the tree. By 
+default, it is initially 0.  Each time we make a recursive call, we pass
+<code>level+1</code> because the child's level is always one greater than the
+parent's.  Each item is indented by two spaces per level.  The result for the
+example tree is:</p><pre class="python-interpreter">
+&gt;&gt;&gt; printTreeIndented(tree)
+    3
+  *
+    2
++
+  1
+</pre><p>If you look at the output sideways, you see a simplified version of the
+original figure.</p><h2>20.5 Building an expression tree<a name="auto4"></a></h2><a name="index34"></a><a name="index35"></a><a name="index36"></a><a name="index37"></a><p>In this section, we parse infix expressions and build the corresponding
+expression trees.  For example, the expression <code>(3+7)*9</code> yields the
+following tree:</p><img src="illustrations/tree3.png" /><p>Notice that we have simplified the diagram by leaving out the names of the
+attributes.</p><p>The parser we will write handles expressions that include numbers,
+parentheses, and the operators <code>+</code> and <code>*</code>.  We assume
+that the input string has already been tokenized into a Python list (producing
+this list is left as an exercise).  The token list for
+<code>(3+7)*9</code> is:</p><pre class="python">
+[<span class="py-src-string">'('</span>, <span class="py-src-number">3</span>, <span class="py-src-string">'+'</span>, <span class="py-src-number">7</span>, <span class="py-src-string">')'</span>, <span class="py-src-string">'*'</span>, <span class="py-src-number">9</span>, <span class="py-src-string">'end'</span>]
+</pre><p>The <code>end</code> token is useful for preventing the parser from reading
+past the end of the list.</p><p>The first function we'll write is <code>getToken</code>, which takes a token
+list and an expected token as parameters.  It compares the expected token to the
+first token on the list: if they match, it removes the token from the list and
+returns <code>True</code>; otherwise, it returns <code>False</code>:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">getToken</span>(<span class="py-src-parameter">tokenList</span>, <span class="py-src-parameter">expected</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">tokenList</span>[<span class="py-src-number">0</span>] == <span class="py-src-variable">expected</span>:
+        <span class="py-src-keyword">del</span> <span class="py-src-variable">tokenList</span>[<span class="py-src-number">0</span>]
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">True</span>
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">False</span>
+</pre><p>Since <code>tokenList</code> refers to a mutable object, the changes made
+here are visible to any other variable that refers to the same object.</p><p>The next function, <code>getNumber</code>, handles operands.  If the next
+token in <code>tokenList</code> is a number, <code>getNumber</code> removes it
+and returns a leaf node containing the number; otherwise, it returns
+<code>None</code>.</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">getNumber</span>(<span class="py-src-parameter">tokenList</span>):
+    <span class="py-src-variable">x</span> = <span class="py-src-variable">tokenList</span>[<span class="py-src-number">0</span>]
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">type</span>(<span class="py-src-variable">x</span>) != <span class="py-src-variable">type</span>(<span class="py-src-number">0</span>): <span class="py-src-keyword">return</span> <span class="py-src-variable">None</span>
+    <span class="py-src-keyword">del</span> <span class="py-src-variable">tokenList</span>[<span class="py-src-number">0</span>]
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">Tree</span> (<span class="py-src-variable">x</span>, <span class="py-src-variable">None</span>, <span class="py-src-variable">None</span>)
+</pre><p>Before continuing, we should test <code>getNumber</code> in isolation.  We
+assign a list of numbers to <code>tokenList</code>, extract the first, print
+the result, and print what remains of the token list:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tokenList = [9, 11, 'end']
+&gt;&gt;&gt; x = getNumber(tokenList)
+&gt;&gt;&gt; printTreePostorder(x)
+9
+&gt;&gt;&gt; print tokenList
+[11, 'end']
+</pre><p>The next method we need is <code>getProduct</code>, which builds an
+expression tree for products.  A simple product has two numbers as operands,
+like <code>3 * 7</code>.</p><p>Here is a version of <code>getProduct</code> that handles simple products.
+</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">getProduct</span>(<span class="py-src-parameter">tokenList</span>):
+    <span class="py-src-variable">a</span> = <span class="py-src-variable">getNumber</span>(<span class="py-src-variable">tokenList</span>)
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">getToken</span>(<span class="py-src-variable">tokenList</span>, <span class="py-src-string">'*'</span>):
+        <span class="py-src-variable">b</span> = <span class="py-src-variable">getNumber</span>(<span class="py-src-variable">tokenList</span>)
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">Tree</span> (<span class="py-src-string">'*'</span>, <span class="py-src-variable">a</span>, <span class="py-src-variable">b</span>)
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">a</span>
+</pre><p>Assuming that <code>getNumber</code> succeeds and returns a singleton tree,
+we assign the first operand to <code>a</code>.  If the next character is
+<code>*</code>, we get the second number and build an expression tree with
+<code>a</code>, <code>b</code>, and the operator.</p><p>If the next character is anything else, then we just return the leaf node
+with <code>a</code>.  Here are two examples:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tokenList = [9, '*', 11, 'end']
+&gt;&gt;&gt; tree = getProduct(tokenList)
+&gt;&gt;&gt; printTreePostorder(tree)
+9 11 *
+</pre><pre class="python-interpreter">
+&gt;&gt;&gt; tokenList = [9, '+', 11, 'end']
+&gt;&gt;&gt; tree = getProduct(tokenList)
+&gt;&gt;&gt; printTreePostorder(tree)
+9
+</pre><p>The second example implies that we consider a single operand to be a kind of 
+product.  This definition of <q>product</q> is counterintuitive, but it turns
+out to be useful.</p><p>Now we have to deal with compound products, like like
+<code>3 * 5 * 13</code>.  We treat this expression as a product of products,
+namely <code>3 * (5 * 13)</code>.  The resulting tree is:</p><img src="illustrations/tree4.png" /><p>With a small change in <code>getProduct</code>, we can handle an arbitrarily 
+long product:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">getProduct</span>(<span class="py-src-parameter">tokenList</span>):
+    <span class="py-src-variable">a</span> = <span class="py-src-variable">getNumber</span>(<span class="py-src-variable">tokenList</span>)
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">getToken</span>(<span class="py-src-variable">tokenList</span>, <span class="py-src-string">'*'</span>):
+        <span class="py-src-variable">b</span> = <span class="py-src-variable">getProduct</span>(<span class="py-src-variable">tokenList</span>)       <span class="py-src-comment"># this line changed</span>
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">Tree</span> (<span class="py-src-string">'*'</span>, <span class="py-src-variable">a</span>, <span class="py-src-variable">b</span>)
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">a</span>
+</pre><p>In other words, a product can be either a singleton or a tree with
+<code>*</code> at the root, a number on the left, and a product on the right.
+This kind of recursive definition should be starting to feel familiar.</p><a name="index38"></a><a name="index39"></a><a name="index40"></a><p>Let's test the new version with a compound product:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tokenList = [2, '*', 3, '*', 5 , '*', 7, 'end']
+&gt;&gt;&gt; tree = getProduct(tokenList)
+&gt;&gt;&gt; printTreePostorder(tree)
+2 3 5 7 * * *
+</pre><p>Next we will add the ability to parse sums.  Again, we use a slightly
+counterintuitive definition of <q>sum.</q> For us, a sum can be a tree with
+<code>+</code> at the root, a product on the left, and a sum on the right.
+Or, a sum can be just a product.</p><a name="index41"></a><p>If you are willing to play along with this definition, it has a nice
+property: we can represent any expression (without parentheses) as a sum of
+products.  This property is the basis of our parsing algorithm.</p><p><code>getSum</code> tries to build a tree with a product on the left and a
+sum on the right.  But if it doesn't find a <code>+</code>, it just builds a
+product.</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">getSum</span>(<span class="py-src-parameter">tokenList</span>):
+    <span class="py-src-variable">a</span> = <span class="py-src-variable">getProduct</span>(<span class="py-src-variable">tokenList</span>)
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">getToken</span>(<span class="py-src-variable">tokenList</span>, <span class="py-src-string">'+'</span>):
+        <span class="py-src-variable">b</span> = <span class="py-src-variable">getSum</span>(<span class="py-src-variable">tokenList</span>)
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">Tree</span> (<span class="py-src-string">'+'</span>, <span class="py-src-variable">a</span>, <span class="py-src-variable">b</span>)
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">a</span>
+</pre><p>Let's test it with <code>9 * 11 + 5 * 7</code>:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tokenList = [9, '*', 11, '+', 5, '*', 7, 'end']
+&gt;&gt;&gt; tree = getSum(tokenList)
+&gt;&gt;&gt; printTreePostorder(tree)
+9 11 * 5 7 * +
+</pre><p>We are almost done, but we still have to handle parentheses.  Anywhere in an 
+expression where there can be a number, there can also be an entire sum
+enclosed in parentheses.  We just need to modify <code>getNumber</code> to
+handle <b>subexpressions</b>:</p><a name="index42"></a><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">getNumber</span>(<span class="py-src-parameter">tokenList</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">getToken</span>(<span class="py-src-variable">tokenList</span>, <span class="py-src-string">'('</span>):
+        <span class="py-src-variable">x</span> = <span class="py-src-variable">getSum</span>(<span class="py-src-variable">tokenList</span>)         <span class="py-src-comment"># get the subexpression</span>
+        <span class="py-src-variable">getToken</span>(<span class="py-src-variable">tokenList</span>, <span class="py-src-string">')'</span>)      <span class="py-src-comment"># remove the closing parenthesis</span>
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">x</span>
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-variable">x</span> = <span class="py-src-variable">tokenList</span>[<span class="py-src-number">0</span>]
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">type</span>(<span class="py-src-variable">x</span>) != <span class="py-src-variable">type</span>(<span class="py-src-number">0</span>): <span class="py-src-keyword">return</span> <span class="py-src-variable">None</span>
+        <span class="py-src-variable">tokenList</span>[<span class="py-src-number">0</span>:<span class="py-src-number">1</span>] = []
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">Tree</span> (<span class="py-src-variable">x</span>, <span class="py-src-variable">None</span>, <span class="py-src-variable">None</span>)
+</pre><p>Let's test this code with <code>9 * (11 + 5) * 7</code>:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tokenList = [9, '*', '(', 11, '+', 5, ')', '*', 7, 'end']
+&gt;&gt;&gt; tree = getSum(tokenList)
+&gt;&gt;&gt; printTreePostorder(tree)
+9 11 5 + 7 * *
+</pre><p>The parser handled the parentheses correctly; the addition happens
+before the multiplication.</p><p>In the final version of the program, it would be a good idea to give
+<code>getNumber</code> a name more descriptive of its new role.</p><h2>20.6 Handling errors<a name="auto5"></a></h2><a name="index43"></a><a name="index44"></a><p>Throughout the parser, we've been assuming that expressions are well-formed. 
+For example, when we reach the end of a subexpression, we assume that the next
+character is a close parenthesis.  If there is an error and the next character
+is something else, we should deal with it.</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">getNumber</span>(<span class="py-src-parameter">tokenList</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">getToken</span>(<span class="py-src-variable">tokenList</span>, <span class="py-src-string">'('</span>):
+        <span class="py-src-variable">x</span> = <span class="py-src-variable">getSum</span>(<span class="py-src-variable">tokenList</span>)
+        <span class="py-src-keyword">if</span> <span class="py-src-keyword">not</span> <span class="py-src-variable">getToken</span>(<span class="py-src-variable">tokenList</span>, <span class="py-src-string">')'</span>):
+            <span class="py-src-keyword">raise</span> <span class="py-src-string">'BadExpressionError'</span>, <span class="py-src-string">'missing parenthesis'</span>
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">x</span>
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-comment"># the rest of the function omitted
+</span></pre><p>The <code>raise</code> statement creates an exception; in this case we
+create a new kind of exception, called a <code>BadExpressionError</code>.  If
+the function that called <code>getNumber</code>, or one of the other functions
+in the traceback, handles the exception, then the program can continue.
+Otherwise, Python will print an error message and quit.</p><h2>20.7 The animal tree<a name="auto6"></a></h2><a name="index45"></a><a name="index46"></a><a name="index47"></a><p>In this section, we develop a small program that uses a tree to represent a
+knowledge base.</p><p>The program interacts with the user to create a tree of questions and
+animal names.  Here is a sample run:</p><pre class="shell">
+Are you thinking of an animal? y
+Is it a bird? n
+What is the animals name? dog
+What question would distinguish a dog from a bird? Can it fly
+If the animal were dog the answer would be? n
+   
+Are you thinking of an animal? y
+Can it fly? n
+Is it a dog? n
+What is the animals name? cat
+What question would distinguish a cat from a dog? Does it bark
+If the animal were cat the answer would be? n
+   
+Are you thinking of an animal? y
+Can it fly? n
+Does it bark? y
+Is it a dog? y
+I rule!
+   
+Are you thinking of an animal? n
+</pre><p>Here is the tree this dialog builds:</p><img src="illustrations/tree5.png" /><p>At the beginning of each round, the program starts at the top of the tree
+and asks the first question.  Depending on the answer, it moves to the left or
+right child and continues until it gets to a leaf node.  At that point, it
+makes a guess.  If the guess is not correct, it asks the user for the name of
+the new animal and a question that distinguishes the (bad) guess from the new
+animal.  Then it adds a node to the tree with the new question and the new
+animal.</p><p>Here is the code:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">yes</span>(<span class="py-src-parameter">ques</span>):
+    <span class="py-src-variable">ans</span> = <span class="py-src-variable">raw_input</span>(<span class="py-src-variable">ques</span>).<span class="py-src-variable">lower</span>()
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">ans</span>[<span class="py-src-number">0</span>] == <span class="py-src-string">'y'</span>
+
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">animal</span>():
+    <span class="py-src-comment"># start with a singleton
+</span>    <span class="py-src-variable">root</span> = <span class="py-src-variable">Tree</span>(<span class="py-src-string">&quot;bird&quot;</span>)
+ 
+    <span class="py-src-comment"># loop until the user quits
+</span>    <span class="py-src-keyword">while</span> <span class="py-src-variable">True</span>:
+        <span class="py-src-keyword">print</span>
+        <span class="py-src-keyword">if</span> <span class="py-src-keyword">not</span> <span class="py-src-variable">yes</span>(<span class="py-src-string">&quot;Are you thinking of an animal? &quot;</span>): <span class="py-src-keyword">break</span>
+ 
+        <span class="py-src-comment"># walk the tree
+</span>        <span class="py-src-variable">tree</span> = <span class="py-src-variable">root</span>
+        <span class="py-src-keyword">while</span> <span class="py-src-variable">tree</span>.<span class="py-src-variable">left</span> != <span class="py-src-variable">None</span>:
+            <span class="py-src-variable">prompt</span> = <span class="py-src-variable">tree</span>.<span class="py-src-variable">cargo</span> + <span class="py-src-string">&quot;? &quot;</span>
+            <span class="py-src-keyword">if</span> <span class="py-src-variable">yes</span>(<span class="py-src-variable">prompt</span>):
+                <span class="py-src-variable">tree</span> = <span class="py-src-variable">tree</span>.<span class="py-src-variable">right</span>
+            <span class="py-src-keyword">else</span>:
+                <span class="py-src-variable">tree</span> = <span class="py-src-variable">tree</span>.<span class="py-src-variable">left</span>
+ 
+        <span class="py-src-comment"># make a guess
+</span>        <span class="py-src-variable">guess</span> = <span class="py-src-variable">tree</span>.<span class="py-src-variable">cargo</span>
+        <span class="py-src-variable">prompt</span> = <span class="py-src-string">&quot;Is it a &quot;</span> + <span class="py-src-variable">guess</span> + <span class="py-src-string">&quot;? &quot;</span>
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">yes</span>(<span class="py-src-variable">prompt</span>):
+            <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;I rule!&quot;</span>
+            <span class="py-src-keyword">continue</span>
+ 
+        <span class="py-src-comment"># get new information
+</span>        <span class="py-src-variable">prompt</span>  = <span class="py-src-string">&quot;What is the animal's name? &quot;</span>
+        <span class="py-src-variable">animal</span>  = <span class="py-src-variable">raw_input</span>(<span class="py-src-variable">prompt</span>)
+        <span class="py-src-variable">prompt</span>  = <span class="py-src-string">&quot;What question would distinguish a %s from a %s? &quot;</span>
+        <span class="py-src-variable">question</span> = <span class="py-src-variable">raw_input</span>(<span class="py-src-variable">prompt</span> % (<span class="py-src-variable">animal</span>, <span class="py-src-variable">guess</span>))
+ 
+        <span class="py-src-comment"># add new information to the tree
+</span>        <span class="py-src-variable">tree</span>.<span class="py-src-variable">cargo</span> = <span class="py-src-variable">question</span>
+        <span class="py-src-variable">prompt</span> = <span class="py-src-string">&quot;If the animal were %s the answer would be? &quot;</span>
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">yes</span>(<span class="py-src-variable">prompt</span> % <span class="py-src-variable">animal</span>):
+            <span class="py-src-variable">tree</span>.<span class="py-src-variable">left</span> = <span class="py-src-variable">Tree</span>(<span class="py-src-variable">guess</span>)
+            <span class="py-src-variable">tree</span>.<span class="py-src-variable">right</span> = <span class="py-src-variable">Tree</span>(<span class="py-src-variable">animal</span>)
+        <span class="py-src-keyword">else</span>:
+            <span class="py-src-variable">tree</span>.<span class="py-src-variable">left</span> = <span class="py-src-variable">Tree</span>(<span class="py-src-variable">animal</span>)
+            <span class="py-src-variable">tree</span>.<span class="py-src-variable">right</span> = <span class="py-src-variable">Tree</span>(<span class="py-src-variable">guess</span>)
+</pre><p>The function <code>yes</code> is a helper; it prints a prompt and then
+takes input from the user.  If the response begins with <em>y</em> or
+<em>Y</em>, the function returns <code>True</code>.</p><p>The condition of the outer loop of <code>animal</code> is <code>True</code>, 
+which means it will continue until the <code>break</code> statement executes,
+if the user is not thinking of an animal.</p><p>The inner <code>while</code> loop walks the tree from top to bottom, guided
+by the user's responses.</p><p>When a new node is added to the tree, the new question replaces the cargo,
+and the two children are the new animal and the original cargo.</p><p>One shortcoming of the program is that when it exits, it forgets everything
+you carefully taught it! Fixing this problem is left as an exercise.</p><h2>20.8 Glossary<a name="auto7"></a></h2><a name="index48"></a><a name="index49"></a><a name="index50"></a><a name="index51"></a><a name="index52"></a><a name="index53"></a><a name="index54"></a><a name="index55"></a><a name="index56"></a><a name="index57"></a><a name="index58"></a><a name="index59"></a><a name="index60"></a><a name="index61"></a><dl><dt>binary tree:</dt><dd>A tree in which each node refers to zero, one, or two dependent nodes.</dd><dt>root:</dt><dd>The topmost node in a tree, with no parent.</dd><dt>leaf:</dt><dd>A bottom-most node in a tree, with no children.</dd><dt>parent:</dt><dd>The node that refers to a given node.</dd><dt>child:</dt><dd>One of the nodes referred to by a node.</dd><dt>siblings:</dt><dd>Nodes that share a common parent.</dd><dt>level:</dt><dd>The set of nodes equidistant from the root.</dd><dt>binary operator:</dt><dd>An operator that takes two operands.</dd><dt>subexpression:</dt><dd>An expression in parentheses that acts as a single operand in a larger
+expression.</dd><dt>preorder:</dt><dd>A way to traverse a tree, visiting each node before its children.</dd><dt>prefix notation:</dt><dd>A way of writing a mathematical expression with each operator appearing
+before its operands.</dd><dt>postorder:</dt><dd>A way to traverse a tree, visiting the children of each node before the
+node itself.</dd><dt>inorder:</dt><dd>A way to traverse a tree, visiting the left subtree, then the root, and
+then the right subtree.</dd></dl><h2>20.9 Exercises<a name="auto8"></a></h2><ol><li><div class="exercise">
+Modify <code>printTreeInorder</code> so that it puts parentheses around every
+operator and pair of operands.  Is the output correct and unambiguous?  Are the 
+parentheses always necessary?
+</div></li><li><div class="exercise">
+Write a function that takes an expression string and returns a token list.
+</div></li><li><div class="exercise">
+Find other places in the expression tree functions where errors can occur and 
+add appropriate <code>raise</code> statements.  Test your code with improperly
+formed expressions.
+</div></li><li><div class="exercise">
+Think of various ways you might save the animal knowledge tree in a file.
+Implement the one you think is easiest.
+</div></li></ol></div><p><a href="index.html">Table of Contents</a> |
+    <a href="dex.html">Index</a></p></body></html>

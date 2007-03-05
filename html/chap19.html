@@ -1,0 +1,224 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>How to Think Like a Computer Scientist: 19. Queues</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">19. Queues</h1><div class="toc"><ol><li><a href="#auto0">The Queue ADT</a></li><li><a href="#auto1">Linked Queue</a></li><li><a href="#auto2">Performance characteristics</a></li><li><a href="#auto3">Improved Linked Queue</a></li><li><a href="#auto4">Priority queue</a></li><li><a href="#auto5">The Golfer class</a></li><li><a href="#auto6">Glossary</a></li><li><a href="#auto7">Exercises</a></li></ol></div><div class="content"><span></span><a name="queue"></a><a name="index01"></a><a name="index02"></a><a name="index03"></a><a name="index04"></a><a name="index05"></a><a name="index06"></a><a name="index07"></a><p>This chapter presents two ADTs: the Queue and the Priority Queue.  In real
+life, a <b>queue</b> is a line of customers waiting for service of
+some kind.  In most cases, the first customer in line is the next customer to
+be served.  There are exceptions, though.  At airports, customers whose flights 
+are leaving soon are sometimes taken from the middle of the queue.  At
+supermarkets, a polite customer might let someone with only a few items go
+first.</p><p>The rule that determines who goes next is called the
+<b>queueing policy</b>.  The simplest queueing policy is called
+<b>FIFO</b>, for <q>first-in-first-out.</q>  The most general
+queueing policy is <b>priority queueing</b>, in which each customer
+is assigned a priority and the customer with the highest priority goes first,
+regardless of the order of arrival.  We say this is the most general policy
+because the priority can be based on anything: what time a flight leaves; how
+many groceries the customer has; or how important the customer is.  Of course,
+not all queueing policies are <q>fair,</q> but fairness is in the eye of the
+beholder.</p><p>The Queue ADT and the Priority Queue ADT have the same set of operations.
+The difference is in the semantics of the operations: a queue uses the FIFO
+policy; and a priority queue (as the name suggests) uses the priority queueing
+policy.</p><h2>19.1 The Queue ADT<a name="auto0"></a></h2><a name="index08"></a><a name="index09"></a><a name="index10"></a><a name="index11"></a><p>The Queue ADT is defined by the following operations:</p><dl><dt><code>__init__</code>:</dt><dd>Initialize a new empty queue.</dd><dt><code>insert</code>:</dt><dd>Add a new item to the queue.</dd><dt><code>remove</code>:</dt><dd>Remove and return an item from the queue.  The item that is returned is the 
+first one that was added.</dd><dt><code>isEmpty</code>:</dt><dd>Check whether the queue is empty.</dd></dl><h2>19.2 Linked Queue<a name="auto1"></a></h2><a name="index12"></a><a name="index13"></a><p>The first implementation of the Queue ADT we will look at is called a
+<b>linked queue</b> because it is made up of linked <code>Node</code> 
+objects.  Here is the class definition:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Queue</span>:
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__init__</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> = <span class="py-src-number">0</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span> = <span class="py-src-variable">None</span>
+ 
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">isEmpty</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-keyword">return</span> (<span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> == <span class="py-src-number">0</span>)
+ 
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">insert</span>(<span class="py-src-parameter">self</span>, <span class="py-src-parameter">cargo</span>):
+        <span class="py-src-variable">node</span> = <span class="py-src-variable">Node</span>(<span class="py-src-variable">cargo</span>)
+        <span class="py-src-variable">node</span>.<span class="py-src-variable">next</span> = <span class="py-src-variable">None</span>
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span> == <span class="py-src-variable">None</span>:
+            <span class="py-src-comment"># if list is empty the new node goes first
+</span>            <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span> = <span class="py-src-variable">node</span>
+        <span class="py-src-keyword">else</span>:
+            <span class="py-src-comment"># find the last node in the list
+</span>            <span class="py-src-variable">last</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span>
+            <span class="py-src-keyword">while</span> <span class="py-src-variable">last</span>.<span class="py-src-variable">next</span>: <span class="py-src-variable">last</span> = <span class="py-src-variable">last</span>.<span class="py-src-variable">next</span>
+            <span class="py-src-comment"># append the new node
+</span>            <span class="py-src-variable">last</span>.<span class="py-src-variable">next</span> = <span class="py-src-variable">node</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> + <span class="py-src-number">1</span>
+ 
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">remove</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-variable">cargo</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span>.<span class="py-src-variable">cargo</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span>.<span class="py-src-variable">next</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> - <span class="py-src-number">1</span>
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">cargo</span>
+</pre><p>The methods <code>isEmpty</code> and <code>remove</code> are identical to
+the <code>LinkedList</code> methods <code>isEmpty</code> and
+<code>removeFirst</code>.  The <code>insert</code> method is new and a bit
+more complicated.</p><p>We want to insert new items at the end of the list.  If the queue is empty,
+we just set <code>head</code> to refer to the new node.</p><p>Otherwise, we traverse the list to the last node and tack the new node on
+the end.  We can identify the last node because its <code>next</code> attribute 
+is <code>None</code>.</p><p>There are two invariants for a properly formed <code>Queue</code> object.
+The value of <code>length</code> should be the number of nodes in the queue,
+and the last node should have <code>next</code> equal to <code>None</code>.
+Convince yourself that this method preserves both invariants.</p><h2>19.3 Performance characteristics<a name="auto2"></a></h2><a name="index14"></a><p>Normally when we invoke a method, we are not concerned with the details of
+its implementation.  But there is one <q>detail</q> we might want to know---the 
+performance characteristics of the method.  How long does it take, and how does 
+the run time change as the number of items in the collection increases?</p><p>First look at <code>remove</code>.  There are no loops or function calls
+here, suggesting that the runtime of this method is the same every time.  Such
+a method is called a <b>constant-time</b> operation.  In reality, the 
+method might be slightly faster when the list is empty since it skips the body
+of the conditional, but that difference is not significant.</p><a name="index15"></a><p>The performance of <code>insert</code> is very different.  In the general
+case, we have to traverse the list to find the last element.</p><p>This traversal takes time proportional to the length of the list.  Since the 
+runtime is a linear function of the length, this method is called
+<b>linear time</b>.  Compared to constant time, that's very bad.</p><a name="index16"></a><h2>19.4 Improved Linked Queue<a name="auto3"></a></h2><a name="index17"></a><a name="index18"></a><p>We would like an implementation of the Queue ADT that can perform all
+operations in constant time.  One way to do that is to modify the Queue class
+so that it maintains a reference to both the first and the last node, as shown
+in the figure:</p><img src="illustrations/queue1.png" /><p>The <code>ImprovedQueue</code> implementation looks like this:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">ImprovedQueue</span>:
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__init__</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> = <span class="py-src-number">0</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span>   = <span class="py-src-variable">None</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">last</span>   = <span class="py-src-variable">None</span>
+ 
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">isEmpty</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-keyword">return</span> (<span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> == <span class="py-src-number">0</span>)
+</pre><p>So far, the only change is the attribute <code>last</code>. It is used in
+<code>insert</code> and <code>remove</code> methods:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">ImprovedQueue</span>:
+    ...
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">insert</span>(<span class="py-src-parameter">self</span>, <span class="py-src-parameter">cargo</span>):
+        <span class="py-src-variable">node</span> = <span class="py-src-variable">Node</span>(<span class="py-src-variable">cargo</span>)
+        <span class="py-src-variable">node</span>.<span class="py-src-variable">next</span> = <span class="py-src-variable">None</span>
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> == <span class="py-src-number">0</span>:
+            <span class="py-src-comment"># if list is empty, the new node is head and last
+</span>            <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">last</span> = <span class="py-src-variable">node</span>
+        <span class="py-src-keyword">else</span>:
+            <span class="py-src-comment"># find the last node
+</span>            <span class="py-src-variable">last</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">last</span>
+            <span class="py-src-comment"># append the new node
+</span>            <span class="py-src-variable">last</span>.<span class="py-src-variable">next</span> = <span class="py-src-variable">node</span>
+            <span class="py-src-variable">self</span>.<span class="py-src-variable">last</span> = <span class="py-src-variable">node</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> + <span class="py-src-number">1</span>
+</pre><p>Since <code>last</code> keeps track of the last node, we don't have to
+search for it.  As a result, this method is constant time.</p><p>There is a price to pay for that speed.  We have to add a special case to
+<code>remove</code> to set <code>last</code> to <code>None</code> when the last 
+node is removed:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">ImprovedQueue</span>:
+    ...
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">remove</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-variable">cargo</span>     = <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span>.<span class="py-src-variable">cargo</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">head</span>.<span class="py-src-variable">next</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> - <span class="py-src-number">1</span>
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">self</span>.<span class="py-src-variable">length</span> == <span class="py-src-number">0</span>:
+            <span class="py-src-variable">self</span>.<span class="py-src-variable">last</span> = <span class="py-src-variable">None</span>
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">cargo</span>
+</pre><p>This implementation is more complicated than the Linked Queue implementation,
+and it is more difficult to demonstrate that it is correct.  The advantage is
+that we have achieved the goal---both <code>insert</code> and
+<code>remove</code> are constant-time operations.</p><h2>19.5 Priority queue<a name="auto4"></a></h2><a name="index19"></a><a name="index20"></a><p>The Priority Queue ADT has the same interface as the Queue ADT, but
+different semantics.  Again, the interface is:</p><dl><dt><code>__init__</code>:</dt><dd>Initialize a new empty queue.</dd><dt><code>insert</code>:</dt><dd>Add a new item to the queue.</dd><dt><code>remove</code>:</dt><dd>Remove and return an item from the queue.  The item that is returned is the 
+one with the highest priority.</dd><dt><code>isEmpty</code>:</dt><dd>Check whether the queue is empty.</dd></dl><p>The semantic difference is that the item that is removed from the queue is
+not necessarily the first one that was added.  Rather, it is the item in the
+queue that has the highest priority.  What the priorities are and how they
+compare to each other are not specified by the Priority Queue implementation.
+It depends on which items are in the queue.</p><p>For example, if the items in the queue have names, we might choose them in
+alphabetical order.  If they are bowling scores, we might go from highest to
+lowest, but if they are golf scores, we would go from lowest to highest.  As
+long as we can compare the items in the queue, we can find and remove the one
+with the highest priority.</p><p>This implementation of Priority Queue has as an attribute a Python list that
+contains the items in the queue.</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">PriorityQueue</span>:
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__init__</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">items</span> = []
+ 
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">isEmpty</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">self</span>.<span class="py-src-variable">items</span> == []
+ 
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">insert</span>(<span class="py-src-parameter">self</span>, <span class="py-src-parameter">item</span>):
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">items</span>.<span class="py-src-variable">append</span>(<span class="py-src-variable">item</span>)
+</pre><p>The initialization method, <code>isEmpty</code>, and <code>insert</code> are 
+all veneers on list operations.  The only interesting method is
+<code>remove</code>:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">PriorityQueue</span>:
+    ...
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">remove</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-variable">maxi</span> = <span class="py-src-number">0</span>
+        <span class="py-src-keyword">for</span> <span class="py-src-variable">i</span> <span class="py-src-keyword">in</span> <span class="py-src-variable">range</span>(<span class="py-src-number">1</span>, <span class="py-src-variable">len</span>(<span class="py-src-variable">self</span>.<span class="py-src-variable">items</span>)):
+            <span class="py-src-keyword">if</span> <span class="py-src-variable">self</span>.<span class="py-src-variable">items</span>[<span class="py-src-variable">i</span>] &gt; <span class="py-src-variable">self</span>.<span class="py-src-variable">items</span>[<span class="py-src-variable">maxi</span>]: <span class="py-src-variable">maxi</span> = <span class="py-src-variable">i</span>
+        <span class="py-src-variable">item</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">items</span>[<span class="py-src-variable">maxi</span>]
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">items</span>[<span class="py-src-variable">maxi</span>:<span class="py-src-variable">maxi</span>+<span class="py-src-number">1</span>] = []
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">item</span>
+</pre><p>At the beginning of each iteration, <code>maxi</code> holds the index of the
+biggest item (highest priority) we have seen <em>so far</em>.  Each time
+through the loop, the program compares the <code>i</code>-eth item to the
+champion.  If the new item is bigger, the value of <code>maxi</code> if set to
+<code>i</code>.</p><a name="index21"></a><p>When the <code>for</code> statement completes, <code>maxi</code> is the
+index of the biggest item.  This item is removed from the list and returned.
+</p><p>Let's test the implementation:</p><pre class="python-interpreter">
+&gt;&gt;&gt; q = PriorityQueue()
+&gt;&gt;&gt; q.insert(11)
+&gt;&gt;&gt; q.insert(12)
+&gt;&gt;&gt; q.insert(14)
+&gt;&gt;&gt; q.insert(13)
+&gt;&gt;&gt; while not q.isEmpty(): print q.remove()
+14
+13
+12
+11
+</pre><p>If the queue contains simple numbers or strings, they are removed in
+numerical or alphabetical order, from highest to lowest.  Python can find the
+biggest integer or string because it can compare them using the built-in
+comparison operators.</p><p>If the queue contains an object type, it has to provide a
+<code>__cmp__</code> method.  When <code>remove</code> uses the
+<code>&gt;</code> operator to compare items, it invokes the <code>__cmp__</code>
+for one of the items and passes the other as a parameter.  As long as the
+<code>__cmp__</code> method works correctly, the Priority Queue will work.</p><h2>19.6 The <code>Golfer</code> class<a name="auto5"></a></h2><a name="index22"></a><a name="index23"></a><a name="index24"></a><a name="index25"></a><a name="index26"></a><p>As an example of an object with an unusual definition of priority, let's
+implement a class called <code>Golfer</code> that keeps track of the names and
+scores of golfers.  As usual, we start by defining <code>__init__</code> and
+<code>__str__</code>:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Golfer</span>:
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__init__</span>(<span class="py-src-parameter">self</span>, <span class="py-src-parameter">name</span>, <span class="py-src-parameter">score</span>):
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">name</span> = <span class="py-src-variable">name</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">score</span>= <span class="py-src-variable">score</span>
+ 
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__str__</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-keyword">return</span> <span class="py-src-string">&quot;%-16s: %d&quot;</span> % (<span class="py-src-variable">self</span>.<span class="py-src-variable">name</span>, <span class="py-src-variable">self</span>.<span class="py-src-variable">score</span>)
+</pre><p><code>__str__</code> uses the format operator to put the names and scores in 
+neat columns.</p><a name="index27"></a><a name="index28"></a><p>Next we define a version of <code>__cmp__</code> where the lowest score gets 
+highest priority.  As always, <code>__cmp__</code> returns 1 if
+<code>self</code> is <q>greater than</q><code>other</code>, -1 if
+<code>self</code> is <q>less than</q> other, and 0 if they are equal.</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Golfer</span>:
+    ...
+    <span class="py-src-keyword">def</span> <span class="py-src-identifier">__cmp__</span>(<span class="py-src-parameter">self</span>, <span class="py-src-parameter">other</span>):
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">self</span>.<span class="py-src-variable">score</span> &lt; <span class="py-src-variable">other</span>.<span class="py-src-variable">score</span>: <span class="py-src-keyword">return</span>  <span class="py-src-number">1</span>   <span class="py-src-comment"># less is more</span>
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">self</span>.<span class="py-src-variable">score</span> &gt; <span class="py-src-variable">other</span>.<span class="py-src-variable">score</span>: <span class="py-src-keyword">return</span> -<span class="py-src-number">1</span>
+        <span class="py-src-keyword">return</span> <span class="py-src-number">0</span>
+</pre><p>Now we are ready to test the priority queue with the <code>Golfer</code>
+class:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tiger = Golfer(&quot;Tiger Woods&quot;,    61)
+&gt;&gt;&gt; phil  = Golfer(&quot;Phil Mickelson&quot;, 72)
+&gt;&gt;&gt; hal   = Golfer(&quot;Hal Sutton&quot;,     69)
+&gt;&gt;&gt;
+&gt;&gt;&gt; pq = PriorityQueue()
+&gt;&gt;&gt; pq.insert(tiger)
+&gt;&gt;&gt; pq.insert(phil)
+&gt;&gt;&gt; pq.insert(hal)
+&gt;&gt;&gt; while not pq.isEmpty(): print pq.remove()
+   Tiger Woods    : 61
+   Hal Sutton     : 69
+   Phil Mickelson : 72
+</pre><h2>19.7 Glossary<a name="auto6"></a></h2><a name="index29"></a><a name="index30"></a><a name="index31"></a><a name="index32"></a><a name="index33"></a><a name="index34"></a><a name="index35"></a><a name="index36"></a><a name="index37"></a><a name="index38"></a><a name="index39"></a><a name="index40"></a><dl><dt>queue:</dt><dd>An ordered set of objects waiting for a service of some kind.</dd><dt>Queue:</dt><dd>An ADT that performs the operations one might perform on a queue.</dd><dt>queueing policy:</dt><dd>The rules that determine which member of a queue is removed next.</dd><dt>FIFO:</dt><dd><q>First In, First Out,</q> a queueing policy in which the first member to
+arrive is the first to be removed.</dd><dt>priority queue:</dt><dd>A queueing policy in which each member has a priority determined by
+external factors.  The member with the highest priority is the first to be
+removed.</dd><dt>Priority Queue:</dt><dd>An ADT that defines the operations one might perform on a priority queue.
+</dd><dt>linked queue:</dt><dd>An implementation of a queue using a linked list.</dd><dt>constant time:</dt><dd>An operation whose runtime does not depend on the size of the data
+structure.</dd><dt>linear time:</dt><dd>An operation whose runtime is a linear function of the size of the data
+structure.</dd></dl><h2>19.8 Exercises<a name="auto7"></a></h2><ol><li><div class="exercise">
+Write an implementation of the Queue ADT using a Python list.  Compare the
+performance of this implementation to the <code>ImprovedQueue</code> for a
+range of queue lengths.
+</div></li><li><div class="exercise">
+Write an implementation of the Priority Queue ADT using a linked list.  You
+should keep the list sorted so that removal is a constant time operation.
+Compare the performance of this implementation with the Python list
+implementation.
+</div></li><li><div class="exercise">&nbsp;</div></li></ol></div><p><a href="index.html">Table of Contents</a> |
+    <a href="dex.html">Index</a></p></body></html>

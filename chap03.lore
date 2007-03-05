@@ -1,0 +1,757 @@
+<html>
+<head>
+<title>Functions</title>
+</head>
+<body>
+<h1>Functions</h1>
+<a name="floatchap" />
+
+<h2>Function calls</h2>
+<a name="functionchap" />
+<span class="index" value="function call" />
+<span class="index" value="call!function" />
+
+<p>You have already seen one example of a <b>function call</b>:</p>
+
+<pre class="python-interpreter">
+>>> type("32")
+&lt;type 'str'>
+</pre>
+
+<p>The name of the function is <code>type</code>, and it displays the type of
+a value or variable.  The value or variable, which is called the
+<b>argument</b> of the function, has to be enclosed in parentheses.
+It is common to say that a function <q>takes</q> an argument and <q>returns</q>
+a result.  The result is called the <b>return value</b>.</p>
+
+<span class="index" value="argument" />
+<span class="index" value="return value" />
+
+<p>Instead of printing the return value, we could assign it to a variable:</p>
+
+<pre class="python-interpreter">
+>>> betty = type("32")
+>>> print betty
+&lt;type 'str'>
+</pre>
+
+As another example, the <code>id</code> function takes a value or a variable
+and returns an integer that acts as a unique identifier for the value:
+
+<pre class="python-interpreter">
+>>> id(3)
+134882108
+>>> betty = 3
+>>> id(betty)
+134882108
+</pre>
+
+<p>Every value has an <code>id</code>, which is a unique number related to
+where it is stored in the memory of the computer.  The <code>id</code> of a
+variable is the <code>id</code> of the value to which it refers.</p>
+
+
+
+<h2>Type conversion</h2>
+<span class="index" value="converstion!type" />
+<span class="index" value="type converstion" />
+
+<p>Python provides a collection of built-in functions that convert values
+from one type to another.  The <code>int</code> function takes any value and
+converts it to an integer, if possible, or complains otherwise:</p>
+
+<pre class="python-interpreter">
+>>> int("32")
+32
+>>> int("Hello")
+ValueError: invalid literal for int() with base 10: 'Hello'
+</pre>
+
+<p><code>int</code> can also convert floating-point values to integers, but
+remember that it truncates the fractional part:</p>
+
+<pre class="python-interpreter">
+>>> int(3.99999)
+3
+>>> int(-2.3)
+-2
+</pre>
+
+<p>The <code>float</code> function converts integers and strings to
+floating-point numbers:</p>
+
+<pre class="python-interpreter">
+>>> float(32)
+32.0
+>>> float("3.14159")
+3.14159
+</pre>
+
+<p>Finally, the <code>str</code> function converts to type <code>string</code>:
+</p>
+
+<pre class="python-interpreter">
+>>> str(32)
+'32'
+>>> str(3.14149)
+'3.14149'
+</pre>
+
+<p>It may seem odd that Python distinguishes the integer value <code>1</code>
+from the floating-point value <code>1.0</code>.  They may represent the same
+number, but they belong to different types.  The reason is that they
+are represented differently inside the computer.</p>
+
+
+<h2>Type coercion</h2>
+<span class="index" value="type coercion" />
+<span class="index" value="coercion!type" />
+<span class="index" value="integer division" />
+<span class="index" value="divison!integer" />
+
+<p>Now that we can convert between types, we have another way to deal with
+integer division.  Returning to the example from the previous chapter, suppose
+we want to calculate the fraction of an hour that has elapsed.  The most
+obvious expression, <code>minute / 60</code>, does integer arithmetic, so the
+result is always 0, even at 59 minutes past the hour.</p>
+
+<p>One solution is to convert <code>minute</code> to floating-point and do
+floating-point division:</p>
+
+<pre class="python-interpreter">
+>>> minute = 59
+>>> float(minute) / 60
+0.983333333333
+</pre>
+
+<p>Alternatively, we can take advantage of the rules for automatic type
+conversion, which is called <b>type coercion</b>.  For the
+mathematical operators, if either operand is a <code>float</code>, the other
+is automatically converted to a <code>float</code>:</p>
+
+<pre class="python-interpreter">
+>>> minute = 59
+>>> minute / 60.0
+0.983333333333
+</pre>
+
+<p>By making the denominator a <code>float</code>, we force Python to do
+floating-point division.</p>
+
+
+<h2>Math functions</h2>
+<span class="index" value="math function" />
+<span class="index" value="function!math" />
+
+<p>In mathematics, you have probably seen functions like <code>sin</code> and
+<code>log</code>, and you have learned to evaluate expressions like
+<code>sin(pi/2)</code> and <code>log(1/x)</code>.  First, you evaluate the
+expression in parentheses (the argument).  For example, <code>pi/2</code> is
+approximately 1.571, and <code>1/x</code> is 0.1 (if <code>x</code> happens to
+be 10.0).</p>
+
+<p>Then, you evaluate the function itself, either by looking it up in a table
+or by performing various computations.  The <code>sin</code> of 1.571 is 1,
+and the <code>log</code> of 0.1 is -1 (assuming that <code>log</code> indicates 
+the logarithm base 10).</p>
+
+<p>This process can be applied repeatedly to evaluate more complicated
+expressions like <code>log(1/sin(pi/2))</code>.  First, you evaluate the
+argument of the innermost function, then evaluate the function, and so on.</p>
+
+<p>Python has a math module that provides most of the familiar mathematical
+functions.  A <b>module</b> is a file that contains a collection of
+related functions grouped together.</p>
+
+<span class="index" value="module" />
+
+<p>Before we can use the functions from a module, we have to import them:</p>
+
+<pre class="python-interpreter">
+>>> import math
+</pre>
+
+<p>To call one of the functions, we have to specify the name of the module and
+the name of the function, separated by a dot, also known as a period.  This
+format is called <b>dot notation</b>.</p>
+
+<span class="index" value="dot notation" />
+
+<pre class="python-interpreter">
+>>> decibel = math.log10(17.0)
+>>> angle = 1.5
+>>> height = math.sin(angle)
+</pre>
+
+<p>The first statement sets <code>decibel</code> to the logarithm of 17, base
+<code>10</code>.  There is also a function called <code>log</code> that takes
+logarithm base <code>e</code>.</p>
+
+<p>The third statement finds the sine of the value of the variable
+<code>angle</code>.  <code>sin</code> and the other trigonometric functions
+(<code>cos</code>, <code>tan</code>, etc.)  take arguments in radians. To
+convert from degrees to radians, divide by 360 and multiply by
+<code>2*pi</code>.  For example, to find the sine of 45 degrees, first
+calculate the angle in radians and then take the sine:</p>
+
+<pre class="python-interpreter">
+>>> degrees = 45
+>>> angle = degrees * 2 * math.pi / 360.0
+>>> math.sin(angle)
+</pre>
+
+<p>The constant <code>pi</code> is also part of the math module.  If you know
+your geometry, you can verify the result by comparing it to the square root of
+two divided by two:</p>
+
+<pre class="python-interpreter">
+>>> math.sqrt(2) / 2.0
+0.707106781187
+</pre>
+
+
+<h2>Composition</h2>
+<span class="index" value="composition" />
+<span class="index" value="function!composition" />
+
+<p>Just as with mathematical functions, Python functions can be composed,
+meaning that you use one expression as part of another. For example, you can
+use any expression as an argument to a function:</p>
+
+<pre class="python-interpreter">
+>>> x = math.cos(angle + math.pi/2)
+</pre>
+
+<p>This statement takes the value of <code>pi</code>, divides it by 2, and adds
+the result to the value of <code>angle</code>.  The sum is then passed as an
+argument to the <code>cos</code> function.</p>
+
+<p>You can also take the result of one function and pass it as an argument to
+another:</p>
+
+<pre class="python-interpreter">
+>>> x = math.exp(math.log(10.0))
+</pre>
+
+<p>This statement finds the log base <code>e</code> of 10 and then raises
+<code>e</code> to that power. The result gets assigned to <code>x</code>.</p>
+
+
+<h2>Adding new functions</h2>
+
+<p>So far, we have only been using the functions that come with Python, but it
+is also possible to add new functions.  Creating new functions to solve your
+particular problems is one of the most useful things about a general-purpose
+programming language.</p>
+
+<p>In the context of programming, a <b>function</b> is a named
+sequence of statements that performs a desired operation.  This operation is
+specified in a <b>function definition</b>.  The functions we have
+been using so far have been defined for us, and these definitions have been
+hidden.  This is a good thing, because it allows us to use the functions
+without worrying about the details of their definitions.</p>
+
+<span class="index" value="function" />
+<span class="index" value="function definition" />
+<span class="index" value="definition!function" />
+
+<p>The syntax for a function definition is:</p>
+
+<pre class="python">
+def NAME( LIST OF PARAMETERS ):
+    STATEMENTS
+</pre>
+
+<p>You can make up any names you want for the functions you create, except that
+you can't use a name that is a Python keyword.  The list of parameters
+specifies what information, if any, you have to provide in order to use the new 
+function.</p>
+
+<p>There can be any number of statements inside the function, but they have to
+be indented from the left margin.  In the examples in this book, we will use an 
+indentation of two spaces.</p>
+
+<p>The first couple of functions we are going to write have no parameters,
+so the syntax looks like this:</p>
+
+<pre class="python">
+def new_line():
+    print          # a print statement with no arguments prints a new line
+</pre>
+
+<p>This function is named <code>new_line</code>.  The empty parentheses indicate
+that it has no parameters.  It contains only a single statement, which outputs
+a newline character. (That's what happens when you use a <code>print</code>
+command without any arguments.)</p>
+
+<p>The syntax for calling the new function is the same as the syntax for
+built-in functions:</p>
+
+<pre class="python">
+print "First Line."
+new_line()
+print "Second Line."
+</pre>
+
+<p>The output of this program is:</p>
+
+<pre class="shell">
+First line.
+
+Second line.
+</pre>
+
+<p>Notice the extra space between the two lines.  What if we wanted more space
+between the lines?  We could call the same function repeatedly:</p>
+
+<pre class="python">
+print "First Line."
+new_line()
+new_line()
+new_line()
+print "Second Line."
+</pre>
+
+<p>Or we could write a new function named <code>three_lines</code> that prints
+three new lines:</p>
+
+<pre class="python">
+def three_lines():
+    new_line()
+    new_line()
+    new_line()
+
+print "First Line."
+three_lines()
+print "Second Line."
+</pre>
+
+<p>This function contains three statements, all of which are indented by two
+spaces.  Since the next statement is not indented, Python knows that it is
+not part of the function.</p>
+
+<p>You should notice a few things about this program:</p>
+
+<ol>
+<li>You can call the same procedure repeatedly.  In fact, it is quite common
+and useful to do so.</li>
+
+<li>You can have one function call another function; in this case
+<code>three_lines</code> calls <code>new_line</code>.</li>
+</ol>
+
+<p>So far, it may not be clear why it is worth the trouble to create all of
+these new functions.  Actually, there are a lot of reasons, but this example
+demonstrates two:</p>
+
+<ol>
+<li>Creating a new function gives you an opportunity to name a group of
+statements.  Functions can simplify a program by hiding a complex computation
+behind a single command and by using English words in place of arcane code.
+</li>
+
+<li>Creating a new function can make a program smaller by eliminating
+repetitive code.  For example, a short way to print nine consecutive new lines
+is to call <code>three_lines</code> three times.</li>
+</ol>
+
+
+<h2>Definitions and use</h2>
+
+<p>Pulling together the code fragments from the previous section into a
+script named <code>tryme1.py</code>, the whole program looks like this:</p>
+
+<pre class="python">
+def new_line():
+    print
+
+def three_lines():
+    new_line()
+    new_line()
+    new_line()
+
+print "First Line."
+three_lines()
+print "Second Line."
+</pre>
+
+<p>This program contains two function definitions: <code>new_line</code> and
+<code>three_lines</code>.  Function definitions get executed just like other
+statements, but the effect is to create the new function.  The statements
+inside the function do not get executed until the function is called, and
+the function definition generates no output.</p>
+
+<p>As you might expect, you have to create a function before you can execute
+it.  In other words, the function definition has to be executed before the
+first time it is called.</p>
+
+
+<h2>Flow of execution</h2>
+<span class="index" value="flow of execution" />
+
+<p>In order to ensure that a function is defined before its first use, you have 
+to know the order in which statements are executed, which is called the
+<b>flow of execution</b>.</p>
+
+<p>Execution always begins at the first statement of the program.  Statements
+are executed one at a time, in order from top to bottom.</p>
+
+<p>Function definitions do not alter the flow of execution of the program, but
+remember that statements inside the function are not executed until the
+function is called.  Although it is not common, you can define one function
+inside another.  In this case, the inner definition isn't executed until the
+outer function is called.</p>
+
+<p>Function calls are like a detour in the flow of execution. Instead of going
+to the next statement, the flow jumps to the first line of the called function,
+executes all the statements there, and then comes back to pick up where it left
+off.</p>
+
+<p>That sounds simple enough, until you remember that one function can call
+another.  While in the middle of one function, the program might have to
+execute the statements in another function. But while executing that new
+function, the program might have to execute yet another function!</p>
+
+<p>Fortunately, Python is adept at keeping track of where it is, so each time a
+function completes, the program picks up where it left off in the function that
+called it.  When it gets to the end of the program, it terminates.</p>
+
+<p>What's the moral of this sordid tale?  When you read a program, don't read
+from top to bottom.  Instead, follow the flow of execution.</p>
+
+
+<h2>Parameters and arguments</h2>
+<a name="parameters" />
+<span class="index" value="parameter" />
+<span class="index" value="function!parameter" />
+<span class="index" value="argument" />
+<span class="index" value="function!argument" />
+
+<p>Some of the built-in functions you have used require arguments, the values
+that control how the function does its job.  For example, if you want to find
+the sine of a number, you have to indicate what the number is.  Thus,
+<code>sin</code> takes a numeric value as an argument.</p>
+
+<p>Some functions take more than one argument. For example, <code>pow</code>
+takes two arguments, the base and the exponent.  Inside the function, the
+values that are passed get assigned to variables called
+<b>parameters</b>.</p>
+
+<p>Here is an example of a user-defined function that takes a parameter:</p>
+
+<pre class="python">
+def print_twice(bruce):
+    print bruce, bruce
+</pre>
+
+<p>This function takes a single argument and assigns it to a parameter named
+<code>bruce</code>.  The value of the parameter (at this point we have no idea
+what it will be) is printed twice, followed by a newline.  The name
+<code>bruce</code> was chosen to suggest that the name you give a parameter is
+up to you, but in general, you want to choose something more illustrative than
+<code>bruce</code>.</p>
+
+<p>The function <code>print_twice</code> works for any type that can be printed:
+</p>
+
+<pre class="python-interpreter">
+>>> print_twice('Spam')
+Spam Spam
+>>> print_twice(5)
+5 5
+>>> print_twice(3.14159)
+3.14159 3.14159
+</pre>
+
+<p>In the first function call, the argument is a string. In the second, it's an 
+integer. In the third, it's a <code>float</code>.</p>
+
+<p>The same rules of composition that apply to built-in functions also apply to 
+user-defined functions, so we can use any kind of expression as an argument for <code>print_twice</code>:</p>
+
+<pre class="python-interpreter">
+>>> print_twice('Spam'*4)
+SpamSpamSpamSpam SpamSpamSpamSpam
+>>> print_twice(math.cos(math.pi))
+-1.0 -1.0
+</pre>
+
+<p>As usual, the expression is evaluated before the function is run, so
+<code>print_twice</code> returns
+<code class="shell">SpamSpamSpamSpam SpamSpamSpamSpam</code>
+instead of <code class="shell">'Spam'*4 'Spam'*4</code>.</p>
+
+<div class="exercise">
+As an exercise, write a call to <code>print_twice</code> that does return
+<code class="shell">'Spam'*4 'Spam'*4</code>.  Hint: strings can be enclosed
+in either single or double quotes, and the type of quote not used to enclose
+the string can be used inside it as part of the string.
+</div>
+
+<p>We can also use a variable as an argument:</p>
+
+<pre class="python-interpreter">
+>>> michael = 'Eric, the half a bee.'
+>>> print_twice(michael)
+Eric, the half a bee. Eric, the half a bee.
+</pre>
+
+<p>Notice something very important here. The name of the variable we pass
+as an argument (<code>michael</code>) has nothing to do with the name of the
+parameter (<code>bruce</code>).  It doesn't matter what the value was
+called back home (in the caller); here in <code>print_twice</code>, we call
+everybody <code>bruce</code>.</p>
+
+
+<h2>Variables and parameters are local</h2>
+<span class="index" value="local variable" />
+<span class="index" value="variable!local" />
+
+<p>When you create a <b>local variable</b> inside a function, it only 
+exists inside the function, and you cannot use it outside.  For example:</p>
+
+<pre class="python">
+def cat_twice(part1, part2):
+    cat = part1 + part2
+    print_twice(cat)
+</pre>
+
+<p>This function takes two arguments, concatenates them, and then prints the
+result twice.  We can call the function with two strings:</p>
+
+<pre class="python-interpreter">
+>>> chant1 = "Pie Jesu domine, "
+>>> chant2 = "Dona eis requiem."
+>>> cat_twice(chant1, chant2)
+Pie Jesu domine, Dona eis requiem. Pie Jesu domine, Dona eis requiem.
+</pre>
+
+<p>When <code>cat_twice</code> terminates, the variable <code>cat</code> is
+destroyed.  If we try to print it, we get an error:</p>
+
+<pre class="python-interpreter">
+>>> print cat
+NameError: name 'cat' is not defined
+</pre>
+
+<p>Parameters are also local.  For example, outside the function
+<code>print_twice</code>, there is no such thing as <code>bruce</code>.  If you
+try to use it, Python will complain.</p>
+
+
+<h2>Stack diagrams</h2>
+<a name="stackdiagram" />
+<span class="index" value="stack diagram" />
+<span class="index" value="function frame" />
+<span class="index" value="frame" />
+
+<p>To keep track of which variables can be used where, it is sometimes useful
+to draw a <b>stack diagram</b>.  Like state diagrams, stack diagrams
+show the value of each variable, but they also show the function to which each
+variable belongs.</p>
+
+<p>Each function is represented by a <b>frame</b>.  A frame is a box
+with the name of a function beside it and the parameters and variables of the
+function inside it.  The stack diagram for the previous example looks like
+this:</p>
+
+<img src="illustrations/stack.png" />
+
+<p>The order of the stack shows the flow of execution.  <code>print_twice</code>
+was called by <code>cat_twice</code>, and <code>cat_twice</code> was called by
+<code>__main__</code>, which is a special name for the topmost function.  When
+you create a variable outside of any function, it belongs to
+<code>__main__</code>.</p>
+
+<p>Each parameter refers to the same value as its corresponding argument.  So,
+<code>part1</code> has the same value as <code>chant1</code>,
+<code>part2</code> has the same value as <code>chant2</code>,
+and <code>bruce</code> has the same value as <code>cat</code>.</p>
+
+<p>If an error occurs during a function call, Python prints the name of the
+function, and the name of the function that called it, and the name of the
+function that called <em>that</em>, all the way back to the top most function.
+</p>
+
+<p>To see how this works, create a Python script named <code>tryme2.py</code>
+that looks like this:
+</p>
+
+<pre class="python">
+def print_twice(bruce):
+    print bruce, bruce
+    print cat
+
+def cat_twice(part1, part2):
+    cat = part1 + part2
+    print_twice(cat)
+
+chant1 = "Pie Jesu domine, "
+chant2 = "Dona eis requim."
+cat_twice(chant1, chant2)
+</pre>
+
+<p>We've added the statement, <code>print cat</code> inside the
+<code>print_twice</code> function, but <code>cat</code> is not defined there.
+Running this script will produce an error message like this:</p>
+
+<pre class="shell">
+Traceback (innermost last):
+  File "test.py", line 11, in &lt;module>
+    cat_twice(chant1, chant2)
+  File "test.py", line 7, in cat_twice
+    print_twice(cat)
+  File "test.py", line 3, in print_twice
+    print cat
+NameError: global name 'cat' is not defined
+</pre>
+
+<p>This list of functions is called a <b>traceback</b>.  It tells
+you what program file the error occurred in, and what line, and what functions
+were executing at the time.  It also shows the line of code that caused the
+error.</p>
+
+<span class="index" value="traceback" />
+
+<p>Notice the similarity between the traceback and the stack diagram.  It's
+not a coincidence.</p>
+
+
+<h2>Functions with results</h2>
+
+<p>You might have noticed by now that some of the functions we are using, such
+as the math functions, yield results.  Other functions, like
+<code>new_line</code>, perform an action but don't return a value.  That raises
+some questions:</p>
+
+<ol>
+<li>What happens if you call a function in a script and you don't do anything
+with the result (i.e., you don't assign it to a variable or use it as part of a 
+larger expression)?</li>
+
+<li>What happens if you use a function without a result as part of an
+expression, such as <code>new_line() + 7</code>?</li>
+
+<li>Can you write functions that yield results, or are you stuck with simple
+functions like <code>new_line</code> and <code>print_twice</code>?</li>
+</ol>
+
+<p>The answer to the third question is yes, and we'll do it in the next
+chapter.</p>
+
+
+<h2>Glossary</h2>
+<span class="index" value="function call" />
+<span class="index" value="return value" />
+<span class="index" value="argument" />
+<span class="index" value="coercion" />
+<span class="index" value="module" />
+<span class="index" value="dot notation" />
+<span class="index" value="function" />
+<span class="index" value="function definition" />
+<span class="index" value="flow of execution" />
+<span class="index" value="parameter" />
+<span class="index" value="local variable" />
+<span class="index" value="stack diagram" />
+<span class="index" value="function frame" />
+<span class="index" value="frame" />
+<span class="index" value="traceback" />
+
+<dl>
+<dt>function call:</dt>
+<dd>A statement that executes a function. It consists of the name of the
+function followed by a list of arguments enclosed in parentheses.</dd>
+
+<dt>argument:</dt>
+<dd>A value provided to a function when the function is called.  This value is
+assigned to the corresponding parameter in the function.</dd>
+
+<dt>return value:</dt>
+<dd>The result of a function.  If a function call is used as an expression, the 
+return value is the value of the expression.</dd>
+
+<dt>type conversion:</dt>
+<dd>An explicit statement that takes a value of one type and computes a
+corresponding value of another type.</dd>
+
+<dt>type coercion:</dt>
+<dd>A type conversion that happens automatically according to Python's coercion 
+rules.</dd>
+
+<dt>module:</dt>
+<dd>A file that contains a collection of related functions and classes.</dd>
+
+<dt>dot notation:</dt>
+<dd>The syntax for calling a function in another module, specifying the module
+name followed by a dot (period) and the function name.</dd>
+
+<dt>function:</dt>
+<dd>A named sequence of statements that performs some useful operation.
+Functions may or may not take parameters and may or may not produce a result.
+</dd>
+
+<dt>function definition:</dt>
+<dd>A statement that creates a new function, specifying its name, parameters,
+and the statements it executes.</dd>
+
+<dt>flow of execution:</dt>
+<dd>The order in which statements are executed during a program run.</dd>
+
+<dt>parameter:</dt>
+<dd>A name used inside a function to refer to the value passed as an argument.
+</dd>
+
+<dt>local variable:</dt>
+<dd>A variable defined inside a function.  A local variable can only be used
+inside its function.</dd>
+
+<dt>stack diagram:</dt>
+<dd>A graphical representation of a stack of functions, their variables, and
+the values to which they refer.</dd>
+
+<dt>frame:</dt>
+<dd>A box in a stack diagram that represents a function call.  It contains the
+local variables and parameters of the function.</dd>
+
+<dt>traceback:</dt>
+<dd>A list of the functions that are executing, printed when a runtime error
+occurs.</dd>
+</dl>
+
+<h2>Exercises</h2>
+<ol>
+<li><div class="exercise">
+Using a text editor, create a Python scripted named <code>tryme3.py</code>.
+Write a function called <code>nine_lines</code> in this file that uses
+<code>three_lines</code> to print nine blank lines.  Now add a function named
+<code>clear_screen</code> that prints out twenty-five blank lines.  The last
+line of your program should be a <em>call</em> to <code>clear_screen</code>.
+</div></li>
+
+<li><div class="exercise">
+Move the last line of <code>tryme3.py</code> to the top of the program,
+so the <em>function call</em> to <code>clear_screen</code> appears before the
+<em>function definition</em>. Run the program and record what error message
+you get.  Can you state a rule about <em>function definitions</em> and
+<em>function calls</em> which describes where they can appear relative to each
+other in a program?
+</div></li>
+
+<li><div class="exercise">
+Starting with a working version of <code>tryme3.py</code>, move the definition
+of <code>new_line</code> after the definition of <code>three_lines</code>.
+Record what happens when you run this program.  Now move the definition of
+<code>new_line</code> below a call to <code>three_lines()</code>. Explain how
+this is an example of the rule you stated in the previous exercise.
+</div></li>
+
+<li><div class="exercise">
+Answer the first two questions in the <em>Functions with results</em> section
+by trying them out.  Record your results.  When you have a question about what
+is legal or illegal in Python, a good way to find out is to ask the
+interpreter.
+</div></li>
+</ol>
+
+</body>
+</html>

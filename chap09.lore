@@ -1,0 +1,526 @@
+<html>
+<head>
+  <title>Tuples</title>
+</head>
+<body>
+
+<h1>Tuples</h1>
+<a name="tuplechap" />
+<span class="index" value="tuple" />
+
+<h2>Mutability and tuples</h2>
+<span class="index" value="tuple" />
+<span class="index" value="immutable" />
+<span class="index" value="data type!tuple" />
+<span class="index" value="data type!immutable" />
+<span class="index" value="sequence!immutable" />
+
+<p>So far, you have seen two compound types: strings, which are made up of
+characters; and lists, which are made up of elements of any type.  One of the
+differences we noted is that the elements of a list can be modified, but the
+characters in a string cannot.  In other words, strings are
+<b>immutable</b> and lists are <b>mutable</b>.</p>
+
+<span class="index" value="mutable" />
+<span class="index" value="immutable" />
+
+<p>There is another type in Python called a <b>tuple</b> that is
+similar to a list except that it is immutable.  Syntactically, a tuple is a
+comma-separated list of values:</p>
+
+<pre class="python-interpreter">
+>>> tup = 2, 4, 6, 8, 10
+</pre>
+
+<p>Although it is not necessary, it is conventional to enclose tuples in
+parentheses:</p>
+
+<pre class="python-interpreter">
+>>> tup = (2, 4, 6, 8, 10)
+</pre>
+
+<p>To create a tuple with a single element, we have to include the final
+comma:</p>
+
+<pre class="python-interpreter">
+>>> tup = (5,)
+>>> type(tup)
+&lt;type 'tuple'>
+</pre>
+
+<p>Without the comma, Python treats <code>(5)</code> as an integer in
+parentheses:</p>
+
+<pre class="python-interpreter">
+>>> tup = (5)
+>>> type(tup)
+&lt;type 'int'&gt;
+</pre>
+
+<p>Syntax issues aside, tuples support the same sequence operations as 
+strings and lists.  The index operator selects an element from a tuple.</p>
+
+<pre class="python-interpreter">
+>>> tup = ('a', 'b', 'c', 'd', 'e')
+>>> tup[0]
+'a'
+</pre>
+
+<p>And the slice operator selects a range of elements.</p>
+
+<pre class="python-interpreter">
+>>> tup[1:3]
+('b', 'c')
+</pre>
+
+<p>But if we try to use item assignment to modify one of the elements of the
+tuple, we get a error:
+</p>
+<span class="index" value="runtime error" />
+
+<pre class="python-interpreter">
+>>> tup[0] = 'X'
+TypeError: 'tuple' object does not support item assignment
+</pre>
+
+<p>Of course, even if we can't modify the elements of a tuple, we can replace
+it with a different tuple:</p>
+
+<pre class="python-interpreter">
+>>> tup = ('X',) + tup[1:]
+>>> tup
+('X', 'b', 'c', 'd', 'e')
+</pre>
+
+<p>Alternatively, we could first convert it to a list, modify it, and convert
+it back into a tuple:</p>
+
+<pre class="python-interpreter">
+>>> tup = ('X', 'b', 'c', 'd', 'e')
+>>> tup = list(tup)
+>>> tup
+['X', 'b', 'c', 'd', 'e']
+>>> tup[0] = 'a'
+>>> tup = tuple(tup)
+>>> tup
+('a', 'b', 'c', 'd', 'e')
+</pre>
+
+
+<h2>Tuple assignment</h2>
+<a name="tuple assignment" />
+<span class="index" value="tuple assignment" />
+<span class="index" value="assignment!tuple" />
+
+<p>Once in a while, it is useful to swap the values of two variables.  With
+conventional assignment statements, we have to use a temporary variable.  For
+example, to swap <code>a</code> and <code>b</code>:</p>
+
+<pre class="python-interpreter">
+>>> temp = a
+>>> a = b
+>>> b = temp
+</pre>
+
+<p>If we have to do this often, this approach becomes cumbersome.  Python
+provides a form of <b>tuple assignment</b> that solves this problem
+neatly:</p>
+
+<pre class="python-interpreter">
+>>> a, b = b, a
+</pre>
+
+<p>The left side is a tuple of variables; the right side is a tuple of values.  
+Each value is assigned to its respective variable.  All the expressions on the
+right side are evaluated before any of the assignments.  This feature makes
+tuple assignment quite versatile.</p>
+
+<p>Naturally, the number of variables on the left and the number of values on
+the right have to be the same:</p>
+
+<pre class="python-interpreter">
+>>> a, b, c, d = 1, 2, 3
+ValueError: need more than 3 values to unpack 
+</pre>
+
+
+<h2>Tuples as return values</h2>
+<span class="index" value="tuple" />
+<span class="index" value="value!tuple" />
+<span class="index" value="return value!tuple" />
+<span class="index" value="function!tuple as return value" />
+
+<p>Functions can return tuples as return values.  For example, we could write a 
+function that swaps two parameters:</p>
+
+<pre class="python">
+def swap(x, y):
+    return y, x
+</pre>
+
+<p>Then we can assign the return value to a tuple with two variables:</p>
+
+<pre class="python">
+a, b = swap(a, b)
+</pre>
+
+<p>In this case, there is no great advantage in making <code>swap</code> a
+function.  In fact, there is a danger in trying to encapsulate
+<code>swap</code>, which is the following tempting mistake:</p>
+
+<pre class="python">
+def swap(x, y):      # incorrect version
+     x, y = y, x
+</pre>
+
+<p>If we call this function like this:</p>
+
+<pre class="python">
+swap(a, b)
+</pre>
+
+<p>then <code>a</code> and <code>x</code> are aliases for the same value.
+Changing <code>x</code> inside <code>swap</code> makes <code>x</code> refer to
+a different value, but it has no effect on <code>a</code> in
+<code>__main__</code>.  Similarly, changing <code>y</code> has no effect on
+<code>b</code>.</p>
+
+<p>This function runs without producing an error message, but it doesn't do
+what we intended.  This is an example of a semantic error.</p>
+
+<span class="index" value="semantic error" />
+
+
+<h2>Modules</h2>
+<span class="index" value="module" />
+<span class="index" value="standard library" />
+<span class="index" value="import" />
+<span class="index" value="import statement" />
+<span class="index" value="statement!import" />
+<span class="index" value="namespace" />
+
+<p>A <b>module</b> is a file containing Python definitions and statements
+intended for use in other Python programs.  There are many Python modules that
+come bundled with Python as part of the <b>standard library</b>.  We have seen
+two of these already, the <code>math</code> module and the <code>string</code>
+module.</p>
+
+<p>All we need to create a module is a text file with a <code>.py</code>
+extension on the filename:</p>
+
+<pre class="python">
+#  seqtools.py
+#
+def remove_at(pos, seq):
+    return seq[:pos] + seq[pos+1:]
+</pre>
+
+<p>We can now use our module in both scripts and the Python shell.  To do
+so, we must first <b>import</b> the module.  There are two ways to do this:
+</p>
+
+<pre class="python-interpreter">
+>>> from seqtools import remove_at
+>>> s = "A string!"
+>>> remove_at(4, s)
+'A sting!'
+</pre>
+
+<p>Using this format, we have brought the <code>remove_at</code> function
+into our top level <b>namespace</b>.  The danger of this kind of import is
+that if there is already another <code>remove_at</code> function imported from
+another module, access to the first function will be lost.</p>
+
+<p>The second way to import a module preserves the module's namespace, but
+requires you to specify the module name when accessing things inside it:</p>
+
+<pre class="python-interpreter">
+>>> import seqtools
+>>> s = "A string!"
+>>> seqtools.remove_at(4, s)
+'A sting!'
+</pre>
+
+<p>Notice that we do not include the <code>.py</code> file extension when
+importing.  It must be there for a file to be a Python module, but it is not
+included in the <b>import statement</b>.</p>
+
+<p>The use of modules makes it possible to break up very large programs into
+managable sized parts, and to keep related parts together.  Modules also help
+several programmers work on the same project without having namespace clashes.
+</p>
+
+
+<h2>Comparing values of different types</h2>
+
+<p>Python has a built-in function, <code>max</code>, that finds the maximum
+value of a sequence:</p>
+
+<pre class="python-interpreter">
+>>> max([3, 9, 17, 5])
+17
+>>> max(['banana', 'orange', 'apricot', 'fig'])
+'orange'
+</pre>
+
+<p>If we want to find the maximum value in a nested number list,
+<code>max</code> does not work the way we would like it to, but instead gives
+us a curious result:</p>
+
+<pre class="python-interpreter">
+>>> max([3, 9, [1, 17], [7, 2], 5])
+[7, 2]
+</pre>
+
+<p>To understand this result, we need to understand how Python compares
+values of different types.  Python permits values of any type to be compared,
+and always returns a result, though the results are sometimes a bit arbitrary:
+</p>
+
+<pre class="python-interpreter">
+>>> [1, 2] &gt; (1, 2)
+False
+>>> [1, 2] &lt; (1, 2)
+True
+>>> '12' &gt; [1, 2]
+True
+>>> '12' &gt; (1, 2)
+False
+>>> [1, 2] &gt; 5 
+True
+</pre>
+
+<p>So it appears that tuples are greater than strings; strings are greater than
+lists, and lists are greater than integers.  A simple experiment confirms this:
+</p>
+
+<pre class="python-interpreter">
+>>> (7, ) &gt; '7' &gt; [7] &gt; 7
+True
+</pre>
+
+<p>When comparing like types, the first elements are compared.  If they match,
+the second elements are compared, and so forth:</p>
+
+<pre class="python-interpreter">
+>>> [3, 7] &gt; [4, 5]
+False
+>>> [3, 7] &gt; [3, 6, 8]
+True
+</pre>
+
+<p>In the first example, the two items being compared are both lists, so their
+first elements are compared.  Since <code>3</code> is not greater than
+<code>4</code>, <code>[3, 7]</code> is not greater than <code>[4, 5]</code>.
+The second example returns <code>True</code> because <code>7</code> is greater
+than <code>6</code>.</p>
+
+<p>result of <code>max([3, 9, [1, 17], [7, 2], 5])</code> makes sense.
+</p>
+
+
+<h2>A recursive <code>max</code> function</h2>
+<span class="index" value="recursion" />
+<span class="index" value="recursive function" />
+
+<p>If we want to find the maximum number in a nested number list, we can
+write a recursive function much like the <code>recursive_sum</code> function
+we wrote in the previous chapter.  To illustrate the use of modules to avoid
+namespace clashes, let's name our function <code>max</code> and put it
+in the <code>seqtools</code> module:</p>
+
+<pre class="python">
+# seqtools.py
+#
+def max(nested_list):
+    the_max = nested_list[0]
+    if type(the_max) == type([]):
+        the_max = max(the_max)
+    for item in nested_list[1:]:
+        if type(item) == type([]):
+            its_max = max(item)
+            if its_max > the_max: the_max = its_max
+        else:
+            if item > the_max: the_max = item
+    return the_max
+</pre>
+
+<p>We can now use both our version and the built-in version of max:</p>
+
+<pre class="python-interpreter">
+>>> import seqtools
+>>> max([3, 9, [1, 17], [7, 2], 5])
+[7, 2]
+>>> seqtools.max([3, 9, [1, 17], [7, 2], 5])
+17
+</pre>
+
+
+<h2>Pure functions and modifiers</h2>
+<span class="index" value="pure function" />
+<span class="index" value="function type!pure" />
+
+<p>Since lists are mutable, it is possible to write functions which take lists
+as arguments and change them during execution.  We saw this in the previous
+chapter with the <code>delete_head</code> function.  Functions like these are
+called <b>modifiers</b> and the changes they make are called
+<b>side effects</b>.</p>
+
+<p>Lets look at another example of a modifier:</p>
+
+<pre class="python">
+def insert_in_middle(val, lst):
+    middle = len(lst)/2
+    lst[middle:middle] = [val]
+</pre>
+
+<p>We can use this to place new values in the middle of a list:</p>
+
+<pre class="python-interpreter">
+>>> my_list = ['a', 'b', 'd', 'e']
+>>> insert_in_middle('c', my_lst)
+>>> my_list
+['a', 'b', 'c', 'd', 'e']
+</pre>
+
+<p>If we try to use it with a tuple,however, we get an error:</p>
+
+<pre class="python-interpreter">
+>>> my_tuple = ('a', 'b', 'd', 'e')
+>>> insert_in_middle('c', my_tuple)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in ?
+  File "&lt;stdin&gt;", line 3, in insert_in_middle
+TypeError: object doesn't support slice assignment
+</pre>
+
+<p>The problem is that tuples are immutable, and don't support slice
+assignment.  A simple solution to this problem is to make
+<code>insert_in_middle</code> a pure function:</p>
+
+<pre class="python">
+def insert_in_middle(val, tup):
+    middle = len(tup)/2
+    return tup[:middle] + (val,) + tup[middle:]
+</pre>
+
+<p>This version now works for tuples, but not for lists or strings.  If we
+want a version that works for all sequence types, we need a way to encapsulate
+our value into the correct sequence type.  A small helper function does the
+trick:</p>
+
+<pre class="python">
+def encapsulate(val, seq):
+    if type(seq) == type(""):
+        return str(val)
+    if type(seq) == type([]):
+        return [val]
+    return (val,) 
+</pre>
+
+<p>Now we can write <code>insert_in_middle</code> to work with each of the
+built-in sequence types:</p>
+
+<pre class="python">
+def insert_in_middle(val, seq):
+    middle = len(seq)/2
+    return seq[:middle] + encapsulate(val, seq) + seq[middle:]
+</pre>
+
+<p>The last to versions of <code>insert_in_middle</code> are pure functions,
+and they don't have any side effects:</p>
+
+<pre class="python-interpreter">
+>>> my_string = 'abde'
+>>> insert_in_middle('c', my_string)
+'abcde'
+>>> my_string
+'abde'
+</pre>
+
+<p>If we want to use <code>insert_in_middle</code> to change the value of
+<code>my_string</code>, we have to assign the value returned by the
+function call back to the variable:</p>
+
+<pre class="python-interpreter">
+>>> my_string = insert_in_middle('c', my_string)
+>>> my_string
+'abcde' 
+</pre>
+
+
+<h2>Which is better?</h2>
+<span class="index" value="functional programming style" />
+
+<p>Anything that can be done with modifiers can also be done with pure
+functions.  In fact, some programming languages only allow pure functions.
+There is some evidence that programs that use pure functions are faster to
+develop and less error-prone than programs that use modifiers.  Nevertheless,
+modifiers are convenient at times, and in some cases, functional programs are
+less efficient.</p>
+
+<p>In general, we recommend that you write pure functions whenever it is
+reasonable to do so and resort to modifiers only if there is a compelling
+advantage.  This approach might be called a
+<b>functional programming style</b>.</p>
+
+
+<h2>Glossary</h2>
+<span class="index" value="mutable type" />
+<span class="index" value="immutable type" />
+<span class="index" value="tuple" />
+<span class="index" value="tuple assignment" />
+<span class="index" value="assignment!tuple" />
+<span class="index" value="module" />
+<span class="index" value="standard library" />
+<span class="index" value="namespace" />
+
+<dl>
+<dt>immutable type:</dt>
+<dd>A type in which the elements cannot be modified.  Assignments to elements
+or slices of immutable types cause an error.</dd>
+
+<dt>mutable type:</dt>
+<dd>A data type in which the elements can be modified.  All mutable types are
+compound types.  Lists and dictionaries (see next chapter) are mutable data
+types; strings and tuples are not.</dd>
+
+<dt>tuple:</dt>
+<dd>A sequence type that is similar to a list except that it is immutable.
+Tuples can be used wherever an immutable type is required, such as a key in a
+dictionary.</dd>
+
+<dt>tuple assignment:</dt>
+<dd>An assignment to all of the elements in a tuple using a single assignment
+statement. Tuple assignment occurs in parallel rather than in sequence, making
+it useful for swapping values.</dd>
+
+<dt>module:</dt>
+<dd>A file containing definitions and statements intended to be
+<em>imported</em> by other programs.  File names for Python modules must end in 
+a <code>.py</code> file extention, and the module name is the filename without
+the extention.</dd>
+
+<dt>namespace:</dt>
+<dd>
+A container providing a context for names so that the same name can reside in
+different namespaces without ambiguity.  In Python, modules, classes, functions and methods all form namespaces.
+</dd>
+
+</dl>
+
+
+<h2>Exercises</h2>
+<ol>
+<li><div class="exercise">
+<pre class="python">
+def swap(x, y):      # incorrect version
+     x, y = y, x
+</pre>
+Draw a state diagram for this function so that you can see why it doesn't work.
+</div></li>
+
+</ol>
+
+</body>
+</html>

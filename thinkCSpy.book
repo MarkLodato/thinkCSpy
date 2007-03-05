@@ -1,0 +1,15 @@
+Index('dex') # .html will be added
+Chapter('foreword.lore', '')#Foreword
+Chapter('preface2ver.lore', '')#Preface to Version 2
+Chapter('preface.lore', '')#Preface
+Chapter('contrib.lore', '')#Contributors
+for n in range(1, 20):
+    Chapter('chap%02d.lore' % n, '%d' % n)
+Chapter('exer_doctest.lore', '')#Doctest Exercises
+Chapter('exer_tkinter.lore', '')#TkInter Exercises
+Chapter('exer_gasp.lore', '')#Gasp Exercises
+Chapter('app_a.lore', 'A')
+Chapter('app_b.lore', 'B')
+Chapter('app_c.lore', 'C')
+Chapter('app_d.lore', 'D')
+Chapter('app_e.lore', 'E')

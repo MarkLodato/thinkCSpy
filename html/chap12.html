@@ -1,0 +1,253 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>How to Think Like a Computer Scientist: 12. Classes and objects</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">12. Classes and objects</h1><div class="toc"><ol><li><a href="#auto0">Object-oriented programming</a></li><li><a href="#auto1">User-defined compound types</a></li><li><a href="#auto2">Attributes</a></li><li><a href="#auto3">Instances as parameters</a></li><li><a href="#auto4">Sameness</a></li><li><a href="#auto5">Rectangles</a></li><li><a href="#auto6">Instances as return values</a></li><li><a href="#auto7">Objects are mutable</a></li><li><a href="#auto8">Copying</a></li><li><a href="#auto9">Glossary</a></li><li><a href="#auto10">Exercises</a></li></ol></div><div class="content"><span></span><a name="index01"></a><a name="index02"></a><h2>12.1 Object-oriented programming<a name="auto0"></a></h2><a name="index03"></a><a name="index04"></a><p>
+Python is an <b>object-oriented programming language</b>, which means that
+it provides features that support <b>object-oriented programming</b>.
+</p><p>
+Object-oriented programming has its roots in the 1960s, but it wasn't until
+the mid 1980s that it  became the main <b>programming paradigm</b> used in the
+creation of new software.  It was developed as a way to handle the rapidly
+increasing size and complexity of software systems, and to make it easier to
+modify these large and complex systems over time.
+</p><p>
+Up to this point we have been writing programs using a <b>procedural
+programming</b> paradigm.  In procedural programming the focus is on writing
+functions or <em>procedures</em> which operate on data.   In object-oriented
+programming the focus is on the creation of <b>objects</b> which contain
+both data and functionality together.
+</p><h2>12.2 User-defined compound types<a name="auto1"></a></h2><a name="point"></a><a name="index05"></a><a name="index06"></a><a name="index07"></a><a name="index08"></a><p>Having used some of Python's built-in types, we are ready to create a
+user-defined type: the <code>Point</code>.</p><p>Consider the concept of a mathematical point.  In two dimensions, a point is 
+two numbers (coordinates) that are treated collectively as a single object.  In 
+mathematical notation, points are often written in parentheses with a comma
+separating the coordinates. For example, <code>(0, 0)</code> represents the
+origin, and <code>(x, y)</code> represents the point <code>x</code> units to
+the right and <code>y</code> units up from the origin.</p><p>A natural way to represent a point in Python is with two floating-point
+values.  The question, then, is how to group these two values into a compound
+object.  The quick and dirty solution is to use a list or tuple, and for some
+applications that might be the best choice.</p><a name="index09"></a><p>An alternative is to define a new user-defined compound type, also called a
+<b>class</b>.  This approach involves a bit more effort, but it has
+advantages that will be apparent soon.</p><p>A class definition looks like this:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Point</span>:
+    <span class="py-src-keyword">pass</span>
+</pre><p>Class definitions can appear anywhere in a program, but they are usually
+near the beginning (after the <code>import</code> statements).  The syntax
+rules for a class definition are the same as for other compound statements.
+There is a header which begins with the keyword, <code>class</code>, followed
+by the name of the class, and ending with a colon.
+</p><p>This definition creates a new class called <code>Point</code>.  The
+<b>pass</b> statement has no effect; it is only necessary because a
+compound statement must have something in its body.</p><p>By creating the <code>Point</code> class, we created a new type, also called 
+<code>Point</code>.  The members of this type are called <b>instances</b> of
+the type or <b>objects</b>.  Creating a new instance is called
+<b>instantiation</b>.  To instantiate a <code>Point</code> object, we call a
+function named (you guessed it) <code>Point</code>:</p><a name="index10"></a><a name="index11"></a><a name="index12"></a><pre class="python-interpreter">
+&gt;&gt;&gt; type(Point)
+&lt;type 'classobj'&gt;
+&gt;&gt;&gt; blank = Point()
+&gt;&gt;&gt; type(blank)
+&lt;type 'instance'&gt;
+</pre><p>The variable <code>blank</code> is assigned a reference to a new
+<code>Point</code> object.</p><h2>12.3 Attributes<a name="auto2"></a></h2><a name="index13"></a><p>We can add new data to an instance using dot notation:</p><pre class="python-interpreter">
+&gt;&gt;&gt; blank.x = 3.0
+&gt;&gt;&gt; blank.y = 4.0
+</pre><p>This syntax is similar to the syntax for selecting a variable from a module, 
+such as <code>math.pi</code> or <code>string.uppercase</code>.  In this case,
+though, we are selecting a data item from an instance.  These named items are
+called <b>attributes</b>.</p><p>The following state diagram shows the result of these assignments:</p><img src="illustrations/point.png" /><p>The variable <code>blank</code> refers to a Point object, which contains two 
+attributes.  Each attribute refers to a floating-point number.</p><p>We can read the value of an attribute using the same syntax:</p><pre class="python-interpreter">
+&gt;&gt;&gt; print blank.y
+4.0
+&gt;&gt;&gt; x = blank.x
+&gt;&gt;&gt; print x
+3.0
+</pre><p>The expression <code>blank.x</code> means, <q>Go to the object
+<code>blank</code> refers to and get the value of <code>x</code>.</q> In this
+case, we assign that value to a variable named <code>x</code>.  There is no
+conflict between the variable <code>x</code> and the attribute <code>x</code>.  
+The purpose of dot notation is to identify which variable you are referring to
+unambiguously.</p><p>You can use dot notation as part of any expression, so the following
+statements are legal:</p><pre class="python">
+<span class="py-src-keyword">print</span> <span class="py-src-string">'('</span> + <span class="py-src-variable">str</span>(<span class="py-src-variable">blank</span>.<span class="py-src-variable">x</span>) + <span class="py-src-string">', '</span> + <span class="py-src-variable">str</span>(<span class="py-src-variable">blank</span>.<span class="py-src-variable">y</span>) + <span class="py-src-string">')'</span>
+<span class="py-src-variable">distanceSquared</span> = <span class="py-src-variable">blank</span>.<span class="py-src-variable">x</span> * <span class="py-src-variable">blank</span>.<span class="py-src-variable">x</span> + <span class="py-src-variable">blank</span>.<span class="py-src-variable">y</span> * <span class="py-src-variable">blank</span>.<span class="py-src-variable">y</span>
+</pre><p>The first line outputs <code>(3.0, 4.0)</code>; the second line calculates
+the value 25.0.</p><p>You might be tempted to print the value of <code>blank</code> itself:</p><pre class="python-interpreter">
+&gt;&gt;&gt; print blank
+&lt;__main__.Point instance at 0xb7d951ac&gt;
+</pre><p>The result indicates that <code>blank</code> is an instance of the
+<code>Point</code> class and it was defined in <code>__main__</code>.
+<code>0xb7d951ac</code> is the unique identifier for this object, written in
+hexadecimal (base 16).  This is probably not the most informative way to
+display a <code>Point</code> object.  You will see how to change it shortly.
+</p><a name="index14"></a><h2>12.4 Instances as parameters<a name="auto3"></a></h2><a name="index15"></a><a name="index16"></a><p>You can pass an instance as a parameter in the usual way.  For example:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_point</span>(<span class="py-src-parameter">p</span>):
+    <span class="py-src-keyword">print</span> <span class="py-src-string">'('</span> + <span class="py-src-variable">str</span>(<span class="py-src-variable">p</span>.<span class="py-src-variable">x</span>) + <span class="py-src-string">', '</span> + <span class="py-src-variable">str</span>(<span class="py-src-variable">p</span>.<span class="py-src-variable">y</span>) + <span class="py-src-string">')'</span>
+</pre><p><code>print_point</code> takes a point as an argument and displays it in
+the standard format.  If you call <code>print_point(blank)</code>, the
+output is <code>(3.0, 4.0)</code>.</p><h2>12.5 Sameness<a name="auto4"></a></h2><a name="index17"></a><p>The meaning of the word <q>same</q> seems perfectly clear until you give
+it some thought, and then you realize there is more to it than you expected.
+</p><a name="index18"></a><a name="index19"></a><a name="index20"></a><p>For example, if you say, <q>Chris and I have the same car,</q> you mean
+that his car and yours are the same make and model, but that they are two
+different cars.  If you say, <q>Chris and I have the same mother,</q>
+you mean that his mother and yours are the same person.
+</p><p>When you talk about objects, there is a similar ambiguity.  For example, if
+two <code>Point</code>s are the same, does that mean they contain the same data 
+(coordinates) or that they are actually the same object?</p><p>To find out if two references refer to the same object, use the
+<code>==</code> operator.  For example:</p><pre class="python-interpreter">
+&gt;&gt;&gt; p1 = Point()
+&gt;&gt;&gt; p1.x = 3
+&gt;&gt;&gt; p1.y = 4
+&gt;&gt;&gt; p2 = Point()
+&gt;&gt;&gt; p2.x = 3
+&gt;&gt;&gt; p2.y = 4
+&gt;&gt;&gt; p1 == p2
+False
+</pre><p>Even though <code>p1</code> and <code>p2</code> contain the same coordinates,
+they are not the same object.  If we assign <code>p1</code> to <code>p2</code>, 
+then the two variables are aliases of the same object:</p><pre class="python-interpreter">
+&gt;&gt;&gt; p2 = p1
+&gt;&gt;&gt; p1 == p2
+True
+</pre><p>This type of equality is called <b>shallow equality</b> because
+it compares only the references, not the contents of the objects.</p><a name="index21"></a><a name="index22"></a><a name="index23"></a><a name="index24"></a><p>To compare the contents of the objects---<b>deep equality</b>---we
+can write a function called <code>same_point</code>:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">same_point</span>(<span class="py-src-parameter">p1</span>, <span class="py-src-parameter">p2</span>):
+    <span class="py-src-keyword">return</span> (<span class="py-src-variable">p1</span>.<span class="py-src-variable">x</span> == <span class="py-src-variable">p2</span>.<span class="py-src-variable">x</span>) <span class="py-src-keyword">and</span> (<span class="py-src-variable">p1</span>.<span class="py-src-variable">y</span> == <span class="py-src-variable">p2</span>.<span class="py-src-variable">y</span>)
+</pre><p>Now if we create two different objects that contain the same data, we can
+use <code>same_point</code> to find out if they represent the same point.</p><pre class="python-interpreter">
+&gt;&gt;&gt; p1 = Point()
+&gt;&gt;&gt; p1.x = 3
+&gt;&gt;&gt; p1.y = 4
+&gt;&gt;&gt; p2 = Point()
+&gt;&gt;&gt; p2.x = 3
+&gt;&gt;&gt; p2.y = 4
+&gt;&gt;&gt; same_point(p1, p2)
+True
+</pre><p>Of course, if the two variables refer to the same object, they have both
+shallow and deep equality.</p><h2>12.6 Rectangles<a name="auto5"></a></h2><a name="index25"></a><p>Let's say that we want a class to represent a rectangle.  The question
+is, what information do we have to provide in order to specify a rectangle? To
+keep things simple, assume that the rectangle is oriented either vertically or
+horizontally, never at an angle.</p><p>There are a few possibilities: we could specify the center of the rectangle
+(two coordinates) and its size (width and height); or we could specify one of
+the corners and the size; or we could specify two opposing corners.  A
+conventional choice is to specify the upper-left corner of the rectangle and
+the size.</p><p>Again, we'll define a new class:</p><pre class="python">
+<span class="py-src-keyword">class</span> <span class="py-src-identifier">Rectangle</span>:
+    <span class="py-src-keyword">pass</span>
+</pre><p>And instantiate it:</p><pre class="python">
+<span class="py-src-variable">box</span> = <span class="py-src-variable">Rectangle</span>()
+<span class="py-src-variable">box</span>.<span class="py-src-variable">width</span> = <span class="py-src-number">100.0</span>
+<span class="py-src-variable">box</span>.<span class="py-src-variable">height</span> = <span class="py-src-number">200.0</span>
+</pre><p>This code creates a new <code>Rectangle</code> object with two
+floating-point attributes.  To specify the upper-left corner, we can embed an
+object within an object!</p><pre class="python">
+<span class="py-src-variable">box</span>.<span class="py-src-variable">corner</span> = <span class="py-src-variable">Point</span>()
+<span class="py-src-variable">box</span>.<span class="py-src-variable">corner</span>.<span class="py-src-variable">x</span> = <span class="py-src-number">0.0</span>;
+<span class="py-src-variable">box</span>.<span class="py-src-variable">corner</span>.<span class="py-src-variable">y</span> = <span class="py-src-number">0.0</span>;
+</pre><p>The dot operator composes.  The expression <code>box.corner.x</code> means,
+<q>Go to the object <code>box</code> refers to and select the attribute named
+<code>corner</code>; then go to that object and select the attribute named
+<code>x</code>.</q></p><p>The figure shows the state of this object:</p><img src="illustrations/rectangle.png" /><h2>12.7 Instances as return values<a name="auto6"></a></h2><a name="index26"></a><a name="index27"></a><p>Functions can return instances.  For example, <code>find_center</code>
+takes a <code>Rectangle</code> as an argument and returns a <code>Point</code>
+that contains the coordinates of the center of the <code>Rectangle</code>:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">find_center</span>(<span class="py-src-parameter">box</span>):
+    <span class="py-src-variable">p</span> = <span class="py-src-variable">Point</span>()
+    <span class="py-src-variable">p</span>.<span class="py-src-variable">x</span> = <span class="py-src-variable">box</span>.<span class="py-src-variable">corner</span>.<span class="py-src-variable">x</span> + <span class="py-src-variable">box</span>.<span class="py-src-variable">width</span>/<span class="py-src-number">2.0</span>
+    <span class="py-src-variable">p</span>.<span class="py-src-variable">y</span> = <span class="py-src-variable">box</span>.<span class="py-src-variable">corner</span>.<span class="py-src-variable">y</span> - <span class="py-src-variable">box</span>.<span class="py-src-variable">height</span>/<span class="py-src-number">2.0</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">p</span>
+</pre><p>To call this function, pass <code>box</code> as an argument and assign the
+result to a variable:</p><pre class="python-interpreter">
+&gt;&gt;&gt; center = find_center(box)
+&gt;&gt;&gt; print_point(center)
+(50.0, 100.0)
+</pre><h2>12.8 Objects are mutable<a name="auto7"></a></h2><a name="index28"></a><a name="index29"></a><p>We can change the state of an object by making an assignment to one of its
+attributes.  For example, to change the size of a rectangle without changing
+its position, we could modify the values of <code>width</code> and
+<code>height</code>:</p><pre class="python">
+<span class="py-src-variable">box</span>.<span class="py-src-variable">width</span> = <span class="py-src-variable">box</span>.<span class="py-src-variable">width</span> + <span class="py-src-number">50</span>
+<span class="py-src-variable">box</span>.<span class="py-src-variable">height</span> = <span class="py-src-variable">box</span>.<span class="py-src-variable">height</span> + <span class="py-src-number">100</span>
+</pre><p>We could encapsulate this code in a method and generalize it to grow the
+rectangle by any amount:</p><a name="index30"></a><a name="index31"></a><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">grow_rect</span>(<span class="py-src-parameter">box</span>, <span class="py-src-parameter">dwidth</span>, <span class="py-src-parameter">dheight</span>) :
+    <span class="py-src-variable">box</span>.<span class="py-src-variable">width</span> = <span class="py-src-variable">box</span>.<span class="py-src-variable">width</span> + <span class="py-src-variable">dwidth</span>
+    <span class="py-src-variable">box</span>.<span class="py-src-variable">height</span> = <span class="py-src-variable">box</span>.<span class="py-src-variable">height</span> + <span class="py-src-variable">dheight</span>
+</pre><p>The variables <code>dwidth</code> and <code>dheight</code> indicate how much 
+the rectangle should grow in each direction.  Invoking this method has the
+effect of modifying the <code>Rectangle</code> that is passed as an argument.
+</p><p>For example, we could create a new <code>Rectangle</code> named
+<code>bob</code> and pass it to <code>grow_rect</code>:</p><pre class="python-interpreter">
+&gt;&gt;&gt; bob = Rectangle()
+&gt;&gt;&gt; bob.width = 100.0
+&gt;&gt;&gt; bob.height = 200.0
+&gt;&gt;&gt; bob.corner = Point()
+&gt;&gt;&gt; bob.corner.x = 0.0;
+&gt;&gt;&gt; bob.corner.y = 0.0;
+&gt;&gt;&gt; grow_rect(bob, 50, 100)
+</pre><p>While <code>grow_rect</code> is running, the parameter <code>box</code> is an
+alias for <code>bob</code>.  Any changes made to <code>box</code> also affect
+<code>bob</code>.</p><h2>12.9 Copying<a name="auto8"></a></h2><a name="embedded"></a><a name="index32"></a><a name="index33"></a><a name="index34"></a><a name="index35"></a><p>Aliasing can make a program difficult to read because changes made in one
+place might have unexpected effects in another place.  It is hard to keep track 
+of all the variables that might refer to a given object.</p><p>Copying an object is often an alternative to aliasing.  The <code>copy</code>
+module contains a function called <code>copy</code> that can duplicate any
+object:</p><pre class="python-interpreter">
+&gt;&gt;&gt; import copy
+&gt;&gt;&gt; p1 = Point()
+&gt;&gt;&gt; p1.x = 3
+&gt;&gt;&gt; p1.y = 4
+&gt;&gt;&gt; p2 = copy.copy(p1)
+&gt;&gt;&gt; p1 == p2
+False
+&gt;&gt;&gt; same_point(p1, p2)
+True
+</pre><p>Once we import the <code>copy</code> module, we can use the <code>copy</code>
+method to make a new <code>Point</code>.  <code>p1</code> and <code>p2</code>
+are not the same point, but they contain the same data.</p><p>To copy a simple object like a <code>Point</code>, which doesn't contain any 
+embedded objects, <code>copy</code> is sufficient.  This is called
+<b>shallow copying</b>.</p><p>For something like a <code>Rectangle</code>, which contains a reference
+to a <code>Point</code>, <code>copy</code> doesn't do quite the right thing.
+It copies the reference to the <code>Point</code> object, so both the old
+<code>Rectangle</code> and the new one refer to a single <code>Point</code>.
+</p><a name="index36"></a><a name="index37"></a><p>If we create a box, <code>b1</code>, in the usual way and then make a copy,
+<code>b2</code>, using <code>copy</code>, the resulting state diagram looks
+like this:</p><img src="illustrations/rectangle2.png" /><p>This is almost certainly not what we want.  In this case, invoking
+<code>grow_rect</code> on one of the <code>Rectangles</code> would not affect
+the other, but invoking <code>move_rect</code> on either would affect both!
+This behavior is confusing and error-prone.</p><p>Fortunately, the <code>copy</code> module contains a method named
+<code>deepcopy</code> that copies not only the object but also any embedded
+objects.  You will not be surprised to learn that this operation is called a
+<b>deep copy</b>.</p><pre class="python-interpreter">
+&gt;&gt;&gt; b2 = copy.deepcopy(b1)
+</pre><p>Now <code>b1</code> and <code>b2</code> are completely separate objects.</p><p>We can use <code>deepcopy</code> to rewrite <code>grow_rect</code> so that
+instead of modifying an existing <code>Rectangle</code>, it creates a new
+<code>Rectangle</code> that has the same location as the old one but new
+dimensions:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">grow_rect</span>(<span class="py-src-parameter">box</span>, <span class="py-src-parameter">dwidth</span>, <span class="py-src-parameter">dheight</span>):
+    <span class="py-src-keyword">import</span> <span class="py-src-variable">copy</span>
+    <span class="py-src-variable">new_box</span> = <span class="py-src-variable">copy</span>.<span class="py-src-variable">deepcopy</span>(<span class="py-src-variable">box</span>)
+    <span class="py-src-variable">new_box</span>.<span class="py-src-variable">width</span> = <span class="py-src-variable">new_box</span>.<span class="py-src-variable">width</span> + <span class="py-src-variable">dwidth</span>
+    <span class="py-src-variable">new_box</span>.<span class="py-src-variable">height</span> = <span class="py-src-variable">new_box</span>.<span class="py-src-variable">height</span> + <span class="py-src-variable">dheight</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">new_box</span>
+</pre><h2>12.10 Glossary<a name="auto9"></a></h2><a name="index38"></a><a name="index39"></a><a name="index40"></a><a name="index41"></a><a name="index42"></a><a name="index43"></a><a name="index44"></a><a name="index45"></a><a name="index46"></a><a name="index47"></a><dl><dt>class:</dt><dd>A user-defined compound type.  A class can also be thought of as a template 
+for the objects that are instances of it.</dd><dt>instantiate:</dt><dd>To create an instance of a class.</dd><dt>instance:</dt><dd>An object that belongs to a class.</dd><dt>object:</dt><dd>A compound data type that is often used to model a thing or concept in the
+real world.</dd><dt>constructor:</dt><dd>A method used to create new objects.</dd><dt>attribute:</dt><dd>One of the named data items that makes up an instance.</dd><dt>shallow equality:</dt><dd>Equality of references, or two references that point to the same object.
+</dd><dt>deep equality:</dt><dd>Equality of values, or two references that point to objects that have the
+same value.</dd><dt>shallow copy:</dt><dd>To copy the contents of an object, including any references to embedded
+objects; implemented by the <code>copy</code> function in the <code>copy</code> 
+module.</dd><dt>deep copy:</dt><dd>To copy the contents of an object as well as any embedded objects, and any
+objects embedded in them, and so on;
+implemented by the <code>deepcopy</code> function in the <code>copy</code> module.</dd></dl><h2>12.11 Exercises<a name="auto10"></a></h2><ol><li><div class="exercise">
+Create and print a <code>Point</code> object, and then use <code>id</code> to
+print the object's unique identifier.  Translate the hexadecimal form into
+decimal and confirm that they match.
+</div></li><li><div class="exercise">
+Rewrite the <code>distance</code> function from chapter 5 so that it takes two
+<code>Point</code>s as parameters instead of four numbers.
+</div></li><li><div class="exercise">
+Write a function named <code>move_rect</code> that takes a
+<code>Rectangle</code> and two parameters named <code>dx</code> and
+<code>dy</code>.  It should change the location of the rectangle by adding
+<code>dx</code> to the <code>x</code> coordinate of <code>corner</code> and
+adding <code>dy</code> to the <code>y</code> coordinate of <code>corner</code>.
+</div></li><li><div class="exercise">
+Rewrite <code>move_rect</code> so that it creates and returns a new
+<code>Rectangle</code> instead of modifying the old one.
+</div></li></ol></div><p><a href="index.html">Table of Contents</a> |
+    <a href="dex.html">Index</a></p></body></html>

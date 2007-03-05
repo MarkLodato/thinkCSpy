@@ -1,0 +1,362 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>How to Think Like a Computer Scientist: 4. Conditionals and recursion</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">4. Conditionals and recursion</h1><div class="toc"><ol><li><a href="#auto0">The modulus operator</a></li><li><a href="#auto1">Boolean values and expressions</a></li><li><a href="#auto2">Logical operators</a></li><li><a href="#auto3">Conditional execution</a></li><li><a href="#auto4">Alternative execution</a></li><li><a href="#auto5">Chained conditionals</a></li><li><a href="#auto6">Nested conditionals</a></li><li><a href="#auto7">The return statement</a></li><li><a href="#auto8">Recursion</a></li><li><a href="#auto9">Stack diagrams for recursive functions</a></li><li><a href="#auto10">Infinite recursion</a></li><li><a href="#auto11">Tail recursion</a></li><li><a href="#auto12">Keyboard input</a></li><li><a href="#auto13">Glossary</a></li><li><a href="#auto14">Exercises</a></li></ol></div><div class="content"><span></span><h2>4.1 The modulus operator<a name="auto0"></a></h2><a name="index01"></a><a name="index02"></a><p>The <b>modulus operator</b> works on integers (and integer
+expressions) and yields the remainder when the first operand is divided by the
+second.  In Python, the modulus operator is a percent sign <code>%</code>).
+The syntax is the same as for other operators:
+</p><pre class="python-interpreter">
+&gt;&gt;&gt; quotient = 7 / 3
+&gt;&gt;&gt; print quotient
+2
+&gt;&gt;&gt; remainder = 7 % 3
+&gt;&gt;&gt; print remainder
+1
+</pre><p>So 7 divided by 3 is 2 with 1 left over.</p><p>
+The modulus operator turns out to be surprisingly useful.  For example, you
+can check whether one number is divisible by another---if <code>x % y</code> is 
+zero, then <code>x</code> is divisible by <code>y</code>.</p><p>Also, you can extract the right-most digit or digits from a number.  For
+example, <code>x % 10</code> yields the right-most digit of <code>x</code> (in
+base 10).  Similarly <code>x % 100</code> yields the last two digits.</p><h2>4.2 Boolean values and expressions<a name="auto1"></a></h2><a name="index03"></a><a name="index04"></a><a name="index05"></a><a name="index06"></a><a name="index07"></a><a name="index08"></a><p>The Python type for storing true and false values is called
+<code>bool</code>, named after the British mathematician, George Boole.
+George Boole created <em>Boolean algebra</em>, which is the basis of all modern 
+computer arithmetic.
+</p><p>There are only two <b>boolean values</b>: <code>True</code> and
+<code>False</code>.  Capitalization is important, since <code>true</code>
+and <code>false</code> are not boolean values.
+</p><pre class="python-interpreter">
+&gt;&gt;&gt; type(True)
+&lt;type 'bool'&gt;
+&gt;&gt;&gt; type(true)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+NameError: name 'true' is not defined
+</pre><p>
+A <b>boolean expression</b> is an expression that evaluates to a
+boolean value.  The operator <code>==</code> compares two values and produces
+a boolean value:</p><pre class="python-interpreter">
+&gt;&gt;&gt; 5 == 5
+True
+&gt;&gt;&gt; 5 == 6
+False
+</pre><p>In the first statement, the two operands are equal, so the expression
+evaluates to <code>True</code>; in the second statement, 5 is not equal to 6,
+so we get <code>False</code>.</p><p>The <code>==</code> operator is one of the
+<b>comparison operators</b>; the others are:</p><pre class="python">
+<span class="py-src-variable">x</span> != <span class="py-src-variable">y</span>               <span class="py-src-comment"># x is not equal to y</span>
+<span class="py-src-variable">x</span> &gt; <span class="py-src-variable">y</span>                <span class="py-src-comment"># x is greater than y</span>
+<span class="py-src-variable">x</span> &lt; <span class="py-src-variable">y</span>                <span class="py-src-comment"># x is less than y</span>
+<span class="py-src-variable">x</span> &gt;= <span class="py-src-variable">y</span>               <span class="py-src-comment"># x is greater than or equal to y</span>
+<span class="py-src-variable">x</span> &lt;= <span class="py-src-variable">y</span>               <span class="py-src-comment"># x is less than or equal to y</span>
+</pre><p>Although these operations are probably familiar to you, the Python symbols
+are different from the mathematical symbols.  A common error is to use a single 
+equal sign (<code>=</code>) instead of a double equal sign (<code>==</code>).
+Remember that <code>=</code> is an assignment operator and <code>==</code> is a 
+comparison operator.   Also, there is no such thing as <code>=&lt;</code> or
+<code>=&gt;</code>.</p><h2>4.3 Logical operators<a name="auto2"></a></h2><a name="index09"></a><a name="index10"></a><p>There are three <b>logical operators</b>: <code>and</code>,
+<code>or</code>, and <code>not</code>.  The semantics (meaning) of these
+operators is similar to their meaning in English.  For example, <code>x &gt; 0
+and x &lt; 10</code> is true only if <code>x</code> is greater than 0
+<em>and</em> less than 10.</p><p><code>n % 2 == 0 or n % 3 == 0</code> is true if <em>either</em> of the
+conditions is true, that is, if the number is divisible by 2 <em>or</em> 3.</p><p>Finally, the <code>not</code> operator negates a boolean expression, so
+<code>not(x &gt; y)</code> is true if <code>(x &gt; y)</code> is false,
+that is, if <code>x</code> is less than or equal to <code>y</code>.</p><h2>4.4 Conditional execution<a name="auto3"></a></h2><a name="conditional execution"></a><a name="index11"></a><a name="index12"></a><p>In order to write useful programs, we almost always need the ability to
+check conditions and change the behavior of the program accordingly.
+<b>Conditional statements</b> give us this ability.  The simplest
+form is the <code>if</code> statement:</p><pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> &gt; <span class="py-src-number">0</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;x is positive&quot;</span>
+</pre><p>The boolean expression after the <code>if</code> statement is
+called the <b>condition</b>.  If it is true, then the indented
+statement gets executed.  If not, nothing happens.</p><a name="index13"></a><a name="index14"></a><a name="index15"></a><a name="index16"></a><a name="index17"></a><p>Like other compound statements, the <code>if</code> statement is made up of
+a header and a block of statements:</p><pre>
+HEADER:
+    FIRST STATEMENT
+    ...
+    LAST STATEMENT
+</pre><p>The header begins on a new line and ends with a colon (:).  The indented
+statements that follow are called a <b>block</b>.  The first
+unindented statement marks the end of the block.  A statement block inside a
+compound statement is called the <b>body</b> of the statement.</p><a name="index18"></a><a name="index19"></a><a name="index20"></a><p>There is no limit on the number of statements that can appear in the body of 
+an <code>if</code> statement, but there has to be at least one.  Occasionally,
+it is useful to have a body with no statements (usually as a place keeper for
+code you haven't written yet).  In that case, you can use the <code>pass</code>
+statement, which does nothing.</p><a name="index21"></a><a name="index22"></a><h2>4.5 Alternative execution<a name="auto4"></a></h2><a name="alternative execution"></a><p>A second form of the <code>if</code> statement is alternative execution,
+in which there are two possibilities and the condition determines which one
+gets executed.  The syntax looks like this:</p><pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> % <span class="py-src-number">2</span> == <span class="py-src-number">0</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;is even&quot;</span>
+<span class="py-src-keyword">else</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;is odd&quot;</span>
+</pre><p>If the remainder when <code>x</code> is divided by 2 is 0, then we know that 
+<code>x</code> is even, and the program displays a message to that effect.  If
+the condition is false, the second set of statements is executed.  Since the
+condition must be true or false, exactly one of the alternatives will be
+executed.  The alternatives are called <b>branches</b>, because they
+are branches in the flow of execution.</p><a name="index23"></a><p>As an aside, if you need to check the parity (evenness or oddness) of
+numbers often, you might <q>wrap</q> this code in a function:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_parity</span>(<span class="py-src-parameter">x</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> % <span class="py-src-number">2</span> == <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;is even&quot;</span>
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;is odd&quot;</span>
+</pre><p>For any value of <code>x</code>, <code>print_parity</code> displays an
+appropriate message.  When you call it, you can provide any integer expression
+as an argument.</p><pre class="python-interpreter">
+&gt;&gt;&gt; print_parity(17)
+17 is odd.
+&gt;&gt;&gt; y = 41
+&gt;&gt;&gt; print_parity(y+1)
+42 is even.
+</pre><h2>4.6 Chained conditionals<a name="auto5"></a></h2><a name="index24"></a><a name="index25"></a><p>Sometimes there are more than two possibilities and we need more than two
+branches.  One way to express a computation like that is a
+<b>chained conditional</b>:</p><pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> &lt; <span class="py-src-variable">y</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;is less than&quot;</span>, <span class="py-src-variable">y</span>
+<span class="py-src-keyword">elif</span> <span class="py-src-variable">x</span> &gt; <span class="py-src-variable">y</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;is greater than&quot;</span>, <span class="py-src-variable">y</span>
+<span class="py-src-keyword">else</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;and&quot;</span>, <span class="py-src-variable">y</span>, <span class="py-src-string">&quot;are equal&quot;</span>
+</pre><p><code>elif</code> is an abbreviation of <q>else if.</q>  Again, exactly one
+branch will be executed.  There is no limit of the number of <code>elif</code>
+statements but only a single (and optional) <code>else</code> statement is
+allowed and it must be the last branch in the statement:</p><pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-variable">choice</span> == <span class="py-src-string">'A'</span>:
+    <span class="py-src-variable">functionA</span>()
+<span class="py-src-keyword">elif</span> <span class="py-src-variable">choice</span> == <span class="py-src-string">'B'</span>:
+    <span class="py-src-variable">functionB</span>()
+<span class="py-src-keyword">elif</span> <span class="py-src-variable">choice</span> == <span class="py-src-string">'C'</span>:
+    <span class="py-src-variable">functionC</span>()
+<span class="py-src-keyword">else</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;Invalid choice.&quot;</span>
+</pre><p>Each condition is checked in order.  If the first is false, the next is
+checked, and so on.  If one of them is true, the corresponding branch executes, 
+and the statement ends.  Even if more than one condition is true, only the
+first true branch executes.</p><h2>4.7 Nested conditionals<a name="auto6"></a></h2><p>One conditional can also be nested within another.  We could have written
+the trichotomy example as follows:</p><pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> == <span class="py-src-variable">y</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;and&quot;</span>, <span class="py-src-variable">y</span>, <span class="py-src-string">&quot;are equal&quot;</span>
+<span class="py-src-keyword">else</span>:
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> &lt; <span class="py-src-variable">y</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;is less than&quot;</span>, <span class="py-src-variable">y</span>
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;is greater than&quot;</span>, <span class="py-src-variable">y</span>
+</pre><p>The outer conditional contains two branches.  The first branch contains a
+simple output statement.  The second branch contains another <code>if</code>
+statement, which has two branches of its own.  Those two branches are both
+output statements, although they could have been conditional statements as
+well.</p><p>Although the indentation of the statements makes the structure apparent,
+nested conditionals become difficult to read very quickly. In general, it is a
+good idea to avoid them when you can.</p><p>Logical operators often provide a way to simplify nested conditional
+statements.  For example, we can rewrite the following code using a
+single conditional:</p><pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-number">0</span> &lt; <span class="py-src-variable">x</span>:
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> &lt; <span class="py-src-number">10</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;x is a positive single digit.&quot;</span>
+</pre><p>The <code>print</code> statement is executed only if we make it past both
+the conditionals, so we can use the <code>and</code> operator:</p><pre class="python-interpreter">
+if 0 &lt; x and x &lt; 10:
+    print &quot;x is a positive single digit.&quot;
+</pre><p>These kinds of conditions are common, so Python provides an alternative
+syntax that is similar to mathematical notation:</p><pre class="python-interpreter">
+if 0 &lt; x &lt; 10:
+    print &quot;x is a positive single digit.&quot;
+</pre><p>This condition is semantically the same as the compound boolean expression
+and the nested conditional.</p><h2>4.8 The <code>return</code> statement<a name="auto7"></a></h2><a name="index26"></a><a name="index27"></a><p>The <code>return</code> statement allows you to terminate the execution of a
+function before you reach the end.  One reason to use it is if you detect an
+error condition:</p><pre class="python">
+<span class="py-src-keyword">import</span> <span class="py-src-variable">math</span>
+
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_logarithm</span>(<span class="py-src-parameter">x</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> &lt;= <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;Positive numbers only, please.&quot;</span>
+        <span class="py-src-keyword">return</span>
+
+    <span class="py-src-variable">result</span> = <span class="py-src-variable">math</span>.<span class="py-src-variable">log</span>(<span class="py-src-variable">x</span>)
+    <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;The log of x is&quot;</span>, <span class="py-src-variable">result</span>
+</pre><p>The function <code>print_logarithm</code> has a parameter named
+<code>x</code>.  The first thing it does is check whether <code>x</code> is
+less than or equal to 0, in which case it displays an error message and then
+uses <code>return</code> to exit the function. The flow of execution
+immediately returns to the caller, and the remaining lines of the function are
+not executed.</p><p>Remember that to use a function from the math module, you have to import it.
+</p><h2>4.9 Recursion<a name="auto8"></a></h2><a name="recursion"></a><a name="index28"></a><p>We mentioned that it is legal for one function to call another, and you have 
+seen several examples of that.  We neglected to mention that it is also legal
+for a function to call itself.  It may not be obvious why that is a good thing, 
+but it turns out to be one of the most magical and interesting things a
+program can do.  For example, look at the following function:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">countdown</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">n</span> == <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;Blastoff!&quot;</span>
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">n</span>
+        <span class="py-src-variable">countdown</span>(<span class="py-src-variable">n</span>-<span class="py-src-number">1</span>)
+</pre><p><code>countdown</code> expects the parameter, <code>n</code>, to be a
+positive integer.  If <code>n</code> is 0, it outputs the word,
+<q>Blastoff!</q> Otherwise, it outputs <code>n</code> and then calls a function 
+named <code>countdown</code>---itself---passing <code>n-1</code> as an
+argument.</p><p>What happens if we call this function like this:</p><pre class="python-interpreter">
+&gt;&gt;&gt; countdown(3)
+</pre><blockquote>
+The execution of <code>countdown</code> begins with <code>n</code> set to 3, 
+and since <code>n</code> is not 0, it outputs the value 3, and then calls
+itself...
+
+<blockquote>
+The execution of <code>countdown</code> begins with <code>n</code> set to 2,
+and since <code>n</code> is not 0, it outputs the value 2, and then calls
+itself...
+
+<blockquote>
+The execution of <code>countdown</code> begins with <code>n</code> set to 1,
+and since <code>n</code> is not 0, it outputs the value 1, and then calls
+itself...
+
+<blockquote>
+The execution of <code>countdown</code> begins with <code>n</code> set to 0,
+and since <code>n</code> is 0, it outputs the word, <q>Blastoff!</q> and then
+returns.
+</blockquote>
+
+The <code>countdown</code> that got <code>n</code> set to 1 returns.
+</blockquote>
+
+The <code>countdown</code> that got <code>n</code> set to 2 returns.
+</blockquote>
+
+The <code>countdown</code> that got <code>n</code> set to 3 returns.
+</blockquote><p>And then you're back in <code>__main__</code> (what a trip).  So, the
+total output looks like this:</p><pre class="shell">
+3
+2
+1
+Blastoff!
+</pre><p>As a second example, look again at the functions <code>new_line</code> and
+<code>three_lines</code>:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">new_line</span>():
+    <span class="py-src-keyword">print</span>
+
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">three_lines</span>():
+    <span class="py-src-variable">new_line</span>()
+    <span class="py-src-variable">new_line</span>()
+    <span class="py-src-variable">new_line</span>()
+</pre><p>Although these work, they would not be much help if we wanted to output 2
+newlines, or 106.  A better alternative would be this:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">n_lines</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">n</span> &gt; <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">print</span>
+        <span class="py-src-variable">n_lines</span>(<span class="py-src-variable">n</span>-<span class="py-src-number">1</span>)
+</pre><p>This program is similar to <code>countdown</code>; as long as <code>n</code> 
+is greater than 0, it outputs one newline and then calls itself to output
+<code>n-1</code> additional newlines.  Thus, the total number of newlines is
+<code>1 + (n - 1)</code> which, if you do your algebra right, comes out to
+<code>n</code>.</p><p>The process of a function calling itself is <b>recursion</b>, and
+such functions are said to be recursive.  The statement in which the function
+calls itself is the <b>recursive call</b>.</p><a name="index29"></a><a name="index30"></a><a name="index31"></a><a name="index32"></a><h2>4.10 Stack diagrams for recursive functions<a name="auto9"></a></h2><a name="index33"></a><a name="index34"></a><a name="index35"></a><p>In the last chapter, we used a stack diagram to represent the state of a
+program during a function call.  The same kind of diagram can help interpret a
+recursive function.</p><p>Every time a function gets called, Python creates a new function frame,
+which contains the function's local variables and parameters.  For a recursive
+function, there might be more than one frame on the stack at the same time.</p><p>This figure shows a stack diagram for <code>countdown</code> called with
+<code>n = 3</code>:</p><img src="illustrations/stack2.png" /><p>As usual, the top of the stack is the frame for <code>__main__</code>.
+It is empty because we did not create any variables in <code>__main__</code> 
+or pass any parameters to it.</p><p>The four <code>countdown</code> frames have different values for the
+parameter <code>n</code>.  The bottom of the stack, where <code>n</code> equals
+0, is called the <b>base case</b>.  It does not make a recursive
+call, so there are no more frames.</p><a name="index36"></a><a name="index37"></a><h2>4.11 Infinite recursion<a name="auto10"></a></h2><a name="index38"></a><a name="index39"></a><a name="index40"></a><a name="index41"></a><a name="index42"></a><p>If a recursion never reaches a base case, it goes on making recursive calls
+forever, and the program never terminates.  This is known as
+<b>infinite recursion</b>, and it is generally not considered
+a good idea.  Here is a minimal program with an infinite recursion:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">recurse</span>():
+    <span class="py-src-variable">recurse</span>()
+</pre><p>In most programming environments, a program with infinite recursion does not 
+really run forever.  Python reports an error message when the maximum recursion 
+depth is reached:</p><pre class="shell">
+File &quot;&lt;stdin&gt;&quot;, line 2, in recurse
+(98 repetitions omitted)
+File &quot;&lt;stdin&gt;&quot;, line 2, in recurse
+RuntimeError: maximum recursion depth exceeded
+</pre><p>This traceback is a little bigger than the one we saw in the previous
+chapter.  When the error occurs, there are 100 <code>recurse</code> frames on
+the stack!</p><h2>4.12 Tail recursion<a name="auto11"></a></h2><a name="index43"></a><p>
+In each of the examples of recursive functions above, the recursive
+call is the last statement in the function.  This is called
+<b>tail recursion</b>, and from a software engineering point of
+view it is a bad thing to do.  Later we will see a better way to write
+the functions above using <em>iteration</em>.  Iteration is more efficient
+both in terms of speed and memory usage than tail recursion.
+</p><p>
+There are plenty of cases, however, where using recursion is the best way
+to go, both in terms of computational elegance and efficiency.  We will
+learn more about such cases when we talk about nested lists and trees. 
+</p><h2>4.13 Keyboard input<a name="auto12"></a></h2><p>The programs we have written so far are a bit rude in the sense that they
+accept no input from the user.  They just do the same thing every time.</p><p>Python provides built-in functions that get input from the keyboard.  The
+simplest is called <code>raw_input</code>.  When this function is called, the
+program stops and waits for the user to type something.  When the user presses
+Return or the Enter key, the program resumes and <code>raw_input</code>
+returns what the user typed as a <code>string</code>:</p><pre class="python-interpreter">
+&gt;&gt;&gt; my_input = raw_input()
+What are you waiting for?
+&gt;&gt;&gt; print my_input
+What are you waiting for?
+</pre><p>Before calling <code>raw_input</code>, it is a good idea to print a message
+telling the user what to input.  This message is called a <code>prompt</code>.
+We can supply a prompt as an argument to <code>raw_input</code>:</p><a name="index44"></a><pre class="python-interpreter">
+&gt;&gt;&gt; name = raw_input(&quot;What...is your name? &quot;)
+What...is your name? Arthur, King of the Britons!
+&gt;&gt;&gt; print name
+Arthur, King of the Britons!
+</pre><p>If we expect the response to be an integer, we can use the
+<code>input</code> function which interprets the response as a Python value:
+</p><pre class="python">
+<span class="py-src-variable">prompt</span> = <span class="py-src-string">&quot;What...is the airspeed velocity of an unladen swallow?\n&quot;</span>
+<span class="py-src-variable">speed</span> = <span class="py-src-variable">input</span>(<span class="py-src-variable">prompt</span>)
+</pre><p>If the user types a string of digits, it is converted to an integer and
+assigned to <code>speed</code>.  Unfortunately, if the user types characters
+that do not make up a valid Python expression, the program crashes:</p><pre class="python-interpreter">
+&gt;&gt;&gt; speed = input(prompt)
+What...is the airspeed velocity of an unladen swallow?
+What do you mean, an African or a European swallow?
+...
+SyntaxError: invalid syntax
+</pre><p>To avoid this kind of error, it is generally a good idea to use
+<code>raw_input</code> to get a string and then use conversion functions to
+convert to other types.</p><h2>4.14 Glossary<a name="auto13"></a></h2><a name="index45"></a><a name="index46"></a><a name="index47"></a><a name="index48"></a><a name="index49"></a><a name="index50"></a><a name="index51"></a><a name="index52"></a><a name="index53"></a><a name="index54"></a><a name="index55"></a><a name="index56"></a><a name="index57"></a><a name="index58"></a><a name="index59"></a><dl><dt>modulus operator:</dt><dd>An operator, denoted with a percent sign (<code>%</code>), that works on
+integers and yields the remainder when one number is divided by another.</dd><dt>boolean value:</dt><dd>There are exactly two boolean values: <code>True</code> and
+<code>False</code>.  Boolean values result when a boolean expression is
+evaluated by the Python interepreter.  They have type <code>bool</code>.
+</dd><dt>boolean expression:</dt><dd>An expression that is either true or false.</dd><dt>comparison operator:</dt><dd> One of the operators that compares two
+values: <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, 
+<code>&gt;=</code>, and <code>&lt;=</code>.</dd><dt>logical operator:</dt><dd>One of the operators that combines boolean expressions: <code>and</code>,
+<code>or</code>, and <code>not</code>.</dd><dt>conditional statement:</dt><dd>A statement that controls the flow of execution depending on some
+condition.</dd><dt>condition:</dt><dd>The boolean expression in a conditional statement that determines which
+branch is executed.</dd><dt>compound statement:</dt><dd>A statement that consists of a header and a body.  The header ends with a
+colon (:).  The body is indented relative to the header.</dd><dt>block:</dt><dd>A group of consecutive statements with the same indentation.</dd><dt>body:</dt><dd>The block in a compound statement that follows the header.</dd><dt>nesting:</dt><dd>One program structure within another, such as a conditional statement
+inside a branch of another conditional statement.</dd><dt>recursion:</dt><dd>The process of calling the function that is currently executing.</dd><dt>recursive call:</dt><dd>The statement in a recursive function with is a call to itself.</dd><dt>base case:</dt><dd>A branch of the conditional statement in a recursive function that does not 
+result in a recursive call.</dd><dt>infinite recursion:</dt><dd>A function that calls itself recursively without ever reaching the base
+case.  Eventually, an infinite recursion causes a runtime error.</dd><dt>prompt:</dt><dd>A visual cue that tells the user to input data.</dd></dl><h2>4.15 Exercises<a name="auto14"></a></h2><ol><li><div class="exercise"><pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> &lt; <span class="py-src-variable">y</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;is less than&quot;</span>, <span class="py-src-variable">y</span>
+<span class="py-src-keyword">elif</span> <span class="py-src-variable">x</span> &gt; <span class="py-src-variable">y</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;is greater than&quot;</span>, <span class="py-src-variable">y</span>
+<span class="py-src-keyword">else</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">&quot;and&quot;</span>, <span class="py-src-variable">y</span>, <span class="py-src-string">&quot;are equal&quot;</span>
+</pre><em>Wrap</em> this code in a function called <code>compare(x, y)</code>.
+<em>Call</em><code>compare</code> three times: one each where the first
+<em>argument</em> is less than, greater than, and equal to the second
+argument.
+</div></li><li><div class="exercise"><pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-variable">choice</span> == <span class="py-src-string">'A'</span>:
+    <span class="py-src-variable">functionA</span>()
+<span class="py-src-keyword">elif</span> <span class="py-src-variable">choice</span> == <span class="py-src-string">'B'</span>:
+    <span class="py-src-variable">functionB</span>()
+<span class="py-src-keyword">elif</span> <span class="py-src-variable">choice</span> == <span class="py-src-string">'C'</span>:
+    <span class="py-src-variable">functionC</span>()
+<span class="py-src-keyword">else</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;Invalid choice.&quot;</span>
+</pre>
+Wrap this code in a function called <code>dispatch(choice)</code>.
+</div></li><li><div class="exercise">
+Write a function with infinite recursion and run it in the Python interpreter.
+</div></li><li><div class="exercise">
+Draw a stack diagram for <code>n_lines</code> called with <code>n</code> set to
+4.
+</div></li></ol></div><p><a href="index.html">Table of Contents</a> |
+    <a href="dex.html">Index</a></p></body></html>

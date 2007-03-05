@@ -1,0 +1,296 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>How to Think Like a Computer Scientist: 1. The way of the program</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">1. The way of the program</h1><div class="toc"><ol><li><a href="#auto0">The Python programming language</a></li><li><a href="#auto1">What is a program?</a></li><li><a href="#auto2">What is debugging?</a></li><li><a href="#auto3">Syntax errors</a></li><li><a href="#auto4">Runtime errors</a></li><li><a href="#auto5">Semantic errors</a></li><li><a href="#auto6">Experimental debugging</a></li><li><a href="#auto7">Formal and natural languages</a></li><li><a href="#auto8">The first program</a></li><li><a href="#auto9">Glossary</a></li><li><a href="#auto10">Exercises</a></li></ol></div><div class="content"><span></span><p>The goal of this book is to teach you to think like a computer scientist.
+This way of thinking combines some of the best features of mathematics,
+engineering, and natural science.  Like mathematicians, computer scientists use 
+formal languages to denote ideas (specifically computations).  Like engineers,
+they design things, assembling components into systems and evaluating tradeoffs 
+among alternatives.  Like scientists, they observe the behavior of complex
+systems, form hypotheses, and test predictions.</p><p>The single most important skill for a computer scientist is
+<b>problem solving</b>.  Problem solving means the ability to
+formulate problems, think creatively about solutions, and express a solution
+clearly and accurately.  As it turns out, the process of learning to program is 
+an excellent opportunity to practice problem-solving skills.  That's why this
+chapter is called, <q>The way of the program.</q></p><p>On one level, you will be learning to program, a useful skill by itself.  On 
+another level, you will use programming as a means to an end.  As we go along,
+that end will become clearer.</p><h2>1.1 The Python programming language<a name="auto0"></a></h2><a name="index01"></a><a name="index02"></a><p>The programming language you will be learning is Python. Python is an
+example of a <b>high-level language</b>; other high-level languages
+you might have heard of are C++, PHP, and Java.</p><p>As you might infer from the name <q>high-level language,</q> there are
+also <b>low-level languages</b>, sometimes referred to as
+<q>machine languages</q> or <q>assembly languages.</q>  Loosely speaking,
+computers can only execute programs written in low-level languages.  Thus,
+programs written in a high-level language have to be processed before they can
+run.  This extra processing takes some time, which is a small disadvantage of
+high-level languages.</p><a name="index03"></a><a name="index04"></a><a name="index05"></a><a name="index06"></a><a name="index07"></a><p>But the advantages are enormous.  First, it is much easier to program in a
+high-level language. Programs written in a high-level language take less time
+to write, they are shorter and easier to read, and they are more likely to be
+correct.  Second, high-level languages are <b>portable</b>, meaning
+that they can run on different kinds of computers with few or no modifications. 
+Low-level programs can run on only one kind of computer and have to be
+rewritten to run on another.</p><p>Due to these advantages, almost all programs are written in high-level
+languages.  Low-level languages are used only for a few specialized
+applications.</p><a name="index08"></a><a name="index09"></a><p>Two kinds of programs process high-level languages into low-level languages: 
+<b>interpreters</b> and <b>compilers</b>.  An interpreter
+reads a high-level program and executes it, meaning that it does what the
+program says.  It processes the program a little at a time, alternately reading 
+lines and performing computations.</p><img src="illustrations/interpret.png" /><p>A compiler reads the program and translates it completely before the program 
+starts running.  In this case, the high-level program is called the
+<b>source code</b>, and the translated program is called the
+<b>object code</b> or the <b>executable</b>.  Once a
+program is compiled, you can execute it repeatedly without further translation.
+</p><img src="illustrations/compile.png" /><p>Many modern languages use both processes.  They are first compiled into a
+lower level language, called <b>byte code</b>, and then interpreted
+by a program called a <b>virtual machine</b>.  Python uses both 
+processes, but because of the way programmers interact with it, it is
+usually considered an interpreted language.</p><p>There are two ways to use the interpreter:
+<em>shell mode</em> and <em>script mode</em>. In shell mode,
+you type Python statements into the <b>Python shell</b> and the
+interpreter immediately prints the result:</p><pre class="python-interpreter">
+$ python
+Python 2.5 (r25:51908, Oct  6 2006, 15:24:43) 
+[GCC 4.1.2 20060928 (prerelease) (Ubuntu 4.1.1-13ubuntu4)] on linux2
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; print 1 + 1
+2
+</pre><p>The first line of this example is the command that starts the Python
+interpreter at a unix command prompt.  The next three lines are messages from
+the interpreter.  The fourth line starts with <code>&gt;&gt;&gt;</code>, which
+is the <b>Python prompt</b>.  The interpreter uses the prompt to
+indicate that it is ready for instructions.  We typed <code>print 1 + 1</code>, 
+and the interpreter replied <code>2</code>.
+</p><p>Alternatively, you can write a program in a file and use the interpreter to
+execute the contents of the file.  Such a file is called a
+<b>script</b>.  For example, we used a text editor to create a file
+named <code>firstprogram.py</code> with the following contents:</p><pre class="python">
+<span class="py-src-keyword">print</span> <span class="py-src-number">1</span> + <span class="py-src-number">1</span>
+</pre><p>By convention, files that contain Python programs have names that end with
+<code>.py</code>.</p><p>To execute the program, we have to tell the interpreter the name of the
+script:</p><pre class="shell">
+$ python firstprogram.py
+2
+</pre><p>These examples show Python being run from a Unix command line.  In other
+development environments, the details of executing programs may differ.  Also,
+most programs are more interesting than this one.</p><p>The examples in this book use both the Python interpreter and scripts.
+You will be able to tell which is intended since shell mode examples will
+always start with the Python prompt.</p><p>Working in shell mode is convenient for testing short bits of code because
+you get immediate feedback.  Think of it as scratch paper used to help you work 
+out problems.  Anything longer than a few lines should be put into a script.</p><h2>1.2 What is a program?<a name="auto1"></a></h2><p>A <b>program</b> is a sequence of instructions that specifies how
+to perform a computation.  The computation might be something mathematical,
+such as solving a system of equations or finding the roots of a polynomial, but 
+it can also be a symbolic computation, such as searching and replacing text in
+a document or (strangely enough) compiling a program.</p><p>The details look different in different languages, but a few basic
+instructions appear in just about every language:</p><dl><dt>input:</dt><dd>Get data from the keyboard, a file, or some other device.</dd><dt>output:</dt><dd>Display data on the screen or send data to a file or other device.</dd><dt>math:</dt><dd>Perform basic mathematical operations like addition and multiplication.</dd><dt>conditional execution:</dt><dd>Check for certain conditions and execute the appropriate sequence of
+statements.</dd><dt>repetition:</dt><dd>Perform some action repeatedly, usually with some variation.</dd></dl><p>Believe it or not, that's pretty much all there is to it.  Every program
+you've ever used, no matter how complicated, is made up of instructions that
+look more or less like these.  Thus, we can describe programming as the process 
+of breaking a large, complex task into smaller and smaller subtasks until the
+subtasks are simple enough to be performed with one of these basic instructions.
+</p><p>That may be a little vague, but we will come back to this topic later when
+we talk about <b>algorithms</b>.</p><h2>1.3 What is debugging?<a name="auto2"></a></h2><a name="index10"></a><a name="index11"></a><p>Programming is a complex process, and because it is done by human beings,
+it often leads to errors.  For whimsical reasons, programming errors are
+called <b>bugs</b> and the process of tracking them down and
+correcting them is called <b>debugging</b>.</p><p>Three kinds of errors can occur in a program: syntax errors, runtime errors, 
+and semantic errors. It is useful to distinguish between them in order to track 
+them down more quickly.</p><h2>1.4 Syntax errors<a name="auto3"></a></h2><a name="index12"></a><a name="index13"></a><a name="index14"></a><p>Python can only execute a program if the program is syntactically correct;
+otherwise, the process fails and returns an error message.
+<b>syntax</b> refers to the structure of a program and the rules
+about that structure.  For example, in English, a sentence must begin with a
+capital letter and end with a period.  this sentence contains a
+<b>syntax error</b>.  So does this one</p><p>For most readers, a few syntax errors are not a significant problem,
+which is why we can read the poetry of e. e. cummings without spewing error
+messages.  Python is not so forgiving.  If there is a single syntax error
+anywhere in your program, Python will print an error message and quit,
+and you will not be able to run your program. During the first few weeks
+of your programming career, you will probably spend a lot of time tracking
+down syntax errors.  As you gain experience, though, you will make fewer
+errors and find them faster.</p><h2>1.5 Runtime errors<a name="auto4"></a></h2><a name="runtime"></a><a name="index15"></a><a name="index16"></a><a name="index17"></a><a name="index18"></a><a name="index19"></a><p>The second type of error is a runtime error, so called because the error
+does not appear until you run the program.  These errors are also called
+<b>exceptions</b> because they usually indicate that something
+exceptional (and bad) has happened.</p><p>Runtime errors are rare in the simple programs you will see in the first few 
+chapters, so it might be a while before you encounter one.</p><h2>1.6 Semantic errors<a name="auto5"></a></h2><a name="index20"></a><a name="index21"></a><a name="index22"></a><p>The third type of error is the <b>semantic error</b>.  If there is 
+a semantic error in your program, it will run successfully, in the sense that
+the computer will not generate any error messages, but it will not do the right 
+thing.  It will do something else.  Specifically, it will do what you told it
+to do.</p><p>The problem is that the program you wrote is not the program you wanted to
+write.  The meaning of the program (its semantics) is wrong.  Identifying
+semantic errors can be tricky because it requires you to work backward by
+looking at the output of the program and trying to figure out what it is doing.
+</p><h2>1.7 Experimental debugging<a name="auto6"></a></h2><p>One of the most important skills you will acquire is debugging.  Although it 
+can be frustrating, debugging is one of the most intellectually rich,
+challenging, and interesting parts of programming.</p><p>In some ways, debugging is like detective work.  You are confronted with
+clues, and you have to infer the processes and events that led to the results
+you see.</p><p>Debugging is also like an experimental science.  Once you have an idea what
+is going wrong, you modify your program and try again.  If your hypothesis was
+correct, then you can predict the result of the modification, and you take a
+step closer to a working program.  If your hypothesis was wrong, you have to
+come up with a new one.  As Sherlock Holmes pointed out, <q>When you have
+eliminated the impossible, whatever remains, however improbable, must be the
+truth.</q> (A. Conan Doyle, <em>The Sign of Four</em>)</p><a name="index23"></a><a name="index24"></a><p>For some people, programming and debugging are the same thing.  That is,
+programming is the process of gradually debugging a program until it does what
+you want.  The idea is that you should start with a program that does
+<em>something</em> and make small modifications, debugging them as you go, so
+that you always have a working program.</p><p>For example, Linux is an operating system that contains thousands of lines
+of code, but it started out as a simple program Linus Torvalds used to explore
+the Intel 80386 chip.  According to Larry Greenfield, <q>One of Linus's earlier 
+projects was a program that would switch between printing AAAA and BBBB.  This
+later evolved to Linux.</q> (<em>The Linux Users' Guide</em> Beta Version 1)
+</p><a name="index25"></a><p>Later chapters will make more suggestions about debugging and other
+programming practices.</p><h2>1.8 Formal and natural languages<a name="auto7"></a></h2><a name="index26"></a><a name="index27"></a><a name="index28"></a><a name="index29"></a><p><b>Natural languages</b> are the languages that people speak, such 
+as English, Spanish, and French.  They were not designed by people (although
+people try to impose some order on them); they evolved naturally.</p><p><b>Formal languages</b> are languages that are designed by people
+for specific applications.  For example, the notation that mathematicians
+use is a formal language that is particularly good at denoting relationships
+among numbers and symbols.  Chemists use a formal language to represent the
+chemical structure of molecules.  And most importantly:</p><blockquote><em>Programming languages are formal languages that have been designed to
+express computations.</em></blockquote><p>Formal languages tend to have strict rules about syntax.  For example,
+<code>3+3=6</code> is a syntactically correct mathematical statement, but
+<code>3=+6$</code> is not.  <code>H<sub>2</sub>O</code> is a syntactically
+correct chemical name, but <code><sub>2</sub>Zz</code> is not.</p><p>Syntax rules come in two flavors, pertaining to <b>tokens</b> and
+structure.  Tokens are the basic elements of the language, such as words,
+numbers, and chemical elements.  One of the problems with <code>3=+6$</code> is 
+that <code>$</code> is not a legal token in mathematics (at least as far as we
+know).  Similarly, <code><sub>2</sub>Zz</code> is not legal because there is no
+element with the abbreviation <code>Zz</code>.</p><p>The second type of syntax rule pertains to the structure of a statement---
+that is, the way the tokens are arranged.  The statement <code>3=+6$</code> is
+structurally illegal because you can't place a plus sign immediately after an
+equal sign.  Similarly, molecular formulas have to have subscripts after the
+element name, not before.</p><p>When you read a sentence in English or a statement in a formal language, you 
+have to figure out what the structure of the sentence is (although in a natural 
+language you do this subconsciously).  This process is called
+<b>parsing</b>.</p><a name="index30"></a><p>For example, when you hear the sentence, <q>The other shoe fell,</q> you
+understand that <q>the other shoe</q> is the subject and <q>fell</q> is the
+verb.  Once you have parsed a sentence, you can figure out what it means, or
+the semantics of the sentence.  Assuming that you know what a shoe is and what
+it means to fall, you will understand the general implication of this sentence.
+</p><p>Although formal and natural languages have many features in common---tokens, 
+structure, syntax, and semantics---there are many differences:</p><a name="index31"></a><a name="index32"></a><a name="index33"></a><dl><dt>ambiguity:</dt><dd> Natural languages are full of ambiguity, which people deal with by using
+contextual clues and other information.  Formal languages are designed to be
+nearly or completely unambiguous, which means that any statement has exactly
+one meaning, regardless of context.</dd><dt>redundancy:</dt><dd>In order to make up for ambiguity and reduce misunderstandings, natural
+languages employ lots of redundancy.  As a result, they are often verbose.
+Formal languages are less redundant and more concise.</dd><dt>literalness:</dt><dd>Natural languages are full of idiom and metaphor.  If someone says,
+<q>The other shoe fell,</q> there is probably no shoe and nothing falling.
+Formal languages mean exactly what they say.</dd></dl><p>People who grow up speaking a natural language---everyone---often have a
+hard time adjusting to formal languages.  In some ways, the difference between
+formal and natural language is like the difference between poetry and prose,
+but more so:</p><a name="index34"></a><a name="index35"></a><dl><dt>Poetry:</dt><dd>Words are used for their sounds as well as for their meaning, and the whole 
+poem together creates an effect or emotional response.  Ambiguity is not only
+common but often deliberate.</dd><dt>Prose:</dt><dd>The literal meaning of words is more important, and the structure
+contributes more meaning.  Prose is more amenable to analysis than poetry but
+still often ambiguous.</dd><dt>Programs:</dt><dd> The meaning of a computer program is unambiguous
+and literal, and can be understood entirely by analysis of the
+tokens and structure.</dd></dl><p>Here are some suggestions for reading programs (and other formal languages). 
+First, remember that formal languages are much more dense than natural
+languages, so it takes longer to read them.  Also, the structure is very
+important, so it is usually not a good idea to read from top to bottom, left to 
+right.  Instead, learn to parse the program in your head, identifying the
+tokens and interpreting the structure.  Finally, the details matter.  Little
+things like spelling errors and bad punctuation, which you can get away with in 
+natural languages, can make a big difference in a formal language.</p><h2>1.9 The first program<a name="auto8"></a></h2><a name="hello"></a><a name="index36"></a><p>Traditionally, the first program written in a new language is called
+<q>Hello, World!</q> because all it does is display the words,
+<q>Hello, World!</q>  In Python, it looks like this:</p><pre class="python">
+<span class="py-src-keyword">print</span> <span class="py-src-string">&quot;Hello, World!&quot;</span>
+</pre><p>This is an example of a <b>print statement</b>, which doesn't
+actually print anything on paper.  It displays a value on the screen.  In this
+case, the result is the words</p><pre class="shell">
+Hello, World!
+</pre><p>The quotation marks in the program mark the beginning and end of the value;
+they don't appear in the result.</p><a name="index37"></a><a name="index38"></a><p>Some people judge the quality of a programming language by the simplicity of 
+the <q>Hello, World!</q> program.  By this standard, Python does about as well
+as possible.</p><h2>1.10 Glossary<a name="auto9"></a></h2><a name="index39"></a><a name="index40"></a><a name="index41"></a><a name="index42"></a><a name="index43"></a><a name="index44"></a><a name="index45"></a><a name="index46"></a><a name="index47"></a><a name="index48"></a><a name="index49"></a><a name="index50"></a><a name="index51"></a><a name="index52"></a><a name="index53"></a><a name="index54"></a><a name="index55"></a><a name="index56"></a><a name="index57"></a><a name="index58"></a><a name="index59"></a><a name="index60"></a><a name="index61"></a><a name="index62"></a><a name="index63"></a><a name="index64"></a><a name="index65"></a><dl><dt>algorithm:</dt><dd>A general process for solving a category of problems.</dd><dt>bug:</dt><dd>An error in a program.</dd><dt>byte code:</dt><dd>An intermediate language between source code and object code.
+Many modern languages first compile source code into byte code
+and then interpret the byte code with a program called a 
+<em>virtual machine</em>.</dd><dt>compile:</dt><dd>To translate a program written in a high-level language into a low-level
+language all at once, in preparation for later execution.</dd><dt>debugging:</dt><dd>The process of finding and removing any of the three kinds of programming
+errors.</dd><dt>exception:</dt><dd>Another name for a runtime error.</dd><dt>executable:</dt><dd>Another name for object code that is ready to be executed.</dd><dt>formal language:</dt><dd>Any one of the languages that people have designed for specific purposes,
+such as representing mathematical ideas or computer programs; all programming
+languages are formal languages.</dd><dt>high-level language:</dt><dd>A programming language like Python that is designed to be easy for humans
+to read and write.</dd><dt>interpret:</dt><dd>To execute a program in a high-level language by translating it one line at 
+a time.</dd><dt>low-level language:</dt><dd>A programming language that is designed to be easy for a computer to
+execute; also called <q>machine language</q> or <q>assembly language.</q></dd><dt>natural language:</dt><dd>Any one of the languages that people speak that evolved naturally.</dd><dt>object code:</dt><dd>The output of the compiler after it translates the program.</dd><dt>parse:</dt><dd>To examine a program and analyze the syntactic structure.</dd><dt>portability:</dt><dd>A property of a program that can run on more than one kind of computer.
+</dd><dt>print statement:</dt><dd>An instruction that causes the Python interpreter to display a value on the 
+screen.</dd><dt>problem solving:</dt><dd>The process of formulating a problem, finding a solution, and expressing
+the solution.</dd><dt>program:</dt><dd>a sequence of instructions that specifies to a computer
+actions and computations to be performed.</dd><dt>Python shell:</dt><dd>An interactive user interface to the Python interpreter.  The
+user of a Python shell types commands at the prompt (&gt;&gt;&gt;),
+and presses the return key to send these commands immediately to
+the interpreter for processing.</dd><dt>runtime error:</dt><dd>An error that does not occur until the program has started to execute but
+that prevents the program from continuing.</dd><dt>script:</dt><dd>A program stored in a file (usually one that will be interpreted).</dd><dt>semantic error:</dt><dd>An error in a program that makes it do something other than what the
+programmer intended.</dd><dt>semantics:</dt><dd>The meaning of a program.</dd><dt>source code:</dt><dd>A program in a high-level language before being compiled.</dd><dt>syntax:</dt><dd>The structure of a program.</dd><dt>syntax error:</dt><dd>An error in a program that makes it impossible to parse (and therefore
+impossible to interpret).</dd><dt>token:</dt><dd>One of the basic elements of the syntactic structure of a program,
+analogous to a word in a natural language.</dd></dl><h2>1.11 Exercises<a name="auto10"></a></h2><ol><li><div class="exercise">
+Write an English sentence with understandable semantics but incorrect syntax.
+Write another sentence which has correct syntax but has semantic errors.
+</div></li><li><div class="exercise">
+Start a Python shell. Type <code>1 + 2</code> and then hit return. Python
+<em>evaluates</em> this <em>expression</em>, prints the result, and then prints another prompt.  <code>*</code> is the <em>multiplication operator</em>, and
+<code>**</code> is the <em>exponentiation operator</em>.  Experiment by
+entering different expressions and recording what is printed by the Python
+interpreter.  What happens if you use the <code>/</code> operator?  Are the
+results what you expect?  Explain.
+</div></li><li><div class="exercise">
+Type <code>1 2</code> and then hit return. Python tries to evaluate the
+expression, but it can't because the expression is not syntactically legal.
+Instead, it prints the error message:
+<pre class="python-interpreter">
+  File &quot;&lt;stdin&gt;&quot;, line 1
+    1 2
+      ^
+SyntaxError: invalid syntax
+</pre>
+In many cases, Python indicates where the syntax error occurred, but it is not
+always right, and it doesn't give you much information about what is wrong. So, 
+for the most part, the burden is on you to learn the syntax rules.
+<br /><br />
+In this case, Python is complaining because there is no operator between the
+numbers.
+<br /><br />
+Write down three more examples of strings that will produce error messages
+when you enter them at the Python prompt.  Explain why each example is not
+valid Python syntax.
+</div></li><li><div class="exercise">
+Type <code>print 'hello'</code>. Python executes this statement, which has the
+effect of printing the letters h-e-l-l-o. Notice that the quotation marks that
+you used to enclose the string are not part of the output.
+<br /><br />
+Now type <code>print '&quot;hello&quot;'</code> and describe and explain your result.
+</div></li><li><div class="exercise">
+Type <code>print cheese</code> without the quotation marks. The output will
+look something like this:
+<pre class="python-interpreter">
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+NameError: name 'cheese' is not defined
+</pre>
+This is a run-time error; specifically, it is a NameError, and even more
+specifically, it is an error because the name <code>cheese</code> is not
+defined. If you don't know what that means yet, you will soon.
+<br /><br />
+Start the Python interpreter and enter <code>bruce + 4</code> at the prompt.
+This will give you an error:
+<pre class="python-interpreter">
+NameError: name 'bruce' is not defined
+</pre>
+Assign a value to <code>bruce</code> so that <code>bruce + 4</code> evalutes
+to <code>10</code>.
+</div></li><li><div class="exercise">
+Type <code>'This is a test...'</code> at the Python prompt and hit enter.
+Record what happens.  Now create a python script named <code>test1.py</code>
+with the following contents (be sure to save it before you try to run it):
+<pre class="python">
+<span class="py-src-string">'This is a test...'</span>
+</pre>
+What happens when you run this script?  Now change the contents to:
+<pre class="python">
+<span class="py-src-keyword">print</span> <span class="py-src-string">'This is a test...'</span>
+</pre>
+and run it again.  What happened this time?
+<br /><br />
+Whenever an <em>expression</em> is typed at the Python prompt, it is
+<em>evaluated</em> and the result is printed on the line below.
+<code>'This is a test...'</code> is an expression, which evaluates to
+<code>'This is a test...'</code> (just like the expression <code>42</code>
+evaluates to <code>42</code>).  In a script, however, evaluations of
+expressions are not sent to the program output, so it is necessary to
+explicitly print it.
+</div></li></ol></div><p><a href="index.html">Table of Contents</a> |
+    <a href="dex.html">Index</a></p></body></html>

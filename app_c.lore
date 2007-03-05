@@ -1,0 +1,104 @@
+<html>
+<head>
+  <title>Doctests and test driven development</title>
+</head>
+<body>
+
+<h1>Doctests and test driven development</h1>
+
+<h2>Automated testing with <code>doctest</code></h2>
+
+<p><code>doctest</code> is a module in the Python standard library which 
+makes innovative use of Python's docstring, interactive shell, and
+introspection capabilities.
+</p>
+
+
+<h2>docstrings</h2>
+
+<p>Python's <strong>docstring</strong>s provide an easy way to document
+modules, classes, methods, and functions.  A docstring is simply a string
+constant that occurs as the first statement of an object's definition.
+Here is an example from the chapter on trees illustrating its use:
+</p>
+
+<pre class="python">
+def total(tree):
+    """total(tree) -> sum
+
+      Return the sum of the values of the elements of a tree of numbers.
+    """
+    if tree == None: return 0
+    return total(tree.left) + total(tree.right)
+</pre>
+
+<p>Assuming the example above is in a module named <code>trees.py</code>,
+the following is now possible:</p>
+
+<pre class="python-shell">
+>>> from trees import *
+>>> print total.__doc__
+total(tree) -> sum
+
+      Return the sum of the values of the elements of a tree of numbers.
+
+</pre>
+
+
+<h2>The <code>doctest</code> module</h2>
+
+<p>
+The <code>doctest</code> module was added to the 2.3 release of Python.
+Created by core python developer Tim Peters, <code>doctest</code> enables
+programmers to use docstrings for automated testing.
+</p> 
+
+<pre class="python">
+"""
+  >>> distance(1, 2, 4, 6)
+  5.0
+"""
+
+def distance(x1, y1, x2, y2):
+    return 0.0 
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+</pre>
+
+<p>
+The example above is taken from the <em>Program development</em> section of
+chapter 5.  Running this program produces the following output:
+</p>
+
+<pre class="shell">
+**********************************************************************
+File "doctest_example01.py", line 2, in __main__
+Failed example:
+    distance(1, 2, 4, 6)
+Expected:
+    5.0
+Got:
+    0.0
+**********************************************************************
+1 items had failures:
+   1 of   1 in __main__
+***Test Failed*** 1 failures.
+</pre>
+
+<p>
+Doctests are written as sample Python interpreter sessions inside a docstring.
+The doctest in this example is in the module's docstring, but it could also
+be placed in the docstring of the function being tested.
+</p>
+<p>
+Each test consists of a Python expression written after the interpreter prompt
+(<code>&gt;&gt;&gt;</code>) followed on the next line by the expected
+evaluation of the given expression.  The doctest module runs each expression
+through the interpreter and compares the evaluation with the expected one.
+</p>
+
+
+</body>
+</html>
