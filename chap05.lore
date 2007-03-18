@@ -544,7 +544,7 @@ defined mathematical function is <code>fibonacci</code>, which has the
 following definition:</p>
 
 <pre>
-   fibonacci(0) = 1
+   fibonacci(0) = 0
    fibonacci(1) = 1
    fibonacci(n) = fibonacci(n-1) + fibonacci(n-2);
 </pre>
@@ -554,7 +554,7 @@ following definition:</p>
 <pre class="python">
 def fibonacci(n):
     if n == 0 or n == 1:
-        return 1
+        return n
     else:
         return fibonacci(n-1) + fibonacci(n-2)
 </pre>

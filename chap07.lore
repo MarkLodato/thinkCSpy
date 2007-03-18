@@ -447,7 +447,7 @@ def find(strng, ch, start=0, step=1):
 <p>Passing in a value of <code>-1</code> for <code>step</code> will make
 it search toward the beginning of the string instead of the end.  Note that we
 needed to check for a lower bound for <code>index</code> in the while loop as
-well as an upper bound to accomdate this change.</p>
+well as an upper bound to accomodate this change.</p>
 
 
 <h2>The <code>string</code> module</h2>
@@ -741,7 +741,7 @@ accepts the string and the letter as arguments.
 <li><div class="exercise">
 Now rewrite the <code>count_letters</code> function so that instead of
 traversing the string, it repeatedly calls <code>find</code>, with the optional 
-third parameter to locate new occurances of the letter being counted.
+third parameter to locate new occurences of the letter being counted.
 </div></li>
 
 <li><div class="exercise">

@@ -636,8 +636,8 @@ expression, such as <code>new_line() + 7</code>?</li>
 functions like <code>new_line</code> and <code>print_twice</code>?</li>
 </ol>
 
-<p>The answer to the third question is yes, and we'll do it in the next
-chapter.</p>
+<p>The answer to the last question is that you can write functions that yield
+results, and we'll do it in the Chapter 5.</p>
 
 
 <h2>Glossary</h2>
@@ -721,7 +721,7 @@ occurs.</dd>
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
-Using a text editor, create a Python scripted named <code>tryme3.py</code>.
+Using a text editor, create a Python script named <code>tryme3.py</code>.
 Write a function called <code>nine_lines</code> in this file that uses
 <code>three_lines</code> to print nine blank lines.  Now add a function named
 <code>clear_screen</code> that prints out twenty-five blank lines.  The last

@@ -33,6 +33,12 @@ the contributor list (unless you ask to be omitted).  Thank you!</p>
 
 <h3>Second Edition</h3>
 <ul>
+<li>Aldric Giacomoni pointed out an error in our definition of the Fibonacci
+sequence in Chapter 5.</li>
+
+<li>Roger Sperberg sent in several spelling corrections and pointed out a
+twisted piece of logic in Chapter 3.</li>
+
 <li>Adele Goldberg sat down with me at PyCon 2007 and gave suggestions and
 corrections throughout the book.</li>
 

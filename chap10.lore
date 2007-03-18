@@ -335,15 +335,15 @@ for later use is called a <b>hint</b>.  Here is an implementation of
 <code>fibonacci</code> using hints:</p>
 
 <pre class="python">
-previous = {0:1, 1:1}
+previous = {0: 0, 1: 1}
    
 def fibonacci(n):
     if previous.has_key(n):
         return previous[n]
     else:
-        newValue = fibonacci(n-1) + fibonacci(n-2)
-        previous[n] = newValue
-        return newValue
+        new_value = fibonacci(n-1) + fibonacci(n-2)
+        previous[n] = new_value
+        return new_value
 </pre>
 
 <p>The dictionary named <code>previous</code> keeps track of the Fibonacci
