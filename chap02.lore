@@ -291,10 +291,10 @@ printing a value.</p>
 What's up, Doc?
 </pre>
 
-<p>When Python displays the value of an expression, it uses the same format
-you would use to enter a value.  In the case of strings, that means that it
-includes the quotation marks.  But the print statement prints the value of the
-expression, which in this case is the contents of the string.</p>
+<p>When the Python shell displays the value of an expression, it uses
+the same format you would use to enter a value.  In the case of strings, that
+means that it includes the quotation marks.  But the print statement prints the 
+value of the expression, which in this case is the contents of the string.</p>
 
 <p>In a script, an expression all by itself is a legal statement, but it
 doesn't do anything.  The script</p>
@@ -392,7 +392,7 @@ though it doesn't change the result.</li>
 <li><b>M</b>ultiplication and <b>D</b>ivision have the same 
 precedence, which is higher than <b>A</b>ddition and
 <b>S</b>ubtraction, which also have the same precedence.  So
-<code>2*3-1</code> yields 5 rather then 4, and <code>2/3-1</code> is
+<code>2*3-1</code> yields 5 rather than 4, and <code>2/3-1</code> is
 -1, not 1 (remember that in integer division, 2/3=0).</li>
 
 <li>Operators with the same precedence are evaluated from left to right.  So in 
@@ -467,7 +467,7 @@ Enter a numerical expression: 7 * 3
 </pre>
 
 <p>Each of these functions allows a <b>prompt</b> to be
-given to the function between the paretheses.</p>
+given to the function between the parentheses.</p>
 
 <h2>Composition</h2>
 <span class="index" value="composition" />
@@ -676,13 +676,13 @@ Or this?
 </pre>
 
 Can you think a general rule for what can follow the
-<code>print</code> function?  What does the <code>print</code>
-function return?
+<code>print</code> statement?  What does the <code>print</code>
+statement return?
 </div></li>
 
 <li><div class="exercise">
 Take the sentence: <em>All work and no play makes Jack a dull boy.</em>
-Store each word in a seperate variable, then print out the sentence on one
+Store each word in a separate variable, then print out the sentence on one
 line using print.
 </div></li>
 

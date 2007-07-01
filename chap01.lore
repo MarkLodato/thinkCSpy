@@ -635,7 +635,7 @@ This will give you an error:
 <pre class="python-interpreter">
 NameError: name 'bruce' is not defined
 </pre>
-Assign a value to <code>bruce</code> so that <code>bruce + 4</code> evalutes
+Assign a value to <code>bruce</code> so that <code>bruce + 4</code> evaluates
 to <code>10</code>.
 </div></li>
 
