@@ -102,7 +102,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 </pre>
 
 <p>The first line of this example is the command that starts the Python
-interpreter at a unix command prompt.  The next three lines are messages from
+interpreter at a Unix command prompt.  The next three lines are messages from
 the interpreter.  The fourth line starts with <code>&gt;&gt;&gt;</code>, which
 is the <b>Python prompt</b>.  The interpreter uses the prompt to
 indicate that it is ready for instructions.  We typed <code>print 1 + 1</code>, 
