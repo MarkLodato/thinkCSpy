@@ -52,12 +52,10 @@ separating the coordinates. For example, <code>(0, 0)</code> represents the
 origin, and <code>(x, y)</code> represents the point <code>x</code> units to
 the right and <code>y</code> units up from the origin.</p>
 
-<p>A natural way to represent a point in Python is with two floating-point
-values.  The question, then, is how to group these two values into a compound
-object.  The quick and dirty solution is to use a list or tuple, and for some
+<p>A natural way to represent a point in Python is with two numeric values.
+The question, then, is how to group these two values into a compound object.
+The quick and dirty solution is to use a list or tuple, and for some
 applications that might be the best choice.</p>
-
-<span class="index" value="floating-point" />
 
 <p>An alternative is to define a new user-defined compound type, also called a
 <b>class</b>.  This approach involves a bit more effort, but it has
@@ -110,8 +108,8 @@ new objects is called a <b>constructor</b>.</p>
 <p>We can add new data to an instance using dot notation:</p>
 
 <pre class="python-interpreter">
->>> p.x = 3.0
->>> p.y = 4.0
+>>> p.x = 3
+>>> p.y = 4
 </pre>
 
 <p>This syntax is similar to the syntax for selecting a variable from a module, 
@@ -131,10 +129,10 @@ attributes.  Each attribute refers to a floating-point number.</p>
 
 <pre class="python-interpreter">
 >>> print p.y
-4.0
+4
 >>> x = p.x
 >>> print x
-3.0
+3
 </pre>
 
 <p>The expression <code>p.x</code> means, <q>Go to the object <code>p</code>
@@ -185,24 +183,7 @@ class Point:
 </pre>
 
 
-<h2>The <code>__str__</code> method</h2>
-
-<p>You might be tempted to print the value of <code>blank</code> itself:</p>
-
-<pre class="python-interpreter">
->>> print blank
-&lt;__main__.Point instance at 0xb7d951ac>
-</pre>
-
-<p>The result indicates that <code>blank</code> is an instance of the
-<code>Point</code> class and it was defined in <code>__main__</code>.
-<code>0xb7d951ac</code> is the unique identifier for this object, written in
-hexadecimal (base 16).  This is probably not the most informative way to
-display a <code>Point</code> object.  You will see how to change it shortly.
-</p>
-
 <span class="index" value="printing!object" />
-
 
 <h2>Instances as parameters</h2>
 <span class="index" value="instance" />
@@ -386,41 +367,6 @@ its position, we could modify the values of <code>width</code> and
 box.width = box.width + 50
 box.height = box.height + 100
 </pre>
-
-<p>We could encapsulate this code in a method and generalize it to grow the
-rectangle by any amount:</p>
-
-<span class="index" value="encapsulation" />
-<span class="index" value="generalization" />
-
-<pre class="python">
-def grow_rect(box, dwidth, dheight) :
-    box.width = box.width + dwidth
-    box.height = box.height + dheight
-</pre>
-
-<p>The variables <code>dwidth</code> and <code>dheight</code> indicate how much 
-the rectangle should grow in each direction.  Invoking this method has the
-effect of modifying the <code>Rectangle</code> that is passed as an argument.
-</p>
-
-<p>For example, we could create a new <code>Rectangle</code> named
-<code>bob</code> and pass it to <code>grow_rect</code>:</p>
-
-<pre class="python-interpreter">
->>> bob = Rectangle()
->>> bob.width = 100.0
->>> bob.height = 200.0
->>> bob.corner = Point()
->>> bob.corner.x = 0.0;
->>> bob.corner.y = 0.0;
->>> grow_rect(bob, 50, 100)
-</pre>
-
-<p>While <code>grow_rect</code> is running, the parameter <code>box</code> is an
-alias for <code>bob</code>.  Any changes made to <code>box</code> also affect
-<code>bob</code>.</p>
-
 
 <h2>Copying</h2>
 <a name="embedded" />
