@@ -105,7 +105,10 @@ new objects is called a <b>constructor</b>.</p>
 <h2>Attributes</h2>
 <span class="index" value="attribute" />
 
-<p>We can add new data to an instance using dot notation:</p>
+<p>Like real world objects, object instances have both form and function.
+The form consists of data elements contained within the instance.</p> 
+
+<p>We can add new data elements to an instance using dot notation:</p>
 
 <pre class="python-interpreter">
 >>> p.x = 3
@@ -123,7 +126,7 @@ attribute we are selecting is a data item from an instance.</p>
 <img src="illustrations/point.png" />
 
 <p>The variable <code>p</code> refers to a Point object, which contains two 
-attributes.  Each attribute refers to a floating-point number.</p>
+attributes.  Each attribute refers to a number.</p>
 
 <p>We can read the value of an attribute using the same syntax:</p>
 
@@ -145,12 +148,12 @@ notation is to identify which variable you are referring to unambiguously.</p>
 statements are legal:</p>
 
 <pre class="python">
-print '(' + str(p.x) + ', ' + str(p.y) + ')'
+print '(%d, %d)' % (p.x, p.y)
 distanceSquared = p.x * p.x + p.y * p.y
 </pre>
 
-<p>The first line outputs <code>(3.0, 4.0)</code>; the second line calculates
-the value 25.0.</p>
+<p>The first line outputs <code>(3, 4)</code>; the second line calculates
+the value 25.</p>
 
 
 <h2>The <b>initialization method</b> and <code>self</code></h2>
@@ -193,12 +196,12 @@ class Point:
 
 <pre class="python">
 def print_point(p):
-    print '(' + str(p.x) + ', ' + str(p.y) + ')'
+    print '(%s, %s)' % (str(p.x), str(p.y))
 </pre>
 
 <p><code>print_point</code> takes a point as an argument and displays it in
 the standard format.  If you call <code>print_point(blank)</code>, the
-output is <code>(3.0, 4.0)</code>.</p>
+output is <code>(3, 4)</code>.</p>
 
 
 <h2>Sameness</h2>
