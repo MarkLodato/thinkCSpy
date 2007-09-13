@@ -87,15 +87,15 @@ by a program called a <b>virtual machine</b>.  Python uses both
 processes, but because of the way programmers interact with it, it is
 usually considered an interpreted language.</p>
 
-<p>There are two ways to use the interpreter:
+<p>There are two ways to use the Python interpreter:
 <em>shell mode</em> and <em>script mode</em>. In shell mode,
 you type Python statements into the <b>Python shell</b> and the
 interpreter immediately prints the result:</p>
 
 <pre class="python-interpreter">
 $ python
-Python 2.5 (r25:51908, Oct  6 2006, 15:24:43) 
-[GCC 4.1.2 20060928 (prerelease) (Ubuntu 4.1.1-13ubuntu4)] on linux2
+Python 2.5.1 (r251:54863, May  2 2007, 16:56:35) 
+[GCC 4.1.2 (Ubuntu 4.1.2-0ubuntu4)] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
 >>> print 1 + 1
 2
@@ -629,14 +629,6 @@ NameError: name 'cheese' is not defined
 This is a run-time error; specifically, it is a NameError, and even more
 specifically, it is an error because the name <code>cheese</code> is not
 defined. If you don't know what that means yet, you will soon.
-<br /><br />
-Start the Python interpreter and enter <code>bruce + 4</code> at the prompt.
-This will give you an error:
-<pre class="python-interpreter">
-NameError: name 'bruce' is not defined
-</pre>
-Assign a value to <code>bruce</code> so that <code>bruce + 4</code> evaluates
-to <code>10</code>.
 </div></li>
 
 <li><div class="exercise">

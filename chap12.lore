@@ -15,12 +15,13 @@
 
 <p>
 Python is an <b>object-oriented programming language</b>, which means that
-it provides features that support <b>object-oriented programming</b>.
+it provides features that support <b>object-oriented programming</b>
+(<b>OOP</b>).
 </p>
 
 <p>
 Object-oriented programming has its roots in the 1960s, but it wasn't until
-the mid 1980s that it  became the main <b>programming paradigm</b> used in the
+the mid 1980s that it became the main <b>programming paradigm</b> used in the
 creation of new software.  It was developed as a way to handle the rapidly
 increasing size and complexity of software systems, and to make it easier to
 modify these large and complex systems over time.
@@ -42,8 +43,9 @@ both data and functionality together.
 <span class="index" value="user-defined data type" />
 <span class="index" value="data type!user-defined" />
 
-<p>Having used some of Python's built-in types, we are ready to create a
-user-defined type: the <code>Point</code>.</p>
+<p>A class in essence defines a new <b>data type</b>.  We have been using
+several of Python's built-in types throughout this book, we are now ready to
+create our own user-defined type: the <code>Point</code>.</p>
 
 <p>Consider the concept of a mathematical point.  In two dimensions, a point is 
 two numbers (coordinates) that are treated collectively as a single object.  In 
