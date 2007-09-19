@@ -743,6 +743,14 @@ NameError: name 'bruce' is not defined
 Assign a value to <code>bruce</code> so that <code>bruce + 4</code> evaluates
 to <code>10</code>.
 </div></li>
+
+<li><div class="exercise">
+Write a program (Python script) named <code>madlib.py</code>, which asks the
+user to enter a series of nouns, verbs, adjectives, adverbs, plural nouns,
+past tense verbs, etc., and then generates a paragraph which is syntactically
+correct but symantically ridiculus (see
+<a href="http://madlibs.org">http://madlibs.org</a> for examples).
+</div></li>
 </ol>
 
 </body>
