@@ -698,9 +698,8 @@ happens when you rerun the program.
 
 <li><div class="exercise">
 The difference between <code>input</code> and <code>raw_input</code> is that
-<code>input</code> <em>evaluates</em> the input string and
-<code>raw_input</code> does not.  Try the following in the interpreter and
-record what happens:
+<code>input</code> evaluates the input string and <code>raw_input</code> does
+not.  Try the following in the interpreter and record what happens:
 <pre class="python-shell">
 >>> x = input()
 3.14
