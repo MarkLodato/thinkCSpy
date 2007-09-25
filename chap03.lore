@@ -6,7 +6,7 @@
 <h1>Functions</h1>
 <a name="floatchap" />
 
-<h2>Function definitions</h2>
+<h2>Definitions and use</h2>
 <a name="functionchap" />
 <span class="index" value="function" />
 <span class="index" value="function definition" />
@@ -28,31 +28,40 @@ specifies what information, if any, you have to provide in order to use the new
 function.</p>
 
 <p>There can be any number of statements inside the function, but they have to
-be indented from the left margin.  In the examples in this book, we will use 
-the standard indentation of four spaces. Also note the colon at the end of
-the paramber list.  Colons mark the end of a <b>header</b> in Python, and
-indicate that the next line will be indented.  The header in a function
-definition begins with the keyword <code>def</code> and ends with the
-colon.</p>
+be indented from the <code>def</code>.  In the examples in this book, we will
+use the standard indentation of four spaces. Function definitions are the first
+of several <b>compound statements</b> we will see, all of which have the
+same pattern:</p>
+
+<ol>
+  <li>A <b>header</b>, which begins with a keyword and ends with a colon.</li>
+  <li>A <b>body</b> consisting of one or more Python statements, each
+  indented the same amount from the header.</li>
+</ol>
+
+<p>In a function definition, the keyword in the header is <code>def</code>,
+which is followed by the name of the function and a list of <em>parameters</em>
+enclosed in parentheses. The parameter list may be empty, or it may contain any 
+number of parameters.  In either case, the parentheses are required.</p>
 
 <p>The first couple of functions we are going to write have no parameters,
 so the syntax looks like this:</p>
 
 <pre class="python">
-def new_line():
+def print_line():
     print          # a print statement with no arguments prints a new line
 </pre>
 
-<p>This function is named <code>new_line</code>.  The empty parentheses indicate
-that it has no parameters.  It contains only a single statement, which outputs
-a newline character. (That's what happens when you use a <code>print</code>
-command without any arguments.)</p>
+<p>This function is named <code>new_line</code>.  The empty parentheses
+indicate that it has no parameters.  Its body contains only a single statement, 
+which outputs a newline character. (That's what happens when you use a
+<code>print</code> command without any arguments.)</p>
 
 <p>Defining a new function does not make the function run.  To do that we
 need a <b>function call</b>.  Function calls contain the name of the
 function being executed followed by a list of values, called <b>arguments</b>
-The syntax for calling the new function is the same as the syntax for
-built-in functions:</p>
+The syntax for calling the new function is the function name followed by
+parentheses.</p>
 
 <pre class="python">
 print "First Line."
@@ -93,19 +102,19 @@ three_lines()
 print "Second Line."
 </pre>
 
-<p>This function contains three statements, all of which are indented by two
+<p>This function contains three statements, all of which are indented by four 
 spaces.  Since the next statement is not indented, Python knows that it is
 not part of the function.</p>
 
 <p>You should notice a few things about this program:</p>
 
-<ol>
+<ul>
 <li>You can call the same procedure repeatedly.  In fact, it is quite common
 and useful to do so.</li>
 
 <li>You can have one function call another function; in this case
 <code>three_lines</code> calls <code>new_line</code>.</li>
-</ol>
+</ul>
 
 <p>So far, it may not be clear why it is worth the trouble to create all of
 these new functions.  Actually, there are a lot of reasons, but this example
@@ -121,9 +130,6 @@ behind a single command and by using English words in place of arcane code.
 repetitive code.  For example, a short way to print nine consecutive new lines
 is to call <code>three_lines</code> three times.</li>
 </ol>
-
-
-<h2>Definitions and use</h2>
 
 <p>Pulling together the code fragments from the previous section into a
 script named <code>tryme1.py</code>, the whole program looks like this:</p>
@@ -206,12 +212,39 @@ computing the absolute value:</p>
 5
 </pre>
 
-<p>Some functions take more than one argument. For example, <code>pow</code>
-takes two arguments, the base and the exponent.  Inside the function, the
-values that are passed get assigned to variables called
-<b>parameters</b>.</p>
+<p>In this example, the arguments to the <code>abs</code> function are 5 and
+-5.</p>
 
-<p>Here is an example of a user-defined function that takes a parameter:</p>
+<p>Some functions take more than one argument. For example the built-in
+function <code>pow</code> takes two arguments, the base and the exponent.
+Inside the function, the values that are passed get assigned to variables
+called <b>parameters</b>.</p>
+
+<pre class="python-interpreter">
+>>> pow(2, 3)
+8
+>>> pow(7, 4)
+2401
+</pre>
+
+<p>Another built-in function that takes more than one argument is
+<code>max</code>.</p>
+
+<pre class="python-interpreter">
+>>> max(7, 11)
+11
+>>> max(4, 1, 17, 2, 12)
+17
+>>> max(3*11, 5**3, 512-9, 1024**0)
+503
+</pre>
+
+<p><code>max</code> can be sent any number of arguments, seperated by comas,
+and will return the maximum value sent.  The arguments can be either simple
+values or expressions.  In the last example, 503 is returned, since it is
+larger than 33, 125, and 1.</p>
+
+<p>Here is an example of a user-defined function that has a parameter:</p>
 
 <pre class="python">
 def print_twice(bruce):
@@ -415,16 +448,17 @@ results, and we'll do it in the Chapter 5.</p>
 
 
 <h2>Glossary</h2>
-<span class="index" value="function call" />
-<span class="index" value="return value" />
-<span class="index" value="argument" />
-<span class="index" value="coercion" />
-<span class="index" value="module" />
-<span class="index" value="dot notation" />
 <span class="index" value="function" />
 <span class="index" value="function definition" />
+<span class="index" value="compound statement" />
+<span class="index" value="function call" />
+<span class="index" value="argument" />
 <span class="index" value="flow of execution" />
 <span class="index" value="parameter" />
+
+<span class="index" value="return value" />
+<span class="index" value="coercion" />
+<span class="index" value="module" />
 <span class="index" value="local variable" />
 <span class="index" value="stack diagram" />
 <span class="index" value="function frame" />
@@ -432,33 +466,6 @@ results, and we'll do it in the Chapter 5.</p>
 <span class="index" value="traceback" />
 
 <dl>
-<dt>function call:</dt>
-<dd>A statement that executes a function. It consists of the name of the
-function followed by a list of arguments enclosed in parentheses.</dd>
-
-<dt>argument:</dt>
-<dd>A value provided to a function when the function is called.  This value is
-assigned to the corresponding parameter in the function.</dd>
-
-<dt>return value:</dt>
-<dd>The result of a function.  If a function call is used as an expression, the 
-return value is the value of the expression.</dd>
-
-<dt>type conversion:</dt>
-<dd>An explicit statement that takes a value of one type and computes a
-corresponding value of another type.</dd>
-
-<dt>type coercion:</dt>
-<dd>A type conversion that happens automatically according to Python's coercion 
-rules.</dd>
-
-<dt>module:</dt>
-<dd>A file that contains a collection of related functions and classes.</dd>
-
-<dt>dot notation:</dt>
-<dd>The syntax for calling a function in another module, specifying the module
-name followed by a dot (period) and the function name.</dd>
-
 <dt>function:</dt>
 <dd>A named sequence of statements that performs some useful operation.
 Functions may or may not take parameters and may or may not produce a result.
@@ -468,12 +475,41 @@ Functions may or may not take parameters and may or may not produce a result.
 <dd>A statement that creates a new function, specifying its name, parameters,
 and the statements it executes.</dd>
 
+<dt>compound statement:</dt>
+<dd>A statement that consists of two parts:
+<ol>
+    <li>header - which begins with a keyword determining the statement type,
+    and ends with a colon.</li>
+
+    <li>body - containing one or more statements indented the same amount from
+    the header.</li>
+</ol>
+The syntax of a compound statement looks like this:
+<pre>
+keyword expression :
+    statement
+    statement ...
+</pre>
+</dd>
+
+<dt>function call:</dt>
+<dd>A statement that executes a function. It consists of the name of the
+function followed by a list of arguments enclosed in parentheses.</dd>
+
+<dt>argument:</dt>
+<dd>A value provided to a function when the function is called.  This value is
+assigned to the corresponding parameter in the function.</dd>
+
 <dt>flow of execution:</dt>
 <dd>The order in which statements are executed during a program run.</dd>
 
 <dt>parameter:</dt>
 <dd>A name used inside a function to refer to the value passed as an argument.
 </dd>
+
+<dt>return value:</dt>
+<dd>The result of a function.  If a function call is used as an expression, the 
+return value is the value of the expression.</dd>
 
 <dt>local variable:</dt>
 <dd>A variable defined inside a function.  A local variable can only be used
