@@ -29,7 +29,11 @@ function.</p>
 
 <p>There can be any number of statements inside the function, but they have to
 be indented from the left margin.  In the examples in this book, we will use 
-the standard indentation of four spaces.</p>
+the standard indentation of four spaces. Also note the colon at the end of
+the paramber list.  Colons mark the end of a <b>header</b> in Python, and
+indicate that the next line will be indented.  The header in a function
+definition begins with the keyword <code>def</code> and ends with the
+colon.</p>
 
 <p>The first couple of functions we are going to write have no parameters,
 so the syntax looks like this:</p>
@@ -190,10 +194,17 @@ from top to bottom.  Instead, follow the flow of execution.</p>
 <span class="index" value="argument" />
 <span class="index" value="function!argument" />
 
-<p>Some of the built-in functions you have used require arguments, the values
-that control how the function does its job.  For example, if you want to find
-the sine of a number, you have to indicate what the number is.  Thus,
-<code>sin</code> takes a numeric value as an argument.</p>
+<p>Most functions require arguments, values that control how the function does
+its job.  For example, if you want to find the absolute value of a number, you
+have to indicate what the number is.  Python has a built-in function for
+computing the absolute value:</p> 
+
+<pre class="python-interpreter">
+>>> abs(5)
+5
+>>> abs(-5)
+5
+</pre>
 
 <p>Some functions take more than one argument. For example, <code>pow</code>
 takes two arguments, the base and the exponent.  Inside the function, the
