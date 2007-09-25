@@ -6,31 +6,16 @@
 <h1>Functions</h1>
 <a name="floatchap" />
 
-<h2>Function calls</h2>
+<h2>Function definitions</h2>
 <a name="functionchap" />
-<span class="index" value="function call" />
-<span class="index" value="call!function" />
-
-<p>A <b>function</b> is a named sequence of programming statements that 
-perform some useful operation.</p>
-
-<p>So far, we have only been using the functions that come with Python, but it
-is also possible to add new functions.  Creating new functions to solve your
-particular problems is one of the most useful things about a general-purpose
-programming language.</p>
-
-<p>In the context of programming, a <b>function</b> is a named
-sequence of statements that performs a desired operation.  This operation is
-specified in a <b>function definition</b>.  The functions we have
-been using so far have been defined for us, and these definitions have been
-hidden.  This is a good thing, because it allows us to use the functions
-without worrying about the details of their definitions.</p>
-
 <span class="index" value="function" />
 <span class="index" value="function definition" />
 <span class="index" value="definition!function" />
 
-<p>The syntax for a function definition is:</p>
+<p>In the context of programming, a <b>function</b> is a named sequence of
+statements that performs a desired operation.  This operation is specified in a 
+<b>function definition</b>. In Python, the syntax for a function definition is:
+</p>
 
 <pre class="python">
 def NAME( LIST OF PARAMETERS ):
@@ -43,8 +28,8 @@ specifies what information, if any, you have to provide in order to use the new
 function.</p>
 
 <p>There can be any number of statements inside the function, but they have to
-be indented from the left margin.  In the examples in this book, we will use an 
-indentation of two spaces.</p>
+be indented from the left margin.  In the examples in this book, we will use 
+the standard indentation of four spaces.</p>
 
 <p>The first couple of functions we are going to write have no parameters,
 so the syntax looks like this:</p>
@@ -59,7 +44,10 @@ that it has no parameters.  It contains only a single statement, which outputs
 a newline character. (That's what happens when you use a <code>print</code>
 command without any arguments.)</p>
 
-<p>The syntax for calling the new function is the same as the syntax for
+<p>Defining a new function does not make the function run.  To do that we
+need a <b>function call</b>.  Function calls contain the name of the
+function being executed followed by a list of values, called <b>arguments</b>
+The syntax for calling the new function is the same as the syntax for
 built-in functions:</p>
 
 <pre class="python">
