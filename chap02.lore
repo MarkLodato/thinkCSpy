@@ -192,34 +192,31 @@ and they cannot be used as variable names.</p>
 
 <span class="index" value="keyword" />
 
-<p>Python has twenty-nine keywords:</p>
+<p>Python has thirty-one keywords:</p>
 
 <table class="boxed" style="border-spacing: 40pt 5pt;
                             color: #0000ff;
                             font-weight: bold;">
 <tr>
-<td>and</td><td>else</td><td>import</td><td>raise</td>
+<td>and</td><td>del</td><td>from</td><td>not</td><td>while</td>
+</tr>
+<tr>
+<td>as</td><td>elif</td><td>global</td><td>or</td><td>with</td>
+</tr>
+<tr>
+<td>assert</td><td>else</td><td>if</td><td>pass</td><td>yield</td>
+</tr>
+<tr>
+<td>break</td><td>except</td><td>import</td><td>print</td><td>&nbsp;</td>
+</tr>
+<tr>
+<td>class</td><td>exec</td><td>in</td><td>raise</td><td>&nbsp;</td>
+</tr>
+<tr>
+<td>continue</td><td>finally</td><td>is</td><td>return</td><td>&nbsp;</td>
 </tr>        
 <tr>
-<td>assert</td><td>except</td><td>in</td><td>return</td>
-</tr>        
-<tr>
-<td>break</td><td>exec</td><td>is</td><td>try</td>
-</tr>        
-<tr>
-<td>class</td><td>finally</td><td>lambda</td><td>while</td>
-</tr>        
-<tr>
-<td>continue</td><td>for</td><td>not</td><td>yield</td>
-</tr>        
-<tr>
-<td>def</td><td>from</td><td>or</td><td> &nbsp; </td>
-</tr>        
-<tr>
-<td>del</td><td>global</td><td>pass</td><td> &nbsp; </td>
-</tr>        
-<tr>
-<td>elif</td><td>if</td><td>print</td><td> &nbsp; </td>
+<td>def</td><td>for</td><td>lambda</td><td>try</td><td>&nbsp;</td>
 </tr>        
 </table>
 
