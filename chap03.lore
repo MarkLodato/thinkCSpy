@@ -48,7 +48,7 @@ number of parameters.  In either case, the parentheses are required.</p>
 so the syntax looks like this:</p>
 
 <pre class="python">
-def print_line():
+def new_line():
     print          # a print statement with no arguments prints a new line
 </pre>
 
