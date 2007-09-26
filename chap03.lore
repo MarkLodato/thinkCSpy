@@ -273,27 +273,37 @@ Spam Spam
 <p>In the first function call, the argument is a string. In the second, it's an 
 integer. In the third, it's a <code>float</code>.</p>
 
-<p>The same rules of composition that apply to built-in functions also apply to 
-user-defined functions, so we can use any kind of expression as an argument for <code>print_twice</code>:</p>
+<p>We can use any kind of expression as an argument for
+<code>print_twice</code>:</p>
 
 <pre class="python-interpreter">
 >>> print_twice('Spam'*4)
 SpamSpamSpamSpam SpamSpamSpamSpam
->>> print_twice(math.cos(math.pi))
--1.0 -1.0
 </pre>
 
-<p>As usual, the expression is evaluated before the function is run, so
-<code>print_twice</code> returns
-<code class="shell">SpamSpamSpamSpam SpamSpamSpamSpam</code>
-instead of <code class="shell">'Spam'*4 'Spam'*4</code>.</p>
+<p><code>'Spam'*4</code> is first evaluated to <code>'SpamSpamSpamSpam'</code>,
+which is then passed as an argument to <code>print_twice</code>.</p>
 
-<div class="exercise">
-As an exercise, write a call to <code>print_twice</code> that does return
-<code class="shell">'Spam'*4 'Spam'*4</code>.  Hint: strings can be enclosed
-in either single or double quotes, and the type of quote not used to enclose
-the string can be used inside it as part of the string.
-</div>
+
+<h2>Composition</h2>
+<span class="index" value="composition" />
+<span class="index" value="function!composition" />
+
+<p>Just as with mathematical functions, Python functions can be <b>composed</b>,
+meaning that you use the result of one function as the input to another.</p>
+
+<pre class="python-interpreter">
+>>> print_twice(abs(-7))
+7 7
+>>> print_twice(max(3, 1, abs(-11), 7))
+11 11
+</pre>
+
+<p>In the first example, <code>abs(-7)</code> evaluates to 7, which then
+becomes the argument to <code>print_twice</code>.  In the second example we
+have two levels of composition, since <code>abs(-11)</code> is first evaluated
+to 11 before <code>max(3, 1, 11, 7)</code> is evaluated to 11 and
+<code>print_twice(11)</code> then displays the result.</p>
 
 <p>We can also use a variable as an argument:</p>
 
@@ -427,7 +437,7 @@ not a coincidence.</p>
 <h2>Functions with results</h2>
 
 <p>You might have noticed by now that some of the functions we are using, such
-as the math functions, yield results.  Other functions, like
+as the built-in functions, yield results.  Other functions, like
 <code>new_line</code>, perform an action but don't return a value.  That raises
 some questions:</p>
 
@@ -444,7 +454,8 @@ functions like <code>new_line</code> and <code>print_twice</code>?</li>
 </ol>
 
 <p>The answer to the last question is that you can write functions that yield
-results, and we'll do it in the Chapter 5.</p>
+results, which are called <b>return values</b>, and we'll do it in Chapter 5.
+</p>
 
 
 <h2>Glossary</h2>
@@ -455,15 +466,13 @@ results, and we'll do it in the Chapter 5.</p>
 <span class="index" value="argument" />
 <span class="index" value="flow of execution" />
 <span class="index" value="parameter" />
-
-<span class="index" value="return value" />
-<span class="index" value="coercion" />
-<span class="index" value="module" />
+<span class="index" value="function!composition" />
 <span class="index" value="local variable" />
 <span class="index" value="stack diagram" />
-<span class="index" value="function frame" />
 <span class="index" value="frame" />
+<span class="index" value="function frame" />
 <span class="index" value="traceback" />
+<span class="index" value="return value" />
 
 <dl>
 <dt>function:</dt>
@@ -507,9 +516,8 @@ assigned to the corresponding parameter in the function.</dd>
 <dd>A name used inside a function to refer to the value passed as an argument.
 </dd>
 
-<dt>return value:</dt>
-<dd>The result of a function.  If a function call is used as an expression, the 
-return value is the value of the expression.</dd>
+<dt>function composition:</dt>
+<dd>Using the output from one function call as the input to another.</dd>
 
 <dt>local variable:</dt>
 <dd>A variable defined inside a function.  A local variable can only be used
@@ -526,13 +534,17 @@ local variables and parameters of the function.</dd>
 <dt>traceback:</dt>
 <dd>A list of the functions that are executing, printed when a runtime error
 occurs.</dd>
+
+<dt>return value:</dt>
+<dd>The result of a function.  If a function call is used as an expression, the 
+return value is the value of the expression.</dd>
 </dl>
 
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
 Using a text editor, create a Python script named <code>tryme3.py</code>.
-Write a function called <code>nine_lines</code> in this file that uses
+Write a function in this file called <code>nine_lines</code> that uses
 <code>three_lines</code> to print nine blank lines.  Now add a function named
 <code>clear_screen</code> that prints out twenty-five blank lines.  The last
 line of your program should be a <em>call</em> to <code>clear_screen</code>.
@@ -560,6 +572,15 @@ Answer the first two questions in the <em>Functions with results</em> section
 by trying them out.  Record your results.  When you have a question about what
 is legal or illegal in Python, a good way to find out is to ask the
 interpreter.
+</div></li>
+
+<li><div class="exercise">
+Fill in the <em>body</em> of the <em>function definition</em> for
+<code>cat_n_times</code> so that it will print the string, s, n times:
+<pre class="python">
+def cat_n_times(s, n):
+    &lt;fill in your code here&gt;
+</pre>
 </div></li>
 </ol>
 
