@@ -322,26 +322,21 @@ function before you reach the end.  One reason to use it is if you detect an
 error condition:</p>
 
 <pre class="python">
-import math
-
-def print_logarithm(x):
+def print_square_root(x):
     if x &lt;= 0:
         print "Positive numbers only, please."
         return
 
-    result = math.log(x)
-    print "The log of x is", result
+    result = x**0.5
+    print "The square root of x is", result
 </pre>
 
-<p>The function <code>print_logarithm</code> has a parameter named
+<p>The function <code>print_square_root</code> has a parameter named
 <code>x</code>.  The first thing it does is check whether <code>x</code> is
 less than or equal to 0, in which case it displays an error message and then
 uses <code>return</code> to exit the function. The flow of execution
 immediately returns to the caller, and the remaining lines of the function are
 not executed.</p>
-
-<p>Remember that to use a function from the math module, you have to import it.
-</p>
 
 
 <h2>Recursion</h2>
@@ -538,13 +533,13 @@ learn more about such cases when we talk about nested lists and trees.
 
 <h2>Keyboard input</h2>
 
-<p>The programs we have written so far are a bit rude in the sense that they
-accept no input from the user.  They just do the same thing every time.</p>
+<p>In chapter 2 we were introduced to Python's built-in functions that get
+input from the keyboard: <code>raw_input</code> and <code>input</code>.
+Now let's look at these again in greater depth.</p>
 
-<p>Python provides built-in functions that get input from the keyboard.  The
-simplest is called <code>raw_input</code>.  When this function is called, the
-program stops and waits for the user to type something.  When the user presses
-Return or the Enter key, the program resumes and <code>raw_input</code>
+<p>When either of these functions are called, the program stops and waits for
+the user to type something.  When the user presses Return or the Enter key, the 
+program resumes and <code>raw_input</code>
 returns what the user typed as a <code>string</code>:</p>
 
 <pre class="python-interpreter">
