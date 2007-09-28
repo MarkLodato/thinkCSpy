@@ -450,9 +450,9 @@ not a coincidence.</p>
 <span class="index" value="function definition" />
 <span class="index" value="compound statement" />
 <span class="index" value="function call" />
-<span class="index" value="argument" />
 <span class="index" value="flow of execution" />
 <span class="index" value="parameter" />
+<span class="index" value="argument" />
 <span class="index" value="function!composition" />
 <span class="index" value="local variable" />
 <span class="index" value="stack diagram" />
@@ -491,16 +491,16 @@ keyword expression :
 <dd>A statement that executes a function. It consists of the name of the
 function followed by a list of arguments enclosed in parentheses.</dd>
 
-<dt>argument:</dt>
-<dd>A value provided to a function when the function is called.  This value is
-assigned to the corresponding parameter in the function.</dd>
-
 <dt>flow of execution:</dt>
 <dd>The order in which statements are executed during a program run.</dd>
 
 <dt>parameter:</dt>
 <dd>A name used inside a function to refer to the value passed as an argument.
 </dd>
+
+<dt>argument:</dt>
+<dd>A value provided to a function when the function is called.  This value is
+assigned to the corresponding parameter in the function.</dd>
 
 <dt>function composition:</dt>
 <dd>Using the output from one function call as the input to another.</dd>
@@ -556,6 +556,11 @@ Fill in the <em>body</em> of the <em>function definition</em> for
 <pre class="python">
 def cat_n_times(s, n):
     &lt;fill in your code here&gt;
+</pre>
+Add this function to <code>tryme3.py</code>.  Calling
+<code>cat_n_times('Spam', 7)</code> should produce the following output:
+<pre>
+SpamSpamSpamSpamSpamSpamSpam
 </pre>
 </div></li>
 </ol>
