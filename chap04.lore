@@ -12,7 +12,7 @@
 
 <p>The <b>modulus operator</b> works on integers (and integer
 expressions) and yields the remainder when the first operand is divided by the
-second.  In Python, the modulus operator is a percent sign <code>%</code>).
+second.  In Python, the modulus operator is a percent sign (<code>%</code>).
 The syntax is the same as for other operators:
 </p>
 
@@ -146,15 +146,13 @@ statement gets executed.  If not, nothing happens.</p>
 <p>Like other compound statements, the <code>if</code> statement is made up of
 a header and a block of statements:</p>
 
-<pre>
-HEADER:
-    FIRST STATEMENT
-    ...
-    LAST STATEMENT
+<pre class="python">
+if BOOLEAN EXPRESSION:
+    STATEMENTS
 </pre>
 
-<p>The header begins on a new line and ends with a colon (:).  The indented
-statements that follow are called a <b>block</b>.  The first
+<p>The header begins with the keyword <code>if</code> and ends with a colon (:).
+The indented statements that follow are called a <b>block</b>.  The first
 unindented statement marks the end of the block.  A statement block inside a
 compound statement is called the <b>body</b> of the statement.</p>
 

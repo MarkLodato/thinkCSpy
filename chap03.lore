@@ -434,30 +434,6 @@ error.</p>
 not a coincidence.</p>
 
 
-<h2>Functions with results</h2>
-
-<p>You might have noticed by now that some of the functions we are using, such
-as the built-in functions, yield results.  Other functions, like
-<code>new_line</code>, perform an action but don't return a value.  That raises
-some questions:</p>
-
-<ol>
-<li>What happens if you call a function in a script and you don't do anything
-with the result (i.e., you don't assign it to a variable or use it as part of a 
-larger expression)?</li>
-
-<li>What happens if you use a function without a result as part of an
-expression, such as <code>new_line() + 7</code>?</li>
-
-<li>Can you write functions that yield results, or are you stuck with simple
-functions like <code>new_line</code> and <code>print_twice</code>?</li>
-</ol>
-
-<p>The answer to the last question is that you can write functions that yield
-results, which are called <b>return values</b>, and we'll do it in Chapter 5.
-</p>
-
-
 <h2>Glossary</h2>
 <span class="index" value="function" />
 <span class="index" value="function definition" />
@@ -472,7 +448,6 @@ results, which are called <b>return values</b>, and we'll do it in Chapter 5.
 <span class="index" value="frame" />
 <span class="index" value="function frame" />
 <span class="index" value="traceback" />
-<span class="index" value="return value" />
 
 <dl>
 <dt>function:</dt>
@@ -534,16 +509,13 @@ local variables and parameters of the function.</dd>
 <dt>traceback:</dt>
 <dd>A list of the functions that are executing, printed when a runtime error
 occurs.</dd>
-
-<dt>return value:</dt>
-<dd>The result of a function.  If a function call is used as an expression, the 
-return value is the value of the expression.</dd>
 </dl>
+
 
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
-Using a text editor, create a Python script named <code>tryme3.py</code>.
+Using a text editor, create a Python script named <code>tryme3.py</code> .
 Write a function in this file called <code>nine_lines</code> that uses
 <code>three_lines</code> to print nine blank lines.  Now add a function named
 <code>clear_screen</code> that prints out twenty-five blank lines.  The last
@@ -560,18 +532,11 @@ other in a program?
 </div></li>
 
 <li><div class="exercise">
-Starting with a working version of <code>tryme3.py</code>, move the definition
+Starting with a working version of <code>tryme3.py</code> , move the definition
 of <code>new_line</code> after the definition of <code>three_lines</code>.
 Record what happens when you run this program.  Now move the definition of
 <code>new_line</code> below a call to <code>three_lines()</code>. Explain how
 this is an example of the rule you stated in the previous exercise.
-</div></li>
-
-<li><div class="exercise">
-Answer the first two questions in the <em>Functions with results</em> section
-by trying them out.  Record your results.  When you have a question about what
-is legal or illegal in Python, a good way to find out is to ask the
-interpreter.
 </div></li>
 
 <li><div class="exercise">
