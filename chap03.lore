@@ -276,7 +276,7 @@ Spam Spam
 <p>In a function call, the value of the argument is assigned to the
 corresponding parameter in the function definition.  In effect, it is if
 <code>bruce = 'Spam'</code> is executed when <code>print_twice('Spam')</code>
-is called, <code>bruce = 5</code> in <code>print_twice(5), and
+is called, <code>bruce = 5</code> in <code>print_twice(5)</code>, and
 <code>bruce = 3.14159</code> in <code>print_twice(3.14159)</code>.
 </p>
 
