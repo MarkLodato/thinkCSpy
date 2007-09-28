@@ -59,9 +59,11 @@ which outputs a newline character. (That's what happens when you use a
 
 <p>Defining a new function does not make the function run.  To do that we
 need a <b>function call</b>.  Function calls contain the name of the
-function being executed followed by a list of values, called <b>arguments</b>
-The syntax for calling the new function is the function name followed by
-parentheses.</p>
+function being executed followed by a list of values, called <em>arguments</em>,
+which are assigned to the parameters in the function definition.  Our first
+examples have an empty parameter list, so the function calls do not take
+any arguments.  Notice, however, that the <em>parentheses are required
+in the function call</em>:</p>
 
 <pre class="python">
 print "First Line."
@@ -77,7 +79,8 @@ First line.
 Second line.
 </pre>
 
-<p>Notice the extra space between the two lines.  What if we wanted more space
+<p>The extra space between the two lines is a result of the
+<code>new_line()</code> function call.  What if we wanted more space
 between the lines?  We could call the same function repeatedly:</p>
 
 <pre class="python">
@@ -251,9 +254,9 @@ def print_twice(bruce):
     print bruce, bruce
 </pre>
 
-<p>This function takes a single argument and assigns it to a parameter named
-<code>bruce</code>.  The value of the parameter (at this point we have no idea
-what it will be) is printed twice, followed by a newline.  The name
+<p>This function takes a single <b>argument</b> and assigns it to the parameter 
+named <code>bruce</code>.  The value of the parameter (at this point we have no 
+idea what it will be) is printed twice, followed by a newline.  The name
 <code>bruce</code> was chosen to suggest that the name you give a parameter is
 up to you, but in general, you want to choose something more illustrative than
 <code>bruce</code>.</p>
@@ -270,10 +273,18 @@ Spam Spam
 3.14159 3.14159
 </pre>
 
-<p>In the first function call, the argument is a string. In the second, it's an 
-integer. In the third, it's a <code>float</code>.</p>
+<p>In a function call, the value of the argument is assigned to the
+corresponding parameter in the function definition.  In effect, it is if
+<code>bruce = 'Spam'</code> is executed when <code>print_twice('Spam')</code>
+is called, <code>bruce = 5</code> in <code>print_twice(5), and
+<code>bruce = 3.14159</code> in <code>print_twice(3.14159)</code>.
+</p>
 
-<p>We can use any kind of expression as an argument for
+<p>Any type of argument that can be printed can be sent to
+<code>print_twice</code> In the first function call, the argument is a string.
+In the second, it's an integer. In the third, it's a <code>float</code>.</p>
+
+<p>As with built-in functions, we can use an expression as an argument for
 <code>print_twice</code>:</p>
 
 <pre class="python-interpreter">
