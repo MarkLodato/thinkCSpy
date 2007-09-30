@@ -143,18 +143,25 @@ statement gets executed.  If not, nothing happens.</p>
 <span class="index" value="compound statement!statement block" />
 <span class="index" value="statement!compound" />
 
-<p>Like other compound statements, the <code>if</code> statement is made up of
-a header and a block of statements:</p>
+<p>The syntax for an <code>if</code> statement looks like this:</p>
 
 <pre class="python">
 if BOOLEAN EXPRESSION:
     STATEMENTS
 </pre>
 
-<p>The header begins with the keyword <code>if</code> and ends with a colon (:).
-The indented statements that follow are called a <b>block</b>.  The first
+<p>As with the function definition from last chapter and other compound
+statements, the <code>if</code> statement consistes of a header and a
+body.  The header begins with the keyword <code>if</code> followed by
+a <em>boolean expression</em> and ends with a colon (:).</p>
+
+<p>The indented statements that follow are called a <b>block</b>.  The first
 unindented statement marks the end of the block.  A statement block inside a
 compound statement is called the <b>body</b> of the statement.</p>
+
+<p>Each of the statements inside the body are executed in order if the boolean
+expression evaluates to <code>True</code>.   The entire block is skipped if the 
+boolean expression evaluates to <code>False</code>.</p>
 
 <span class="index" value="block" />
 <span class="index" value="statement!block" />
@@ -165,6 +172,11 @@ an <code>if</code> statement, but there has to be at least one.  Occasionally,
 it is useful to have a body with no statements (usually as a place keeper for
 code you haven't written yet).  In that case, you can use the <code>pass</code>
 statement, which does nothing.</p>
+
+<pre class="python">
+if True:          # This is always true
+    pass          # so this is always executed, but it does nothing
+</pre>
 
 <span class="index" value="pass statement" />
 <span class="index" value="statement!pass" />
@@ -234,7 +246,7 @@ else:
     print x, "and", y, "are equal"
 </pre>
 
-<p><code>elif</code> is an abbreviation of <q>else if.</q>  Again, exactly one
+<p><code>elif</code> is an abbreviation of <q>else if</q>.  Again, exactly one
 branch will be executed.  There is no limit of the number of <code>elif</code>
 statements but only a single (and optional) <code>else</code> statement is
 allowed and it must be the last branch in the statement:</p>
@@ -258,8 +270,8 @@ first true branch executes.</p>
 
 <h2>Nested conditionals</h2>
 
-<p>One conditional can also be nested within another.  We could have written
-the trichotomy example as follows:</p>
+<p>One conditional can also be <b>nested</b> within another.  We could have
+written the trichotomy example as follows:</p>
 
 <pre class="python">
 if x == y:
@@ -537,8 +549,8 @@ Now let's look at these again in greater depth.</p>
 
 <p>When either of these functions are called, the program stops and waits for
 the user to type something.  When the user presses Return or the Enter key, the 
-program resumes and <code>raw_input</code>
-returns what the user typed as a <code>string</code>:</p>
+program resumes and <code>raw_input</code> returns what the user typed as a
+<code>string</code>:</p>
 
 <pre class="python-interpreter">
 >>> my_input = raw_input()
@@ -548,7 +560,7 @@ What are you waiting for?
 </pre>
 
 <p>Before calling <code>raw_input</code>, it is a good idea to print a message
-telling the user what to input.  This message is called a <code>prompt</code>.
+telling the user what to input.  This message is called a <b>prompt</b>.
 We can supply a prompt as an argument to <code>raw_input</code>:</p>
 
 <span class="index" value="prompt" />
@@ -560,9 +572,12 @@ What...is your name? Arthur, King of the Britons!
 Arthur, King of the Britons!
 </pre>
 
-<p>If we expect the response to be an integer, we can use the
-<code>input</code> function which interprets the response as a Python value:
+<p>Notice that the prompt is a string, so it must be enclosed in parenthesis.
 </p>
+
+<p>If we expect the response to be an integer, we can use the
+<code>input</code> function which evaluates the response as a Python
+expression:</p>
 
 <pre class="python">
 prompt = "What...is the airspeed velocity of an unladen swallow?\n"
@@ -581,9 +596,80 @@ What do you mean, an African or a European swallow?
 SyntaxError: invalid syntax
 </pre>
 
-<p>To avoid this kind of error, it is generally a good idea to use
-<code>raw_input</code> to get a string and then use conversion functions to
-convert to other types.</p>
+<p>In the last example, if the user had made the response a valid Python
+expression by putting quotes around it, it would not have given an error:
+</p>
+
+<pre class="python-interpreter">
+>>> speed = input(prompt)
+What...is the airspeed velocity of an unladen swallow?
+"What do you mean, an African or a European swallow?"
+>>> speed
+'What do you mean, an African or a European swallow?'
+>>>
+</pre>
+
+<p>To avoid this kind of error, it is a good idea to use <code>raw_input</code> 
+to get a string and then use conversion commands to convert it to other types.
+</p>
+
+
+<h2>Type conversion</h2>
+<span class="index" value="converstion!type" />
+<span class="index" value="type converstion" />
+
+<p>Each Python type comes with a built-in command that attemps to convert values
+of another type into that type.  The <code>int(ARGUMENT)</code> command, for
+example, takes any value and converts it to an integer, if possible, or
+complains otherwise:</p>
+
+<pre class="python-interpreter">
+>>> int("32")
+32
+>>> int("Hello")
+ValueError: invalid literal for int() with base 10: 'Hello'
+</pre>
+
+<p><code>int</code> can also convert floating-point values to integers, but
+remember that it truncates the fractional part:</p>
+
+<pre class="python-interpreter">
+>>> int(-2.3)
+-2
+>>> int(3.99999)
+3
+>>> int("42")
+42
+>>> int(1.0)
+1
+</pre>
+
+<p>The <code>float(ARGUMENT)</code> command converts integers and strings to
+floating-point numbers:</p>
+
+<pre class="python-interpreter">
+>>> float(32)
+32.0
+>>> float("3.14159")
+3.14159
+>>> float(1)
+1.0
+</pre>
+
+<p>It may seem odd that Python distinguishes the integer value <code>1</code>
+from the floating-point value <code>1.0</code>.  They may represent the same
+number, but they belong to different types.  The reason is that they
+are represented differently inside the computer.</p>
+
+<p>Finally, the <code>str(ARGUMENT)</code> command converts any argument given
+to it to type <code>string</code>:</p>
+
+<pre class="python-interpreter">
+>>> str(32)
+'32'
+>>> str(3.14149)
+'3.14149'
+</pre>
 
 
 <h2>Glossary</h2>
@@ -597,11 +683,15 @@ convert to other types.</p>
 <span class="index" value="branch" />
 <span class="index" value="body" />
 <span class="index" value="block" />
+<span class="index" value="branch" />
+<span class="index" value="chained conditional" />
 <span class="index" value="nesting" />
 <span class="index" value="recursion" />
 <span class="index" value="base case" />
 <span class="index" value="infinite recursion" />
+<span class="index" value="tail recursion" />
 <span class="index" value="prompt" />
+<span class="index" value="type conversion" />
 
 <dl>
 <dt>modulus operator:</dt>
@@ -634,15 +724,21 @@ condition.</dd>
 <dd>The boolean expression in a conditional statement that determines which
 branch is executed.</dd>
 
-<dt>compound statement:</dt>
-<dd>A statement that consists of a header and a body.  The header ends with a
-colon (:).  The body is indented relative to the header.</dd>
-
 <dt>block:</dt>
 <dd>A group of consecutive statements with the same indentation.</dd>
 
 <dt>body:</dt>
-<dd>The block in a compound statement that follows the header.</dd>
+<dd>The block of statements in a compound statement that follows the header.
+</dd>
+
+<dt>branch:</dt>
+<dd>One of the possible paths of the flow of execution determined by 
+conditional execution.</dd>
+
+<dt>chained conditional:</dt>
+<dd>A conditional branch with more than two possible flows of execution.
+In Python chained conditionals are written with
+<code class="Python">if ... elif ... else</code> statements.</dd>
 
 <dt>nesting:</dt>
 <dd>One program structure within another, such as a conditional statement
@@ -662,8 +758,18 @@ result in a recursive call.</dd>
 <dd>A function that calls itself recursively without ever reaching the base
 case.  Eventually, an infinite recursion causes a runtime error.</dd>
 
+<dt>tail recursion:</dt>
+<dd>A recursive call that occurs as the last statement (at the tail) of a
+recursive function.  Tail recursion is considered bad practice in Python
+programs since a logically equivalent function can be written using
+<em>iteration</em> which is more efficient.</dd>
+
 <dt>prompt:</dt>
 <dd>A visual cue that tells the user to input data.</dd>
+
+<dt>type conversion:</dt>
+<dd>An explicit statement that takes a value of one type and computes a
+corresponding value of another type.</dd>
 </dl>
 
 

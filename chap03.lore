@@ -449,6 +449,10 @@ not a coincidence.</p>
 <span class="index" value="function" />
 <span class="index" value="function definition" />
 <span class="index" value="compound statement" />
+<span class="index" value="header" />
+<span class="index" value="compound statement!header" />
+<span class="index" value="body" />
+<span class="index" value="compound statement!body" />
 <span class="index" value="function call" />
 <span class="index" value="flow of execution" />
 <span class="index" value="parameter" />
@@ -486,6 +490,15 @@ keyword expression :
     statement ...
 </pre>
 </dd>
+
+<dt>header:</dt>
+<dd>The first part of a compound statement.  Headers begin with a keyword
+and end with a colon (:)</dd>
+
+<dt>body:</dt>
+<dd>The second part of a compound statement.  The body consists of a
+sequence of statements all indented the same amount from the beginning
+of the header.</dd>   
 
 <dt>function call:</dt>
 <dd>A statement that executes a function. It consists of the name of the
