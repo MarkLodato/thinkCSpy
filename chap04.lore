@@ -661,15 +661,47 @@ from the floating-point value <code>1.0</code>.  They may represent the same
 number, but they belong to different types.  The reason is that they
 are represented differently inside the computer.</p>
 
-<p>Finally, the <code>str(ARGUMENT)</code> command converts any argument given
-to it to type <code>string</code>:</p>
+<p>The <code>str(ARGUMENT)</code> command converts any argument given to it to
+type <code>string</code>:</p>
 
 <pre class="python-interpreter">
 >>> str(32)
 '32'
 >>> str(3.14149)
 '3.14149'
+>>> str(True)
+'True'
+>>> str(true)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+NameError: name 'true' is not defined
 </pre>
+
+<p><code>str(ARGUMENT)</code> with work with any value and convert it into
+a string.  As mentioned earlier, <code>True</code> is boolean value;
+<code>true</code> is not.</p>
+
+<p>For boolean values, the situation is especially interesting:</p>
+
+<pre class="python-interpreter">
+>>> bool(1)
+True
+>>> bool(0)
+False
+>>> bool("Ni!")
+True
+>>> bool("")
+False
+>>> bool(3.14159)
+True
+>>> bool(0.0)
+False
+</pre>
+
+<p>Python assigns boolean values to values of other types.  For numerical
+types like integers and floating-points, zero values are false and non-zero
+values are true.  For strings, empty strings are false and non-empty strings
+are true.</p>
 
 
 <h2>Glossary</h2>
@@ -776,6 +808,24 @@ corresponding value of another type.</dd>
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
+<p>Try to evaluate the following numerical expressions in your head, then use
+the Python interpreter to check your results:</p>
+  <ol style="list-style-type: lower-alpha;">
+    <li><code>>>> 5 % 2</code></li>
+    <li><code>>>> 9 % 5</code></li>
+    <li><code>>>> 15 % 12</code></li>
+    <li><code>>>> 12 % 15</code></li>
+    <li><code>>>> 6 % 6</code></li>
+    <li><code>>>> 0 % 7</code></li>
+    <li><code>>>> 7 % 0</code></li>
+  </ol>
+<p>What happened with the last example?  Why?  If you were able to correctly
+anticipate the computer's response in all but the last one, it is time to move
+on.  If not, take time now to make up examples of your own.  Explore the
+modulus operator until you are confident you understand how it works.</p>
+</div></li>
+
+<li><div class="exercise">
 <pre class="python">
 if x &lt; y:
     print x, "is less than", y
@@ -791,6 +841,58 @@ argument.
 </div></li>
 
 <li><div class="exercise">
+<p>
+To better understand boolean expressions, it is helpful to construct
+truth tables.  Two boolean expressions are <em>logically equivalent</em>
+if and only if they have the same truth table.
+</p>
+<p>
+The following Python script prints out the truth table for the
+any boolean expression in two variables: p and q:
+</p>
+<pre class="python">
+expression = raw_input("Enter a boolean expression in two variables, p and q: ")
+
+print " p      q      %s"  % expression
+length = len( " p      q      %s"  % expression)
+print length*"="
+
+for p in True, False:
+    for q in True, False:
+        print "%-7s %-7s %-7s" % (p, q, eval(expression))
+</pre>
+<p>
+You will learn how this script works in later chapters.  For now, you will
+use it to learn about boolean expressions.  Copy this program to a file named
+<code>p_and_q.py</code>, then run it from the command line and give it:
+<code>p or q</code>, when prompted for a boolean expression.  You should
+get the following output:
+</p>
+<pre class="boxed">
+ p      q      p or q
+=====================
+True    True    True   
+True    False   True   
+False   True    True   
+False   False   False
+</pre>
+<p>
+Run <code>p_and_q.py</code> with the following boolean expressions,
+recording the truth table produced each time:
+</p>
+  <ol style="list-style-type: lower-alpha;">
+    <li>not(p or q)</li>
+    <li>p and q</li>
+    <li>not(p and q)</li>
+    <li>not(p) or not(q)</li>
+    <li>not(p) and not(q)</li>
+  </ol> 
+<p>
+Which of these are logically equivalent?
+</p>
+</div></li>
+
+<li><div class="exercise">
 <pre class="python">
 if choice == 'A':
     functionA()
@@ -801,7 +903,28 @@ elif choice == 'C':
 else:
     print "Invalid choice."
 </pre>
-Wrap this code in a function called <code>dispatch(choice)</code>.
+<p>
+Wrap this code in a function called <code>dispatch(choice)</code>. Then
+define <code>functionA</code>, <code>functionB</code>, and
+<code>functionC</code> so that they print out a message saying they were
+called.  For example:
+</p>
+<pre class="python">
+def functionA():
+    print "functionA was called..."
+</pre>
+<p>
+Put the four functions (<code>dispatch</code>, <code>functionA</code>,
+<code>functionB</code>, and <code>functionC</code> into a script named
+<code>ch4prob4.py</code>.  At the bottom of this script add a call to
+<code>dispatch('B')</code>.  Your output should be:
+</p>
+<pre class="boxed">
+functionB was called...
+</pre>
+<p>
+Finally, modify the script so that user can enter 'A', 'B', or 'C'.
+</p>
 </div></li>
 
 <li><div class="exercise">
@@ -809,8 +932,49 @@ Write a function with infinite recursion and run it in the Python interpreter.
 </div></li>
 
 <li><div class="exercise">
+<p>
+Write a function named <code>is_divisable_by_3</code> that takes a single
+integer as an argument and prints "This number is divisable by three." if
+the argument is evenly divisable by 3 and "This number is not divisable by
+three." otherwise.
+</p>
+<p>
+Now write a similar function named <code>is_divisable_by_5</code>.
+</p>
+</div></li>
+
+<li><div class="exercise">
+<p>
+Generalize the functions you wrote in the previous exercise into a function
+named <code>is_divisable_by_n(x, n)</code> that takes two integer arguments
+and prints out whether the first is divisable by the second.  A sample
+run could look like this:
+</p>
+<pre class="python">
+is_divisable_by_n(20, 4)
+Yes, 20 is divisable by 4
+</div></li>
+
+<li><div class="exercise">
 Draw a stack diagram for <code>n_lines</code> called with <code>n</code> set to
 4.
+</div></li>
+
+<li><div class="exercise">
+What will be the output of the following?
+<pre class="python">
+if "Ni!":
+    print 'We are the Knights who say, "Ni!"'
+else:
+    print "Stop it! No more of this!"
+
+if 0:
+    print "And now for something completely different..."
+else:
+    print "What's all this, then?"
+</pre>
+
+Explain what happened and why it happened.
 </div></li>
 </ol>
 
