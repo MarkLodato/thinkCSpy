@@ -268,7 +268,7 @@ our functions.  We can use the <b>import statement</b> to bring the functions
 we have defined in a script into the interpreter session.  To see how this
 works, assume the <code>print_twice</code> function is defined in a script
 named <code>chap03.py</code>.  We can now test it interactively by
-<em>importing</em> it into our Python shell session:
+<em>importing</em> it into our Python shell session:</p>
 
 <pre class="python-interpreter">
 >>> from chap03 import *
@@ -537,7 +537,7 @@ s = "And now for something completely different..."
 <code>tryme.py</code> is located:</p>
 <pre class="boxed">
 $ ls
-tryme.py  <and other stuff...>
+tryme.py  &lt;and other stuff...&gt;
 $ python
 >>>
 </pre>
@@ -547,11 +547,11 @@ access in the shell without first importing, we get an error:</p>
 <pre class="python-interpreter">
 >>> n
 Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 NameError: name 'n' is not defined
 >>> print_thrice("ouch!")
 Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 NameError: name 'print_thrice' is not defined
 </pre>
 <p>If we import everything from <code>tryme.py</code>, however, we can use
