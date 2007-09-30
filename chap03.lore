@@ -623,17 +623,25 @@ this is an example of the rule you stated in the previous exercise.
 </div></li>
 
 <li><div class="exercise">
-Fill in the <em>body</em> of the <em>function definition</em> for
-<code>cat_n_times</code> so that it will print the string, s, n times:
+<p>Fill in the <em>body</em> of the <em>function definition</em> for
+<code>cat_n_times</code> so that it will print the string, s, n times:</p>
 <pre class="python">
 def cat_n_times(s, n):
     &lt;fill in your code here&gt;
 </pre>
-Add this function to <code>tryme3.py</code>.  Calling
-<code>cat_n_times('Spam', 7)</code> should produce the following output:
-<pre>
+<p>Save this function in a script named <code>import_test.py</code>.
+Now at a unix prompt, make sure you are in the same directory where
+the <code>import_test.py</code> is located (the <code>ls</code> should
+show <code>import_test.py</code>).  Start a Python shell and try the
+following:</p>
+<pre class="python-interpreter">
+>>> from import_test import *
+>>> cat_n_times('Spam', 7)
 SpamSpamSpamSpamSpamSpamSpam
 </pre>
+<p>If all is well, your session should work the same as this one.  Experiment
+with other calls to <code>cat_n_times</code> until you feel comfortable with
+how it works.</p>
 </div></li>
 </ol>
 
