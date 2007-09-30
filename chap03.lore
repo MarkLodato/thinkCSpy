@@ -541,9 +541,10 @@ tryme.py  &lt;and other stuff...&gt;
 $ python
 >>>
 </pre>
-<p>Three names where defined in <code>tryme.py</code>:
+<p>Three names are defined in <code>tryme.py</code>:
 <code>print_thrice</code>, <code>n</code>, and <code>s</code>.  If we try
-access in the shell without first importing, we get an error:</p>
+to access any of these in the shell without first importing, we get an
+error:</p>
 <pre class="python-interpreter">
 >>> n
 Traceback (most recent call last):
