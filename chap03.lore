@@ -632,7 +632,7 @@ def cat_n_times(s, n):
 </pre>
 <p>Save this function in a script named <code>import_test.py</code>.
 Now at a unix prompt, make sure you are in the same directory where
-the <code>import_test.py</code> is located (the <code>ls</code> should
+the <code>import_test.py</code> is located (<code>ls</code> should
 show <code>import_test.py</code>).  Start a Python shell and try the
 following:</p>
 <pre class="python-interpreter">

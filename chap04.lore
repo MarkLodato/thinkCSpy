@@ -877,8 +877,37 @@ False   True    True
 False   False   False
 </pre>
 <p>
-Run <code>p_and_q.py</code> with the following boolean expressions,
-recording the truth table produced each time:
+Now that we see how it works, let's wrap it in a function to make it easier
+to use:
+</p>
+<pre class="python">
+def truth_table(expression):
+    print " p      q      %s"  % expression
+    length = len( " p      q      %s"  % expression)
+    print length*"="
+
+    for p in True, False:
+        for q in True, False:
+            print "%-7s %-7s %-7s" % (p, q, eval(expression))
+</pre>
+<p>
+We can import it into a Python shell and call <code>truth_table</code>
+with a string containing our boolean expression in p and q as an argument:
+</p>
+<pre class="python-interpreter">
+>>> from p_and_q import *
+>>> truth_table("p or q")
+ p      q      p or q
+=====================
+True    True    True   
+True    False   True   
+False   True    True   
+False   False   False
+>>>
+</pre>
+<p>
+Use the <code>truth_table</code> functions with the following boolean
+expressions, recording the truth table produced each time:
 </p>
   <ol style="list-style-type: lower-alpha;">
     <li>not(p or q)</li>
