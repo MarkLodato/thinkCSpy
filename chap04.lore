@@ -923,7 +923,8 @@ Put the four functions (<code>dispatch</code>, <code>functionA</code>,
 functionB was called...
 </pre>
 <p>
-Finally, modify the script so that user can enter 'A', 'B', or 'C'.
+Finally, modify the script so that user can enter 'A', 'B', or 'C'.  Test
+it by importing your script into the Python shell.
 </p>
 </div></li>
 
@@ -947,12 +948,16 @@ Now write a similar function named <code>is_divisable_by_5</code>.
 <p>
 Generalize the functions you wrote in the previous exercise into a function
 named <code>is_divisable_by_n(x, n)</code> that takes two integer arguments
-and prints out whether the first is divisable by the second.  A sample
-run could look like this:
+and prints out whether the first is divisable by the second.  Save this in
+a file named <code>chap04.py</code>. Import it into a shell and try it out. 
+A sample session might look like this:
 </p>
-<pre class="python">
-is_divisable_by_n(20, 4)
+<pre class="python-interpreter">
+>>> from chap04 import *
+>>> is_divisable_by_n(20, 4)
 Yes, 20 is divisable by 4
+>>> is_divisable_by_n(21, 8)
+No, 21 is not divisable by 8
 </pre>
 </div></li>
 
