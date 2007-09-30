@@ -953,6 +953,7 @@ run could look like this:
 <pre class="python">
 is_divisable_by_n(20, 4)
 Yes, 20 is divisable by 4
+</pre>
 </div></li>
 
 <li><div class="exercise">
