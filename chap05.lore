@@ -9,13 +9,14 @@
 <h2>Return values</h2>
 <span class="index" value="return value" />
 
-<p>Some of the built-in functions we have used, such as the math functions,
-have produced results.  Calling the function generates a new value, which we
-usually assign to a variable or use as part of an expression.</p>
+<p>The built-in functions we have used, such as <code>abs</code>,
+<code>pow</code>, and <code>max</code>, have produced results.  Calling each of
+these functions generates a new value, which we usually assign to a variable or 
+use as part of an expression.</p>
 
 <pre class="python">
-e = math.exp(1.0)
-height = radius * math.sin(angle)
+biggest = max(3, 7, 2, 5)
+x = abs(3 - 11) + 10 
 </pre>
 
 <p>But so far, none of the functions we have written has returned a value.</p>
@@ -29,7 +30,7 @@ the given radius:</p>
 import math
    
 def area(radius):
-    temp = math.pi * radius**2
+    temp = 3.14159 * radius**2
     return temp
 </pre>
 
@@ -42,7 +43,7 @@ written this function more concisely:</p>
 
 <pre class="python">
 def area(radius):
-    return math.pi * radius**2
+    return 3.14159 * radius**2
 </pre>
 
 <p>On the other hand, <b>temporary variables</b> like
@@ -52,7 +53,8 @@ def area(radius):
 <span class="index" value="variable!temporary" />
 
 <p>Sometimes it is useful to have multiple return statements, one in each
-branch of a conditional:</p>
+branch of a conditional.  We have already seen the built-in <code>abs</code>,
+now we see how to write our own:</p>
 
 <pre class="python">
 def absolute_value(x):
@@ -214,7 +216,7 @@ def distance(x1, y1, x2, y2):
     dx = x2 - x1
     dy = y2 - y1
     dsquared = dx**2 + dy**2
-    result = math.sqrt(dsquared)
+    result = dsquared**0.5
     return result
 </pre>
 
@@ -309,11 +311,11 @@ def is_divisible(x, y):
         return False 
 </pre>
 
-<p>The name of this function is <code>is_divisible</code>.  It is common to give
-boolean functions names that sound like yes/no questions.
-<code>is_divisible</code> returns either <code>True</code> or <code>False</code> 
-to indicate whether the <code>x</code> is or is not divisible by <code>y</code>.
-</p>
+<p>The name of this function is <code>is_divisible</code>.  It is common to
+give boolean functions names that sound like yes/no questions.
+<code>is_divisible</code> returns either <code>True</code> or
+<code>False</code> to indicate whether the <code>x</code> is or is not
+divisible by <code>y</code>.</p>
 
 <p>We can make the function more concise by taking advantage of the fact that
 the condition of the <code>if</code> statement is itself a boolean expression.  
