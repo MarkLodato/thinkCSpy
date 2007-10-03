@@ -360,7 +360,7 @@ a fraction:</p>
 
 <p>Again the result is rounded down, but at least now the answer is
 approximately correct.  Another alternative is to use floating-point division.
-We'll see in the next chapter how to convert integer values and variables
+We'll see in the chapter 4 how to convert integer values and variables
 to floating-point values.</p>
 
 
