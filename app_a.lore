@@ -1,535 +1,476 @@
 <html>
 <head>
-  <title>Debugging</title>
+  <title>GASP: Graphics API for Students of Python</title>
 </head>
+
 <body>
+<h1>GASP: Graphics API for Students of Python</h1>
 
-<h1>Debugging</h1>
-<span class="index" value="debugging"/>
-
-<p>Different kinds of errors can occur in a program, and it is useful to
-distinguish among them in order to track them down more quickly:</p>
-
-<ol>
-<li>Syntax errors are produced by Python when it is translating the source code 
-into byte code.  They usually indicate that there is something wrong with the
-syntax of the program.  Example: Omitting the colon at the end of a
-<code>def</code> statement yields the somewhat redundant message
-<code>SyntaxError: invalid syntax</code>.</li>
-
-<li>Runtime errors are produced by the runtime system if something goes wrong
-while the program is running.  Most runtime error messages include information
-about where the error occurred and what functions were executing.  Example: An
-infinite recursion eventually causes a runtime error of <q>maximum recursion
-depth exceeded.</q></li>
-
-<li>Semantic errors are problems with a program that compiles and runs but
-doesn't do the right thing.  Example: An expression may not be evaluated in the 
-order you expect, yielding an unexpected result.</li>
-</ol>
-
-<span class="index" value="compile-time error" />
-<span class="index" value="syntax error" />
-<span class="index" value="runtime error" />
-<span class="index" value="semantic error" />
-<span class="index" value="error!compile-time" />
-<span class="index" value="error!syntax" />
-<span class="index" value="error!runtime" />
-<span class="index" value="error!semantic" />
-<span class="index" value="exception" />
-
-<p>The first step in debugging is to figure out which kind of error you are
-dealing with.  Although the following sections are organized by error type,
-some techniques are applicable in more than one situation.</p>
-
-
-<h2>Syntax errors</h2>
-<span class="index" value="error messages" />
-<span class="index" value="compiler" />
-
-<p>Syntax errors are usually easy to fix once you figure out what they are.
-Unfortunately, the error messages are often not helpful.  The most common
-messages are <code>SyntaxError: invalid syntax</code> and
-<code>SyntaxError: invalid token</code>, neither of which is very informative.
+<h2>Coordinates</h2>
+<p>
+(0, 0) is at the bottom left of the window. The window is 640 pixels by 480, by
+default. (You can make it a different size if you want to.) Coordinates are
+given in units of one pixel.
 </p>
-
-<p>On the other hand, the message does tell you where in the program the
-problem occurred.  Actually, it tells you where Python noticed a problem, which 
-is not necessarily where the error is.  Sometimes the error is prior to the
-location of the error message, often on the preceding line.</p>
-
-<span class="index" value="incremental program development" />
-
-<p>If you are building the program incrementally, you should have a good idea
-about where the error is.  It will be in the last line you added.</p>
-
-<p>If you are copying code from a book, start by comparing your code to the
-book's code very carefully.  Check every character.  At the same time, remember 
-that the book might be wrong, so if you see something that looks like a syntax
-error, it might be.</p>
-
-<p>Here are some ways to avoid the most common syntax errors:</p>
-
-<span class="index" value="syntax" />
-
-<ol>
-<li>Make sure you are not using a Python keyword for a variable name.</li>
-
-<li>Check that you have a colon at the end of the header of every compound
-statement, including <code>for</code>, <code>while</code>, <code>if</code>,
-and <code>def</code> statements.</li>
-
-<li>Check that indentation is consistent.  You may indent with either spaces or 
-tabs but it's best not to mix them.  Each level should be nested the same
-amount.</li>
-
-<li>Make sure that any strings in the code have matching quotation marks.</li>
-
-<li>If you have multiline strings with triple quotes (single or double), make
-sure you have terminated the string properly.  An unterminated string may cause 
-an <code>invalid token</code> error at the end of your program, or it may treat 
-the following part of the program as a string until it comes to the next string.
-In the second case, it might not produce an error message at all!</li>
-
-<li>An unclosed bracket---(, {, or [---makes Python continue with the next line 
-as part of the current statement.  Generally, an error occurs almost
-immediately in the next line.</li>
-
-<li>Check for the classic <code>=</code> instead of <code>==</code> inside a
-conditional.</li>
-</ol>
-
-<p>If nothing works, move on to the next section...</p>
-
-
-<h2>I can't get my program to run no matter what I do.</h2>
-
-<p>If the compiler says there is an error and you don't see it, that might be
-because you and the compiler are not looking at the same code.  Check your
-programming environment to make sure that the program you are editing is the
-one Python is trying to run.  If you are not sure, try putting an obvious and
-deliberate syntax error at the beginning of the program.  Now run (or import)
-it again.  If the compiler doesn't find the new error, there is probably
-something wrong with the way your environment is set up.</p>
-
-<p>If this happens, one approach is to start again with a new program like
-<q>Hello, World!,</q> and make sure you can get a known program to run.  Then
-gradually add the pieces of the new program to the working one.</p>
-
-
-<h2>Runtime errors</h2>
-
-<p>Once your program is syntactically correct, Python can import it and at
-least start running it.  What could possibly go wrong?</p>
-
-
-<h2>My program does absolutely nothing.</h2>
-
-<p>This problem is most common when your file consists of functions and classes
-but does not actually invoke anything to start execution.  This may be
-intentional if you only plan to import this module to supply classes and
-functions.</p>
-
-<p>If it is not intentional, make sure that you are invoking a function to
-start execution, or execute one from the interactive prompt.  Also see the
-<q>Flow of Execution</q> section below.</p>
-
-
-<h2>My program hangs.</h2>
-<span class="index" value="infinite loop" />
-<span class="index" value="infinite recursion" />
-<span class="index" value="hanging" />
-
-<p>If a program stops and seems to be doing nothing, we say it is
-<q>hanging.</q>  Often that means that it is caught in an infinite loop or an
-infinite recursion.</p>
-
-<ol>
-<li>If there is a particular loop that you suspect is the problem, add a
-<code>print</code> statement immediately before the loop that says
-<q>entering the loop</q> and another immediately after that says
-<q>exiting the loop.</q></li>
-
-<li>Run the program.  If you get the first message and not the second, you've
-got an infinite loop.  Go to the <q>Infinite Loop</q> section below.</li>
-
-<li>Most of the time, an infinite recursion will cause the program to run for a 
-while and then produce a <q>RuntimeError: Maximum recursion depth exceeded</q>
-error.  If that happens, go to the <q>Infinite Recursion</q> section below.</li>
-
-<li>If you are not getting this error but you suspect there is a problem with a 
-recursive method or function, you can still use the techniques in the
-<q>Infinite Recursion</q> section.</li>
-
-<li>If neither of those steps works, start testing other loops and other
-recursive functions and methods.</li>
-
-<li>If that doesn't work, then it is possible that you don't understand the
-flow of execution in your program.  Go to the <q>Flow of Execution</q> section
-below.</li>
-</ol>
-
-
-<h2>Infinite Loop</h2>
-<span class="index" value="infinite loop" />
-<span class="index" value="loop!infinite" />
-<span class="index" value="condition" />
-<span class="index" value="loop!condition" />
-
-<p>If you think you have an infinite loop and you think you know what loop is
-causing the problem, add a <code>print</code> statement at the end of the loop
-that prints the values of the variables in the condition and the value of the
-condition.</p>
-
-<p>For example:</p>
+<p>
+All functions that take coordinates take them as a tuple (x, y).
+</p>
 
 <pre class="python">
-while x &gt; 0 and y &lt; 0:
-    # do something to x
-    # do something to y
-   
-    print  "x: ", x
-    print  "y: ", y
-    print  "condition: ", (x &gt; 0 and y &lt; 0)
+Circle((300, 200), 10)     # :) This is good
+Circle(300, 200, 10)       # :( This is bad
 </pre>
 
-<p>Now when you run the program, you will see three lines of output for each
-time through the loop.  The last time through the loop, the condition should be 
-<code>false</code>.  If the loop keeps going, you will be able to see the
-values of <code>x</code> and <code>y</code>, and you might figure out why they
-are not being updated correctly.</p>
+<h2>Colors</h2>
+<p>
+To access the color module GASP has to offer. Call <code>color.*</code> where
+<code>*</code> is the color you wish to call. For example:
+</p>
+<code> color.black </code>
+<p>
+This is the color black. Check out the gasp color refrence chart to see all of
+the availble color options.
+</p> 
 
+<h2>The Essentials</h2>
 
-<h2>Infinite Recursion</h2>
-<span class="index" value="infinite recursion" />
-<span class="index" value="recursion!infinite" />
+<pre class="python">
+from gasp import *
 
-<p>Most of the time, an infinite recursion will cause the program to run for a
-while and then produce a <code>Maximum recursion depth exceeded</code> error.
+begin_graphics()
+
+... 			# all of your code
+
+end_graphics()
+
+</pre>
+
+<p>
+These are the essentials. <code> from gasp import * </code> imports the gasp module,
+<code>begin_graphics()</code> starts the graphics window, and <code>end_graphics()</code> quits the graphics 
+window. It's dead simple, but also dead necessary. 
 </p>
 
-<p>If you suspect that a function or method is causing an infinite recursion,
-start by checking to make sure that there is a base case.  In other words,
-there should be some condition that will cause the function or method to return 
-without making a recursive invocation.  If not, then you need to rethink the
-algorithm and identify a base case.</p>
 
-<p>If there is a base case but the program doesn't seem to be reaching it, add
-a <code>print</code> statement at the beginning of the function or method that
-prints the parameters.  Now when you run the program, you will see a few lines
-of output every time the function or method is invoked, and you will see the
-parameters.  If the parameters are not moving toward the base case, you will
-get some ideas about why not.</p>
+<h2>Graphics Functions</h2>
 
+<h3>begin_graphics()</h3>
+<pre class="python">
+begin_graphics(height=640, width=480, title="Gasp", background=color.white)
+</pre>
+<p>
+This by default creates a graphics window with the dimensions 640x480, 
+a title of Gasp, and a background color of white.
+</p>
+<dl>
+  <dt>height</dt>
+    <dd>The windows height in pixels.</dd>
+  <dt>width</dt>
+    <dd> The width of the window in pixels.</dd>
+  <dt>title</dt>
+    <dd> A string that will be the title of the window </dd>
+  <dt>background</dt>
+    <dd> It is the background of the graphics window. It can either be a color or an image</dd>
+</dl>
 
-<h2>Flow of Execution</h2>
-<span class="index" value="flow of execution" />
-<span class="index" value="execution!flow" />
+<h3>end_graphics()</h3>
+<pre class="python">
+endgraphics() 
+</pre>
+<p>
+Ends a graphics window.
+</p>
 
-<p>If you are not sure how the flow of execution is moving through your
-program, add <code>print</code> statements to the beginning of each function
-with a message like <q>entering function <code>foo</code>,</q> where
-<code>foo</code> is the name of the function.</p>
+<h3>clear_screen()</h3>
+<pre class="python">
+clear_screen()
+</pre>
+<p> 
+Clears everything off of the graphics window. It looks like a new graphcs window 
+as if you just called begin_graphics(). 
+</p>
 
-<p>Now when you run the program, it will print a trace of each function as it
-is invoked.</p>
-
-
-<h2>When I run the program I get an exception.</h2>
-<span class="index" value="exception" />
-<span class="index" value="runtime error" />
-
-<p>If something goes wrong during runtime, Python prints a message that
-includes the name of the exception, the line of the program where the problem
-occurred, and a traceback.</p>
-
-<span class="index" value="traceback" />
-
-<p>The traceback identifies the function that is currently running, and then
-the function that invoked it, and then the function that invoked <em>that</em>, 
-and so on.  In other words, it traces the path of function invocations that got 
-you to where you are.  It also includes the line number in your file where each 
-of these calls occurs.</p>
-
-<p>The first step is to examine the place in the program where the error
-occurred and see if you can figure out what happened.  These are some of the
-most common runtime errors:</p>
+<h3>remove_from_screen()</h3>
+<pre class="python">
+remove_from_screen(obj)
+</pre>
+<p>
+removes those objects from the screen
+</p>
 
 <dl>
-<dt>NameError:</dt>
-<dd>You are trying to use a variable that doesn't exist in the current
-environment.  Remember that local variables are local.  You cannot refer to
-them from outside the function where they are defined.</dd>
-<span class="index" value="NameError" />
-<span class="index" value="TypeError" />
+  <dt>obj</dt>
+    <dd> A screen object of a list of screen_objects you would like to remove 
+         from the screen</dd>
+</dl>
 
-<dt>TypeError:</dt>
-<dd>There are several possible causes:
-  <ol>
-  <li>You are trying to use a value improperly.  Example: indexing
-  a string, list, or tuple with something other than an integer.</li>
-  <span class="index" value="index" />
+<h2>Screen Objects</h2>
+<p>
+The objects that you will be displayed in your graphics window. You can 
+manipulate these objects using the screen object methods 
+</p>
 
-  <li>There is a mismatch between the items in a format string and the items
-  passed for conversion.  This can happen if either the number of items does
-  not match or an invalid conversion is called for.</li>
-  <span class="index" value="format operator" />
-  <span class="index" value="operator!format" />
+<h3>Plot</h3>
+<pre class="python">
+Plot(pos, color=color.black, size=1)
+</pre>
+<p>
+It puts a dot on the screen.
+</p>
 
-  <li>You are passing the wrong number of arguments to a function or method.
-  For methods, look at the method definition and check that the first parameter 
-  is <code>self</code>.  Then look at the method invocation; make sure you are
-  invoking the method on an object with the right type and providing the other
-  arguments correctly.</li>
-  </ol>
-</dd>
+<dl>
+  <dt>pos</dt>
+    <dd>The coordinate on the screen that you wish to plot.</dd>
+  <dt>color</dt>
+    <dd>The color you wish the dot to be.</dd>
+  <dt>size</dt>
+    <dd>An integer that determinse the size the of the dot</dd>
+</dl>
 
-<dt>KeyError:</dt>
-<dd>You are trying to access an element of a dictionary using a key value that
-the dictionary does not contain.</dd>
-<span class="index" value="KeyError" />
-<span class="index" value="dictionary" />
+<h3>Line</h3>
+<pre class="python">
+Line(start, end, color=color.black)
+</pre>
+<p>
+Creates a line on the screen.
+</p>
 
-<dt>AttributeError:</dt>
-<dd>You are trying to access an attribute or method that does not exist.</dd>
-<span class="index" value="AttributeError" />
+<dl>
+  <dt>start</dt>
+    <dd>The starting coordinate of the line.</dd>
+  <dt>end</dt>
+    <dd>The coordinate at which the line will end.</dd>
+  <dt>color</dt>
+    <dd>The color of the line</dd>
+</dl>
 
-<dt>IndexError:</dt>
-<dd>The index you are using to access a list, string, or tuple is greater than
-its length minus one.  Immediately before the site of the error, add a
-<code>print</code> statement to display the value of the index and the length
-of the array.  Is the array the right size?  Is the index the right value?</dd>
+<h3>Box</h3>
+<pre class="python">
+Box(center, width, height, filled=False, color=color.black, thickness=1)
+</pre>
+<p>
+This creates a Box on the screen
+</p>
 
-<span class="index" value="IndexError" />
+<dl>
+  <dt>center</dt>
+    <dd> A coorinate where the center of your box will be.</dd>
+  <dt>width</dt>
+    <dd> The width in pixels of the box. </dd>
+  <dt>height</dt>
+    <dd> The height of the box in pixels. </dd>
+  <dt>filled</dt>
+    <dd> A boolean value that determines if your box will be filled</dd>
+  <dt>color</dt>
+    <dd> The color of your box. </dd>
+  <dt>thickness</dt>
+    <dd> The thickness in pixels of your box's lines. </dd>
+</dl> 
+
+<h3>Polygon</h3>
+<pre class="python">
+Polygon(points, filled=False, color=color.black, thickness=1) 
+</pre>
+<p>
+Creates a polygon on the screen
+</p>
+
+<dl>
+  <dt>points</dt>
+    <dd>A list of coorinates that is each point on the polygon. The must be more
+         than two items in the list </dd>
+  <dt>filled</dt>
+    <dd> A boolean value. If it is False the polygon will not be filled. 
+        Else, the polygon will not be filled</dd>
+  <dt>color</dt>
+    <dd> The color of the polygon's lines </dd>
+  <dt>thickness</dt>
+    <dd> An integer that determines the thickness of the lines. </dd>
+</dl>
+
+<h3>Circle</h3>
+<pre class="python">
+Circle(center, radius, filled=False, color=color.black, thickness=1)
+</pre>
+<p>
+Draws a circle, its <code>center</code> is a set of coordinates, and the <code>radius</code> is in pixels. It defaults to not being filled and the color black.
+</p>
+
+<dl>
+  <dt>center</dt>
+    <dd> The circle's center coordinate.</dd>
+  <dt>width</dt>
+    <dd> An integer that is the radius of the circle </dd>
+  <dt>filled</dt>
+    <dd> A boolean value that determines if your circle will be filled</dd>
+  <dt>color</dt>
+    <dd> The color of your circle. </dd>
+  <dt>thickness</dt>
+    <dd> The thickness in pixels of the circles lines. </dd>
+</dl>
+
+<h3>Arc</h3>
+<pre class="python">
+Arc(center, radius, start_angle, end_angle, filled=False, color=color.black, thickness=1)
+</pre>
+<p>
+Creates an arc on the screen.
+</p>
+
+<dl>
+  <dt>center</dt>
+    <dd> A coordinate that is the center of the arc. </dd>
+  <dt>radius</dt>
+    <dd> An integer that is the distance between the center and the outer edge 
+            of the arc.</dd>
+  <dt>start_angle</dt>
+    <dd> The start angle in degrees of the arc </dd>
+  <dt>end_angle</dt>
+    <dd> The end angle in degrees of your arc </dd>
+  <dt>filled</dt>
+    <dd> A boolean value that if True it fills the arc </dd>
+  <dt>color</dt>
+    <dd> The color the arc </dd>
+  <dt>thickness</dt>
+    <dd> The thickness in pixels of the arc </dd>
+</dl>
+
+<h3>Oval</h3>
+<pre class="python">
+Oval(center, width, height, filled=False, color=color.black, thickness=1)
+</pre>
+<p>
+Puts an oval on the screen wherever you want.
+</p>
+<dl>
+  <dt>center</dt>
+    <dd>The center coordinate of the Oval</dd>
+  <dt>width</dt>
+    <dd>The width in pixels of the oval</dd>
+  <dt>height</dt>
+    <dd>The height of the oval in pixels</dd>
+  <dt>filled</dt>
+    <dd>A boolean value determining if the oval will be filles or not.</dd>
+  <dt>color</dt>
+    <dd> The oval's color </dd>
+  <dt>thickness</dt>
+    <dd> The thickness of the ovals lines </dd>
+</dl>
+
+<h3>Image</h3>
+<pre class="python">
+Image(self, file_path, center, width=None, height=None):
+</pre>
+<p>
+It uploads an image onto the screen. If you only pass width and not a height it automatically scales the height to fit the width you passed it. It is the same for the height.
+</p>
+
+<dl>
+  <dt>file_path</dt>
+    <dd> The path name where the image is. </dd>
+  <dt>center</dt>
+    <dd> The center coordinate of the image </dd>
+  <dt>width</dt>
+    <dd> The width of the image in pixels. If width equals None then it 
+        defaults to the image files width </dd>
+  <dt>height</dt>
+    <dd> The height of the image in pixels. If no height is passed it defaults 
+        to the image files height </dd>
+</dl>
+
+<h2>Screen Object Methods</h2>
+<p>
+The methods that manipulates screen objects
+</p>
+
+<h3>move_to()</h3>
+<pre class="python">
+move_to(obj, pos)
+</pre>
+<p>
+Move a screen object to a pos
+</p>
+
+<dl>
+ <dt>obj</dt>
+    <dd> A screen object you wish to move. </dd>
+ <dt>pos</dt>
+    <dd> The coordinate on the screen that the object will move to </dd>
+</dl>
+
+<h3>move_by()</h3>
+<pre class="python">
+move_by(obj, dx, dy)
+</pre>
+<p>
+Move a screen object relative to it's position
+</p>
+
+<dl>
+  <dt>obj</dt>
+    <dd>The screen object you wish to move</dd>
+  <dt>dx</dt>
+    <dd> How much the object will move in the 'x' direction. Positive or 
+        negative.</dd>
+  <dt>dy</dt>
+    <dd> How much the object will move in the 'y' direction. A pixel value.</dd>
+</dl>
+
+<h3>rotate_to()</h3>
+<pre class="python">
+rotate_to(obj, angle)
+</pre>
+<p>
+Rotate an object to an angle
+</p>
+
+<dl>
+  <dt>obj</dt>
+    <dd> The screen object that will be rotated </dd>
+  <dt>angle</dt>
+    <dd> The angle in degrees that the object will be rotated to </dd>
+</dl>
+
+<h3>rotate_by()</h3>
+<pre class="python">
+rotate_by(obj, angle)
+</pre>
+<p>
+Rotate an object a certain degree.
+</p>
+<dl>
+  <dt>obj</dt>
+    <dd> The screen object you wish to rotate </dd>
+  <dt>angle</dt>
+    <dd> The degree that the object will be rotate. Can be positive or negative.        </dd>
 </dl>
 
 
+<h2>Text</h2>
+<p>
+</p>
 
-<h2>I added so many <code>print</code> statements I get inundated with
-output.</h2>
-<span class="index" value="print statement"/>
-<span class="index" value="statement!print"/>
-
-<p>One of the problems with using <code>print</code> statements for debugging
-is that you can end up buried in output.  There are two ways to proceed:
-simplify the output or simplify the program.</p>
-
-<p>To simplify the output, you can remove or comment out <code>print</code>
-statements that aren't helping, or combine them, or format the output so it is
-easier to understand.</p>
-
-<p>To simplify the program, there are several things you can do.  First, scale
-down the problem the program is working on.  For example, if you are sorting an 
-array, sort a <em>small</em> array.  If the program takes input from the user,
-give it the simplest input that causes the problem.</p>
-
-<p>Second, clean up the program.  Remove dead code and reorganize the program
-to make it as easy to read as possible.  For example, if you suspect that the
-problem is in a deeply nested part of the program, try rewriting that part with 
-simpler structure.  If you suspect a large function, try splitting it into
-smaller functions and testing them separately.</p>
-
-<p>Often the process of finding the minimal test case leads you to the bug. If
-you find that a program works in one situation but not in another, that gives
-you a clue about what is going on.</p>
-
-<p>Similarly, rewriting a piece of code can help you find subtle bugs. If you
-make a change that you think doesn't affect the program, and it does, that can
-tip you off.</p>
-
-
-<h2>Semantic errors</h2>
-<span class="index" value="semantic error" />
-<span class="index" value="error!semantic" />
-
-<p>In some ways, semantic errors are the hardest to debug, because the compiler 
-and the runtime system provide no information about what is wrong.  Only you
-know what the program is supposed to do, and only you know that it isn't doing
-it.</p>
-
-<p>The first step is to make a connection between the program text and the
-behavior you are seeing.  You need a hypothesis about what the program is
-actually doing.  One of the things that makes that hard is that computers run
-so fast.</p>
-
-<p>You will often wish that you could slow the program down to human speed, and 
-with some debuggers you can.  But the time it takes to insert a few well-placed 
-<code>print</code> statements is often short compared to setting up the
-debugger, inserting and removing breakpoints, and <q>walking</q> the program to 
-where the error is occurring.</p>
-
-
-<h2>My program doesn't work.</h2>
-
-<p>You should ask yourself these questions:</p>
-
-<ol>
-<li>Is there something the program was supposed to do but which doesn't seem to 
-be happening?  Find the section of the code that performs that function and
-make sure it is executing when you think it should.</li>
-
-<li>Is something happening that shouldn't?  Find code in your program that
-performs that function and see if it is executing when it shouldn't.</li>
-
-<li>Is a section of code producing an effect that is not what you expected?
-Make sure that you understand the code in question, especially if it involves
-invocations to functions or methods in other Python modules.  Read the
-documentation for the functions you invoke.  Try them out by writing simple
-test cases and checking the results.</li>
-</ol>
-
-<p>In order to program, you need to have a mental model of how programs work.
-If you write a program that doesn't do what you expect, very often the problem
-is not in the program; it's in your mental model.</p>
-
-<span class="index" value="model!mental" />
-<span class="index" value="mental model" />
-
-<p>The best way to correct your mental model is to break the program into its
-components (usually the functions and methods) and test each component
-independently.  Once you find the discrepancy between your model and reality,
-you can solve the problem.</p>
-
-<p>Of course, you should be building and testing components as you develop the
-program.  If you encounter a problem, there should be only a small amount of
-new code that is not known to be correct.</p>
-
-
-<h2>I've got a big hairy expression and it doesn't do what I expect.</h2>
-<span class="index" value="expression!big and hairy" />
-
-<p>Writing complex expressions is fine as long as they are readable, but they
-can be hard to debug.  It is often a good idea to break a complex expression
-into a series of assignments to temporary variables.</p>
-
-<p>For example:</p>
-
+<h3>Text()</h3>
 <pre class="python">
-self.hands[i].addCard (self.hands[self.findNeighbor(i)].popCard())
+Text(text, pos, color=color.black, size=12)
 </pre>
+<p>
+Puts text on the screen
+</p>
 
-<p>This can be rewritten as:</p>
+<dl>
+  <dt>text</dt>
+    <dd> A string of the text that will be displayed </dd>
+  <dt>pos</dt>
+    <dd> The center coordinate of the text </dd>
+  <dt>color</dt>
+    <dd> The color of the text </dd>
+  <dt>size</dt>
+    <dd> The font size </dd>
+</dl>
 
+<h2>Sound</h2>
+<p>
+All of the functions that manipulate sound.
+</p>
+
+<h3>Sound()</h3>
 <pre class="python">
-neighbor = self.findNeighbor (i)
-pickedCard = self.hands[neighbor].popCard()
-self.hands[i].addCard (pickedCard)
+Sound(file_path)
 </pre>
+<p>
+Creates a sound object
+</p>
 
-<p>The explicit version is easier to read because the variable names provide
-additional documentation, and it is easier to debug because you can check the
-types of the intermediate variables and display their values.</p>
+<dl>
+  <dt>file_path</dt>
+    <dd> The path of the sound file you wish to make the sound object out of </dd>
+</dl>
 
-<span class="index" value="temporary variable" />
-<span class="index" value="variable!temporary" />
-<span class="index" value="order of evaluation" />
-<span class="index" value="precedence" />
-
-<p>Another problem that can occur with big expressions is that the order of
-evaluation may not be what you expect.  For example, if you are translating the 
-expression <code>x/2pi</code> into Python, you might write:</p>
-
+<h3>play_sound()</h3>
 <pre class="python">
-y = x / 2 * math.pi;
+play_sound(obj, loop=False)
 </pre>
+<p>
+Plays a sound object
+</p>
 
-<p>That is not correct because multiplication and division have the same
-precedence and are evaluated from left to right.  So this expression computes
-<code>(x/2)pi</code>.</p>
+<dl>
+  <dt>obj</dt>
+    <dd>A sound object</dd>
+  <dt>loop</dt>
+    <dd> If loop equals false in will play the file all the way through one 
+        time. If loop equals True it will repeat the file untill it is stopped 
+        </dd>
+</dl>   
 
-<p>A good way to debug expressions is to add parentheses to make the order of
-evaluation explicit:</p>
-
+<h3>stop_sound()</h3>
 <pre class="python">
-y = x / (2 * math.pi);
+stop_sound(obj, finish=False, fade=True)
 </pre>
+<p>
+It stops a sound object that was playing
+</p>
 
-<p>Whenever you are not sure of the order of evaluation, use parentheses.  Not
-only will the program be correct (in the sense of doing what you intended), it
-will also be more readable for other people who haven't memorized the rules of
-precedence.</p>
+<dl>
+  <dt>obj</dt>
+    <dd> The sound object you wish to stop </dd>
+  <dt>finish</dt>
+    <dd> If True it will wait to stop the file untill it has finished. If False
+ it will imedietly stop.</dd>
+  <dt>fade</dt>
+    <dd> If True it will fade out. If False it will stop the sound </dd>
+</dl>
 
+<h2>Mouse</h2>
+<p>
+</p>
 
-<h2>I've got a function or method that doesn't return what I expect.</h2>
-<span class="index" value="return statement" />
-<span class="index" value="statement!return" />
-
-<p>If you have a <code>return</code> statement with a complex expression, you
-don't have a chance to print the <code>return</code> value before returning.
-Again, you can use a temporary variable.  For example, instead of:</p>
-
+<h3>mouse_position()</h3>
 <pre class="python">
-return self.hands[i].removeMatches()
+mouse_position()
 </pre>
+<p>
+Returns the current mouse coordinate
+</p>
 
-<p>you could write:</p>
-
+<h3>mouse_buttons()</h3>
 <pre class="python">
-count = self.hands[i].removeMatches()
-return count
+mouse_buttons()
 </pre>
-
-<p>Now you have the opportunity to display the value of <code>count</code>
-before returning.</p>
-
-
-<h2>I'm really, really stuck and I need help.</h2>
-
-<p>First, try getting away from the computer for a few minutes.  Computers
-emit waves that affect the brain, causing these effects:</p>
-
-<ol>
-<li>Frustration and/or rage.</li>
-
-<li>Superstitious beliefs (<q>the computer hates me</q>) and magical thinking
-(<q>the program only works when I wear my hat backward</q>).</li>
-
-<li>Random-walk programming (the attempt to program by writing every possible
-program and choosing the one that does the right thing).</li>
-</ol>
-
-<p>If you find yourself suffering from any of these symptoms, get up and go for 
-a walk.  When you are calm, think about the program.  What is it doing?  What
-are some possible causes of that behavior?  When was the last time you had a
-working program, and what did you do next?</p>
-
-<p>Sometimes it just takes time to find a bug.  We often find bugs when we are
-away from the computer and let our minds wander.  Some of the best places to
-find bugs are trains, showers, and in bed, just before you fall asleep.</p>
+<p>
+returns a dictionary of the buttons state. There is a 'left', 'middle', and 'right' key.
+</p>
 
 
-<h2>No, I really need help.</h2>
+<h2>Keyboard</h2>
+<p>
+</p>
 
-<p>It happens.  Even the best programmers occasionally get stuck.  Sometimes
-you work on a program so long that you can't see the error.  A fresh pair of
-eyes is just the thing.</p>
+<h3>keys_pressed()</h3>
+<pre class="python">
+keys_pressed()
+</pre>
+<p>
+returns a list of all of the keys pressed at that moment.
+</p>
 
-<p>Before you bring someone else in, make sure you have exhausted the
-techniques described here.  Your program should be as simple as possible, and
-you should be working on the smallest input that causes the error.  You should
-have <code>print</code> statements in the appropriate places (and the output
-they produce should be comprehensible).  You should understand the problem well 
-enough to describe it concisely.</p>
 
-<p>When you bring someone in to help, be sure to give them the information they 
-need:</p>
+<h2>Gasp Tools</h2>
 
-<ol>
-<li>If there is an error message, what is it and what part of the program does
-it indicate?</li>
+<h3>screen_shot</h3>
+<pre class="python">
+screen_shot(filename)
+</pre>
+<p>
+It saves a screenshot of the current graphics screen to a png file.
+</p>
 
-<li>What was the last thing you did before this error occurred?  What were the
-last lines of code that you wrote, or what is the new test case that fails?</li>
-
-<li>What have you tried so far, and what have you learned?</li>
-</ol>
-
-<p>When you find the bug, take a second to think about what you could have done 
-to find it faster.  Next time you see something similar, you will be able to
-find the bug more quickly.</p>
-
-<p>Remember, the goal is not just to make the program work.  The goal is to
-learn how to make the program work.</p>
+<dl>
+  <dt>filename</dt>
+  <dd> The file path relative to the current directory that the image will be
+  written to. </dd>
+</dl>
 
 </body>
 </html>

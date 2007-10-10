@@ -1,166 +1,624 @@
 <html>
 <head>
-  <title>Recommendations for further reading</title>
+  <title>Complete Python Listings</title>
 </head>
 <body>
 
-<h1>Recommendations for further reading</h1>
+<h1>Complete Python Listings</h1>
 
-<p>So where do you go from here?  There are many directions to pursue,
-extending your knowledge of Python specifically and computer science in
-general.</p>
+<h2>Point class</h2>
 
-<p>The examples in this book have been deliberately simple, but they may not
-have shown off Python's most exciting capabilities.  Here is a sampling of
-extensions to Python and suggestions for projects that use them.</p>
+<pre class="python">
+class Point:
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+ 
+    def __str__(self):
+        return '(' + str(self.x) + ', ' + str(self.y) + ')'
+ 
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+ 
+    def __sub__(self, other):
+        return Point(self.x - other.x, self.y - other.y)
+ 
+    def __mul__(self, other):
+        return self.x * other.x + self.y * other.y
+ 
+    def __rmul__(self, other):
+        return Point(other * self.x, other * self.y)
+ 
+    def reverse(self):
+        self.x, self.y = self.y, self.x
+ 
 
-<ol>
-<li>GUI (graphical user interface) programming lets your program use a
-windowing environment to interact with the user and display graphics.</li>
+# front_and_back function
 
-<li>The oldest graphics package for Python is Tkinter, which is based on Jon
-Ousterhout's Tcl and Tk scripting languages.  Tkinter comes bundled with the
-Python distribution.</li>
-
-<li>Another popular platform is wxPython, which is essentially a Python veneer
-over wxWindows, a C++ package which in turn implements windows using native
-interfaces on Windows and Unix (including Linux) platforms.  The windows and
-controls under wxPython tend to have a more native look and feel than those of
-Tkinter and are somewhat simpler to program.</li>
-
-<li>Any type of GUI programming will lead you into event-driven
-programming, where the user and not the programmer determines the flow of
-execution.  This style of programming takes some getting used to,
-sometimes forcing you to rethink the whole structure of a program.</li>
-
-<li>Web programming integrates the Python with the Internet.  For example, you
-can build web client programs that open and read a remote web page (almost) as
-easily as you can open a file on disk.  There are also Python modules that let
-you access remote files via ftp, and modules to let you send and receive email. 
-Python is also widely used for web server programs to handle input forms.</li>
-
-<li>Databases are a bit like super files where data is stored in predefined
-schemas, and relationships between data items let you access the data in
-various ways.  Python has several modules to enable users to connect to various 
-database engines, both free and proprietary.</li>
-
-<li>Thread programming lets you run several threads of execution within a
-single program.  If you have had the experience of using a web browser to
-scroll the beginning of a page while the browser continues to load the rest of
-it, then you have a feel for what threads can do.</li>
-
-<li>When speed is paramount Python extensions may be written in a compiled
-language like C or C++.  Such extensions form the base of many of the modules
-in the Python library. The mechanics of linking functions and data is somewhat
-complex.  SWIG (Simplified Wrapper and Interface Generator) is tool to
-make the process much simpler.</li>
-</ol>
+def front_and_back(front):
+    from copy import copy
+    back = copy(front)
+    back.reverse()
+    print str(front) + str(back)
+</pre>
 
 
-<h2>Python-related web sites and books</h2>
+<h2>Time class</h2>
 
-<p>Here are the authors' recommendations for Python resources on the web:</p>
-
-<ol>
-<li>The Python home page at <code>www.python.org</code> is the place to start
-your search for any Python related material.  You will find help,
-documentation, links to other sites and SIG (Special Interest Group) mailing
-lists that you can join.</li>
-
-<li>The Open Book Project <code>www.ibiblio.com/obp</code> contains not only
-this book online but also similar books for Java and C++ by Allen Downey.  In
-addition there are <em>Lessons in Electric Circuits</em> by Tony R.  Kuphaldt,
-<em>Getting down with ...</em>, a set of tutorials on a range of computer
-science topics, written and edited by high school students,
-<em>Python for Fun</em>, a set of case studies in Python by Chris Meyers, and
-<em>The Linux Cookbook</em> by Michael Stultz, with 300 pages of tips and
-techniques.</li>
-
-<li>Finally if you go to Google and use the search string
-<q>python -snake -monty</q> you will get about 750,000 hits.</li>
-</ol>
-
-<p>And here are some books that contain more material on the Python language:
-</p>
-
-<ol>
-<li><em>Core Python Programming</em> by Wesley Chun is a large book at about
-750 pages.  The first part of the book covers the basic Python language
-features.  The second part provides an easy-paced introduction to more advanced 
-topics including many of those mentioned above.</li>
-
-<li><em>Python Essential Reference</em> by David M. Beazley is a small book,
-but it is packed with information both on the language itself and the modules
-in the standard library.  It is also very well indexed.</li>
-
-<li><em>Python Pocket Reference</em> by Mark Lutz really does fit in your
-pocket.  Although not as extensive as <em>Python Essential Reference</em> it is 
-a handy reference for the most commonly used functions and modules.  Mark Lutz
-is also the author of <em>Programming Python</em>, one of the earliest (and
-largest) books on Python and not aimed at the beginning programmer.  His later
-book <em>Learning Python</em> is smaller and more accessible.</li>
-
-<li><em>Python Programming on Win32</em> by Mark Hammond and Andy Robinson is a <q>must have</q> for anyone seriously using Python to develop Windows
-applications.  Among other things it covers the integration of Python and COM,
-builds a small application with wxPython, and even uses Python to script
-windows applications such as Word and Excel.</li>
-</ol>
+<pre class="python">
+class Time:
+    def __init__(self, hours=0, minutes=0, seconds=0):
+        self.hours = hours
+        self.minutes = minutes
+        self.seconds = seconds
+ 
+    def __str__(self):
+       return str(self.hours) + ":" + str(self.minutes) + ":" + str(self.seconds)
+ 
+    def convert_to_seconds(self):
+        minutes = self.hours * 60 + self.minutes
+        seconds = self.minutes * 60 + self.seconds
+        return seconds
+ 
+    def increment(self, secs):
+        secs = secs + self.seconds
+ 
+        self.hours = self.hours + secs/3600
+        secs = secs % 3600
+        self.minutes = self.minutes + secs/60
+        secs = secs % 60
+        self.seconds = secs
+ 
+    def make_time(secs):
+        time = Time()
+        time.hours = secs/3600
+        secs = secs - time.hours * 3600
+        time.minutes = secs/60
+        secs = secs - time.minutes * 60
+        time.seconds = secs
+        return time
+</pre>
 
 
-<h2>Recommended general computer science books</h2>
+<h2>Cards, decks and games</h2>
 
-<p>The following suggestions for further reading include many of the authors'
-favorite books.  They deal with good programming practices and computer science 
-in general.</p>
+<pre class="python">
+import random
+   
+class Card:
+    suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
+    ranks = ["narf", "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+             "Jack", "Queen", "King"]
+   
+    def __init__(self, suit=0, rank=0):
+        self.suit = suit
+        self.rank = rank
+   
+    def __str__(self):
+        return self.ranks[self.rank] + " of " + self.suits[self.suit]
+   
+    def __cmp__(self, other):
+        # check the suits
+        if self.suit &gt; other.suit: return 1
+        if self.suit &lt; other.suit: return -1
+        # suits are the same... check ranks
+        if self.rank &gt; other.rank: return 1
+        if self.rank &lt; other.rank: return -1
+        # ranks are the same... it's a tie
+        return 0
+   
+class Deck:
+    def __init__(self):
+        self.cards = []
+        for suit in range(4):
+            for rank in range(1, 14):
+                self.cards.append(Card(suit, rank))
+ 
+    def __str__(self):
+        s = ""
+        for i in range(len(self.cards)):
+            s = s + " "*i + str(self.cards[i]) + "\n"
+        return s
+ 
+    def shuffle(self):
+        import random
+        num_cards = len(self.cards)
+        for i in range(num_cards):
+            j = random.randrange(i, num_cards)
+            [self.cards[i], self.cards[j]] = [self.cards[j], self.cards[i]]
+ 
+    def remove(self, card):
+        if card in self.cards:
+            self.cards.remove(card)
+            return True 
+        else:
+            return False
+   
+    def pop(self):
+        return self.cards.pop()
+ 
+    def is_empty(self):
+        return (len(self.cards) == 0)
+  
+    def deal(self, hands, nCards=999):
+        num_hands = len(hands)
+        for i in range(nCards):
+            if self.is_empty(): break    # break if out of cards
+            card = self.pop()       # take the top card
+            hand = hands[i % num_hands]    # whose turn is next?
+            hand.add(card)          # add the card to the hand
+   
+class Hand(Deck):
+    def __init__(self, name=""):
+        self.cards = []
+        self.name = name
+   
+    def add(self,card):
+        self.cards.append(card)
+   
+    def __str__(self):
+        s = "Hand " + self.name
+        if self.is_empty():
+            s = s + " is empty\n"
+        else:
+            s = s + " contains\n"
+        return s + Deck.__str__(self)
+   
+class CardGame:
+    def __init__(self):
+        self.deck = Deck()
+        self.deck.shuffle()
+   
+class OldMaidHand(Hand):
+    def remove_matches(self):
+        count = 0
+        original_cards = self.cards[:]
+        for card in original_cards:
+            match = Card(3 - card.suit, card.rank)
+            if match in self.cards:
+                self.cards.remove(card)
+                self.cards.remove(match)
+                print "Hand %s: %s matches %s" % (self.name,card,match)
+                count = count+1
+        return count
+   
+class OldMaidGame(CardGame):
+    def play(self, names):
+        # remove Queen of Clubs
+        self.deck.remove(Card(0,12))
+   
+        # make hands base on names passed
+        self.hands = []
+        for name in names : self.hands.append(OldMaidHand(name))
+   
+        # deal the cards
+        self.deck.deal(self.hands)
+        print "---------- Cards have been dealt"
+        self.print_hands()
+   
+        # Remove initial matches
+        matches = self.remove_matches()
+        print "---------- Matches discarded, play begins"
+        self.print_hands()
+   
+        # Play until all 50 cards matched
+        turn = 0
+        num_hands = len(self.hands)
+        while matches &lt; 25:
+            matches = matches + self.play_one_turn(turn)
+            turn = (turn + 1) % num_hands
+   
+        print "---------- Game is Over"
+        self.print_hands ()
+   
+    def remove_matches(self):
+        count = 0
+        for hand in self.hands:
+            count = count + hand.remove_matches()
+        return count
+   
+    def play_one_turn(self, i):
+        if self.hands[i].is_empty():
+            return 0
+        neighbor = self.find_neighbor(i)
+        picked = self.hands[neighbor].pop()
+        self.hands[i].add(picked)
+        print "Hand", self.hands[i].name, "picked", picked
+        count = self.hands[i].remove_matches()
+        self.hands[i].shuffle()
+        return count
+   
+    def find_neighbor(self, i):
+        num_hands = len(self.hands)
+        for next in range(1,num_hands):
+            neighbor = (i + next) % num_hands
+            if not self.hands[neighbor].is_empty():
+                return neighbor
+   
+    def print_hands(self):
+        for hand in self.hands:
+            print hand
 
-<ol>
-<li><em>The Practice of Programming</em> by Kernighan and Pike covers not only
-the design and coding of algorithms and data structures, but also debugging,
-testing and improving the performance of programs. The examples are mostly C++
-and Java, with none in Python.</li>
 
-<li><em>The Elements of Java Style</em> edited by Al Vermeulen is another small 
-book that discusses some of the finer points of good programming, such as good
-use of naming conventions, comments, and even whitespace and indentation
-(somewhat of a nonissue in Python).  The book also covers programming by
-contract, using assertions to catch errors by testing preconditions and
-postconditions, and proper programming with threads and their synchronization.
-</li>
+if __name__ == '__main__':
+    game = OldMaidGame()
+    game.play(["Allen", "Jeff", "Chris"])
+</pre>
 
-<li><em>Programming Pearls</em> by Jon Bentley is a classic book.  It consists
-of case studies that originally appeared in the author's column in the
-<em>Communications of the ACM</em>.  The studies deal with tradeoffs in
-programming and why it is often an especially bad idea to run with your first
-idea for a program.  The book is a bit older than those above (1986), so the
-examples are in older languages.  There are lots of problems to solve, some
-with solutions and others with hints.  This book was very popular and was
-followed by a second volume.</li>
 
-<li><em>The New Turing Omnibus</em> by A.K Dewdney provides a gentle
-introduction to 66 topics of computer science ranging from parallel computing
-to computer viruses, from cat scans to genetic algorithms.  All of the topics
-are short and entertaining.  An earlier book by Dewdney
-<em>The Armchair Universe</em> is a collection from his column
-<em>Computer Recreations</em> in <em>Scientific American</em>.  Both books are
-rich source of ideas for projects.</li>
+<h2>Linked Lists</h2>
 
-<li><em>Turtles, Termites and Traffic Jams</em> by Mitchel Resnick is about the 
-power of decentralization and how complex behavior can arise from coordinated
-simple activity of a multitude of agents.  It introduces the language StarLogo, 
-which allows the user to write programs for the agents.   Running the program
-demonstrates complex aggregate behavior, which is often counterintuitive.  Many 
-of the programs in the book were developed by students in middle school and
-high school.  Similar programs could be written in Python using simple graphics 
-and threads.</li>
+<pre class="python">
+def printList(node):
+    while node:
+        print node,
+        node = node.next
+    print
+   
+def printBackward(list):
+    if list == None: return
+    head = list
+    tail = list.next
+    printBackward(tail)
+    print head,
+   
+def printBackwardNicely(list):
+    print "(",
+    if list != None:
+        head = list
+        tail = list.next
+        printBackward(tail)
+        print head,
+    print ")",
+   
+def removeSecond(list):
+    if list == None: return
+    first  = list
+    second = list.next
+    first.next = second.next
+    second.next = None
+    return second
+   
+class Node:
+    def __init__(self, cargo=None):
+        self.cargo = cargo
+        self.next  = None
+ 
+    def __str__(self):
+        return str(self.cargo)
+ 
+    def printBackward(self):
+        if self.next != None:
+        tail = self.next
+        tail.printBackward()
+        print self.cargo,
+ 
+class LinkedList:
+    def __init__(self):
+        self.length = 0
+        self.head   = None
+ 
+    def printBackward(self):
+        print "(",
+        if self.head != None:
+            self.head.printBackward()
+        print ")",
+ 
+    def addFirst(self, cargo):
+        node = Node(cargo)
+        node.next = self.head
+        self.head = node
+        self.length = self.length + 1
+</pre>
 
-<li><em>Godel, Escher and Bach</em> by Douglas Hofstadter.  Put simply, if you
-found magic in recursion you will also find it in this bestselling book.  One
-of Hofstadter's themes involves <q>strange loops</q> where patterns evolve and
-ascend until they meet themselves again.  It is Hofstadter's contention that
-such <q>strange loops</q> are an essential part of what separates the animate
-from the inanimate.  He demonstrates such patterns in the music of Bach, the
-pictures of Escher and Godel's incompleteness theorem.</li>
-</ol>
+
+<h2>Stack class</h2>
+
+<pre class="python">
+class Stack:              # Python list implementation
+    def __init__(self):
+        self.items = []
+ 
+    def push(self, item):
+        self.items.append(item)
+ 
+    def pop(self):
+        return self.items.pop()
+ 
+    def isEmpty(self):
+        return(self.items == [])
+ 
+    def evalPostfix(expr):
+        import re
+        expr = re.split("([^0-9])", expr)
+        stack = Stack()
+        for token in expr:
+        if  token == '' or token == ' ':
+            continue
+        if  token == '+':
+            sum = stack.pop() + stack.pop()
+            stack.push(sum)
+        elif token == '*':
+            product = stack.pop() * stack.pop()
+            stack.push(product)
+        else:
+            stack.push(int(token))
+        return stack.pop()
+</pre>
+
+
+<h2>Queues and priority queues</h2>
+<pre class="python">
+class Queue:
+    def __init__(self):
+        self.length = 0
+        self.head   = None
+ 
+    def empty(self):
+        return (self.length == 0)
+ 
+    def insert(self, cargo):
+        node = Node(cargo)
+        node.next = None
+        if self.head == None:
+            # If list is empty our new node is first
+            self.head = node
+        else:
+            # Find the last node in the list
+            last = self.head
+            while last.next: last = last.next
+        # Append our new node
+        last.next = node
+        self.length = self.length + 1
+ 
+    def remove(self):
+        cargo = self.head.cargo
+        self.head = self.head.next
+        self.length = self.length - 1
+        return cargo
+ 
+class ImprovedQueue:
+    def __init__(self):
+        self.length = 0
+        self.head   = None
+        self.last   = None
+ 
+    def empty(self) :
+        return (self.length == 0)
+
+    def insert(self, cargo):
+        node = Node(cargo)
+        node.next = None
+        if self.length == 0:
+            # If list is empty our new node is first
+            self.head = self.last = node
+        else:
+            # Find the last node in the list
+            last = self.last
+        # Append our new node
+        last.next = node
+        self.last = node
+        self.length = self.length + 1
+ 
+    def remove(self):
+        cargo       = self.head.cargo
+        self.head   = self.head.next
+        self.length = self.length - 1
+        if self.length == 0: self.last = None
+        return cargo
+ 
+class PriorityQueue:
+    def __init__(self):
+        self.items = []
+ 
+    def empty(self):
+        return self.items == []
+ 
+    def insert(self, item):
+        self.items.append(item)
+ 
+    def remove(self):
+        maxi = 0
+        for i in range(1,len(self.items)):
+        if self.items[i] &gt; self.items[maxi]:
+            maxi = i
+            item = self.items[maxi]
+            self.items[maxi:maxi+1] = []
+        return item
+
+class Golfer:
+    def __init__(self, name, score):
+        self.name = name
+        self.score= score
+ 
+    def __str__(self):
+        return "%-15s: %d" % (self.name, self.score)
+
+    def __cmp__(self, other):
+        if self.score &lt; other.score : return  1   # less is more
+        if self.score &gt; other.score : return -1
+        return 0
+</pre>
+
+
+<h2>Trees</h2>
+<pre class="python">
+class Tree:
+    def __init__(self, cargo, left=None, right=None):
+        self.cargo = cargo
+        self.left  = left
+        self.right = right
+ 
+    def __str__(self):
+        return str(self.cargo)
+ 
+    def total(tree):
+        if tree == None: return 0
+        return total(tree.left) + total(tree.right) + tree.cargo
+ 
+    def printTree(tree):
+        if tree == None: return
+        print tree.cargo,
+        printTree(tree.left)
+        printTree(tree.right)
+ 
+    def printTreePostorder(tree):
+        if tree == None: return
+        printTreePostorder(tree.left)
+        printTreePostorder(tree.right)
+        print tree.cargo,
+ 
+    def printTreeInorder(tree):
+        if tree == None: return
+        printTreeInorder(tree.left)
+        print tree.cargo,
+        printTreeInorder(tree.right)
+ 
+    def printTreeIndented(tree, level=0):
+        if tree == None: return
+        printTreeIndented(tree.right, level+1)
+        print '  '*level + str(tree.cargo)
+        printTreeIndented(tree.left, level+1)
+</pre>
+
+
+<h2>Expression trees</h2>
+
+<pre class="python">
+def getToken(tokenList, expected):
+    if tokenList[0] == expected:
+        tokenList[0:1] = []   # remove the token
+        return 1
+    else:
+        return 0
+ 
+def getProduct(tokenList):
+    a = getNumber(tokenList)
+    if getToken(tokenList, '*'):
+        b = getProduct(tokenList)
+        return Tree('*', a, b)
+    else:
+        return a
+ 
+def getSum(tokenList) :
+    a = getProduct(tokenList)
+    if getToken(tokenList, '+'):
+        b = getSum(tokenList)
+        return Tree('+', a, b)
+    else:
+        return a
+ 
+def getNumber(tokenList):
+    if getToken(tokenList, '('):
+        x = getSum(tokenList)       # get subexpression
+        getToken(tokenList, ')')    # eat the closing parenthesis
+        return x
+    else:
+        x = tokenList[0]
+        if type(x) != type(0): return None
+        tokenList[0:1] = []     # remove the token
+    return Tree(x, None, None)  # return a leaf with the number
+</pre>
+
+
+<h2>Guess the animal</h2>
+
+<pre class="python">
+def yes(ques):
+    ans = raw_input(ques).lower()
+    return ans[0] == 'y'
+
+def animal():
+    # start with a singleton
+    root = Tree("bird")
+
+    # loop until the user quits
+    while True:
+        print
+        if not yes("Are you thinking of an animal? "): break
+
+        # walk the tree
+        tree = root
+        while tree.left != None:
+            prompt = tree.cargo + "? "
+            if yes(prompt):
+                tree = tree.right
+            else:
+                tree = tree.left
+
+        # make a guess
+        guess = tree.cargo
+        prompt = "Is it a " + guess + "? "
+        if yes(prompt):
+            print "I rule!"
+            continue
+
+        # get new information
+        prompt  = "What is the animal's name? "
+        animal  = raw_input(prompt)
+        prompt  = "What question would distinguish a %s from a %s? "
+        question = raw_input(prompt % (animal, guess))
+
+        # add new information to the tree
+        tree.cargo = question
+        prompt = "If the animal were %s the answer would be? "
+        if yes(prompt % animal):
+            tree.left = Tree(guess)
+            tree.right = Tree(animal)
+        else:
+            tree.left = Tree(animal)
+            tree.right = Tree(guess)
+</pre>
+
+
+<h2><code>Fraction</code> class</h2>
+
+<pre class="python">
+class Fraction:
+    def __init__(self, numerator, denominator=1):
+        g = gcd(numerator, denominator)
+        self.numerator   = numerator   / g
+        self.denominator = denominator / g
+ 
+    def __mul__(self, object):
+        if type(object) == type(5):
+            object = Fraction(object)
+            return Fraction(self.numerator*object.numerator,
+                            self.denominator*object.denominator)
+ 
+    __rmul__ = __mul__
+ 
+    def __add__(self, object):
+        if type(object) == type(5):
+            object = Fraction(object)
+ 
+        return Fraction(self.numerator*object.denominator +
+                        self.denominator*object.numerator,
+                        self.denominator * object.denominator)
+ 
+    __radd__ = __add__
+ 
+    def __cmp__(self, object):
+        if type(object) == type(5):
+            object = Fraction(object)
+ 
+        diff = (self.numerator*object.denominator -
+                object.numerator*self.denominator)
+        return diff
+ 
+    def __repr__(self):
+        return self.__str__()
+ 
+    def __str__(self):
+        return "%d/%d" % (self.numerator, self.denominator)
+ 
+    def gcd(m,n):
+        "return the greatest common divisor of 2 integer arguments"
+        if m % n == 0:
+            return n
+        else:
+            return gcd(n,m%n)
+</pre>
 
 </body>
 </html>

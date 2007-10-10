@@ -1,104 +1,362 @@
 <html>
 <head>
-  <title>Doctests and test driven development</title>
+  <title>Creating a new data type</title>
 </head>
 <body>
 
-<h1>Doctests and test driven development</h1>
+<h1>Creating a new data type</h1>
+<a name="overloading" />
+<span class="index" value="data type!user-defined" />
 
-<h2>Automated testing with <code>doctest</code></h2>
+<p>Object-oriented programming languages allow programmers to create new data
+types that behave much like built-in data types.  We will explore this
+capability by building a <code>Fraction</code> class that works very much like
+the built-in numeric types, integers, longs, and floats.</p>
 
-<p><code>doctest</code> is a module in the Python standard library which 
-makes innovative use of Python's docstring, interactive shell, and
-introspection capabilities.
-</p>
+<p>Fractions, also known as rational numbers, are values that can be expressed
+as a ratio of whole numbers, such as <code>5/6</code>. The top number is called 
+the numerator and the bottom number is called the denominator.</p>
+
+<span class="index" value="rational" />
+<span class="index" value="fraction" />
+<span class="index" value="numerator" />
+<span class="index" value="denominator" />
+
+<p>We start by defining a <code>Fraction</code> class with an initialization
+method that provides the numerator and denominator as integers:</p>
+
+<pre class="python">
+class Fraction:
+    def __init__(self, numerator, denominator=1):
+        self.numerator = numerator
+        self.denominator = denominator
+</pre>
+
+<p>The denominator is optional.  A Fraction with just one just one parameter
+represents a whole number.  If the numerator is <code>n</code>, we build the
+Fraction <code>n/1</code>.</p>
+
+<p>The next step is to write a <code>__str__</code> method that displays
+fractions in a way that makes sense.  The form <q>numerator/denominator</q> is
+natural here:</p>
+
+<pre class="python">
+class Fraction:
+    ...
+    def __str__(self):
+        return "%d/%d" % (self.numerator, self.denominator)
+</pre>
+
+<p>To test what we have so far, we put it in a file named
+<code>Fraction.py</code> and import it into the Python interpreter.  Then we
+create a fraction object and print it.</p>
+
+<pre class="python-interpreter">
+>>> from Fraction import fraction
+>>> spam = Fraction(5,6)
+>>> print "The fraction is", spam
+The fraction is 5/6
+</pre>
+
+<p>As usual, the <code>print</code> command invokes the <code>__str__</code>
+method implicitly.</p>
 
 
-<h2>docstrings</h2>
+<h2>Fraction multiplication</h2>
+<span class="index" value="multiplication!fraction" />
+<span class="index" value="fraction!multiplication" />
 
-<p>Python's <strong>docstring</strong>s provide an easy way to document
-modules, classes, methods, and functions.  A docstring is simply a string
-constant that occurs as the first statement of an object's definition.
-Here is an example from the chapter on trees illustrating its use:
+<p>We would like to be able to apply the normal addition, subtraction,
+multiplication, and division operations to fractions.  To do this, we can
+overload the mathematical operators for <code>Fraction</code> objects.</p>
+
+<span class="index" value="overload" />
+<span class="index" value="operator!overloading" />
+<span class="index" value="mathematical operator" />
+
+<p>We'll start with multiplication because it is the easiest to implement.
+To multiply fractions, we create a new fraction with a numerator that is the
+product of the original numerators and a denominator that is a product of the
+original denominators.  <code>__mul__</code> is the name Python uses for a
+method that overloads the <code>*</code> operator:</p>
+
+<pre class="python">
+class Fraction:
+    ...
+    def __mul__(self, object):
+        return Fraction(self.numerator*object.numerator,
+                        self.denominator*object.denominator)
+</pre>
+
+<p>We can test this method by computing the product of two fractions:</p>
+
+<pre class="python-interpreter">
+>>> print Fraction(5,6) * Fraction(3,4)
+15/24
+</pre>
+
+<p>It works, but we can do better!  We can extend the method to handle
+multiplication by an integer.  We use the <code>type</code> function to test if 
+<code>other</code> is an integer and convert it to a fraction if it is.</p>
+
+<pre class="python">
+class Fraction:
+    ...
+    def __mul__(self, other):
+       if type(other) == type(5):
+           other = Fraction(other)
+       return Fraction(self.numerator   * other.numerator,
+                       self.denominator * other.denominator)
+</pre>
+
+<p>Multiplying fractions and integers now works, but only if the fraction
+is the left operand:</p>
+
+<pre class="python-interpreter">
+>>> print Fraction(5,6) * 4
+20/6
+>>> print 4 * Fraction(5,6)
+TypeError: __mul__ nor __rmul__ defined for these operands
+</pre>
+
+<p>To evaluate a binary operator like multiplication, Python checks the left
+operand first to see if it provides a <code>__mul__</code> that supports the
+type of the second operand.  In this case, the built-in integer operator
+doesn't support fractions.</p>
+
+<p>Next, Python checks the right operand to see if it provides an
+<code>__rmul__</code> method that supports the first type.  In this case, we
+haven't provided <code>__rmul__</code>, so it fails.</p>
+
+<p>On the other hand, there is a simple way to provide
+<code>__rmul__</code>:</p>
+
+<pre class="python">
+class Fraction:
+    ...
+    __rmul__ = __mul__
+</pre>
+
+<p>This assignment says that the <code>__rmul__</code> is the same as
+<code>__mul__</code>.  Now if we evaluate <code>4 * Fraction(5,6)</code>,
+Python invokes <code>__rmul__</code> on the <code>Fraction</code> object and
+passes 4 as a parameter:</p>
+
+<pre class="python-interpreter">
+>>> print 4 * Fraction(5,6)
+20/6
+</pre>
+
+<p>Since <code>__rmul__</code> is the same as <code>__mul__</code>, and
+<code>__mul__</code> can handle an integer parameter, we're all set.</p>
+
+
+<h2>Fraction addition</h2>
+<span class="index" value="addition!fraction" />
+<span class="index" value="fraction!addition" />
+
+<p>Addition is more complicated than multiplication, but still not too bad.
+The sum of <code>a/b</code> and <code>c/d</code> is the fraction
+<code>(a*d+c*b)/b*d</code>.</p>
+
+<p>Using the multiplication code as a model, we can write <code>__add__</code>
+and <code>__radd__</code>:</p>
+
+<pre class="python-interpreter">
+class Fraction:
+    ...
+    def __add__(self, other):
+        if type(other) == type(5):
+            other = Fraction(other)
+        return Fraction(self.numerator   * other.denominator +
+                        self.denominator * other.numerator,
+                        self.denominator * other.denominator)
+   
+        __radd__ = __add__
+</pre>
+
+<p>We can test these methods with <code>Fraction</code>s and integers.</p>
+
+<pre class="python-interpreter">
+>>> print Fraction(5,6) + Fraction(5,6)
+60/36
+>>> print Fraction(5,6) + 3
+23/6
+>>> print 2 + Fraction(5,6)
+17/6
+</pre>
+
+<p>The first two examples invoke <code>__add__</code>; the last invokes
+<code>__radd__</code>.</p>
+
+
+<h2>Euclid's algorithm</h2>
+<span class="index" value="greatest common divisor" />
+<span class="index" value="Euclid" />
+<span class="index" value="pseudocode" />
+<span class="index" value="reduce" />
+
+<p>In the previous example, we computed the sum <code>5/6</code> +
+<code>5/6</code> and got <code>60/36</code>.  That is correct, but it's not the 
+best way to represent the answer.  To <strong>reduce</strong> the fraction to
+its simplest terms, we have to divide the numerator and denominator by their
+<strong>greatest common divisor (GCD)</strong>, which is 12.  The result is
+<code>5/3</code>.</p>
+
+<p>In general, whenever we create a new <code>Fraction</code> object, we should
+reduce it by dividing the numerator and denominator by their GCD.  If the
+fraction is already reduced, the GCD is 1.</p>
+
+<p>Euclid of Alexandria (approx. 325--265 BCE) presented an algorithm to find
+the GCD for two integers <code>m</code> and <code>n</code>:</p>
+
+<blockquote>
+If <code>n</code> divides <code>m</code> evenly, then <code>n</code> is the GCD.
+Otherwise the GCD is the GCD of <code>n</code> and the remainder of
+<code>m</code> divided by <code>n</code>.
+</blockquote>
+
+<p>This recursive definition can be expressed concisely as a function:</p>
+
+<pre class="python">
+def gcd (m, n):
+    if m % n == 0:
+        return n
+    else:
+        return gcd(n, m%n)
+</pre>
+
+<p>In the first line of the body, we use the modulus operator to check
+divisibility.  On the last line, we use it to compute the remainder after
+division.</p>
+
+<p>Since all the operations we've written create new <code>Fraction</code>s for 
+the result, we can reduce all results by modifying the initialization method.
 </p>
 
 <pre class="python">
-def total(tree):
-    """total(tree) -> sum
-
-      Return the sum of the values of the elements of a tree of numbers.
-    """
-    if tree == None: return 0
-    return total(tree.left) + total(tree.right)
+class Fraction:
+    def __init__(self, numerator, denominator = 1):
+        g = gcd (numerator, denominator)
+        self.numerator = numerator / g
+        self.denominator = denominator / g
 </pre>
 
-<p>Assuming the example above is in a module named <code>trees.py</code>,
-the following is now possible:</p>
+<p>Now whenever we create a <code>Fraction</code>, it is reduced to its
+simplest form:</p>
 
-<pre class="python-shell">
->>> from trees import *
->>> print total.__doc__
-total(tree) -> sum
-
-      Return the sum of the values of the elements of a tree of numbers.
-
+<pre class="python-interpreter">
+>>> Fraction(100,-36)
+-25/9
 </pre>
 
+<p>A nice feature of <code>gcd</code> is that if the fraction is negative, the
+minus sign is always moved to the numerator.</p>
 
-<h2>The <code>doctest</code> module</h2>
 
-<p>
-The <code>doctest</code> module was added to the 2.3 release of Python.
-Created by core python developer Tim Peters, <code>doctest</code> enables
-programmers to use docstrings for automated testing.
-</p> 
+<h2>Comparing fractions</h2>
+<span class="index" value="comparison!fraction" />
+<span class="index" value="fraction!comparison" />
+
+<p>Suppose we have two <code>Fraction</code> objects, <code>a</code> and
+<code>b</code>, and we evaluate <code>a == b</code>.  The default
+implementation of <code>==</code> tests for shallow equality, so it only
+returns true if <code>a</code> and <code>b</code> are the same object.</p>
+
+<p>More likely, we want to return true if <code>a</code> and <code>b</code>
+have the same value---that is, deep equality.</p>
+
+<p>We have to teach fractions how to compare themselves.  As we saw in
+Section <!-- reference comparecard -->, we can overload all the comparison
+operators at once by supplying a <code>__cmp__</code> method.</p>
+
+<p>By convention, the <code>__cmp__</code> method returns a negative number if
+<code>self</code> is less than <code>other</code>, zero if they are the same,
+and a positive number if <code>self</code> is greater than <code>other</code>.
+</p>
+
+<p>The simplest way to compare fractions is to cross-multiply.  If
+<code>a/b &gt; c/d</code>, then <code>ad &gt; bc</code>.  With that in mind,
+here is the code for <code>__cmp__</code>:</p>
 
 <pre class="python">
-"""
-  >>> distance(1, 2, 4, 6)
-  5.0
-"""
-
-def distance(x1, y1, x2, y2):
-    return 0.0 
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
+class Fraction:
+    ...
+    def __cmp__(self, other):
+        diff = (self.numerator  * other.denominator -
+                other.numerator * self.denominator)
+        return diff
 </pre>
 
-<p>
-The example above is taken from the <em>Program development</em> section of
-chapter 5.  Running this program produces the following output:
+<p>If <code>self</code> is greater than <code>other</code>, then
+<code>diff</code> will be positive.  If <code>other</code> is greater, then
+<code>diff</code> will be negative.  If they are the same, <code>diff</code> is 
+zero.</p>
+
+
+<h2>Taking it further</h2>
+
+<p>Of course, we are not done.  We still have to implement subtraction by
+overriding <code>__sub__</code> and division by overriding <code>__div__</code>.
 </p>
 
-<pre class="shell">
-**********************************************************************
-File "doctest_example01.py", line 2, in __main__
-Failed example:
-    distance(1, 2, 4, 6)
-Expected:
-    5.0
-Got:
-    0.0
-**********************************************************************
-1 items had failures:
-   1 of   1 in __main__
-***Test Failed*** 1 failures.
-</pre>
+<p>One way to handle those operations is to implement negation by overriding
+<code>__neg__</code> and inversion by overriding <code>__invert__</code>.
+Then we can subtract by negating the second operand and adding, and we can
+divide by inverting the second operand and multiplying.</p>
 
-<p>
-Doctests are written as sample Python interpreter sessions inside a docstring.
-The doctest in this example is in the module's docstring, but it could also
-be placed in the docstring of the function being tested.
-</p>
-<p>
-Each test consists of a Python expression written after the interpreter prompt
-(<code>&gt;&gt;&gt;</code>) followed on the next line by the expected
-evaluation of the given expression.  The doctest module runs each expression
-through the interpreter and compares the evaluation with the expected one.
-</p>
+<p>Next, we have to provide <code>__rsub__</code> and <code>__rdiv__</code>.
+Unfortunately, we can't use the same trick we used for addition and
+multiplication, because subtraction and division are not commutative.
+We can't just set <code>__rsub__</code> and <code>__rdiv__</code> equal to
+<code>__sub__</code> and <code>__div__</code>.  In these operations, the
+order of the operands makes a difference.</p>
 
+<p>To handle <strong>unary negation</strong>, which is the use of the minus
+sign with a single operand, we override <code>__neg__</code>.</p>
+
+<span class="index" value="unary operator" />
+<span class="index" value="negation" />
+
+<p>We can compute powers by overriding <code>__pow__</code>, but the
+implementation is a little tricky.  If the exponent isn't an integer, then it
+may not be possible to represent the result as a <code>Fraction</code>.  For
+example, <code>Fraction(2) ** Fraction(1,2)</code> is the square root of 2,
+which is an irrational number (it can't be represented as a fraction).
+So it's not easy to write the most general version of <code>__pow__</code>.</p>
+
+<span class="index" value="irrational" />
+
+<p>There is one other extension to the <code>Fraction</code> class that you
+might want to think about.  So far, we have assumed that the numerator and
+denominator are integers.  We might also want to allow them to be long
+integers.</p>
+
+<div class="exercise">
+As an exercise, finish the implementation of the <code>Fraction</code> class so 
+that it handles subtraction, division, exponentiation, and long integers as
+numerators and denominators.
+</div>
+
+
+<h2>Glossary</h2>
+<span class="index" value="greatest common divisor" />
+<span class="index" value="reduce" />
+<span class="index" value="unary negation" />
+
+<dl>
+<dt>greatest common divisor (GCD):</dt>
+<dd>The largest positive integer that divides without a remainder into both the 
+numerator and denominator of a fraction.</dd>
+
+<dt>reduce:</dt>
+<dd>To change a fraction into an equivalent form with a GCD of 1.</dd>
+
+<dt>unary negation:</dt>
+<dd>The operation that computes an additive inverse, usually denoted with a
+leading minus sign.  Called <q>unary</q> by contrast with the binary minus
+operation, which is subtraction.</dd>
+</dl>
 
 </body>
 </html>

@@ -1,362 +1,535 @@
 <html>
 <head>
-  <title>Creating a new data type</title>
+  <title>Debugging</title>
 </head>
 <body>
 
-<h1>Creating a new data type</h1>
-<a name="overloading" />
-<span class="index" value="data type!user-defined" />
+<h1>Debugging</h1>
+<span class="index" value="debugging"/>
 
-<p>Object-oriented programming languages allow programmers to create new data
-types that behave much like built-in data types.  We will explore this
-capability by building a <code>Fraction</code> class that works very much like
-the built-in numeric types, integers, longs, and floats.</p>
+<p>Different kinds of errors can occur in a program, and it is useful to
+distinguish among them in order to track them down more quickly:</p>
 
-<p>Fractions, also known as rational numbers, are values that can be expressed
-as a ratio of whole numbers, such as <code>5/6</code>. The top number is called 
-the numerator and the bottom number is called the denominator.</p>
+<ol>
+<li>Syntax errors are produced by Python when it is translating the source code 
+into byte code.  They usually indicate that there is something wrong with the
+syntax of the program.  Example: Omitting the colon at the end of a
+<code>def</code> statement yields the somewhat redundant message
+<code>SyntaxError: invalid syntax</code>.</li>
 
-<span class="index" value="rational" />
-<span class="index" value="fraction" />
-<span class="index" value="numerator" />
-<span class="index" value="denominator" />
+<li>Runtime errors are produced by the runtime system if something goes wrong
+while the program is running.  Most runtime error messages include information
+about where the error occurred and what functions were executing.  Example: An
+infinite recursion eventually causes a runtime error of <q>maximum recursion
+depth exceeded.</q></li>
 
-<p>We start by defining a <code>Fraction</code> class with an initialization
-method that provides the numerator and denominator as integers:</p>
+<li>Semantic errors are problems with a program that compiles and runs but
+doesn't do the right thing.  Example: An expression may not be evaluated in the 
+order you expect, yielding an unexpected result.</li>
+</ol>
+
+<span class="index" value="compile-time error" />
+<span class="index" value="syntax error" />
+<span class="index" value="runtime error" />
+<span class="index" value="semantic error" />
+<span class="index" value="error!compile-time" />
+<span class="index" value="error!syntax" />
+<span class="index" value="error!runtime" />
+<span class="index" value="error!semantic" />
+<span class="index" value="exception" />
+
+<p>The first step in debugging is to figure out which kind of error you are
+dealing with.  Although the following sections are organized by error type,
+some techniques are applicable in more than one situation.</p>
+
+
+<h2>Syntax errors</h2>
+<span class="index" value="error messages" />
+<span class="index" value="compiler" />
+
+<p>Syntax errors are usually easy to fix once you figure out what they are.
+Unfortunately, the error messages are often not helpful.  The most common
+messages are <code>SyntaxError: invalid syntax</code> and
+<code>SyntaxError: invalid token</code>, neither of which is very informative.
+</p>
+
+<p>On the other hand, the message does tell you where in the program the
+problem occurred.  Actually, it tells you where Python noticed a problem, which 
+is not necessarily where the error is.  Sometimes the error is prior to the
+location of the error message, often on the preceding line.</p>
+
+<span class="index" value="incremental program development" />
+
+<p>If you are building the program incrementally, you should have a good idea
+about where the error is.  It will be in the last line you added.</p>
+
+<p>If you are copying code from a book, start by comparing your code to the
+book's code very carefully.  Check every character.  At the same time, remember 
+that the book might be wrong, so if you see something that looks like a syntax
+error, it might be.</p>
+
+<p>Here are some ways to avoid the most common syntax errors:</p>
+
+<span class="index" value="syntax" />
+
+<ol>
+<li>Make sure you are not using a Python keyword for a variable name.</li>
+
+<li>Check that you have a colon at the end of the header of every compound
+statement, including <code>for</code>, <code>while</code>, <code>if</code>,
+and <code>def</code> statements.</li>
+
+<li>Check that indentation is consistent.  You may indent with either spaces or 
+tabs but it's best not to mix them.  Each level should be nested the same
+amount.</li>
+
+<li>Make sure that any strings in the code have matching quotation marks.</li>
+
+<li>If you have multiline strings with triple quotes (single or double), make
+sure you have terminated the string properly.  An unterminated string may cause 
+an <code>invalid token</code> error at the end of your program, or it may treat 
+the following part of the program as a string until it comes to the next string.
+In the second case, it might not produce an error message at all!</li>
+
+<li>An unclosed bracket---(, {, or [---makes Python continue with the next line 
+as part of the current statement.  Generally, an error occurs almost
+immediately in the next line.</li>
+
+<li>Check for the classic <code>=</code> instead of <code>==</code> inside a
+conditional.</li>
+</ol>
+
+<p>If nothing works, move on to the next section...</p>
+
+
+<h2>I can't get my program to run no matter what I do.</h2>
+
+<p>If the compiler says there is an error and you don't see it, that might be
+because you and the compiler are not looking at the same code.  Check your
+programming environment to make sure that the program you are editing is the
+one Python is trying to run.  If you are not sure, try putting an obvious and
+deliberate syntax error at the beginning of the program.  Now run (or import)
+it again.  If the compiler doesn't find the new error, there is probably
+something wrong with the way your environment is set up.</p>
+
+<p>If this happens, one approach is to start again with a new program like
+<q>Hello, World!,</q> and make sure you can get a known program to run.  Then
+gradually add the pieces of the new program to the working one.</p>
+
+
+<h2>Runtime errors</h2>
+
+<p>Once your program is syntactically correct, Python can import it and at
+least start running it.  What could possibly go wrong?</p>
+
+
+<h2>My program does absolutely nothing.</h2>
+
+<p>This problem is most common when your file consists of functions and classes
+but does not actually invoke anything to start execution.  This may be
+intentional if you only plan to import this module to supply classes and
+functions.</p>
+
+<p>If it is not intentional, make sure that you are invoking a function to
+start execution, or execute one from the interactive prompt.  Also see the
+<q>Flow of Execution</q> section below.</p>
+
+
+<h2>My program hangs.</h2>
+<span class="index" value="infinite loop" />
+<span class="index" value="infinite recursion" />
+<span class="index" value="hanging" />
+
+<p>If a program stops and seems to be doing nothing, we say it is
+<q>hanging.</q>  Often that means that it is caught in an infinite loop or an
+infinite recursion.</p>
+
+<ol>
+<li>If there is a particular loop that you suspect is the problem, add a
+<code>print</code> statement immediately before the loop that says
+<q>entering the loop</q> and another immediately after that says
+<q>exiting the loop.</q></li>
+
+<li>Run the program.  If you get the first message and not the second, you've
+got an infinite loop.  Go to the <q>Infinite Loop</q> section below.</li>
+
+<li>Most of the time, an infinite recursion will cause the program to run for a 
+while and then produce a <q>RuntimeError: Maximum recursion depth exceeded</q>
+error.  If that happens, go to the <q>Infinite Recursion</q> section below.</li>
+
+<li>If you are not getting this error but you suspect there is a problem with a 
+recursive method or function, you can still use the techniques in the
+<q>Infinite Recursion</q> section.</li>
+
+<li>If neither of those steps works, start testing other loops and other
+recursive functions and methods.</li>
+
+<li>If that doesn't work, then it is possible that you don't understand the
+flow of execution in your program.  Go to the <q>Flow of Execution</q> section
+below.</li>
+</ol>
+
+
+<h2>Infinite Loop</h2>
+<span class="index" value="infinite loop" />
+<span class="index" value="loop!infinite" />
+<span class="index" value="condition" />
+<span class="index" value="loop!condition" />
+
+<p>If you think you have an infinite loop and you think you know what loop is
+causing the problem, add a <code>print</code> statement at the end of the loop
+that prints the values of the variables in the condition and the value of the
+condition.</p>
+
+<p>For example:</p>
 
 <pre class="python">
-class Fraction:
-    def __init__(self, numerator, denominator=1):
-        self.numerator = numerator
-        self.denominator = denominator
-</pre>
-
-<p>The denominator is optional.  A Fraction with just one just one parameter
-represents a whole number.  If the numerator is <code>n</code>, we build the
-Fraction <code>n/1</code>.</p>
-
-<p>The next step is to write a <code>__str__</code> method that displays
-fractions in a way that makes sense.  The form <q>numerator/denominator</q> is
-natural here:</p>
-
-<pre class="python">
-class Fraction:
-    ...
-    def __str__(self):
-        return "%d/%d" % (self.numerator, self.denominator)
-</pre>
-
-<p>To test what we have so far, we put it in a file named
-<code>Fraction.py</code> and import it into the Python interpreter.  Then we
-create a fraction object and print it.</p>
-
-<pre class="python-interpreter">
->>> from Fraction import fraction
->>> spam = Fraction(5,6)
->>> print "The fraction is", spam
-The fraction is 5/6
-</pre>
-
-<p>As usual, the <code>print</code> command invokes the <code>__str__</code>
-method implicitly.</p>
-
-
-<h2>Fraction multiplication</h2>
-<span class="index" value="multiplication!fraction" />
-<span class="index" value="fraction!multiplication" />
-
-<p>We would like to be able to apply the normal addition, subtraction,
-multiplication, and division operations to fractions.  To do this, we can
-overload the mathematical operators for <code>Fraction</code> objects.</p>
-
-<span class="index" value="overload" />
-<span class="index" value="operator!overloading" />
-<span class="index" value="mathematical operator" />
-
-<p>We'll start with multiplication because it is the easiest to implement.
-To multiply fractions, we create a new fraction with a numerator that is the
-product of the original numerators and a denominator that is a product of the
-original denominators.  <code>__mul__</code> is the name Python uses for a
-method that overloads the <code>*</code> operator:</p>
-
-<pre class="python">
-class Fraction:
-    ...
-    def __mul__(self, object):
-        return Fraction(self.numerator*object.numerator,
-                        self.denominator*object.denominator)
-</pre>
-
-<p>We can test this method by computing the product of two fractions:</p>
-
-<pre class="python-interpreter">
->>> print Fraction(5,6) * Fraction(3,4)
-15/24
-</pre>
-
-<p>It works, but we can do better!  We can extend the method to handle
-multiplication by an integer.  We use the <code>type</code> function to test if 
-<code>other</code> is an integer and convert it to a fraction if it is.</p>
-
-<pre class="python">
-class Fraction:
-    ...
-    def __mul__(self, other):
-       if type(other) == type(5):
-           other = Fraction(other)
-       return Fraction(self.numerator   * other.numerator,
-                       self.denominator * other.denominator)
-</pre>
-
-<p>Multiplying fractions and integers now works, but only if the fraction
-is the left operand:</p>
-
-<pre class="python-interpreter">
->>> print Fraction(5,6) * 4
-20/6
->>> print 4 * Fraction(5,6)
-TypeError: __mul__ nor __rmul__ defined for these operands
-</pre>
-
-<p>To evaluate a binary operator like multiplication, Python checks the left
-operand first to see if it provides a <code>__mul__</code> that supports the
-type of the second operand.  In this case, the built-in integer operator
-doesn't support fractions.</p>
-
-<p>Next, Python checks the right operand to see if it provides an
-<code>__rmul__</code> method that supports the first type.  In this case, we
-haven't provided <code>__rmul__</code>, so it fails.</p>
-
-<p>On the other hand, there is a simple way to provide
-<code>__rmul__</code>:</p>
-
-<pre class="python">
-class Fraction:
-    ...
-    __rmul__ = __mul__
-</pre>
-
-<p>This assignment says that the <code>__rmul__</code> is the same as
-<code>__mul__</code>.  Now if we evaluate <code>4 * Fraction(5,6)</code>,
-Python invokes <code>__rmul__</code> on the <code>Fraction</code> object and
-passes 4 as a parameter:</p>
-
-<pre class="python-interpreter">
->>> print 4 * Fraction(5,6)
-20/6
-</pre>
-
-<p>Since <code>__rmul__</code> is the same as <code>__mul__</code>, and
-<code>__mul__</code> can handle an integer parameter, we're all set.</p>
-
-
-<h2>Fraction addition</h2>
-<span class="index" value="addition!fraction" />
-<span class="index" value="fraction!addition" />
-
-<p>Addition is more complicated than multiplication, but still not too bad.
-The sum of <code>a/b</code> and <code>c/d</code> is the fraction
-<code>(a*d+c*b)/b*d</code>.</p>
-
-<p>Using the multiplication code as a model, we can write <code>__add__</code>
-and <code>__radd__</code>:</p>
-
-<pre class="python-interpreter">
-class Fraction:
-    ...
-    def __add__(self, other):
-        if type(other) == type(5):
-            other = Fraction(other)
-        return Fraction(self.numerator   * other.denominator +
-                        self.denominator * other.numerator,
-                        self.denominator * other.denominator)
+while x &gt; 0 and y &lt; 0:
+    # do something to x
+    # do something to y
    
-        __radd__ = __add__
+    print  "x: ", x
+    print  "y: ", y
+    print  "condition: ", (x &gt; 0 and y &lt; 0)
 </pre>
 
-<p>We can test these methods with <code>Fraction</code>s and integers.</p>
-
-<pre class="python-interpreter">
->>> print Fraction(5,6) + Fraction(5,6)
-60/36
->>> print Fraction(5,6) + 3
-23/6
->>> print 2 + Fraction(5,6)
-17/6
-</pre>
-
-<p>The first two examples invoke <code>__add__</code>; the last invokes
-<code>__radd__</code>.</p>
+<p>Now when you run the program, you will see three lines of output for each
+time through the loop.  The last time through the loop, the condition should be 
+<code>false</code>.  If the loop keeps going, you will be able to see the
+values of <code>x</code> and <code>y</code>, and you might figure out why they
+are not being updated correctly.</p>
 
 
-<h2>Euclid's algorithm</h2>
-<span class="index" value="greatest common divisor" />
-<span class="index" value="Euclid" />
-<span class="index" value="pseudocode" />
-<span class="index" value="reduce" />
+<h2>Infinite Recursion</h2>
+<span class="index" value="infinite recursion" />
+<span class="index" value="recursion!infinite" />
 
-<p>In the previous example, we computed the sum <code>5/6</code> +
-<code>5/6</code> and got <code>60/36</code>.  That is correct, but it's not the 
-best way to represent the answer.  To <strong>reduce</strong> the fraction to
-its simplest terms, we have to divide the numerator and denominator by their
-<strong>greatest common divisor (GCD)</strong>, which is 12.  The result is
-<code>5/3</code>.</p>
-
-<p>In general, whenever we create a new <code>Fraction</code> object, we should
-reduce it by dividing the numerator and denominator by their GCD.  If the
-fraction is already reduced, the GCD is 1.</p>
-
-<p>Euclid of Alexandria (approx. 325--265 BCE) presented an algorithm to find
-the GCD for two integers <code>m</code> and <code>n</code>:</p>
-
-<blockquote>
-If <code>n</code> divides <code>m</code> evenly, then <code>n</code> is the GCD.
-Otherwise the GCD is the GCD of <code>n</code> and the remainder of
-<code>m</code> divided by <code>n</code>.
-</blockquote>
-
-<p>This recursive definition can be expressed concisely as a function:</p>
-
-<pre class="python">
-def gcd (m, n):
-    if m % n == 0:
-        return n
-    else:
-        return gcd(n, m%n)
-</pre>
-
-<p>In the first line of the body, we use the modulus operator to check
-divisibility.  On the last line, we use it to compute the remainder after
-division.</p>
-
-<p>Since all the operations we've written create new <code>Fraction</code>s for 
-the result, we can reduce all results by modifying the initialization method.
+<p>Most of the time, an infinite recursion will cause the program to run for a
+while and then produce a <code>Maximum recursion depth exceeded</code> error.
 </p>
 
-<pre class="python">
-class Fraction:
-    def __init__(self, numerator, denominator = 1):
-        g = gcd (numerator, denominator)
-        self.numerator = numerator / g
-        self.denominator = denominator / g
-</pre>
+<p>If you suspect that a function or method is causing an infinite recursion,
+start by checking to make sure that there is a base case.  In other words,
+there should be some condition that will cause the function or method to return 
+without making a recursive invocation.  If not, then you need to rethink the
+algorithm and identify a base case.</p>
 
-<p>Now whenever we create a <code>Fraction</code>, it is reduced to its
-simplest form:</p>
-
-<pre class="python-interpreter">
->>> Fraction(100,-36)
--25/9
-</pre>
-
-<p>A nice feature of <code>gcd</code> is that if the fraction is negative, the
-minus sign is always moved to the numerator.</p>
+<p>If there is a base case but the program doesn't seem to be reaching it, add
+a <code>print</code> statement at the beginning of the function or method that
+prints the parameters.  Now when you run the program, you will see a few lines
+of output every time the function or method is invoked, and you will see the
+parameters.  If the parameters are not moving toward the base case, you will
+get some ideas about why not.</p>
 
 
-<h2>Comparing fractions</h2>
-<span class="index" value="comparison!fraction" />
-<span class="index" value="fraction!comparison" />
+<h2>Flow of Execution</h2>
+<span class="index" value="flow of execution" />
+<span class="index" value="execution!flow" />
 
-<p>Suppose we have two <code>Fraction</code> objects, <code>a</code> and
-<code>b</code>, and we evaluate <code>a == b</code>.  The default
-implementation of <code>==</code> tests for shallow equality, so it only
-returns true if <code>a</code> and <code>b</code> are the same object.</p>
+<p>If you are not sure how the flow of execution is moving through your
+program, add <code>print</code> statements to the beginning of each function
+with a message like <q>entering function <code>foo</code>,</q> where
+<code>foo</code> is the name of the function.</p>
 
-<p>More likely, we want to return true if <code>a</code> and <code>b</code>
-have the same value---that is, deep equality.</p>
-
-<p>We have to teach fractions how to compare themselves.  As we saw in
-Section <!-- reference comparecard -->, we can overload all the comparison
-operators at once by supplying a <code>__cmp__</code> method.</p>
-
-<p>By convention, the <code>__cmp__</code> method returns a negative number if
-<code>self</code> is less than <code>other</code>, zero if they are the same,
-and a positive number if <code>self</code> is greater than <code>other</code>.
-</p>
-
-<p>The simplest way to compare fractions is to cross-multiply.  If
-<code>a/b &gt; c/d</code>, then <code>ad &gt; bc</code>.  With that in mind,
-here is the code for <code>__cmp__</code>:</p>
-
-<pre class="python">
-class Fraction:
-    ...
-    def __cmp__(self, other):
-        diff = (self.numerator  * other.denominator -
-                other.numerator * self.denominator)
-        return diff
-</pre>
-
-<p>If <code>self</code> is greater than <code>other</code>, then
-<code>diff</code> will be positive.  If <code>other</code> is greater, then
-<code>diff</code> will be negative.  If they are the same, <code>diff</code> is 
-zero.</p>
+<p>Now when you run the program, it will print a trace of each function as it
+is invoked.</p>
 
 
-<h2>Taking it further</h2>
+<h2>When I run the program I get an exception.</h2>
+<span class="index" value="exception" />
+<span class="index" value="runtime error" />
 
-<p>Of course, we are not done.  We still have to implement subtraction by
-overriding <code>__sub__</code> and division by overriding <code>__div__</code>.
-</p>
+<p>If something goes wrong during runtime, Python prints a message that
+includes the name of the exception, the line of the program where the problem
+occurred, and a traceback.</p>
 
-<p>One way to handle those operations is to implement negation by overriding
-<code>__neg__</code> and inversion by overriding <code>__invert__</code>.
-Then we can subtract by negating the second operand and adding, and we can
-divide by inverting the second operand and multiplying.</p>
+<span class="index" value="traceback" />
 
-<p>Next, we have to provide <code>__rsub__</code> and <code>__rdiv__</code>.
-Unfortunately, we can't use the same trick we used for addition and
-multiplication, because subtraction and division are not commutative.
-We can't just set <code>__rsub__</code> and <code>__rdiv__</code> equal to
-<code>__sub__</code> and <code>__div__</code>.  In these operations, the
-order of the operands makes a difference.</p>
+<p>The traceback identifies the function that is currently running, and then
+the function that invoked it, and then the function that invoked <em>that</em>, 
+and so on.  In other words, it traces the path of function invocations that got 
+you to where you are.  It also includes the line number in your file where each 
+of these calls occurs.</p>
 
-<p>To handle <strong>unary negation</strong>, which is the use of the minus
-sign with a single operand, we override <code>__neg__</code>.</p>
-
-<span class="index" value="unary operator" />
-<span class="index" value="negation" />
-
-<p>We can compute powers by overriding <code>__pow__</code>, but the
-implementation is a little tricky.  If the exponent isn't an integer, then it
-may not be possible to represent the result as a <code>Fraction</code>.  For
-example, <code>Fraction(2) ** Fraction(1,2)</code> is the square root of 2,
-which is an irrational number (it can't be represented as a fraction).
-So it's not easy to write the most general version of <code>__pow__</code>.</p>
-
-<span class="index" value="irrational" />
-
-<p>There is one other extension to the <code>Fraction</code> class that you
-might want to think about.  So far, we have assumed that the numerator and
-denominator are integers.  We might also want to allow them to be long
-integers.</p>
-
-<div class="exercise">
-As an exercise, finish the implementation of the <code>Fraction</code> class so 
-that it handles subtraction, division, exponentiation, and long integers as
-numerators and denominators.
-</div>
-
-
-<h2>Glossary</h2>
-<span class="index" value="greatest common divisor" />
-<span class="index" value="reduce" />
-<span class="index" value="unary negation" />
+<p>The first step is to examine the place in the program where the error
+occurred and see if you can figure out what happened.  These are some of the
+most common runtime errors:</p>
 
 <dl>
-<dt>greatest common divisor (GCD):</dt>
-<dd>The largest positive integer that divides without a remainder into both the 
-numerator and denominator of a fraction.</dd>
+<dt>NameError:</dt>
+<dd>You are trying to use a variable that doesn't exist in the current
+environment.  Remember that local variables are local.  You cannot refer to
+them from outside the function where they are defined.</dd>
+<span class="index" value="NameError" />
+<span class="index" value="TypeError" />
 
-<dt>reduce:</dt>
-<dd>To change a fraction into an equivalent form with a GCD of 1.</dd>
+<dt>TypeError:</dt>
+<dd>There are several possible causes:
+  <ol>
+  <li>You are trying to use a value improperly.  Example: indexing
+  a string, list, or tuple with something other than an integer.</li>
+  <span class="index" value="index" />
 
-<dt>unary negation:</dt>
-<dd>The operation that computes an additive inverse, usually denoted with a
-leading minus sign.  Called <q>unary</q> by contrast with the binary minus
-operation, which is subtraction.</dd>
+  <li>There is a mismatch between the items in a format string and the items
+  passed for conversion.  This can happen if either the number of items does
+  not match or an invalid conversion is called for.</li>
+  <span class="index" value="format operator" />
+  <span class="index" value="operator!format" />
+
+  <li>You are passing the wrong number of arguments to a function or method.
+  For methods, look at the method definition and check that the first parameter 
+  is <code>self</code>.  Then look at the method invocation; make sure you are
+  invoking the method on an object with the right type and providing the other
+  arguments correctly.</li>
+  </ol>
+</dd>
+
+<dt>KeyError:</dt>
+<dd>You are trying to access an element of a dictionary using a key value that
+the dictionary does not contain.</dd>
+<span class="index" value="KeyError" />
+<span class="index" value="dictionary" />
+
+<dt>AttributeError:</dt>
+<dd>You are trying to access an attribute or method that does not exist.</dd>
+<span class="index" value="AttributeError" />
+
+<dt>IndexError:</dt>
+<dd>The index you are using to access a list, string, or tuple is greater than
+its length minus one.  Immediately before the site of the error, add a
+<code>print</code> statement to display the value of the index and the length
+of the array.  Is the array the right size?  Is the index the right value?</dd>
+
+<span class="index" value="IndexError" />
 </dl>
+
+
+
+<h2>I added so many <code>print</code> statements I get inundated with
+output.</h2>
+<span class="index" value="print statement"/>
+<span class="index" value="statement!print"/>
+
+<p>One of the problems with using <code>print</code> statements for debugging
+is that you can end up buried in output.  There are two ways to proceed:
+simplify the output or simplify the program.</p>
+
+<p>To simplify the output, you can remove or comment out <code>print</code>
+statements that aren't helping, or combine them, or format the output so it is
+easier to understand.</p>
+
+<p>To simplify the program, there are several things you can do.  First, scale
+down the problem the program is working on.  For example, if you are sorting an 
+array, sort a <em>small</em> array.  If the program takes input from the user,
+give it the simplest input that causes the problem.</p>
+
+<p>Second, clean up the program.  Remove dead code and reorganize the program
+to make it as easy to read as possible.  For example, if you suspect that the
+problem is in a deeply nested part of the program, try rewriting that part with 
+simpler structure.  If you suspect a large function, try splitting it into
+smaller functions and testing them separately.</p>
+
+<p>Often the process of finding the minimal test case leads you to the bug. If
+you find that a program works in one situation but not in another, that gives
+you a clue about what is going on.</p>
+
+<p>Similarly, rewriting a piece of code can help you find subtle bugs. If you
+make a change that you think doesn't affect the program, and it does, that can
+tip you off.</p>
+
+
+<h2>Semantic errors</h2>
+<span class="index" value="semantic error" />
+<span class="index" value="error!semantic" />
+
+<p>In some ways, semantic errors are the hardest to debug, because the compiler 
+and the runtime system provide no information about what is wrong.  Only you
+know what the program is supposed to do, and only you know that it isn't doing
+it.</p>
+
+<p>The first step is to make a connection between the program text and the
+behavior you are seeing.  You need a hypothesis about what the program is
+actually doing.  One of the things that makes that hard is that computers run
+so fast.</p>
+
+<p>You will often wish that you could slow the program down to human speed, and 
+with some debuggers you can.  But the time it takes to insert a few well-placed 
+<code>print</code> statements is often short compared to setting up the
+debugger, inserting and removing breakpoints, and <q>walking</q> the program to 
+where the error is occurring.</p>
+
+
+<h2>My program doesn't work.</h2>
+
+<p>You should ask yourself these questions:</p>
+
+<ol>
+<li>Is there something the program was supposed to do but which doesn't seem to 
+be happening?  Find the section of the code that performs that function and
+make sure it is executing when you think it should.</li>
+
+<li>Is something happening that shouldn't?  Find code in your program that
+performs that function and see if it is executing when it shouldn't.</li>
+
+<li>Is a section of code producing an effect that is not what you expected?
+Make sure that you understand the code in question, especially if it involves
+invocations to functions or methods in other Python modules.  Read the
+documentation for the functions you invoke.  Try them out by writing simple
+test cases and checking the results.</li>
+</ol>
+
+<p>In order to program, you need to have a mental model of how programs work.
+If you write a program that doesn't do what you expect, very often the problem
+is not in the program; it's in your mental model.</p>
+
+<span class="index" value="model!mental" />
+<span class="index" value="mental model" />
+
+<p>The best way to correct your mental model is to break the program into its
+components (usually the functions and methods) and test each component
+independently.  Once you find the discrepancy between your model and reality,
+you can solve the problem.</p>
+
+<p>Of course, you should be building and testing components as you develop the
+program.  If you encounter a problem, there should be only a small amount of
+new code that is not known to be correct.</p>
+
+
+<h2>I've got a big hairy expression and it doesn't do what I expect.</h2>
+<span class="index" value="expression!big and hairy" />
+
+<p>Writing complex expressions is fine as long as they are readable, but they
+can be hard to debug.  It is often a good idea to break a complex expression
+into a series of assignments to temporary variables.</p>
+
+<p>For example:</p>
+
+<pre class="python">
+self.hands[i].addCard (self.hands[self.findNeighbor(i)].popCard())
+</pre>
+
+<p>This can be rewritten as:</p>
+
+<pre class="python">
+neighbor = self.findNeighbor (i)
+pickedCard = self.hands[neighbor].popCard()
+self.hands[i].addCard (pickedCard)
+</pre>
+
+<p>The explicit version is easier to read because the variable names provide
+additional documentation, and it is easier to debug because you can check the
+types of the intermediate variables and display their values.</p>
+
+<span class="index" value="temporary variable" />
+<span class="index" value="variable!temporary" />
+<span class="index" value="order of evaluation" />
+<span class="index" value="precedence" />
+
+<p>Another problem that can occur with big expressions is that the order of
+evaluation may not be what you expect.  For example, if you are translating the 
+expression <code>x/2pi</code> into Python, you might write:</p>
+
+<pre class="python">
+y = x / 2 * math.pi;
+</pre>
+
+<p>That is not correct because multiplication and division have the same
+precedence and are evaluated from left to right.  So this expression computes
+<code>(x/2)pi</code>.</p>
+
+<p>A good way to debug expressions is to add parentheses to make the order of
+evaluation explicit:</p>
+
+<pre class="python">
+y = x / (2 * math.pi);
+</pre>
+
+<p>Whenever you are not sure of the order of evaluation, use parentheses.  Not
+only will the program be correct (in the sense of doing what you intended), it
+will also be more readable for other people who haven't memorized the rules of
+precedence.</p>
+
+
+<h2>I've got a function or method that doesn't return what I expect.</h2>
+<span class="index" value="return statement" />
+<span class="index" value="statement!return" />
+
+<p>If you have a <code>return</code> statement with a complex expression, you
+don't have a chance to print the <code>return</code> value before returning.
+Again, you can use a temporary variable.  For example, instead of:</p>
+
+<pre class="python">
+return self.hands[i].removeMatches()
+</pre>
+
+<p>you could write:</p>
+
+<pre class="python">
+count = self.hands[i].removeMatches()
+return count
+</pre>
+
+<p>Now you have the opportunity to display the value of <code>count</code>
+before returning.</p>
+
+
+<h2>I'm really, really stuck and I need help.</h2>
+
+<p>First, try getting away from the computer for a few minutes.  Computers
+emit waves that affect the brain, causing these effects:</p>
+
+<ol>
+<li>Frustration and/or rage.</li>
+
+<li>Superstitious beliefs (<q>the computer hates me</q>) and magical thinking
+(<q>the program only works when I wear my hat backward</q>).</li>
+
+<li>Random-walk programming (the attempt to program by writing every possible
+program and choosing the one that does the right thing).</li>
+</ol>
+
+<p>If you find yourself suffering from any of these symptoms, get up and go for 
+a walk.  When you are calm, think about the program.  What is it doing?  What
+are some possible causes of that behavior?  When was the last time you had a
+working program, and what did you do next?</p>
+
+<p>Sometimes it just takes time to find a bug.  We often find bugs when we are
+away from the computer and let our minds wander.  Some of the best places to
+find bugs are trains, showers, and in bed, just before you fall asleep.</p>
+
+
+<h2>No, I really need help.</h2>
+
+<p>It happens.  Even the best programmers occasionally get stuck.  Sometimes
+you work on a program so long that you can't see the error.  A fresh pair of
+eyes is just the thing.</p>
+
+<p>Before you bring someone else in, make sure you have exhausted the
+techniques described here.  Your program should be as simple as possible, and
+you should be working on the smallest input that causes the error.  You should
+have <code>print</code> statements in the appropriate places (and the output
+they produce should be comprehensible).  You should understand the problem well 
+enough to describe it concisely.</p>
+
+<p>When you bring someone in to help, be sure to give them the information they 
+need:</p>
+
+<ol>
+<li>If there is an error message, what is it and what part of the program does
+it indicate?</li>
+
+<li>What was the last thing you did before this error occurred?  What were the
+last lines of code that you wrote, or what is the new test case that fails?</li>
+
+<li>What have you tried so far, and what have you learned?</li>
+</ol>
+
+<p>When you find the bug, take a second to think about what you could have done 
+to find it faster.  Next time you see something similar, you will be able to
+find the bug more quickly.</p>
+
+<p>Remember, the goal is not just to make the program work.  The goal is to
+learn how to make the program work.</p>
 
 </body>
 </html>
