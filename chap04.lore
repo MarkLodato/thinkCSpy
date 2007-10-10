@@ -512,6 +512,24 @@ values are true.  For strings, empty strings are false and non-empty strings
 are true.</p>
 
 
+<h2>Gasp</h2>
+
+<p>Gasp (<b>G</b>raphics <b>A</b>PI for <b>S</b>tudents of <b>P</b>ython)
+will enable us even at this early stage to write programs involving graphics.
+</p>
+<p>
+To start gasp, try the following:
+</p>
+
+<pre class="python-interpreter">
+>>> from gasp import *
+>>> begin_graphics()
+>>> Circle((320, 240), 20)
+>>> Line((10, 400), (590, 350))
+>>> end_graphics()
+</pre>
+
+
 <h2>Glossary</h2>
 <span class="index" value="modulus operator" />
 <span class="index" value="boolean expression" />
@@ -620,8 +638,7 @@ else:
 </pre>
 <em>Wrap</em> this code in a function called <code>compare(x, y)</code>.
 Call <code>compare</code> three times: one each where the first
-<em>argument</em> is less than, greater than, and equal to the second
-argument.
+argument is less than, greater than, and equal to the second argument.
 </div></li>
 
 <li><div class="exercise">
