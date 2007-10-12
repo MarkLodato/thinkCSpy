@@ -389,10 +389,6 @@ testing only a small amount of code at a time.</dd>
 <dt>scaffolding:</dt>
 <dd>Code that is used during program development but is not part of the final
 version.</dd>
-
-<dt>guardian:</dt>
-<dd>A condition that checks for and handles circumstances that might cause an
-error.</dd>
 </dl>
 
 <h2>Exercises</h2>

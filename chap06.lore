@@ -73,14 +73,13 @@ difficult to read and debug.</p>
 or similar tasks without making errors is something that computers do well and
 people do poorly.</p>
 
-<p>We have seen two programs, <code>nLines</code> and <code>countdown</code>,
-that use recursion to perform repetition, which is also called
-<b>iteration</b>.  Because iteration is so common, Python provides
-several language features to make it easier.  The first feature we are going to 
-look at is the <code>while</code> statement.</p>
+<p>Repeated execution of a set of statements is called <b>iteration</b>.
+Because iteration is so common, Python provides several language features to
+make it easier.  The first feature we are going to look at is the
+<code>while</code> statement.</p>
 
-<p>Here is what <code>countdown</code> looks like with a <code>while</code>
-statement:</p>
+<p>Here is a function called <code>countdown</code> that demonstrates the
+use of the <code>while</code> statement:</p>
 
 <pre class="python">
 def countdown(n):
@@ -89,8 +88,6 @@ def countdown(n):
         n = n-1
     print "Blastoff!"
 </pre>
-
-<p>Since we removed the recursive call, this function is not recursive.</p>
 
 <p>You can almost read the <code>while</code> statement as if it were English.
 It means, <q>While <code>n</code> is greater than 0, continue displaying the
@@ -595,7 +592,7 @@ and debug.</li>
 <li>Dividing a long program into functions allows you to separate parts of the
 program, debug them in isolation, and then compose them into a whole.</li>
 
-<li>Functions facilitate both recursion and iteration.</li>
+<li>Functions facilitate the use of iteration.</li>
 
 <li>Well-designed functions are often useful for many programs.  Once you write 
 and debug one, you can reuse it.</li>
@@ -625,8 +622,7 @@ and debug one, you can reuse it.</li>
 of a program.</dd>
 
 <dt>iteration:</dt>
-<dd>Repeated execution of a set of statements using either a recursive function 
-call or a loop.</dd>
+<dd>Repeated execution of a set of programming statements.</dd>
 
 <dt>loop:</dt>
 <dd>A statement or group of statements that execute repeatedly until a
