@@ -125,7 +125,7 @@ an arrow pointing to the variable's value.  This kind of figure is called a
 variables is in (think of it as the variable's state of mind).  This diagram
 shows the result of the assignment statements:</p>
 
-<img src="illustrations/state2.png" />
+<p><img src="illustrations/state2.png" /></p>
 
 <p>The print statement also works with variables.</p>
 

@@ -515,7 +515,7 @@ are true.</p>
 <h2>Gasp</h2>
 
 <p>Gasp (<b>G</b>raphics <b>A</b>PI for <b>S</b>tudents of <b>P</b>ython)
-will enable us even at this early stage to write programs involving graphics.
+will enable us to write programs involving graphics.
 </p>
 <p>
 To start gasp, try the following:
@@ -524,10 +524,23 @@ To start gasp, try the following:
 <pre class="python-interpreter">
 >>> from gasp import *
 >>> begin_graphics()
->>> Circle((320, 240), 20)
->>> Line((10, 400), (590, 350))
->>> end_graphics()
+>>> Circle((200, 200), 60)
+A Circle instance at (140, 140) with a radius of 60
+>>> Line((100, 400), (580, 200))
+A Line instance from (100, 400) to (590, 250)
+>>> Box((400, 350), 120, 100)
+A Box instance at (400, 350) with a width of 120 and a height of 100
+>>>
 </pre>
+
+<p>Before the last command, you should see a graphics window that looks
+like this:</p>
+
+<p><img src="illustrations/gasp01.png" alt="Gasp illustration 1" /></p>
+
+<p>We will be using gasp from here on to illustrate (pun intended) computer
+programming concepts and to add to our fun while learning.
+</p> 
 
 
 <h2>Glossary</h2>
@@ -802,6 +815,45 @@ else:
 </pre>
 
 Explain what happened and why it happened.
+</div></li>
+
+<li><div class="exercise">
+<p>The following gasp script, in a file named <code>house.py</code>, draws
+a simple house on a gasp canvas:</p>
+
+<pre class="python">
+from gasp import *             # import everything from the gasp library
+
+begin_graphics()               # open the graphics canvas
+
+Box((20, 20), 100, 100)        # the house
+Box((55, 20), 30, 50)          # the door
+Box((40, 80), 20, 20)          # the left window
+Box((80, 80), 20, 20)          # the right window
+Line((20, 120), (70, 160))     # the left roof
+Line((70, 160), (120, 120))    # the right roof
+
+pause()                        # keep the canvas open until a key is pressed
+end_graphics()                 # close the canvas (which would happen anyway,
+                               # since the script ends here, but it is better
+                               # to be explicit).
+</pre>
+
+<ol>
+  <li>Run this script and confirm that you get a window that looks like this:
+  <br />
+  <img scr="illustrations/gasp02.png" alt="Second gasp illustration" />
+  </li>
+  <li>Wrap the house code in a function named <code>draw_house()</code>.</li>
+  <li>Run the script now.  Do you see a house?  Why not?</li>
+  <li>Add a call to <code>draw_house()</code> at the botton of the script so
+  that the house returns to the screen.</li>
+  <li><b>parameterize</b> the function with x and y parameters
+  (the header should then become <code>def draw_house(x, y):</code> so that
+  you can pass in the location of the house on the canvas.</li>
+  <li>Use <code>draw_house</code> to place five houses on the canvas in
+  different locations.</li> 
+</ol>
 </div></li>
 </ol>
 

@@ -70,7 +70,7 @@ reads a high-level program and executes it, meaning that it does what the
 program says.  It processes the program a little at a time, alternately reading 
 lines and performing computations.</p>
 
-<img src="illustrations/interpret.png" />
+<p><img src="illustrations/interpret.png" /></p>
 
 <p>A compiler reads the program and translates it completely before the program 
 starts running.  In this case, the high-level program is called the
@@ -79,7 +79,7 @@ starts running.  In this case, the high-level program is called the
 program is compiled, you can execute it repeatedly without further translation.
 </p>
 
-<img src="illustrations/compile.png" />
+<p><img src="illustrations/compile.png" /></p>
 
 <p>Many modern languages use both processes.  They are first compiled into a
 lower level language, called <b>byte code</b>, and then interpreted
