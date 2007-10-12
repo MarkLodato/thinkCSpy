@@ -530,11 +530,12 @@ A Circle instance at (140, 140) with a radius of 60
 A Line instance from (100, 400) to (590, 250)
 >>> Box((400, 350), 120, 100)
 A Box instance at (400, 350) with a width of 120 and a height of 100
+>>> end_graphics()
 >>>
 </pre>
 
-<p>Before the last command, you should see a graphics window that looks
-like this:</p>
+<p>Before the last command, which closes the graphics canvas, you should see a
+graphics window that looks like this:</p>
 
 <p><img src="illustrations/gasp01.png" alt="Gasp illustration 1" /></p>
 
