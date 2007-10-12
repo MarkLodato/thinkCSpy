@@ -842,7 +842,7 @@ end_graphics()                 # close the canvas (which would happen anyway,
 <ol>
   <li>Run this script and confirm that you get a window that looks like this:
   <br />
-  <img scr="illustrations/gasp02.png" alt="Second gasp illustration" />
+  <img src="illustrations/gasp02.png" alt="Gasp illustration 2" /><br />
   </li>
   <li>Wrap the house code in a function named <code>draw_house()</code>.</li>
   <li>Run the script now.  Do you see a house?  Why not?</li>
