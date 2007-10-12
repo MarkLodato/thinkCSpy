@@ -818,8 +818,8 @@ Explain what happened and why it happened.
 </div></li>
 
 <li><div class="exercise">
-<p>The following gasp script, in a file named <code>house.py</code>, draws
-a simple house on a gasp canvas:</p>
+The following gasp script, in a file named <code>house.py</code>, draws
+a simple house on a gasp canvas:
 
 <pre class="python">
 from gasp import *             # import everything from the gasp library

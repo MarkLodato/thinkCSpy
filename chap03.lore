@@ -390,7 +390,7 @@ with the name of a function beside it and the parameters and variables of the
 function inside it.  The stack diagram for the previous example looks like
 this:</p>
 
-<img src="illustrations/stack.png" />
+<p><img src="illustrations/stack.png" /></p>
 
 <p>The order of the stack shows the flow of execution.  <code>print_twice</code>
 was called by <code>cat_twice</code>, and <code>cat_twice</code> was called by
