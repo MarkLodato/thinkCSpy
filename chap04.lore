@@ -848,8 +848,8 @@ end_graphics()                 # close the canvas (which would happen anyway,
   <li>Run the script now.  Do you see a house?  Why not?</li>
   <li>Add a call to <code>draw_house()</code> at the botton of the script so
   that the house returns to the screen.</li>
-  <li><b>parameterize</b> the function with x and y parameters
-  (the header should then become <code>def draw_house(x, y):</code> so that
+  <li><em>parameterize</em> the function with x and y parameters
+  -- the header should then become <code>def draw_house(x, y):</code>, so that
   you can pass in the location of the house on the canvas.</li>
   <li>Use <code>draw_house</code> to place five houses on the canvas in
   different locations.</li> 
