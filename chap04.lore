@@ -774,30 +774,30 @@ it by importing your script into the Python shell.
 
 <li><div class="exercise">
 <p>
-Write a function named <code>is_divisable_by_3</code> that takes a single
-integer as an argument and prints "This number is divisable by three." if
-the argument is evenly divisable by 3 and "This number is not divisable by
+Write a function named <code>is_divisible_by_3</code> that takes a single
+integer as an argument and prints "This number is divisible by three." if
+the argument is evenly divisible by 3 and "This number is not divisible by
 three." otherwise.
 </p>
 <p>
-Now write a similar function named <code>is_divisable_by_5</code>.
+Now write a similar function named <code>is_divisible_by_5</code>.
 </p>
 </div></li>
 
 <li><div class="exercise">
 <p>
 Generalize the functions you wrote in the previous exercise into a function
-named <code>is_divisable_by_n(x, n)</code> that takes two integer arguments
-and prints out whether the first is divisable by the second.  Save this in
+named <code>is_divisible_by_n(x, n)</code> that takes two integer arguments
+and prints out whether the first is divisible by the second.  Save this in
 a file named <code>chap04.py</code>. Import it into a shell and try it out. 
 A sample session might look like this:
 </p>
 <pre class="python-interpreter">
 >>> from chap04 import *
->>> is_divisable_by_n(20, 4)
-Yes, 20 is divisable by 4
->>> is_divisable_by_n(21, 8)
-No, 21 is not divisable by 8
+>>> is_divisible_by_n(20, 4)
+Yes, 20 is divisible by 4
+>>> is_divisible_by_n(21, 8)
+No, 21 is not divisible by 8
 </pre>
 </div></li>
 
