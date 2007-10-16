@@ -68,6 +68,20 @@ def absolute_value(x):
 conditional, only one will be executed.  As soon as one is executed, the
 function terminates without executing any subsequent statements.</p>
 
+<p>Another way to write the above function is to leave out the
+<code>else</code> and just follow the <code>if</code> condition by the
+second <code>return</code> statement.</p>
+
+<pre class="python">
+def absolute_value(x):
+    if x &lt; 0:
+        return -x
+    return x
+</pre>
+
+<p>Think about this version and convince yourself it works the same as
+the first one.</p>
+
 <p>Code that appears after a <code>return</code> statement, or any other place
 the flow of execution can never reach, is called <b>dead code</b>.
 </p>
@@ -75,7 +89,8 @@ the flow of execution can never reach, is called <b>dead code</b>.
 <span class="index" value="dead code" />
 
 <p>In a fruitful function, it is a good idea to ensure that every possible path 
-through the program hits a <code>return</code> statement.  For example:</p>
+through the program hits a <code>return</code> statement.  The following
+version of <code>absolute_value</code> fails to do this:</p>
 
 <pre class="python">
 def absolute_value(x):
@@ -85,12 +100,14 @@ def absolute_value(x):
         return x
 </pre>
 
-<p>This program is not correct because if <code>x</code> happens to be 0,
+<p>This version is not correct because if <code>x</code> happens to be 0,
 neither condition is true, and the function ends without hitting a
 <code>return</code> statement.  In this case, the return value is a special
 value called <code>None</code>:</p>
 
 <span class="index" value="None" />
+<span class="index" value="value!None" />
+<span class="index" value="type!NoneType" />
 
 <pre class="python-interpreter">
 >>> print absolute_value(0)
@@ -105,6 +122,9 @@ None
 >>> type(None)
 &lt;type 'NoneType'>
 </pre>
+
+<p>All Python functions return <code>None</code> whenever they do not return
+another value.</p>
 
 
 <h2>Program development</h2>
@@ -130,7 +150,7 @@ given by the coordinates (x<sub>1</sub>, y<sub>1</sub>) and
 is:</p>
 
 <p>
-distance = sqrt((x<sub>2</sub> - x<sub>1</sub>)<sup>2</sup> +
+distance = square_root((x<sub>2</sub> - x<sub>1</sub>)<sup>2</sup> +
 (y<sub>2</sub> - y<sub>1</sub>)<sup>2</sup>)
 </p>
 
@@ -257,15 +277,16 @@ the circle and a point on the perimeter, and computes the area of the circle.
 <p>Assume that the center point is stored in the variables <code>xc</code> and
 <code>yc</code>, and the perimeter point is in <code>xp</code> and
 <code>yp</code>. The first step is to find the radius of the circle, which is
-the distance between the two points.  Fortunately, there is a function,
-<code>distance</code>, that does that:</p>
+the distance between the two points.  Fortunately, we've just written a
+function, <code>distance</code>, that does just that, so now all we have to do
+is use it:</p>
 
 <pre class="python">
 radius = distance(xc, yc, xp, yp)
 </pre>
 
 <p>The second step is to find the area of a circle with that radius and return
-it:</p>
+it.  Again we will use one of our earlier functions:</p>
 
 <pre class="python">
 result = area(radius)
@@ -354,6 +375,32 @@ if is_divisible(x, y) == True:
 <p>But the extra comparison is unnecessary.</p>
 
 
+<h2>The <code>math</code> module</h2>
+
+<p>As we've seen, files containing useful Python code, called <b>modules</b>,
+can be imported into the Python interpreter for testing.</p>
+
+
+<h2>Programming with style</h2>
+
+<p>Readability is very important to programmers, since in practice programs
+are read and modified far more often then they are written.  Recommendations
+made in this book will be consistent with the Python Enhancement Proposal 8
+(<a href="http://www.python.org/dev/peps/pep-0008/">PEP 8</a>),  a style
+guide developed by the Python community.</p>
+
+<p>We'll have more to say about style as our programs become more complex, but
+a few pointers will be helpful already:</p>
+
+<ul>
+    <li>imports should go at the top of the file</li>
+    <li>separate function definitions with two blank lines</li>
+    <li>keep all function definitions together</li>
+    <li>keep top level statements, including function calls, together at the
+    botton of the program</li>
+</ul>
+
+
 <h2>Glossary</h2>
 <span class="index" value="temporary variable" />
 <span class="index" value="variable!temporary" />
@@ -362,6 +409,8 @@ if is_divisible(x, y) == True:
 <span class="index" value="None" />
 <span class="index" value="incremental development" />
 <span class="index" value="scaffolding" />
+<span class="index" value="composition" />
+<span class="index" value="function!composition" />
 
 <dl>
 <dt>fruitful function:</dt>
@@ -389,6 +438,10 @@ testing only a small amount of code at a time.</dd>
 <dt>scaffolding:</dt>
 <dd>Code that is used during program development but is not part of the final
 version.</dd>
+
+<dt>composition (of functions):</dt>
+<dd>Calling one function from within the body of another, or using the
+return value of one function as an argument to the call of another.</dd>
 </dl>
 
 <h2>Exercises</h2>
