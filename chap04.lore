@@ -525,11 +525,11 @@ To start gasp, try the following:
 >>> from gasp import *
 >>> begin_graphics()
 >>> Circle((200, 200), 60)
-A Circle instance at (140, 140) with a radius of 60
+Circle instance at (200, 200) with radius 60
 >>> Line((100, 400), (580, 200))
-A Line instance from (100, 400) to (590, 250)
+Line instance from (100, 400) to (590, 250)
 >>> Box((400, 350), 120, 100)
-A Box instance at (400, 350) with a width of 120 and a height of 100
+Box instance at (400, 350) with width 120 and height 100
 >>> end_graphics()
 >>>
 </pre>

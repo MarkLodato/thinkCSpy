@@ -27,8 +27,6 @@ The first example is <code>area</code>, which returns the area of a circle with
 the given radius:</p>
 
 <pre class="python">
-import math
-   
 def area(radius):
     temp = 3.14159 * radius**2
     return temp
@@ -149,10 +147,7 @@ given by the coordinates (x<sub>1</sub>, y<sub>1</sub>) and
 (x<sub>2</sub>, y<sub>2</sub>).  By the Pythagorean theorem, the distance
 is:</p>
 
-<p>
-distance = square_root((x<sub>2</sub> - x<sub>1</sub>)<sup>2</sup> +
-(y<sub>2</sub> - y<sub>1</sub>)<sup>2</sup>)
-</p>
+<p><img src="illustrations/distance_formula.png" /></p>
 
 <p>The first step is to consider what a <code>distance</code> function should
 look like in Python. In other words, what are the inputs (parameters) and what
@@ -228,8 +223,8 @@ it is helpful for building the program but is not part of the final product.
 <p>Again, we would run the program at this stage and check the output
 (which should be 25).</p>
 
-<p>Finally, if we have imported the math module, we can use the
-<code>sqrt</code> function to compute and return the result:</p>
+<p>Finally, using the fractional exponent <code>0.5</code> to find the
+square root, we compute and return the result:</p>
 
 <pre class="python">
 def distance(x1, y1, x2, y2):
@@ -249,7 +244,6 @@ chunks.  Either way, the incremental development process can save you a lot of
 debugging time.</p>
 
 <p>The key aspects of the process are:</p>
-
 <ol>
 <li>Start with a working program and make small incremental changes.  At any
 point, if there is an error, you will know exactly where it is.</li>
@@ -333,7 +327,7 @@ def is_divisible(x, y):
 </pre>
 
 <p>The name of this function is <code>is_divisible</code>.  It is common to
-give boolean functions names that sound like yes/no questions.
+give <b>boolean functions</b> names that sound like yes/no questions.
 <code>is_divisible</code> returns either <code>True</code> or
 <code>False</code> to indicate whether the <code>x</code> is or is not
 divisible by <code>y</code>.</p>
@@ -351,9 +345,9 @@ def is_divisible(x, y):
 <p>This session shows the new function in action:</p>
 
 <pre class="python-interpreter">
->>>   is_divisible(6, 4)
+>>> is_divisible(6, 4)
 False
->>>   is_divisible(6, 3)
+>>> is_divisible(6, 3)
 True
 </pre>
 
@@ -375,17 +369,63 @@ if is_divisible(x, y) == True:
 <p>But the extra comparison is unnecessary.</p>
 
 
-<h2>The <code>math</code> module</h2>
+<h2>The <code>function</code> type</h2>
 
-<p>As we've seen, files containing useful Python code, called <b>modules</b>,
-can be imported into the Python interpreter for testing.</p>
+<p>A function is another type in Python, joining <code>int</code>,
+<code>float</code>, <code>str</code>,  <code>bool</code>, and
+<code>NoneType</code>.</p>
+
+<pre class="python-interpreter">
+>>> def func():
+...    return "function func was called..."
+...
+>>> type(func)
+&lt;type 'function'&gt;
+>>>
+</pre>
+
+<p>Just like the other types, functions can be passed as arguments to other
+functions:</p>
+
+<pre class="python">
+def f(n):
+    return 3*n - 6
+
+def g(n):
+    return 5*n + 2
+
+def h(n):
+    return -2*n + 17
+
+def doto(value, func):
+    return func(value)
+    
+print doto(7, f)
+print doto(7, g)
+print doto(7, h)
+</pre>
+
+<p><code>doto</code> is called three times.  7 is the argument for value
+each time, and the functions <code>f</code>, <code>g</code>, and
+<code>h</code> are passed in for <code>func</code> in turn.
+The output of this script is:</p>
+
+<pre class="shell">
+15
+37
+3
+</pre>
+
+<p>This example is a bit contrived, but we will see examples later where
+it is quite useful to pass a function to a function.</p>
 
 
 <h2>Programming with style</h2>
 
 <p>Readability is very important to programmers, since in practice programs
-are read and modified far more often then they are written.  Recommendations
-made in this book will be consistent with the Python Enhancement Proposal 8
+are read and modified far more often then they are written.  All the code
+examples in this book will be consistent with the
+<em>Python Enhancement Proposal 8</em>
 (<a href="http://www.python.org/dev/peps/pep-0008/">PEP 8</a>),  a style
 guide developed by the Python community.</p>
 
@@ -393,6 +433,7 @@ guide developed by the Python community.</p>
 a few pointers will be helpful already:</p>
 
 <ul>
+    <li>use 4 spaces for indentation</li>
     <li>imports should go at the top of the file</li>
     <li>separate function definitions with two blank lines</li>
     <li>keep all function definitions together</li>
@@ -400,17 +441,52 @@ a few pointers will be helpful already:</p>
     botton of the program</li>
 </ul>
 
+<h2>Unit testing with <code>doctest</code></h2>
+
+<p>It is a common best practice in software development these days to
+include automatic <b>unit testing</b> of source code.  Unit testing provides
+a way to automatically verify that individual pieces of code, such as
+functions, are working properly.   This makes it possible to change the
+implimentation of a function at a later time and quickly test that it still
+does what it was intended to do.</p>
+
+<p>Python has a built-in <code>doctest</code> module for easy unit testing.
+To see how this works, put the following in a script named
+<code>myfunctions.py</code>:</p>
+
+<pre class='python'>
+def is_divisible_by_2_or_5(n):
+    """
+      >>> is_divisible_by_2_or_5(8):
+      True 
+    """
+    return True
+
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+</pre></li>
+
 
 <h2>Glossary</h2>
+<span class="index" value="fruitful function" />
+<span class="index" value="return value" />
 <span class="index" value="temporary variable" />
 <span class="index" value="variable!temporary" />
-<span class="index" value="return value" />
 <span class="index" value="dead code" />
 <span class="index" value="None" />
+<span class="index" value="NoneType" />
+<span class="index" value="type!NoneType" />
 <span class="index" value="incremental development" />
 <span class="index" value="scaffolding" />
 <span class="index" value="composition" />
+<span class="index" value="boolean function" />
+<span class="index" value="function!boolean " />
 <span class="index" value="function!composition" />
+<span class="index" value="unit testing" />
+<span class="index" value="doctest" />
+
 
 <dl>
 <dt>fruitful function:</dt>
@@ -429,7 +505,8 @@ after a <code>return</code> statement.</dd>
 
 <dt><code>None</code>:</dt>
 <dd>A special Python value returned by functions that have no return statement, 
-or a return statement without an argument.</dd>
+or a return statement without an argument. <code>None</code> is the only
+value of the type, <code>NoneType</code>.</dd>
 
 <dt>incremental development:</dt>
 <dd>A program development plan intended to avoid debugging by adding and
@@ -439,9 +516,17 @@ testing only a small amount of code at a time.</dd>
 <dd>Code that is used during program development but is not part of the final
 version.</dd>
 
+<dt>boolean function:</dt>
+<dd>A function that returns a boolean value.</dd>
+
 <dt>composition (of functions):</dt>
 <dd>Calling one function from within the body of another, or using the
 return value of one function as an argument to the call of another.</dd>
+
+<dt>unit testing:</dt>
+<dd>An automatic procedure used to validate that individual units of code
+are working properly.  Python has <code>doctest</code> built in for this
+purpose.</dd>
 </dl>
 
 <h2>Exercises</h2>
@@ -468,30 +553,30 @@ y-intercept of the line through the points <code>(x1, y1)</code> and
 </div></li>
 
 <li><div class="exercise">
-Write a function called <code>isEven</code> that takes an integer as an
+Write a function called <code>is_even</code> that takes an integer as an
 argument and returns <code>True</code> if the argument is an <b>even number</b>
 and <code>False</code> if it is <b>odd</b>.
 </div></li>
 
 <li><div class="exercise">
-Now write the function <code>isOdd</code> so that it uses a call to
-<code>isEven</code> to determine if its argument is an <b>odd integer</b>.
+Now write the function <code>is_odd</code> so that it uses a call to
+<code>is_even</code> to determine if its argument is an <b>odd integer</b>.
 </div></li>
 
 <li><div class="exercise">
-Write a function, <code>isFactor</code>, with two parameters, <code>n</code>
+Write a function, <code>is_factor</code>, with two parameters, <code>n</code>
 and <code>f</code>, which returns <code>True</code> when <code>f</code> is
 a <b>factor</b> of <code>n</code>, and <code>False</code> otherwise.
 </div></li>
 
 <li><div class="exercise">
-Write a function, <code>isMultiple</code>, with two parameters, <code>n</code>
+Write a function, <code>is_multiple</code>, with two parameters, <code>n</code>
 and <code>m</code>, which returns <code>True</code> when <code>m</code> is
 a <b>multiple</b> of <code>n</code>, and <code>False</code> otherwise.
 </div></li>
 
 <li><div class="exercise">
-As an exercise, write a function <code>isBetween(x, y, z)</code> that
+As an exercise, write a function <code>is_between(x, y, z)</code> that
 returns <code>True</code> if y &lt; x &lt; z or <code>False</code> otherwise.
 </div></li>
 </ol>
