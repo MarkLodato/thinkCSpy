@@ -751,11 +751,6 @@ Add a body to <code>is_multiple</code> to make the doctests pass.  Can you
 find a way to use <code>is_factor</code> in your definition of
 <code>is_multiple</code>?
 </div></li>
-
-<li><div class="exercise">
-As an exercise, write a function <code>is_between(x, y, z)</code> that
-returns <code>True</code> if y &lt; x &lt; z or <code>False</code> otherwise.
-</div></li>
 </ol>
 
 </body>
