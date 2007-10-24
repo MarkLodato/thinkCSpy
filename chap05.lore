@@ -510,7 +510,10 @@ if __name__ == '__main__':
 </pre>
 
 <p>If we run it now, there will be no output, which indicates that the
-test past.  To see more detailed out put, call the script with the
+test past.  Note that the doctest string must be placed immediately after
+the function definition header.</p>
+
+<p>To see more detailed out put, call the script with the
 <code>-v</code> command line option:</p>
 
 <pre class='shell'>
@@ -628,12 +631,14 @@ Write a <code>compare</code> function that returns <code>1</code> if
 <pre class='python'>
 def compare(a, b):
     """
-      compare(5, 4)
+      >>> compare(5, 4)
       1
-      compare(7, 7)
+      >>> compare(7, 7)
       0
-      compare(2, 3)
+      >>> compare(2, 3)
       -1
+      >>> compare(42, 1)
+      1
     """
 </pre>
 Fill in the body of the function above so the doctests pass.
@@ -647,12 +652,14 @@ development process as you go.
 <pre class='python'>
 def hypotenuse(a, b):
     """
-      hypotenuse(3, 4)
+      >>> hypotenuse(3, 4)
       5.0
-      hypotenuse(12, 5)
+      >>> hypotenuse(12, 5)
       13.0 
-      hypotenuse(7, 24)
+      >>> hypotenuse(7, 24)
       25.0 
+      >>> hypotenuse(9, 12)
+      15.0
     """
 </pre>
 When you are finished add the doctests below and confirm that they pass.
@@ -660,44 +667,89 @@ When you are finished add the doctests below and confirm that they pass.
 
 <li><div class="exercise">
 Write a function <code>slope(x1, y1, x2, y2)</code> that returns the slope of
-the line through the points (x1, y1) and (x2, y2).  Then use this function in a 
-function called <code>intercept(x1, y1, x2, y2)</code> that returns the
-y-intercept of the line through the points <code>(x1, y1)</code> and
-<code>(x2, y2)</code>.
+the line through the points (x1, y1) and (x2, y2).  Be sure your implimentation 
+of <code>slope</code> can pass the following doctests:
 <pre class='python'>
 def slope(x1, y1, x2, y2):
     """
-      slope(5, 3, 4, 2)
+      >>> slope(5, 3, 4, 2)
       1.0
-      slope(1, 2, 3, 2)
+      >>> slope(1, 2, 3, 2)
       0.0 
+      >>> slope(1, 2, 3, 2)
+      0.5
+      >>> slope(2, 4, 1, 2)
+      2.0
     """
 </pre>
-Be sure your implimentation of <code>slope</code> can pass the doctests
-above.
+Then a call to <code>slope</code> in a new function named
+<code>intercept(x1, y1, x2, y2)</code> that returns the y-intercept of the line 
+through the points <code>(x1, y1)</code> and <code>(x2, y2)</code>.
+<pre class='python'>
+def intercept(x1, y1, x2, y2):
+    """
+      >>> intercept(1, 6, 3, 12)
+      3.0
+      >>> intercept(6, 1, 1, 6)
+      7.0
+      >>> intercept(4, 6, 12, 8)
+      5.0
+    """
+</pre>
+<code>intercept</code> should pass the doctests above.
 </div></li>
 
 <li><div class="exercise">
-Write a function called <code>is_even</code> that takes an integer as an
+Write a function called <code>is_even(n)</code> that takes an integer as an
 argument and returns <code>True</code> if the argument is an <b>even number</b>
-and <code>False</code> if it is <b>odd</b>.
+and <code>False</code> if it is <b>odd</b>.  Add your own doctests to this
+this function.
 </div></li>
 
 <li><div class="exercise">
-Now write the function <code>is_odd</code> so that it uses a call to
-<code>is_even</code> to determine if its argument is an <b>odd integer</b>.
+Now write the function <code>is_odd(n)</code> that returns <code>True</code>
+when <code>n</code> is odd and <code>False</code> otherwise. Include doctests
+for this function as you write it.  Finally, modify it so that it uses a call
+to <code>is_even</code> to determine if its argument is an odd integer.
 </div></li>
 
 <li><div class="exercise">
-Write a function, <code>is_factor</code>, with two parameters, <code>n</code>
-and <code>f</code>, which returns <code>True</code> when <code>f</code> is
-a <b>factor</b> of <code>n</code>, and <code>False</code> otherwise.
+<pre class='python'>
+def is_factor(f, n):
+    """
+      >>> is_factor(3, 12)
+      True
+      >>> is_factor(5, 12)
+      False
+      >>> is_factor(7, 14)
+      True
+      >>> is_factor(2, 14)
+      True
+      >>> is_factor(7, 15)
+      False
+    """
+</pre>
+Add a body to <code>is_factor</code> to make the doctests pass.
 </div></li>
 
 <li><div class="exercise">
-Write a function, <code>is_multiple</code>, with two parameters, <code>n</code>
-and <code>m</code>, which returns <code>True</code> when <code>m</code> is
-a <b>multiple</b> of <code>n</code>, and <code>False</code> otherwise.
+<pre class='python'>
+def is_multiple(m, n):
+   """
+     >>> is_multiple(12, 3)
+     True
+     >>> is_multiple(12, 4)
+     True
+     >>> is_multiple(12, 5)
+     False 
+     >>> is_multiple(12, 6)
+     True
+     >>> is_multiple(12, 7)
+     False 
+</pre>
+Add a body to <code>is_multiple</code> to make the doctests pass.  Can you
+find a way to use <code>is_factor</code> in your definition of
+<code>is_multiple</code>?
 </div></li>
 
 <li><div class="exercise">
