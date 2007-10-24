@@ -416,7 +416,7 @@ The output of this script is:</p>
 3
 </pre>
 
-<p>This example is a bit contrived, but we will see examples later where
+<p>This example is a bit contrived, but we will see situations later where
 it is quite useful to pass a function to a function.</p>
 
 
@@ -436,10 +436,11 @@ a few pointers will be helpful already:</p>
     <li>use 4 spaces for indentation</li>
     <li>imports should go at the top of the file</li>
     <li>separate function definitions with two blank lines</li>
-    <li>keep all function definitions together</li>
+    <li>keep function definitions together</li>
     <li>keep top level statements, including function calls, together at the
     botton of the program</li>
 </ul>
+
 
 <h2>Unit testing with <code>doctest</code></h2>
 
@@ -457,8 +458,47 @@ To see how this works, put the following in a script named
 <pre class='python'>
 def is_divisible_by_2_or_5(n):
     """
-      >>> is_divisible_by_2_or_5(8):
-      True 
+      >>> is_divisible_by_2_or_5(8)
+      True
+    """
+
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+</pre>
+
+<p>Running this script will produce the following output:</p>
+
+<pre class='shell'>
+$ python myfunctions.py 
+**********************************************************************
+File "myfunctions.py", line 3, in __main__.is_divisible_by_2_or_5
+Failed example:
+    is_divisible_by_2_or_5(8)
+Expected:
+    True
+Got nothing
+**********************************************************************
+1 items had failures:
+   1 of   1 in __main__.is_divisible_by_2_or_5
+***Test Failed*** 1 failures.
+$
+</pre>
+
+<p>This is an example of a <em>failing test</em>.  Tests in doctest are
+written in the same format as Python shell sessions.  This test says: if you
+call <code>is_divisible_by_2_or_5(8)</code> the result should be
+<code>True</code>.  Since <code>is_divisible_by_2_or_5</code> as written
+doesn't return anything at all, the test fails, and doctest tells us that
+it expected <code>True</code> but got nothing.</p>
+
+<p>We can make this test pass by returning <code>True</code>: 
+<pre class='python'>
+def is_divisible_by_2_or_5(n):
+    """
+      >>> is_divisible_by_2_or_5(8)
+      True
     """
     return True
 
@@ -467,6 +507,55 @@ if __name__ == '__main__':
     import doctest
     doctest.testmod()
 </pre>
+
+<p>If we run it now, there will be no output, which indicates that the
+test past.  To see more detailed out put, call the script with the
+<code>-v</code> command line option:</p>
+
+<pre class='shell'>
+$ python myfunctions.py -v
+Trying:
+    is_divisible_by_2_or_5(8)
+Expecting:
+    True
+ok
+1 items had no tests:
+    __main__
+1 items passed all tests:
+   1 tests in __main__.is_divisible_by_2_or_5
+1 tests in 2 items.
+1 passed and 0 failed.
+Test passed.
+$
+</pre>
+
+<p>While the test past, our test suite is clearly inadequet, since
+<code>is_divisible_by_2_or_5</code> will now return <code>True</code> no
+matter what argument is passed to it.  Here is a completed version
+with a more complete test suite and code that makes the tests pass:</p>
+
+<pre class='python'>
+def is_divisible_by_2_or_5(n):
+    """
+      >>> is_divisible_by_2_or_5(8)
+      True
+      >>> is_divisible_by_2_or_5(7)
+      False
+      >>> is_divisible_by_2_or_5(5)
+      True
+      >>> is_divisible_by_2_or_5(9)
+      False
+    """
+    return n % 2 == 0 or n % 5 == 0 
+
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+</pre>
+
+<p>Run this script now with the <code>-v</code> command line option and see
+what you get.</p>
 
 
 <h2>Glossary</h2>
@@ -533,15 +622,39 @@ purpose.</dd>
 <ol>
 <li><div class="exercise">
 Write a <code>compare</code> function that returns <code>1</code> if
-<code>x &gt; y</code>, <code>0</code> if <code>x == y</code>, and
-<code>-1</code> if <code>x &lt; y</code>.
+<code>a &gt; b</code>, <code>0</code> if <code>a == b</code>, and
+<code>-1</code> if <code>a &lt; b</code>.   Fill in the function body 
+for the funtion definition below so that the doctests pass:
+<pre class='python'>
+def compare(a, b):
+    """
+      compare(5, 4)
+      1
+      compare(7, 7)
+      0
+      compare(2, 3)
+      -1
+    """
+</pre>
 </div></li>
 
 <li><div class="exercise">
 Use incremental development to write a function called <code>hypotenuse</code>
 that returns the length of the hypotenuse of a right triangle given the lengths 
 of the two legs as parameters.  Record each stage of the incremental
-development process as you go.
+development process as you go.  When you are finished add the doctests below
+and confirm that they pass:
+<pre class='python'>
+def hypotenuse(a, b):
+    """
+      hypotenuse(3, 4)
+      5.0
+      hypotenuse(12, 5)
+      13.0 
+      hypotenuse(7, 24)
+      25.0 
+    """
+</pre>
 </div></li>
 
 <li><div class="exercise">
@@ -550,6 +663,15 @@ the line through the points (x1, y1) and (x2, y2).  Then use this function in a
 function called <code>intercept(x1, y1, x2, y2)</code> that returns the
 y-intercept of the line through the points <code>(x1, y1)</code> and
 <code>(x2, y2)</code>.
+<pre class='python'>
+def slope(x1, y1, x2, y2):
+    """
+      slope(5, 3, 4, 2)
+      1.0
+      slope(1, 2, 3, 2)
+      0.0 
+    """
+</pre>
 </div></li>
 
 <li><div class="exercise">
