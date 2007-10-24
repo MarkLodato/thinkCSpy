@@ -137,10 +137,10 @@ eventually we have to get to 0.  In other cases, it is not so easy to tell:</p>
 def sequence(n):
     while n != 1:
         print n,
-        if n%2 == 0:        # n is even
-            n = n/2
-        else:               # n is odd
-            n = n*3+1
+        if n % 2 == 0:        # n is even
+            n = n / 2
+        else:                 # n is odd
+            n = n * 3 + 1
 </pre>
 
 <p>The condition for this loop is <code>n != 1</code>, so the loop will

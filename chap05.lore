@@ -510,7 +510,7 @@ if __name__ == '__main__':
 </pre>
 
 <p>If we run it now, there will be no output, which indicates that the
-test past.  Note that the doctest string must be placed immediately after
+test passed.  Note that the doctest string must be placed immediately after
 the function definition header.</p>
 
 <p>To see more detailed out put, call the script with the
@@ -533,7 +533,7 @@ Test passed.
 $
 </pre>
 
-<p>While the test past, our test suite is clearly inadequet, since
+<p>While the test past, our test suite is clearly inadequete, since
 <code>is_divisible_by_2_or_5</code> will now return <code>True</code> no
 matter what argument is passed to it.  Here is a completed version
 with a more complete test suite and code that makes the tests pass:</p>
@@ -746,6 +746,7 @@ def is_multiple(m, n):
      True
      >>> is_multiple(12, 7)
      False 
+   """
 </pre>
 Add a body to <code>is_multiple</code> to make the doctests pass.  Can you
 find a way to use <code>is_factor</code> in your definition of
