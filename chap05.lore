@@ -624,8 +624,7 @@ purpose.</dd>
 <li><div class="exercise">
 Write a <code>compare</code> function that returns <code>1</code> if
 <code>a &gt; b</code>, <code>0</code> if <code>a == b</code>, and
-<code>-1</code> if <code>a &lt; b</code>.   Fill in the function body 
-for the funtion definition below so that the doctests pass:
+<code>-1</code> if <code>a &lt; b</code>.
 <pre class='python'>
 def compare(a, b):
     """
@@ -637,14 +636,14 @@ def compare(a, b):
       -1
     """
 </pre>
+Fill in the body of the function above so the doctests pass.
 </div></li>
 
 <li><div class="exercise">
 Use incremental development to write a function called <code>hypotenuse</code>
 that returns the length of the hypotenuse of a right triangle given the lengths 
 of the two legs as parameters.  Record each stage of the incremental
-development process as you go.  When you are finished add the doctests below
-and confirm that they pass:
+development process as you go.
 <pre class='python'>
 def hypotenuse(a, b):
     """
@@ -656,6 +655,7 @@ def hypotenuse(a, b):
       25.0 
     """
 </pre>
+When you are finished add the doctests below and confirm that they pass.
 </div></li>
 
 <li><div class="exercise">
@@ -673,6 +673,8 @@ def slope(x1, y1, x2, y2):
       0.0 
     """
 </pre>
+Be sure your implimentation of <code>slope</code> can pass the doctests
+above.
 </div></li>
 
 <li><div class="exercise">
