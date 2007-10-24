@@ -619,7 +619,7 @@ purpose.</dd>
 </dl>
 
 <h2>Exercises</h2>
-<ol>
+<!-- ol>
 <li><div class="exercise">
 Write a <code>compare</code> function that returns <code>1</code> if
 <code>a &gt; b</code>, <code>0</code> if <code>a == b</code>, and
@@ -701,7 +701,7 @@ a <b>multiple</b> of <code>n</code>, and <code>False</code> otherwise.
 As an exercise, write a function <code>is_between(x, y, z)</code> that
 returns <code>True</code> if y &lt; x &lt; z or <code>False</code> otherwise.
 </div></li>
-</ol>
+</ol -->
 
 </body>
 </html>
