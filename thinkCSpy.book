@@ -3,7 +3,7 @@ Chapter('foreword.lore', '')#Foreword
 Chapter('preface2ver.lore', '')#Preface to Version 2
 Chapter('preface.lore', '')#Preface
 Chapter('contrib.lore', '')#Contributors
-for n in range(1, 20):
+for n in range(1, 21):
     Chapter('chap%02d.lore' % n, '%d' % n)
 Chapter('app_a.lore', 'A')
 Chapter('app_b.lore', 'B')

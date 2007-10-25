@@ -11,6 +11,12 @@
 build:	book
 
 book:
+	mkdir -p html/
 	lore -pN -b thinkCSpy.book
 	mv *.html html
+	cp -r illustrations html/
+	cp -r resources/* html/
 	tar czvf ../english2e.tgz ../english2e
+
+clean:
+	rm -rf html
