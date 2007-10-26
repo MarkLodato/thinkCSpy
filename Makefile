@@ -16,7 +16,11 @@ book:
 	mv *.html html
 	cp -r illustrations html/
 	cp -r resources/* html/
-	tar czvf ../english2e.tgz ../english2e
+	tar czvf ../thinkCSpy2.tgz ../english2e
+	mv ../thinkCSpy2.tgz html/
+
+export:
+	rsync -avz -e ssh --delete html/ login.ibiblio.org:thinkCSpy2/
 
 clean:
 	rm -rf html
