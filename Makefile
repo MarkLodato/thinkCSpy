@@ -19,6 +19,7 @@ book:
 	tar czvf ../thinkCSpy2.tgz ../english2e
 	mv ../thinkCSpy2.tgz html/
 
+# Don't run this unless you are Jeff Elkner copying the output to ibiblio ;-)
 export:
 	rsync -avz -e ssh --delete html/ login.ibiblio.org:thinkCSpy2/
 

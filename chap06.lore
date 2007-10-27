@@ -165,6 +165,36 @@ reaches 1. The previous example ends with such a sequence, starting with 16.
 that this program terminates for <em>all</em> values of <code>n</code>.  So
 far, no one has been able to prove it <em>or</em> disprove it!</p>
 
+<p>Looping is also very useful for enabling users to control how many times
+parts of a program are executed.</p>
+
+<pre class='python'>
+def play_game():
+    print "I'm playing... Oh what fun!"
+
+choice = 'y' 
+
+while choice == 'y':
+    play_game()
+    choice = raw_input("Would you like to play again? (y/n): ")
+</pre>
+
+<p>The variable <code>choice</code> is <b>initialized</b> to <code>'y'</code>.
+This makes the condition of the while loop true the first time it is evaluated,
+and assures that users get to play the game at least once.  After the game
+finishes (and we assume the call to <code>play_game()</code> would do something
+more then print a message), users will be asked if they would like to play
+again.  As long as they keep answering with 'y', they can continue playing.</p>
+
+
+<h2>The <code>math</code> module</h2>
+<span class="index" value="math module" />
+<span class="index" value="module!math" />
+
+<p>Python has a <b>math module</b> that contains mathematical functions
+for performing triginometric, exponential, and logrithmic calculations. 
+</p>
+
 
 <h2>Tables</h2>
 <a name="tables" />
@@ -606,6 +636,8 @@ and debug one, you can reuse it.</li>
 <span class="index" value="loop!body" />
 <span class="index" value="loop" />
 <span class="index" value="infinite loop" />
+<span class="index" value="initialize a variable" />
+<span class="index" value="variable!initialization" />
 <span class="index" value="escape sequence" />
 <span class="index" value="cursor" />
 <span class="index" value="tab" />
@@ -630,6 +662,15 @@ terminating condition is satisfied.</dd>
 
 <dt>infinite loop:</dt>
 <dd>A loop in which the terminating condition is never satisfied.</dd>
+
+<dt>initialization (of a variable):</dt>
+<dd>
+To initialize a variable is to give it an initial value, usually in the
+context of multiple assignment.  Since in Python variables don't exist until
+they are assigned values, they are initialized when they are created.  In
+other programming languages this is not the case, and variables can be
+created without being initialized, in which case they have either default
+or <em>garbage</em> values.</dd>
 
 <dt>body:</dt>
 <dd>The statements inside a loop.</dd>
