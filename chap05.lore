@@ -752,6 +752,54 @@ Add a body to <code>is_multiple</code> to make the doctests pass.  Can you
 find a way to use <code>is_factor</code> in your definition of
 <code>is_multiple</code>?
 </div></li>
+
+<li><div class="exercise">
+<pre class='python'>
+def f2c(t):
+    """
+      >>> f2c(212)
+      100
+      >>> f2c(32)
+      0
+      >>> f2c(-40)
+      -40
+      >>> f2c(36)
+      2
+      >>> f2c(37)
+      3
+      >>> f2c(38)
+      3
+      >>> f2c(39)
+      4
+    """
+</pre>
+Write a body for the function definition of <code>f2c</code> designed to return
+the integer value of the nearest degree Celsius for given tempurature in
+Fahrenheit. (<em>hint:</em> you may want to make use of the built-in function,
+<code>round</code>.  Try printing <code>round.__doc__</code> in a Python shell
+and experimenting with round until you are comfortable with how it works.)
+</div></li>
+
+<li><div class="exercise">
+<pre class='python'>
+def c2f(t):
+    """
+      >>> c2f(0)
+      32
+      >>> c2f(100)
+      212
+      >>> c2f(-40)
+      -40
+      >>> c2f(12)
+      54
+      >>> c2f(18)
+      64
+      >>> c2f(-48)
+      -54
+    """
+</pre>
+Add a function body for <code>c2f</code> to convert from Celsius to Fahrenheit.
+</div></li>
 </ol>
 
 </body>
