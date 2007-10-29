@@ -187,12 +187,80 @@ more then print a message), users will be asked if they would like to play
 again.  As long as they keep answering with 'y', they can continue playing.</p>
 
 
+<h2>Using <code>while</code> to move a ball</h2>
+
+<p><code>while</code> statements can be used with <code>GASP</code> to add
+motion to a program.  The program below moves a black ball across an 800x600
+pixal graphics canvas:</p>
+
+<pre class='python'>
+from gasp import *
+
+begin_graphics(800, 600, background=color.yellow)
+
+x = 5
+y = 5
+ball = Circle((x, y), 5, filled=True)
+dx = 4
+dy = 3
+
+while x &lt; 795:
+    x = x + dx
+    y = y + dy
+    move_to(ball, (x, y))
+    sleep(0.02)
+
+end_graphics()
+</pre>
+
+<p>
+Some new things to learn about GASP from this example:
+</p>
+
+<ul>
+  <li><code>begin_graphics</code> can take arguments for width, height,
+  and background color of the graphics canvas.</li>
+
+  <li>Adding <code>filled=True</code> to <code>Circle(...)</code> makes
+  the resulting circle solid.</li>
+
+  <li><code>ball = Circle</code> stores the circle (we will talk later
+  about what a circle actually is) in a variable named <code>ball</code>
+  so that it can be referenced later.</li>
+
+  <li>The <code>move_to</code> function in GASP allows a programmer to
+  pass in a shape (the ball in this case) and a location, and moves the
+  shape to that location.</li>
+
+  <li>The <code>sleep</code> function takes a time value in seconds as
+  an argument and pauses the program for that length of time.</li>
+</ul>
+
+
 <h2>The <code>math</code> module</h2>
 <span class="index" value="math module" />
 <span class="index" value="module!math" />
 
 <p>Python has a <b>math module</b> that contains mathematical functions
 for performing triginometric, exponential, and logrithmic calculations. 
+To use it, add <code>import math</code> to the top of the program.  We can
+look inside the math module by using Python's <code>dir</code> function:
+</p>
+
+<pre class='python-interpreter'>
+>>> import math
+>>> dir(math)
+['__doc__', '__file__', '__name__', 'acos', 'asin', 'atan', 'atan2', 'ceil',
+'cos', 'cosh', 'degrees', 'e', 'exp', 'fabs', 'floor', 'fmod', 'frexp',
+'hypot', 'ldexp', 'log', 'log10', 'modf', 'pi', 'pow', 'radians', 'sin',
+'sinh', 'sqrt', 'tan', 'tanh']
+>>>
+</pre>
+
+<p>
+<code>math.e</code> and <code>math.pi</code> are the constants representing the
+numbers e and &pi;.  All the others that do not begin with double underscore
+are triginometric, exponential, and logrithmic functions.
 </p>
 
 
@@ -227,6 +295,8 @@ example of iteration.  The following program outputs a sequence of values in
 the left column and their logarithms in the right column:</p>
 
 <pre class="python">
+import math
+
 x = 1.0
 while x &lt; 10.0:
     print x, '\t', math.log(x)
@@ -330,7 +400,7 @@ As an exercise, modify this program so that it outputs the powers of two up to
 <p>The backslash character in '\t' indicates the beginning of an
 <b>escape sequence</b>.  Escape sequences are used to represent
 invisible characters like tabs and newlines.  The sequence \n represents a
-newline.</p>
+<b>newline</b>.</p>
 
 <p>An escape sequence can appear anywhere in a string; in the example, the tab
 escape sequence is the only thing in the string.</p>
@@ -638,6 +708,8 @@ and debug one, you can reuse it.</li>
 <span class="index" value="infinite loop" />
 <span class="index" value="initialize a variable" />
 <span class="index" value="variable!initialization" />
+<span class="index" value="math module" />
+<span class="index" value="module!math" />
 <span class="index" value="escape sequence" />
 <span class="index" value="cursor" />
 <span class="index" value="tab" />
@@ -671,6 +743,11 @@ they are assigned values, they are initialized when they are created.  In
 other programming languages this is not the case, and variables can be
 created without being initialized, in which case they have either default
 or <em>garbage</em> values.</dd>
+
+<dt>math module</dt>
+<dd>A collection of trigonometric, exponential, and logrithmic functions and
+constants.  Adding <code>import math</code> in a Python program enables access
+to the module.</dd>
 
 <dt>body:</dt>
 <dd>The statements inside a loop.</dd>
