@@ -213,6 +213,11 @@ while x &lt; 795:
 end_graphics()
 </pre>
 
+<p>As the ball moves across the screen, you will see a graphics window that
+looks like this:</p>
+
+<img src="illustrations/gasp03.png" />
+
 <p>
 Some new things to learn about GASP from this example:
 </p>
@@ -791,11 +796,6 @@ then encapsulating and generalizing.</dd>
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
-Rewrite the function <code>nLines</code> from Chapter 4 using iteration instead 
-of recursion.
-</div></li>
-
-<li><div class="exercise">
 Write a single string that
 <pre class="shell">
    produces
@@ -813,7 +813,7 @@ figure out how it works.
 <li><div class="exercise">
 Write a function, <code>is_prime</code>, which takes a single integral argument
 and returns <code>True</code> when the argument is a <b>prime number</b>  and
-<code>False</code> otherwise.
+<code>False</code> otherwise.  Add doctests to your function as you develop it.
 </div></li>
 </ol>
 
