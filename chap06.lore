@@ -295,8 +295,17 @@ you down a line.  The <q>q</q> key will quit help.
 <p>
 <code>math.e</code> and <code>math.pi</code> are numeric constants representing 
 the numbers e and &pi;.   The rest of the module consists of triginometric,
-logorithmic, and exponential functions. 
+logorithmic, and exponential functions.  To use anything within the module,
+write <code>math.</code> followed by the function or constant name:
 </p>
+
+<pre class='python-interpreter'>
+>>> import math
+>>> math.sqrt(25)
+5.0
+>>> math.hypot(5, 12)
+13.0
+</pre>
 
 
 <h2>Tables</h2>
