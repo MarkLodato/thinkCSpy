@@ -191,7 +191,7 @@ again.  As long as they keep answering with 'y', they can continue playing.</p>
 
 <p><code>while</code> statements can be used with <code>GASP</code> to add
 motion to a program.  The program below moves a black ball across an 800x600
-pixal graphics canvas:</p>
+pixel graphics canvas:</p>
 
 <pre class='python'>
 from gasp import *
@@ -254,18 +254,48 @@ look inside the math module by using Python's <code>dir</code> function:
 
 <pre class='python-interpreter'>
 >>> import math
->>> dir(math)
-['__doc__', '__file__', '__name__', 'acos', 'asin', 'atan', 'atan2', 'ceil',
-'cos', 'cosh', 'degrees', 'e', 'exp', 'fabs', 'floor', 'fmod', 'frexp',
-'hypot', 'ldexp', 'log', 'log10', 'modf', 'pi', 'pow', 'radians', 'sin',
-'sinh', 'sqrt', 'tan', 'tanh']
->>>
+>>> help(math)
+</pre>
+
+<p>You will see a screen that looks like this:</p>
+
+<pre class="shell">
+Help on module math:
+
+NAME
+    math
+
+FILE
+    /usr/lib/python2.5/lib-dynload/math.so
+
+MODULE DOCS
+    http://www.python.org/doc/current/lib/module-math.html
+
+DESCRIPTION
+    This module is always available.  It provides access to the
+    mathematical functions defined by the C standard.
+
+FUNCTIONS
+    acos(...)
+        acos(x)
+        
+        Return the arc cosine (measured in radians) of x.
+    
+    asin(...)
+        asin(x)
+:
 </pre>
 
 <p>
-<code>math.e</code> and <code>math.pi</code> are the constants representing the
-numbers e and &pi;.  All the others that do not begin with double underscore
-are triginometric, exponential, and logrithmic functions.
+Pressing the space bar will take you to the next page.  The <q>j</q> or up
+arrow keys will move up a line, and the <q>k</q> or down arrow keys will move
+you down a line.  The <q>q</q> key will quit help.
+</p>
+
+<p>
+<code>math.e</code> and <code>math.pi</code> are numeric constants representing 
+the numbers e and &pi;.   The rest of the module consists of triginometric,
+logorithmic, and exponential functions. 
 </p>
 
 

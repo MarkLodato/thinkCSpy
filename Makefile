@@ -16,8 +16,10 @@ book:
 	mv *.html html
 	cp -r illustrations html/
 	cp -r resources/* html/
+	mv .bzr ../
 	tar czvf ../thinkCSpy2.tgz ../english2e
 	mv ../thinkCSpy2.tgz html/
+	mv ../.bzr .
 
 # Don't run this unless you are Jeff Elkner copying the output to ibiblio ;-)
 export:
