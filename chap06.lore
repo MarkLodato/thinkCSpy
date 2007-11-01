@@ -58,9 +58,41 @@ value of <code>b</code>, so they are no longer equal. (In some programming
 languages, a different symbol is used for assignment, such as
 <code>&lt;-</code> or <code>:=</code>, to avoid confusion.)</p>
 
-<p>Although multiple assignment is frequently helpful, you should use it with
-caution.  If the values of variables change frequently, it can make the code
-difficult to read and debug.</p>
+
+<h2>Updating variables</h2>
+
+<p>One of the most common forms of multiple assignment is an update, where the
+new value of the variable depends on the old.</p>
+
+<pre class='python'>
+x = x + 1
+</pre>
+
+<p>This means <q>get the current value of x, add one, and then update x with
+the new value.</q></p>
+
+<p>If you try to update a variable that doesn't exist, you get an error,
+because Python evaluates the expression on the right side of the assignment
+operator before it assigns the resulting value to the name on the left:</p>
+
+<pre class='python'>
+>>> x = x + 1
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+NameError: name 'x' is not defined
+</pre>
+
+<p>Before you can update a variable, you have to initialize it, usually with
+a simple assignment:</p>
+
+<pre class='python'>
+>>> x = 0
+>>> x = x + 1
+>>>
+</pre>
+
+<p>Updating a variable by adding 1 is called an <b>increment</b>; subtracting
+1 is called a <b>decrement</b>.</p>
 
 
 <h2>The <code>while</code> statement</h2>
@@ -434,11 +466,6 @@ second column does not depend on the number of digits in the first column.</p>
 <p>Logarithm tables may not be useful any more, but for computer scientists,
 knowing the powers of two is!</p>
 
-<div class="exercise">
-As an exercise, modify this program so that it outputs the powers of two up to
-65,536 (that's 2<sup>16</sup>).  Print it out and memorize it.
-</div>
-
 <span class="index" value="escape sequence" />
 
 <p>The backslash character in '\t' indicates the beginning of an
@@ -745,7 +772,9 @@ and debug one, you can reuse it.</li>
 
 <h2>Glossary</h2>
 <span class="index" value="multiple assignment" />
-<span class="index" value="assignment!multiple " />
+<span class="index" value="assignment!multiple" />
+<span class="index" value="increment" />
+<span class="index" value="decrement" />
 <span class="index" value="iteration" />
 <span class="index" value="loop!body" />
 <span class="index" value="loop" />
@@ -768,6 +797,12 @@ and debug one, you can reuse it.</li>
 <dt>multiple assignment:</dt>
 <dd>Making more than one assignment to the same variable during the execution
 of a program.</dd>
+
+<dt>increment</dt>
+<dd>Both as a noun and as a verb, increment means to increase by 1.</dd>
+
+<dt>decrement</dt>
+<dd>Decrease by 1.</dd>
 
 <dt>iteration:</dt>
 <dd>Repeated execution of a set of programming statements.</dd>
@@ -843,6 +878,11 @@ Write a single string that
 </pre>
 &nbsp;
 </div></li>
+
+<div class="exercise">
+Modify the while loop at the end of section 6.6 so that it outputs the powers
+of two up to 65,536 (that's 2<sup>16</sup>).  Print it out and memorize it.
+</div>
 
 <li><div class="exercise">
 Trace the execution of the last version of <code>print_mult_table</code> and
