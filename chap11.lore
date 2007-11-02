@@ -1,658 +1,530 @@
 <html>
 <head>
-  <title>Files and exceptions</title>
+  <title>Dictionaries</title>
 </head>
 <body>
 
-<h1>Files and exceptions</h1>
-<span class="index" value="file" />
-
-<p>While a program is running, its data is in memory.  When the program ends,
-or the computer shuts down, data in memory disappears.  To store data
-permanently, you have to put it in a <b>file</b>.  Files are usually
-stored on a hard drive, usb drive, or CD.</p>
-
-<p>When there are a large number of files, they are often organized into
-<b>directories</b> (also called <q>folders</q>).  Each file is
-identified by a unique name, or a combination of a file name and a directory
-name.</p>
-
-<p>By reading and writing files, programs can exchange information with each
-other and generate printable formats like PDF.</p>
-
-<p>Working with files is a lot like working with books.  To use a book, you
-have to open it.  When you're done, you have to close it.  While the book is
-open, you can either write in it or read from it.  In either case, you know
-where you are in the book.  Most of the time, you read the whole book in its
-natural order, but you can also skip around.</p>
-
-<p>All of this applies to files as well.  To open a file, you specify its name
-and indicate whether you want to read or write.</p>
-
-<p>Opening a file creates a file object.  In this example, the variable
-<code>f</code> refers to the new file object.</p>
-
-<pre class="python-interpreter">
->>> f = open("test.dat","w")
->>> print f
-&lt;open file 'test.dat', mode 'w' at 0x2aaaaab80cd8>
-</pre>
-
-<p>The open function takes two arguments.  The first is the name of the file,
-and the second is the mode.  Mode <code>"w"</code> means that we are opening
-the file for writing.</p>
-
-<p>If there is no file named <code>test.dat</code>, it will be created.  If
-there already is one, it will be replaced by the file we are writing.</p>
-
-<p>When we print the file object, we see the name of the file, the mode, and
-the location of the object.</p>
-
-<p>To put data in the file we invoke the <code>write</code> method on the file
-object:</p>
-
-<pre class="python-interpreter">
->>> f.write("Now is the time")
->>> f.write("to close the file")
-</pre>
-
-<p>Closing the file tells the system that we are done writing and makes the
-file available for reading:</p>
-
-<pre class="python-interpreter">
->>> f.close()
-</pre>
-
-<p>Now we can open the file again, this time for reading, and read the contents 
-into a string.  This time, the mode argument is <code>"r"</code> for reading:
-</p>
-
-<pre class="python-interpreter">
->>> f = open("test.dat","r")
-</pre>
-
-<p>If we try to open a file that doesn't exist, we get an error:</p>
-
-<span class="index" value="runtime error" />
-
-<pre class="python-interpreter">
->>> f = open("test.cat","r")
-IOError: [Errno 2] No such file or directory: 'test.cat'
-</pre>
-
-<p>Not surprisingly, the <code>read</code> method reads data from the file.
-With no arguments, it reads the entire contents of the file:</p>
-
-<pre class="python-interpreter">
->>> text = f.read()
->>> print text
-Now is the timeto close the file
-</pre>
-
-<p>There is no space between <q>time</q> and <q>to</q> because we did not write 
-a space between the strings.</p>
-
-<p><code>read</code> can also take an argument that indicates how many
-characters to read:</p>
-
-<pre class="python-interpreter">
->>> f = open("test.dat","r")
->>> print f.read(5)
-Now i
-</pre>
-
-<p>If not enough characters are left in the file, <code>read</code> returns the 
-remaining characters.  When we get to the end of the file, <code>read</code>
-returns the empty string:</p>
-
-<pre class="python-interpreter">
->>> print f.read(1000006)
-s the timeto close the file
->>> print f.read()
-   
->>>
-</pre>
-
-<p>The following function copies a file, reading and writing up to fifty
-characters at a time.  The first argument is the name of the original file; the 
-second is the name of the new file:</p>
-
-<pre class="python">
-def copyFile(oldFile, newFile):
-    f1 = open(oldFile, "r")
-    f2 = open(newFile, "w")
-    while True:
-        text = f1.read(50)
-        if text == "":
-            break
-        f2.write(text)
-    f1.close()
-    f2.close()
-    return
-</pre>
-
-<p>The <code>break</code> statement is new.  Executing it breaks out of the
-loop; the flow of execution moves to the first statement after the loop.</p>
-
-<span class="index" value="break statement" />
-<span class="index" value="statement!break" />
-
-<p>In this example, the <code>while</code> loop is infinite because the value
-<code>True</code> is always true.  The <em>only</em> way to get out of the
-loop is the execute <code>break</code>, which happens when <code>text</code> is 
-the empty string, which happens when we get to the end of the file.</p>
-
-
-<h2>Text files</h2>
-<span class="index" value="text file" />
-<span class="index" value="file!text" />
-
-<p>A <b>text file</b> is a file that contains printable characters
-and whitespace, organized into lines separated by newline characters.  Since
-Python is specifically designed to process text files, it provides methods that 
-make the job easy.</p>
-
-<p>To demonstrate, we'll create a text file with three lines of text separated
-by newlines:</p>
-
-<pre class="python-interpreter">
->>> f = open("test.dat","w")
->>> f.write("line one\nline two\nline three\n")
->>> f.close()
-</pre>
-
-<p>The <code>readline</code> method reads all the characters up to and
-including the next newline character:</p>
-
-<pre class="python-interpreter">
->>> f = open("test.dat","r")
->>> print f.readline()
-line one
-   
->>>
-</pre>
-
-<p><code>readlines</code> returns all of the remaining lines as a list of
-strings:</p>
-
-<pre class="python-interpreter">
->>> print f.readlines()
-['line two\012', 'line three\012']
-</pre>
-
-<p>In this case, the output is in list format, which means that the strings
-appear with quotation marks and the newline character appears as the escape
-sequence <code>\\012</code>.</p>
-
-<p>At the end of the file, <code>readline</code> returns the empty string
-and <code>readlines</code> returns the empty list:</p>
-
-<pre class="python-interpreter">
->>> print f.readline()
-   
->>> print f.readlines()
-[]
-</pre>
-
-<p>The following is an example of a line-processing program.
-<code>filterFile</code> makes a copy of <code>oldFile</code>, omitting any
-lines that begin with <code>#</code>:</p>
-
-<pre class="python">
-def filterFile(oldFile, newFile):
-    f1 = open(oldFile, "r")
-    f2 = open(newFile, "w")
-    while True:
-        text = f1.readline()
-        if text == "":
-           break
-        if text[0] == '#':
-           continue
-        f2.write(text)
-    f1.close()
-    f2.close()
-    return
-</pre>
-
-<p>The <code>continue</code> statement ends the current iteration of the loop,
-but continues looping.  The flow of execution moves to the top of the loop,
-checks the condition, and proceeds accordingly.</p>
-
-<span class="index" value="continue statement" />
-<span class="index" value="statement!continue" />
-
-<p>Thus, if <code>text</code> is the empty string, the loop exits.  If the
-first character of <code>text</code> is a hash mark, the flow of execution goes 
-to the top of the loop.  Only if both conditions fail do we copy
-<code>text</code> into the new file.</p>
-
-
-<h2>Writing variables</h2>
-<span class="index" value="format operator" />
-<span class="index" value="format string" />
-<span class="index" value="operator!format" />
-
-<p>The argument of <code>write</code> has to be a string, so if we want to put
-other values in a file, we have to convert them to strings first.  The easiest
-way to do that is with the <code>str</code> function:</p>
-
-<pre class="python-interpreter">
->>> x = 52
->>> f.write (str(x))
-</pre>
-
-<p>An alternative is to use the <b>format operator</b>,
-<code>%</code>.  When applied to integers, <code>%</code> is the modulus
-operator.  But when the first operand is a string, <code>%</code> is the format 
-operator.</p>
-
-<p>The first operand is the <b>format string</b>, and the second
-operand is a tuple of expressions.  The result is a string that contains
-the values of the expressions, formatted according to the format string.</p>
-
-<p>As a simple example, the <b>format sequence</b> <code>"%d"</code>
-means that the first expression in the tuple should be formatted as an integer. 
-Here the letter <em>d</em> stands for <q>decimal</q>:</p>
-
-<pre class="python-interpreter">
->>> cars = 52
->>> "%d" % cars
-'52'
-</pre>
-
-<p>The result is the string <code>'52'</code>, which is not to be confused
-with the integer value <code>52</code>.</p>
-
-<p>A format sequence can appear anywhere in the format string, so we can embed
-a value in a sentence:</p>
-
-<pre class="python-interpreter">
->>> cars = 52
->>> "In July we sold %d cars." % cars
-'In July we sold 52 cars.'
-</pre>
-
-<p>The format sequence <code>"%f"</code> formats the next item in the tuple as
-a floating-point number, and <code>"%s"</code> formats the next item as a
-string:</p>
-
-<pre class="python-interpreter">
->>> "In %d days we made %f million %s." % (34,6.1,'dollars')
-'In 34 days we made 6.100000 million dollars.'
-</pre>
-
-<p>By default, the floating-point format prints six decimal places.</p>
-
-<p>The number of expressions in the tuple has to match the number of format
-sequences in the string.  Also, the types of the expressions have to match the
-format sequences:</p>
-
-<span class="index" value="runtime error" />
-
-<pre class="python-interpreter">
->>> "%d %d %d" % (1,2)
-TypeError: not enough arguments for format string
->>> "%d" % 'dollars'
-TypeError: illegal argument type for built-in operation
-</pre>
-
-<p>In the first example, there aren't enough expressions; in the second, the
-expression is the wrong type.</p>
-
-<p>For more control over the format of numbers, we can specify the number of
-digits as part of the format sequence:</p>
-
-<pre class="python-interpreter">
->>> "%6d" % 62
-'    62'
->>> "%12f" % 6.1
-'    6.100000'
-</pre>
-
-<p>The number after the percent sign is the minimum number of spaces the number 
-will take up.  If the value provided takes fewer digits, leading spaces are
-added.  If the number of spaces is negative, trailing spaces are added:</p>
-
-<pre class="python-interpreter">
->>> "%-6d" % 62
-'62    '
-</pre>
-
-<p>For floating-point numbers, we can also specify the number of digits after
-the decimal point:</p>
-
-<pre class="python-interpreter">
->>> "%12.2f" % 6.1
-'        6.10'
-</pre>
-
-<p>In this example, the result takes up twelve spaces and includes two digits
-after the decimal.  This format is useful for printing dollar amounts with the
-decimal points aligned.</p>
+<h1>Dictionaries</h1>
 
 <span class="index" value="dictionary" />
+<span class="index" value="data type!dictionary" />
+<span class="index" value="key" />
+<span class="index" value="key-value pair" />
+<span class="index" value="index" />
 
-<p>For example, imagine a dictionary that contains student names as keys and
-hourly wages as values.  Here is a function that prints the contents of the
-dictionary as a formatted report:</p>
+<p>The compound types you have learned about---strings, lists, and tuples---use 
+integers as indices.  If you try to use any other type as an index, you get an
+error.</p>
 
-<pre class="python">
-def report (wages) :
-    students = wages.keys()
-    students.sort()
-    for student in students:
-        print "%-20s %12.02f" % (student, wages[student])
-</pre>
+<p><b>Dictionaries</b> are similar to other compound types except
+that they can use any immutable type as an index.  As an example, we will
+create a dictionary to translate English words into Spanish.  For this
+dictionary, the indices are strings.</p>
 
-<p>To test this the function, we'll create a small dictionary and print the
-contents:</p>
-
-<pre class="python-interpreter">
->>> wages = {'mary': 6.23, 'joe': 5.45, 'joshua': 4.25}
->>> report (wages)
-joe                          5.45
-joshua                       4.25
-mary                         6.23
-</pre>
-
-<p>By controlling the width of each value, we guarantee that the columns will
-line up, as long as the names contain fewer than twenty-one characters and the
-wages are less than one billion dollars an hour.</p>
-
-
-<h2>Directories</h2>
-<span class="index" value="directory" />
-
-<p>When you create a new file by opening it and writing, the new file goes in
-the current directory (wherever you were when you ran the program).  Similarly, 
-when you open a file for reading, Python looks for it in the current directory.
-</p>
-
-<p>If you want to open a file somewhere else, you have to specify the
-<b>path</b> to the file, which is the name of the directory
-(or folder) where the file is located:</p>
+<p>One way to create a dictionary is to start with the empty dictionary and add 
+elements.  The empty dictionary is denoted <code>{}</code>:</p>
 
 <pre class="python-interpreter">
->>>   f = open("/usr/share/dict/words","r")
->>>   print f.readline()
-Aarhus
+>>> eng2sp = {}
+>>> eng2sp['one'] = 'uno'
+>>> eng2sp['two'] = 'dos'
 </pre>
 
-<p>This example opens a file named <code>words</code> that resides in a
-directory named <code>dict</code>, which resides in <code>share</code>, which
-resides in <code>usr</code>, which resides in the top-level directory of the
-system, called <code>/</code>.</p>
-
-<span class="index" value="path" />
-<span class="index" value="delimiter" />
-
-<p>You cannot use <code>/</code> as part of a filename; it is reserved as a
-delimiter between directory and filenames.</p>
-
-<p>The file <code>/usr/share/dict/words</code> contains a list of words
-in alphabetical order, of which the first is the name of a Danish university.
-</p>
-
-
-<h2>Pickling</h2>
-<span class="index" value="pickling" />
-
-<p>In order to put values into a file, you have to convert them to strings.
-You have already seen how to do that with <code>str</code>:</p>
+<p>The first assignment creates a dictionary named <code>eng2sp</code>; the
+other assignments add new elements to the dictionary.  We can print the current 
+value of the dictionary in the usual way:</p>
 
 <pre class="python-interpreter">
->>> f.write (str(12.3))
->>> f.write (str([1,2,3]))
+>>> print eng2sp
+{'one': 'uno', 'two': 'dos'}
 </pre>
 
-<p>The problem is that when you read the value back, you get a string.  The
-original type information has been lost.  In fact, you can't even tell where
-one value ends and the next begins:</p>
+<p>The elements of a dictionary appear in a comma-separated list.  Each entry
+contains an index and a value separated by a colon.  In a dictionary, the
+indices are called <b>keys</b>, so the elements are called
+<b>key-value pairs</b>.</p>
+
+<p>Another way to create a dictionary is to provide a list of key-value pairs
+using the same syntax as the previous output:</p>
 
 <pre class="python-interpreter">
->>>   f.readline()
-'12.3[1, 2, 3]'
+>>> eng2sp = {'one': 'uno', 'two': 'dos', 'three': 'tres'}
 </pre>
 
-<p>The solution is <b>pickling</b>, so called because it
-<q>preserves</q> data structures.  The <code>pickle</code> module contains the
-necessary commands.  To use it, import <code>pickle</code> and then open the
-file in the usual way:</p>
+<p>If we print the value of <code>eng2sp</code> again, we get a surprise:</p>
 
 <pre class="python-interpreter">
->>> import pickle
->>> f = open("test.pck","w")
+>>> print eng2sp
+{'one': 'uno', 'three': 'tres', 'two': 'dos'}
 </pre>
 
-<p>To store a data structure, use the <code>dump</code> method and then close
-the file in the usual way:</p>
-
-<pre class="python-interpreter">
->>> pickle.dump(12.3, f)
->>> pickle.dump([1,2,3], f)
->>> f.close()
-</pre>
-
-<p>Then we can open the file for reading and load the data structures we
-dumped:</p>
-
-<pre class="python-interpreter">
->>> f = open("test.pck","r")
->>> x = pickle.load(f)
->>> x
-12.3
->>> type(x)
-&lt;type 'float'>
->>> y = pickle.load(f)
->>> y
-[1, 2, 3]
->>> type(y)
-&lt;type 'list'>
-</pre>
-
-<p>Each time we invoke <code>load</code>, we get a single value from the file,
-complete with its original type.</p>
-
-
-<h2>Exceptions</h2>
-<span class="index" value="try statement" />
-<span class="index" value="statement!try" />
-<span class="index" value="raise exception" />
-<span class="index" value="handle exception" />
-<span class="index" value="except statement" />
-<span class="index" value="statement!except" />
-<span class="index" value="exception" />
-
-<p>Whenever a runtime error occurs, it creates an <b>exception</b>.
-Usually, the program stops and Python prints an error message.</p>
-
-<p>For example, dividing by zero creates an exception:</p>
-
-<pre class="python-interpreter">
->>> print 55/0
-ZeroDivisionError: integer division or modulo
-</pre>
-
-<p>So does accessing a nonexistent list item:</p>
-
-<pre class="python-interpreter">
->>> a = []
->>> print a[5]
-IndexError: list index out of range
-</pre>
-
-<p>Or accessing a key that isn't in the dictionary:</p>
-
-<pre class="python">
->>> b = {}
->>> print b['what']
-KeyError: what
-</pre>
-
-<p>In each case, the error message has two parts: the type of error before the
-colon, and specifics about the error after the colon.  Normally Python also
-prints a traceback of where the program was, but we have omitted that from the
-examples.</p>
-
-<span class="index" value="traceback" />
-
-<p>Sometimes we want to execute an operation that could cause an exception, but 
-we don't want the program to stop.  We can <b>handle</b> the
-exception using the <code>try</code> and <code>except</code> statements.</p>
-
-<p>For example, we might prompt the user for the name of a file and then try to 
-open it.  If the file doesn't exist, we don't want the program to crash; we
-want to handle the exception:</p>
-
-<pre class="python">
-filename = raw_input('Enter a file name: ')
-try:
-    f = open (filename, "r")
-except:
-    print 'There is no file named', filename
-</pre>
-
-<p>The <code>try</code> statement executes the statements in the first block.
-If no exceptions occur, it ignores the <code>except</code> statement.  If any
-exception occurs, it executes the statements in the <code>except</code> branch
-and then continues.</p>
-
-<p>We can encapsulate this capability in a function: <code>exists</code> takes
-a filename and returns true if the file exists, false if it doesn't:</p>
-
-<pre class="python">
-def exists(filename):
-    try:
-        f = open(filename)
-        f.close()
-        return 1
-    except:
-        return 0
-</pre>
-
-<p>You can use multiple <code>except</code> blocks to handle different kinds of
-exceptions.  The <em>Python Reference Manual</em> has the details.</p>
-
-<p>If your program detects an error condition, you can make it
-<b>raise</b> an exception.  Here is an example that gets input from
-the user and checks for the value 17.  Assuming that 17 is not valid input for
-some reason, we raise an exception.</p>
-
-<pre class="python">
-def inputNumber():
-    x = input('Pick a number: ')
-    if x == 17:
-        raise 'BadNumberError', '17 is a bad number'
-    return x
-</pre>
-
-<p>The <code>raise</code> statement takes two arguments: the exception type and 
-specific information about the error.  <code>BadNumberError</code> is a new
-kind of exception we invented for this application.</p>
-
-<p>If the function that called <code>inputNumber</code> handles the error, then 
-the program can continue; otherwise, Python prints the error message and exits:
+<p>The key-value pairs are not in order!  Fortunately, there is no reason to
+care about the order, since the elements of a dictionary are never indexed with 
+integer indices.  Instead, we use the keys to look up the corresponding values:
 </p>
 
 <pre class="python-interpreter">
->>> inputNumber()
-Pick a number: 17
-BadNumberError: 17 is a bad number
+>>> print eng2sp['two']
+'dos'
 </pre>
 
-<p>The error message includes the exception type and the additional information 
-you provided.</p>
+<p>The key <code>'two'</code> yields the value <code>'dos'</code> even though
+it appears in the third key-value pair.</p>
 
-<div class="exercise">
-As an exercise, write a function that uses <code>inputNumber</code> to input a
-number from the keyboard and that handles the <code>BadNumberError</code>
-exception.
-</div>
+
+<h2>Dictionary operations</h2>
+<span class="index" value="dictionary!operation" />
+<span class="index" value="operation!dictionary" />
+
+<p>The <code>del</code> statement removes a key-value pair from a dictionary.
+For example, the following dictionary contains the names of various fruits and
+the number of each fruit in stock:</p>
+
+<pre class="python-interpreter">
+>>> inventory = {'apples': 430, 'bananas': 312, 'oranges': 525,
+'pears': 217}
+>>> print inventory
+{'oranges': 525, 'apples': 430, 'pears': 217, 'bananas': 312}
+</pre>
+
+<p>If someone buys all of the pears, we can remove the entry from the
+dictionary:</p>
+
+<pre class="python-interpreter">
+>>> del inventory['pears']
+>>> print inventory
+{'oranges': 525, 'apples': 430, 'bananas': 312}
+</pre>
+
+<p>Or if we're expecting more pears soon, we might just change the value
+associated with pears:</p>
+
+<pre class="python-interpreter">
+>>> inventory['pears'] = 0
+>>> print inventory
+{'oranges': 525, 'apples': 430, 'pears': 0, 'bananas': 312}
+</pre>
+
+<p>The <code>len</code> function also works on dictionaries; it returns the
+number of key-value pairs:</p>
+
+<pre class="python-interpreter">
+>>> len(inventory)
+4
+</pre>
+
+
+<h2>Dictionary methods</h2>
+<span class="index" value="dictionary!method" />
+<span class="index" value="method!dictionary" />
+<span class="index" value="method" />
+<span class="index" value="method!invocation" />
+<span class="index" value="invoking method" />
+
+<p>A <b>method</b> is similar to a function---it takes parameters and
+returns a value---but the syntax is different.  For example, the
+<code>keys</code> method takes a dictionary and returns a list of the keys that
+appear, but instead of the function syntax <code>keys(eng2sp)</code>, we use
+the method syntax <code>eng2sp.keys()</code>.</p>
+
+<span class="index" value="dot notation" />
+
+<pre class="python-interpreter">
+>>> eng2sp.keys()
+['one', 'three', 'two']
+</pre>
+
+<p>This form of dot notation specifies the name of the method, 
+<code>keys</code>, and the name of the object on which to apply the method,
+<code>eng2sp</code>.  The parentheses indicate that this method takes no
+parameters.</p>
+
+<p>A method call is called an <b>invocation</b>; in this case, we
+would say that we are invoking the <code>keys</code> method on the object
+<code>eng2sp</code>. As we will see in a few chapters when we talk about object 
+oriented programming, the object on which a method is invoked is actually the
+first argument to the method.</p>
+
+<p>The <code>values</code> method is similar; it returns a list of the values
+in the dictionary:</p>
+
+<pre class="python-interpreter">
+>>> eng2sp.values()
+['uno', 'tres', 'dos']
+</pre>
+
+<p>The <code>items</code> method returns both, in the form of a list of
+tuples---one for each key-value pair:</p>
+
+<pre class="python-interpreter">
+>>> eng2sp.items()
+[('one','uno'), ('three', 'tres'), ('two', 'dos')]
+</pre>
+
+<p>The syntax provides useful type information.  The square brackets indicate
+that this is a list.  The parentheses indicate that the elements of the list
+are tuples.</p>
+
+<p>If a method takes an argument, it uses the same syntax as a function call.
+For example, the method <code>has_key</code> takes a key and returns true (1)
+if the key appears in the dictionary:</p>
+
+<pre class="python-interpreter">
+>>> eng2sp.has_key('one')
+True
+>>> eng2sp.has_key('deux')
+False
+</pre>
+
+<p>If you try to call a method without specifying an object, you get an error.  
+In this case, the error message is not very helpful:</p>
+
+<pre class="python-interpreter">
+>>> has_key('one')
+NameError: name 'has_key' is not defined
+</pre>
+
+<span class="index" value="runtime error" />
+
+
+<h2>Aliasing and copying</h2>
+<span class="index" value="aliasing" />
+<span class="index" value="copying" />
+<span class="index" value="cloning" />
+
+<p>Because dictionaries are mutable, you need to be aware of aliasing.
+Whenever two variables refer to the same object, changes to one affect the
+other.</p>
+
+<p>If you want to modify a dictionary and keep a copy of the original, use the
+<code>copy</code> method.  For example, <code>opposites</code> is a dictionary
+that contains pairs of opposites:</p>
+
+<pre class="python-interpreter">
+>>> opposites = {'up': 'down', 'right': 'wrong', 'true': 'false'}
+>>> alias = opposites
+>>> copy = opposites.copy()
+</pre>
+
+<p><code>alias</code> and <code>opposites</code> refer to the same object;
+<code>copy</code> refers to a fresh copy of the same dictionary.  If we modify
+<code>alias</code>, <code>opposites</code> is also changed:</p>
+
+<pre class="python-interpreter">
+>>> alias['right'] = 'left'
+>>> opposites['right']
+'left'
+</pre>
+
+<p>If we modify <code>copy</code>, <code>opposites</code> is unchanged:</p>
+
+<pre class="python-interpreter">
+>>> copy['right'] = 'privilege'
+>>> opposites['right']
+'left'
+</pre>
+
+
+<h2>Sparse matrices </h2>
+<span class="index" value="matrix!sparse" />
+<span class="index" value="nested list" />
+<span class="index" value="list!nested" />
+
+<p>We previously used a list of lists to represent a matrix.  That is a good
+choice for a matrix with mostly nonzero values, but consider a sparse matrix
+like this one:</p>
+
+<img src="illustrations/sparse.png" />
+
+<p>The list representation contains a lot of zeroes:</p>
+
+<pre class="python">
+matrix = [ [0,0,0,1,0],
+   [0,0,0,0,0],
+   [0,2,0,0,0],
+   [0,0,0,0,0],
+   [0,0,0,3,0] ]
+</pre>
+
+<p>An alternative is to use a dictionary.  For the keys, we can use tuples
+that contain the row and column numbers.  Here is the dictionary
+representation of the same matrix:</p>
+
+<pre class="python">
+matrix = {(0,3): 1, (2, 1): 2, (4, 3): 3}
+</pre>
+
+<p>We only need three key-value pairs, one for each nonzero element of the
+matrix.  Each key is a tuple, and each value is an integer.</p>
+
+<p>To access an element of the matrix, we could use the <code>[]</code>
+operator:</p>
+
+<pre class="python">
+matrix[(0, 3)]
+1
+</pre>
+
+<p>Notice that the syntax for the dictionary representation is not the
+same as the syntax for the nested list representation.  Instead of
+two integer indices, we use one index, which is a tuple of integers.</p>
+
+<p>There is one problem.  If we specify an element that is zero, we get an
+error, because there is no entry in the dictionary with that key:</p>
+
+<span class="index" value="runtime error" />
+
+<pre class="python-interpreter">
+>>> matrix[(1, 3)]
+KeyError: (1, 3)
+</pre>
+
+<p>The <code>get</code> method solves this problem:</p>
+
+<pre class="python">
+>>> matrix.get((0, 3), 0)
+1
+</pre>
+
+<p>The first argument is the key; the second argument is the value
+<code>get</code> should return if the key is not in the dictionary:</p>
+
+<pre class="python">
+>>> matrix.get((1, 3), 0)
+0
+</pre>
+
+<p><code>get</code> definitely improves the semantics of accessing a sparse
+matrix.  Shame about the syntax.</p>
+
+
+<h2>Hints</h2>
+<span class="index" value="hint" />
+<span class="index" value="Fibonacci function" />
+
+<p>If you played around with the <code>fibonacci</code> function from
+chapter 5, you might have noticed that the bigger the argument you provide,
+the longer the function takes to run.  Furthermore, the run time increases very 
+quickly.  On one of our machines, <code>fibonacci(20)</code> finishes
+instantly, <code>fibonacci(30)</code> takes about a second, and
+<code>fibonacci(40)</code> takes roughly forever.</p>
+
+<p>To understand why, consider this <b>call graph</b> for
+<code>fibonacci</code> with <code>n=4</code>:</p>
+
+<img src="illustrations/fibonacci.png" />
+
+<p>A call graph shows a set function frames, with lines connecting each frame
+to the frames of the functions it calls.  At the top of the graph,
+<code>fibonacci</code> with <code>n=4</code> calls <code>fibonacci</code> with
+<code>n=3</code> and <code>n=2</code>.  In turn, <code>fibonacci</code> with
+<code>n=3</code> calls <code>fibonacci</code> with <code>n=2</code> and
+<code>n=1</code>.  And so on.</p>
+
+<span class="index" value="function frame" />
+<span class="index" value="frame" />
+<span class="index" value="call graph" />
+
+<p>Count how many times <code>fibonacci(0)</code> and <code>fibonacci(1)</code> 
+are called.  This is an inefficient solution to the problem, and it gets far
+worse as the argument gets bigger.</p>
+
+<p>A good solution is to keep track of values that have already been computed
+by storing them in a dictionary.  A previously computed value that is stored
+for later use is called a <b>hint</b>.  Here is an implementation of
+<code>fibonacci</code> using hints:</p>
+
+<pre class="python">
+previous = {0: 0, 1: 1}
+   
+def fibonacci(n):
+    if previous.has_key(n):
+        return previous[n]
+    else:
+        new_value = fibonacci(n-1) + fibonacci(n-2)
+        previous[n] = new_value
+        return new_value
+</pre>
+
+<p>The dictionary named <code>previous</code> keeps track of the Fibonacci
+numbers we already know.  We start with only two pairs: 0 maps to 1; and 1 maps 
+to 1.</p>
+
+<p>Whenever <code>fibonacci</code> is called, it checks the dictionary to
+determine if it contains the result.  If it's there, the function can return
+immediately without making any more recursive calls.  If not, it has to compute 
+the new value.  The new value is added to the dictionary before the function
+returns.</p>
+
+<p>Using this version of <code>fibonacci</code>, our machines can compute
+<code>fibonacci(100)</code> in an eyeblink.
+</p>
+
+<pre class="python-interpreter">
+>>> fibonacci(100)
+573147844013817084101L
+</pre>
+
+<p>The <code>L</code> at the end of the number indicates that it is a
+<code>long</code> integer.
+</p>
+
+
+<h2>Long integers</h2>
+<span class="index" value="long integer" />
+<span class="index" value="data type!long integer" />
+<span class="index" value="integer!long" />
+
+<p>Python provides a type called <code>long</code> that can handle any size
+integer (limited only by the amount of memory you have on your computer).
+</p>
+
+<p>There are three ways to create a <code>long</code> value.  The first one is
+to compute an arithmetic expression too large to fit inside an <code>int</code>.
+We already saw this in the <code>fibonacci(100)</code> example above.
+Another way is to write an integer with a capital <code>L</code> at the
+end of your number:</p>
+
+<pre class="python-interpreter">
+>>> type(1L)
+&lt;type 'long'>
+</pre>
+
+<p>The third is to use the <code>long</code> function to convert a value to a
+<code>long</code>.  The <code>long</code> function, just like the
+<code>int</code> and <code>float</code> functions, can accept any numerical
+type and even strings of digits:</p>
+
+<pre class="python-interpreter">
+>>> long(1)
+1L
+>>> long(3.9)
+3L
+>>> long('57')
+57L
+</pre>
+
+<span class="index" value="type coercion" />
+<span class="index" value="coercion!type" />
+
+
+<h2>Counting letters</h2>
+<span class="index" value="counting" />
+<span class="index" value="histogram" />
+<span class="index" value="compression" />
+
+<p>In Chapter 7, we wrote a function that counted the number of occurrences of
+a letter in a string.  A more general version of this problem is to form a
+histogram of the letters in the string, that is, how many times each letter
+appears.</p>
+
+<p>Such a histogram might be useful for compressing a text file.  Because
+different letters appear with different frequencies, we can compress a file by
+using shorter codes for common letters and longer codes for letters that
+appear less frequently.</p>
+
+<p>Dictionaries provide an elegant way to generate a histogram:</p>
+
+<pre class="python-interpreter">
+>>> letter_counts = {}
+>>> for letter in "Mississippi":
+...   letter_counts[letter] = letter_counts.get (letter, 0) + 1
+...
+>>> letter_counts
+{'M': 1, 's': 4, 'p': 2, 'i': 4}
+</pre>
+
+<p>We start with an empty dictionary.  For each letter in the string, we find
+the current count (possibly zero) and increment it.  At the end, the dictionary 
+contains pairs of letters and their frequencies.</p>
+
+<p>It might be more appealing to display the histogram in alphabetical order.
+We can do that with the <code>items</code> and <code>sort</code> methods:</p>
+
+<pre class="python-interpreter">
+>>> letter_items = letter_counts.items()
+>>> letter_items.sort()
+>>> print letter_items
+[('M', 1), ('i', 4), ('p', 2), ('s', 4)]
+</pre>
+
+<p>You have seen the <code>items</code> method before, but <code>sort</code> is 
+the first method you have encountered that applies to lists.  There are several 
+other list methods, including <code>append</code>, <code>extend</code>, and
+<code>reverse</code>.  Consult the Python documentation for details.</p>
+
+<span class="index" value="method!list" />
+<span class="index" value="list method" />
 
 
 <h2>Glossary</h2>
-<span class="index" value="file" />
-<span class="index" value="text file" />
-<span class="index" value="break statement" />
-<span class="index" value="statement!break" />
-<span class="index" value="continue statement" />
-<span class="index" value="statement!continue" />
-<span class="index" value="format operator" />
-<span class="index" value="format string" />
-<span class="index" value="operator!format" />
-<span class="index" value="directory" />
-<span class="index" value="pickle" />
-<span class="index" value="try" />
-<span class="index" value="raise exception" />
-<span class="index" value="raise exception" />
-<span class="index" value="handle exception" />
-<span class="index" value="except statement" />
-<span class="index" value="exception" />
+<span class="index" value="dictionary" />
+<span class="index" value="key" />
+<span class="index" value="key-value pair" />
+<span class="index" value="hint" />
+<span class="index" value="method" />
+<span class="index" value="invoke" />
 
 <dl>
-<dt>file:</dt>
-<dd>A named entity, usually stored on a hard drive, floppy disk, or CD-ROM,
-that contains a stream of characters.</dd>
+<dt>dictionary:</dt>
+<dd>A collection of key-value pairs that maps from keys to values.  The keys
+can be any immutable type, and the values can be any type.</dd>
 
-<dt>directory:</dt>
-<dd>A named collection of files, also called a folder.</dd>
+<dt>key:</dt>
+<dd>A value that is used to look up an entry in a dictionary.</dd>
 
-<dt>path:</dt>
-<dd>A sequence of directory names that specifies the exact location of a file.
+<dt>key-value pair:</dt>
+<dd>One of the items in a dictionary.</dd>
+
+<dt>method:</dt>
+<dd>A kind of function that is called with a different syntax and invoked
+<q>on</q> an object.</dd>
+
+<dt>invoke:</dt>
+<dd>To call a method.</dd>
+
+<dt>hint:</dt>
+<dd>Temporary storage of a precomputed value to avoid redundant computation.
 </dd>
 
-<dt>text file:</dt>
-<dd>A file that contains printable characters organized into lines separated by 
-newline characters.</dd>
-
-<dt>break statement:</dt>
-<dd>A statement that causes the flow of execution to exit a loop.</dd>
-
-<dt>continue statement:</dt>
-<dd>A statement that causes the current iteration of a loop to end.  The flow
-of execution goes to the top of the loop, evaluates the condition, and proceeds 
-accordingly.</dd>
-
-<dt>format operator:</dt>
-<dd>The <code>%</code> operator takes a format string and a tuple of
-expressions and yields a string that includes the expressions, formatted
-according to the format string.</dd>
-
-<dt>format string:</dt>
-<dd>A string that contains printable characters and format sequences that
-indicate how to format values.</dd>
-
-<dt>format sequence:</dt>
-<dd>A sequence of characters beginning with <code>%</code> that indicates how
-to format a value.</dd>
-
-<dt>pickle:</dt>
-<dd>To write a data value in a file along with its type information so that it
-can be reconstituted later.</dd>
-
-<dt>exception:</dt>
-<dd>An error that occurs at runtime.</dd>
-
-<dt>handle:</dt>
-<dd>To prevent an exception from terminating a program using the
-<code>try</code> and <code>except</code> statements.</dd>
-
-<dt>raise:</dt>
-<dd>To signal an exception using the <code>raise</code> statement.</dd>
+<dt>overflow:</dt>
+<dd>A numerical result that is too large to be represented in a numerical
+format.</dd>
 </dl>
 
 
 <h2>Exercises</h2>
 <ol>
-<li><div class="exercise">
- &nbsp;
-</div></li>
 
 <li><div class="exercise">
- &nbsp;
+<p>Write a program that reads in a string on the command line and returns a
+table of the letters of the alphabet in alphabetical order which occur in
+the string together with the number of times each letter occurs.  Case
+should be ignored.   A sample run of the program would look this this:</p>
+
+<pre class="shell">
+$ python letter_counts.py "ThiS is String with Upper and lower case Letters."
+a  2
+c  1
+d  1
+e  5
+g  1
+h  2
+i  4
+l  2
+n  2
+o  1
+p  2
+r  4
+s  5
+t  5
+u  1
+w  2
+$
+</pre>
 </div></li>
+
 </ol>
-
 
 </body>
 </html>

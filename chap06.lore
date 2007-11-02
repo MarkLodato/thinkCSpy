@@ -219,61 +219,6 @@ more then print a message), users will be asked if they would like to play
 again.  As long as they keep answering with 'y', they can continue playing.</p>
 
 
-<h2>Using <code>while</code> to move a ball</h2>
-
-<p><code>while</code> statements can be used with <code>GASP</code> to add
-motion to a program.  The program below moves a black ball across an 800x600
-pixel graphics canvas:</p>
-
-<pre class='python'>
-from gasp import *
-
-begin_graphics(800, 600, background=color.yellow)
-
-x = 5
-y = 5
-ball = Circle((x, y), 5, filled=True)
-dx = 4
-dy = 3
-
-while x &lt; 795:
-    x = x + dx
-    y = y + dy
-    move_to(ball, (x, y))
-    sleep(0.02)
-
-end_graphics()
-</pre>
-
-<p>As the ball moves across the screen, you will see a graphics window that
-looks like this:</p>
-
-<img src="illustrations/gasp03.png" />
-
-<p>
-Some new things to learn about GASP from this example:
-</p>
-
-<ul>
-  <li><code>begin_graphics</code> can take arguments for width, height,
-  and background color of the graphics canvas.</li>
-
-  <li>Adding <code>filled=True</code> to <code>Circle(...)</code> makes
-  the resulting circle solid.</li>
-
-  <li><code>ball = Circle</code> stores the circle (we will talk later
-  about what a circle actually is) in a variable named <code>ball</code>
-  so that it can be referenced later.</li>
-
-  <li>The <code>move_to</code> function in GASP allows a programmer to
-  pass in a shape (the ball in this case) and a location, and moves the
-  shape to that location.</li>
-
-  <li>The <code>sleep</code> function takes a time value in seconds as
-  an argument and pauses the program for that length of time.</li>
-</ul>
-
-
 <h2>The <code>math</code> module</h2>
 <span class="index" value="math module" />
 <span class="index" value="module!math" />
@@ -879,10 +824,10 @@ Write a single string that
 &nbsp;
 </div></li>
 
-<div class="exercise">
+<li><div class="exercise">
 Modify the while loop at the end of section 6.6 so that it outputs the powers
 of two up to 65,536 (that's 2<sup>16</sup>).  Print it out and memorize it.
-</div>
+</div></li>
 
 <li><div class="exercise">
 Trace the execution of the last version of <code>print_mult_table</code> and

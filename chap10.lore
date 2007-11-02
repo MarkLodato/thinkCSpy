@@ -1,527 +1,523 @@
 <html>
 <head>
-  <title>Dictionaries</title>
+  <title>Tuples</title>
 </head>
 <body>
 
-<h1>Dictionaries</h1>
+<h1>Tuples</h1>
+<a name="tuplechap" />
+<span class="index" value="tuple" />
 
-<span class="index" value="dictionary" />
-<span class="index" value="data type!dictionary" />
-<span class="index" value="key" />
-<span class="index" value="key-value pair" />
-<span class="index" value="index" />
+<h2>Mutability and tuples</h2>
+<span class="index" value="tuple" />
+<span class="index" value="immutable" />
+<span class="index" value="data type!tuple" />
+<span class="index" value="data type!immutable" />
+<span class="index" value="sequence!immutable" />
 
-<p>The compound types you have learned about---strings, lists, and tuples---use 
-integers as indices.  If you try to use any other type as an index, you get an
-error.</p>
+<p>So far, you have seen two compound types: strings, which are made up of
+characters; and lists, which are made up of elements of any type.  One of the
+differences we noted is that the elements of a list can be modified, but the
+characters in a string cannot.  In other words, strings are
+<b>immutable</b> and lists are <b>mutable</b>.</p>
 
-<p><b>Dictionaries</b> are similar to other compound types except
-that they can use any immutable type as an index.  As an example, we will
-create a dictionary to translate English words into Spanish.  For this
-dictionary, the indices are strings.</p>
+<span class="index" value="mutable" />
+<span class="index" value="immutable" />
 
-<p>One way to create a dictionary is to start with the empty dictionary and add 
-elements.  The empty dictionary is denoted <code>{}</code>:</p>
-
-<pre class="python-interpreter">
->>> eng2sp = {}
->>> eng2sp['one'] = 'uno'
->>> eng2sp['two'] = 'dos'
-</pre>
-
-<p>The first assignment creates a dictionary named <code>eng2sp</code>; the
-other assignments add new elements to the dictionary.  We can print the current 
-value of the dictionary in the usual way:</p>
+<p>There is another type in Python called a <b>tuple</b> that is
+similar to a list except that it is immutable.  Syntactically, a tuple is a
+comma-separated list of values:</p>
 
 <pre class="python-interpreter">
->>> print eng2sp
-{'one': 'uno', 'two': 'dos'}
+>>> tup = 2, 4, 6, 8, 10
 </pre>
 
-<p>The elements of a dictionary appear in a comma-separated list.  Each entry
-contains an index and a value separated by a colon.  In a dictionary, the
-indices are called <b>keys</b>, so the elements are called
-<b>key-value pairs</b>.</p>
-
-<p>Another way to create a dictionary is to provide a list of key-value pairs
-using the same syntax as the previous output:</p>
+<p>Although it is not necessary, it is conventional to enclose tuples in
+parentheses:</p>
 
 <pre class="python-interpreter">
->>> eng2sp = {'one': 'uno', 'two': 'dos', 'three': 'tres'}
+>>> tup = (2, 4, 6, 8, 10)
 </pre>
 
-<p>If we print the value of <code>eng2sp</code> again, we get a surprise:</p>
+<p>To create a tuple with a single element, we have to include the final
+comma:</p>
 
 <pre class="python-interpreter">
->>> print eng2sp
-{'one': 'uno', 'three': 'tres', 'two': 'dos'}
+>>> tup = (5,)
+>>> type(tup)
+&lt;type 'tuple'>
 </pre>
 
-<p>The key-value pairs are not in order!  Fortunately, there is no reason to
-care about the order, since the elements of a dictionary are never indexed with 
-integer indices.  Instead, we use the keys to look up the corresponding values:
+<p>Without the comma, Python treats <code>(5)</code> as an integer in
+parentheses:</p>
+
+<pre class="python-interpreter">
+>>> tup = (5)
+>>> type(tup)
+&lt;type 'int'&gt;
+</pre>
+
+<p>Syntax issues aside, tuples support the same sequence operations as 
+strings and lists.  The index operator selects an element from a tuple.</p>
+
+<pre class="python-interpreter">
+>>> tup = ('a', 'b', 'c', 'd', 'e')
+>>> tup[0]
+'a'
+</pre>
+
+<p>And the slice operator selects a range of elements.</p>
+
+<pre class="python-interpreter">
+>>> tup[1:3]
+('b', 'c')
+</pre>
+
+<p>But if we try to use item assignment to modify one of the elements of the
+tuple, we get a error:
+</p>
+<span class="index" value="runtime error" />
+
+<pre class="python-interpreter">
+>>> tup[0] = 'X'
+TypeError: 'tuple' object does not support item assignment
+</pre>
+
+<p>Of course, even if we can't modify the elements of a tuple, we can replace
+it with a different tuple:</p>
+
+<pre class="python-interpreter">
+>>> tup = ('X',) + tup[1:]
+>>> tup
+('X', 'b', 'c', 'd', 'e')
+</pre>
+
+<p>Alternatively, we could first convert it to a list, modify it, and convert
+it back into a tuple:</p>
+
+<pre class="python-interpreter">
+>>> tup = ('X', 'b', 'c', 'd', 'e')
+>>> tup = list(tup)
+>>> tup
+['X', 'b', 'c', 'd', 'e']
+>>> tup[0] = 'a'
+>>> tup = tuple(tup)
+>>> tup
+('a', 'b', 'c', 'd', 'e')
+</pre>
+
+
+<h2>Tuple assignment</h2>
+<a name="tuple assignment" />
+<span class="index" value="tuple assignment" />
+<span class="index" value="assignment!tuple" />
+
+<p>Once in a while, it is useful to swap the values of two variables.  With
+conventional assignment statements, we have to use a temporary variable.  For
+example, to swap <code>a</code> and <code>b</code>:</p>
+
+<pre class="python-interpreter">
+>>> temp = a
+>>> a = b
+>>> b = temp
+</pre>
+
+<p>If we have to do this often, this approach becomes cumbersome.  Python
+provides a form of <b>tuple assignment</b> that solves this problem
+neatly:</p>
+
+<pre class="python-interpreter">
+>>> a, b = b, a
+</pre>
+
+<p>The left side is a tuple of variables; the right side is a tuple of values.  
+Each value is assigned to its respective variable.  All the expressions on the
+right side are evaluated before any of the assignments.  This feature makes
+tuple assignment quite versatile.</p>
+
+<p>Naturally, the number of variables on the left and the number of values on
+the right have to be the same:</p>
+
+<pre class="python-interpreter">
+>>> a, b, c, d = 1, 2, 3
+ValueError: need more than 3 values to unpack 
+</pre>
+
+
+<h2>Tuples as return values</h2>
+<span class="index" value="tuple" />
+<span class="index" value="value!tuple" />
+<span class="index" value="return value!tuple" />
+<span class="index" value="function!tuple as return value" />
+
+<p>Functions can return tuples as return values.  For example, we could write a 
+function that swaps two parameters:</p>
+
+<pre class="python">
+def swap(x, y):
+    return y, x
+</pre>
+
+<p>Then we can assign the return value to a tuple with two variables:</p>
+
+<pre class="python">
+a, b = swap(a, b)
+</pre>
+
+<p>In this case, there is no great advantage in making <code>swap</code> a
+function.  In fact, there is a danger in trying to encapsulate
+<code>swap</code>, which is the following tempting mistake:</p>
+
+<pre class="python">
+def swap(x, y):      # incorrect version
+     x, y = y, x
+</pre>
+
+<p>If we call this function like this:</p>
+
+<pre class="python">
+swap(a, b)
+</pre>
+
+<p>then <code>a</code> and <code>x</code> are aliases for the same value.
+Changing <code>x</code> inside <code>swap</code> makes <code>x</code> refer to
+a different value, but it has no effect on <code>a</code> in
+<code>__main__</code>.  Similarly, changing <code>y</code> has no effect on
+<code>b</code>.</p>
+
+<p>This function runs without producing an error message, but it doesn't do
+what we intended.  This is an example of a semantic error.</p>
+
+<span class="index" value="semantic error" />
+
+
+<h2>Modules</h2>
+<span class="index" value="module" />
+<span class="index" value="standard library" />
+<span class="index" value="import" />
+<span class="index" value="import statement" />
+<span class="index" value="statement!import" />
+<span class="index" value="namespace" />
+
+<p>A <b>module</b> is a file containing Python definitions and statements
+intended for use in other Python programs.  There are many Python modules that
+come bundled with Python as part of the <b>standard library</b>.  We have seen
+two of these already, the <code>math</code> module and the <code>string</code>
+module.</p>
+
+<p>All we need to create a module is a text file with a <code>.py</code>
+extension on the filename:</p>
+
+<pre class="python">
+#  seqtools.py
+#
+def remove_at(pos, seq):
+    return seq[:pos] + seq[pos+1:]
+</pre>
+
+<p>We can now use our module in both scripts and the Python shell.  To do
+so, we must first <b>import</b> the module.  There are two ways to do this:
 </p>
 
 <pre class="python-interpreter">
->>> print eng2sp['two']
-'dos'
+>>> from seqtools import remove_at
+>>> s = "A string!"
+>>> remove_at(4, s)
+'A sting!'
 </pre>
 
-<p>The key <code>'two'</code> yields the value <code>'dos'</code> even though
-it appears in the third key-value pair.</p>
+<p>Using this format, we have brought the <code>remove_at</code> function
+into our top level <b>namespace</b>.  The danger of this kind of import is
+that if there is already another <code>remove_at</code> function imported from
+another module, access to the first function will be lost.</p>
 
-
-<h2>Dictionary operations</h2>
-<span class="index" value="dictionary!operation" />
-<span class="index" value="operation!dictionary" />
-
-<p>The <code>del</code> statement removes a key-value pair from a dictionary.
-For example, the following dictionary contains the names of various fruits and
-the number of each fruit in stock:</p>
+<p>The second way to import a module preserves the module's namespace, but
+requires you to specify the module name when accessing things inside it:</p>
 
 <pre class="python-interpreter">
->>> inventory = {'apples': 430, 'bananas': 312, 'oranges': 525,
-'pears': 217}
->>> print inventory
-{'oranges': 525, 'apples': 430, 'pears': 217, 'bananas': 312}
+>>> import seqtools
+>>> s = "A string!"
+>>> seqtools.remove_at(4, s)
+'A sting!'
 </pre>
 
-<p>If someone buys all of the pears, we can remove the entry from the
-dictionary:</p>
+<p>Notice that we do not include the <code>.py</code> file extension when
+importing.  It must be there for a file to be a Python module, but it is not
+included in the <b>import statement</b>.</p>
+
+<p>The use of modules makes it possible to break up very large programs into
+managable sized parts, and to keep related parts together.  Modules also help
+several programmers work on the same project without having namespace clashes.
+</p>
+
+
+<h2>Comparing values of different types</h2>
+
+<p>Python has a built-in function, <code>max</code>, that finds the maximum
+value of a sequence:</p>
 
 <pre class="python-interpreter">
->>> del inventory['pears']
->>> print inventory
-{'oranges': 525, 'apples': 430, 'bananas': 312}
+>>> max([3, 9, 17, 5])
+17
+>>> max(['banana', 'orange', 'apricot', 'fig'])
+'orange'
 </pre>
 
-<p>Or if we're expecting more pears soon, we might just change the value
-associated with pears:</p>
+<p>If we want to find the maximum value in a nested number list,
+<code>max</code> does not work the way we would like it to, but instead gives
+us a curious result:</p>
 
 <pre class="python-interpreter">
->>> inventory['pears'] = 0
->>> print inventory
-{'oranges': 525, 'apples': 430, 'pears': 0, 'bananas': 312}
+>>> max([3, 9, [1, 17], [7, 2], 5])
+[7, 2]
 </pre>
 
-<p>The <code>len</code> function also works on dictionaries; it returns the
-number of key-value pairs:</p>
+<p>To understand this result, we need to understand how Python compares
+values of different types.  Python permits values of any type to be compared,
+and always returns a result, though the results are sometimes a bit arbitrary:
+</p>
 
 <pre class="python-interpreter">
->>> len(inventory)
-4
-</pre>
-
-
-<h2>Dictionary methods</h2>
-<span class="index" value="dictionary!method" />
-<span class="index" value="method!dictionary" />
-<span class="index" value="method" />
-<span class="index" value="method!invocation" />
-<span class="index" value="invoking method" />
-
-<p>A <b>method</b> is similar to a function---it takes parameters and
-returns a value---but the syntax is different.  For example, the
-<code>keys</code> method takes a dictionary and returns a list of the keys that
-appear, but instead of the function syntax <code>keys(eng2sp)</code>, we use
-the method syntax <code>eng2sp.keys()</code>.</p>
-
-<span class="index" value="dot notation" />
-
-<pre class="python-interpreter">
->>> eng2sp.keys()
-['one', 'three', 'two']
-</pre>
-
-<p>This form of dot notation specifies the name of the method, 
-<code>keys</code>, and the name of the object on which to apply the method,
-<code>eng2sp</code>.  The parentheses indicate that this method takes no
-parameters.</p>
-
-<p>A method call is called an <b>invocation</b>; in this case, we
-would say that we are invoking the <code>keys</code> method on the object
-<code>eng2sp</code>. As we will see in a few chapters when we talk about object 
-oriented programming, the object on which a method is invoked is actually the
-first argument to the method.</p>
-
-<p>The <code>values</code> method is similar; it returns a list of the values
-in the dictionary:</p>
-
-<pre class="python-interpreter">
->>> eng2sp.values()
-['uno', 'tres', 'dos']
-</pre>
-
-<p>The <code>items</code> method returns both, in the form of a list of
-tuples---one for each key-value pair:</p>
-
-<pre class="python-interpreter">
->>> eng2sp.items()
-[('one','uno'), ('three', 'tres'), ('two', 'dos')]
-</pre>
-
-<p>The syntax provides useful type information.  The square brackets indicate
-that this is a list.  The parentheses indicate that the elements of the list
-are tuples.</p>
-
-<p>If a method takes an argument, it uses the same syntax as a function call.
-For example, the method <code>has_key</code> takes a key and returns true (1)
-if the key appears in the dictionary:</p>
-
-<pre class="python-interpreter">
->>> eng2sp.has_key('one')
-True
->>> eng2sp.has_key('deux')
+>>> [1, 2] &gt; (1, 2)
 False
+>>> [1, 2] &lt; (1, 2)
+True
+>>> '12' &gt; [1, 2]
+True
+>>> '12' &gt; (1, 2)
+False
+>>> [1, 2] &gt; 5 
+True
 </pre>
 
-<p>If you try to call a method without specifying an object, you get an error.  
-In this case, the error message is not very helpful:</p>
-
-<pre class="python-interpreter">
->>> has_key('one')
-NameError: name 'has_key' is not defined
-</pre>
-
-<span class="index" value="runtime error" />
-
-
-<h2>Aliasing and copying</h2>
-<span class="index" value="aliasing" />
-<span class="index" value="copying" />
-<span class="index" value="cloning" />
-
-<p>Because dictionaries are mutable, you need to be aware of aliasing.
-Whenever two variables refer to the same object, changes to one affect the
-other.</p>
-
-<p>If you want to modify a dictionary and keep a copy of the original, use the
-<code>copy</code> method.  For example, <code>opposites</code> is a dictionary
-that contains pairs of opposites:</p>
-
-<pre class="python-interpreter">
->>> opposites = {'up': 'down', 'right': 'wrong', 'true': 'false'}
->>> alias = opposites
->>> copy = opposites.copy()
-</pre>
-
-<p><code>alias</code> and <code>opposites</code> refer to the same object;
-<code>copy</code> refers to a fresh copy of the same dictionary.  If we modify
-<code>alias</code>, <code>opposites</code> is also changed:</p>
-
-<pre class="python-interpreter">
->>> alias['right'] = 'left'
->>> opposites['right']
-'left'
-</pre>
-
-<p>If we modify <code>copy</code>, <code>opposites</code> is unchanged:</p>
-
-<pre class="python-interpreter">
->>> copy['right'] = 'privilege'
->>> opposites['right']
-'left'
-</pre>
-
-
-<h2>Sparse matrices </h2>
-<span class="index" value="matrix!sparse" />
-<span class="index" value="nested list" />
-<span class="index" value="list!nested" />
-
-<p>We previously used a list of lists to represent a matrix.  That is a good
-choice for a matrix with mostly nonzero values, but consider a sparse matrix
-like this one:</p>
-
-<img src="illustrations/sparse.png" />
-
-<p>The list representation contains a lot of zeroes:</p>
-
-<pre class="python">
-matrix = [ [0,0,0,1,0],
-   [0,0,0,0,0],
-   [0,2,0,0,0],
-   [0,0,0,0,0],
-   [0,0,0,3,0] ]
-</pre>
-
-<p>An alternative is to use a dictionary.  For the keys, we can use tuples
-that contain the row and column numbers.  Here is the dictionary
-representation of the same matrix:</p>
-
-<pre class="python">
-matrix = {(0,3): 1, (2, 1): 2, (4, 3): 3}
-</pre>
-
-<p>We only need three key-value pairs, one for each nonzero element of the
-matrix.  Each key is a tuple, and each value is an integer.</p>
-
-<p>To access an element of the matrix, we could use the <code>[]</code>
-operator:</p>
-
-<pre class="python">
-matrix[(0, 3)]
-1
-</pre>
-
-<p>Notice that the syntax for the dictionary representation is not the
-same as the syntax for the nested list representation.  Instead of
-two integer indices, we use one index, which is a tuple of integers.</p>
-
-<p>There is one problem.  If we specify an element that is zero, we get an
-error, because there is no entry in the dictionary with that key:</p>
-
-<span class="index" value="runtime error" />
-
-<pre class="python-interpreter">
->>> matrix[(1, 3)]
-KeyError: (1, 3)
-</pre>
-
-<p>The <code>get</code> method solves this problem:</p>
-
-<pre class="python">
->>> matrix.get((0, 3), 0)
-1
-</pre>
-
-<p>The first argument is the key; the second argument is the value
-<code>get</code> should return if the key is not in the dictionary:</p>
-
-<pre class="python">
->>> matrix.get((1, 3), 0)
-0
-</pre>
-
-<p><code>get</code> definitely improves the semantics of accessing a sparse
-matrix.  Shame about the syntax.</p>
-
-
-<h2>Hints</h2>
-<span class="index" value="hint" />
-<span class="index" value="Fibonacci function" />
-
-<p>If you played around with the <code>fibonacci</code> function from
-chapter 5, you might have noticed that the bigger the argument you provide,
-the longer the function takes to run.  Furthermore, the run time increases very 
-quickly.  On one of our machines, <code>fibonacci(20)</code> finishes
-instantly, <code>fibonacci(30)</code> takes about a second, and
-<code>fibonacci(40)</code> takes roughly forever.</p>
-
-<p>To understand why, consider this <b>call graph</b> for
-<code>fibonacci</code> with <code>n=4</code>:</p>
-
-<img src="illustrations/fibonacci.png" />
-
-<p>A call graph shows a set function frames, with lines connecting each frame
-to the frames of the functions it calls.  At the top of the graph,
-<code>fibonacci</code> with <code>n=4</code> calls <code>fibonacci</code> with
-<code>n=3</code> and <code>n=2</code>.  In turn, <code>fibonacci</code> with
-<code>n=3</code> calls <code>fibonacci</code> with <code>n=2</code> and
-<code>n=1</code>.  And so on.</p>
-
-<span class="index" value="function frame" />
-<span class="index" value="frame" />
-<span class="index" value="call graph" />
-
-<p>Count how many times <code>fibonacci(0)</code> and <code>fibonacci(1)</code> 
-are called.  This is an inefficient solution to the problem, and it gets far
-worse as the argument gets bigger.</p>
-
-<p>A good solution is to keep track of values that have already been computed
-by storing them in a dictionary.  A previously computed value that is stored
-for later use is called a <b>hint</b>.  Here is an implementation of
-<code>fibonacci</code> using hints:</p>
-
-<pre class="python">
-previous = {0: 0, 1: 1}
-   
-def fibonacci(n):
-    if previous.has_key(n):
-        return previous[n]
-    else:
-        new_value = fibonacci(n-1) + fibonacci(n-2)
-        previous[n] = new_value
-        return new_value
-</pre>
-
-<p>The dictionary named <code>previous</code> keeps track of the Fibonacci
-numbers we already know.  We start with only two pairs: 0 maps to 1; and 1 maps 
-to 1.</p>
-
-<p>Whenever <code>fibonacci</code> is called, it checks the dictionary to
-determine if it contains the result.  If it's there, the function can return
-immediately without making any more recursive calls.  If not, it has to compute 
-the new value.  The new value is added to the dictionary before the function
-returns.</p>
-
-<p>Using this version of <code>fibonacci</code>, our machines can compute
-<code>fibonacci(100)</code> in an eyeblink.
+<p>So it appears that tuples are greater than strings; strings are greater than
+lists, and lists are greater than integers.  A simple experiment confirms this:
 </p>
 
 <pre class="python-interpreter">
->>> fibonacci(100)
-573147844013817084101L
+>>> (7, ) &gt; '7' &gt; [7] &gt; 7
+True
 </pre>
 
-<p>The <code>L</code> at the end of the number indicates that it is a
-<code>long</code> integer.
+<p>When comparing like types, the first elements are compared.  If they match,
+the second elements are compared, and so forth:</p>
+
+<pre class="python-interpreter">
+>>> [3, 7] &gt; [4, 5]
+False
+>>> [3, 7] &gt; [3, 6, 8]
+True
+</pre>
+
+<p>In the first example, the two items being compared are both lists, so their
+first elements are compared.  Since <code>3</code> is not greater than
+<code>4</code>, <code>[3, 7]</code> is not greater than <code>[4, 5]</code>.
+The second example returns <code>True</code> because <code>7</code> is greater
+than <code>6</code>.</p>
+
+<p>result of <code>max([3, 9, [1, 17], [7, 2], 5])</code> makes sense.
 </p>
 
 
-<h2>Long integers</h2>
-<span class="index" value="long integer" />
-<span class="index" value="data type!long integer" />
-<span class="index" value="integer!long" />
+<h2>A recursive <code>max</code> function</h2>
+<span class="index" value="recursion" />
+<span class="index" value="recursive function" />
 
-<p>Python provides a type called <code>long</code> that can handle any size
-integer (limited only by the amount of memory you have on your computer).
-</p>
+<p>If we want to find the maximum number in a nested number list, we can
+write a recursive function much like the <code>recursive_sum</code> function
+we wrote in the previous chapter.  To illustrate the use of modules to avoid
+namespace clashes, let's name our function <code>max</code> and put it
+in the <code>seqtools</code> module:</p>
 
-<p>There are three ways to create a <code>long</code> value.  The first one is
-to compute an arithmetic expression too large to fit inside an <code>int</code>.
-We already saw this in the <code>fibonacci(100)</code> example above.
-Another way is to write an integer with a capital <code>L</code> at the
-end of your number:</p>
-
-<pre class="python-interpreter">
->>> type(1L)
-&lt;type 'long'>
+<pre class="python">
+# seqtools.py
+#
+def max(nested_list):
+    the_max = nested_list[0]
+    if type(the_max) == type([]):
+        the_max = max(the_max)
+    for item in nested_list[1:]:
+        if type(item) == type([]):
+            its_max = max(item)
+            if its_max > the_max: the_max = its_max
+        else:
+            if item > the_max: the_max = item
+    return the_max
 </pre>
 
-<p>The third is to use the <code>long</code> function to convert a value to a
-<code>long</code>.  The <code>long</code> function, just like the
-<code>int</code> and <code>float</code> functions, can accept any numerical
-type and even strings of digits:</p>
+<p>We can now use both our version and the built-in version of max:</p>
 
 <pre class="python-interpreter">
->>> long(1)
-1L
->>> long(3.9)
-3L
->>> long('57')
-57L
+>>> import seqtools
+>>> max([3, 9, [1, 17], [7, 2], 5])
+[7, 2]
+>>> seqtools.max([3, 9, [1, 17], [7, 2], 5])
+17
 </pre>
 
-<span class="index" value="type coercion" />
-<span class="index" value="coercion!type" />
 
+<h2>Pure functions and modifiers</h2>
+<span class="index" value="pure function" />
+<span class="index" value="function type!pure" />
 
-<h2>Counting letters</h2>
-<span class="index" value="counting" />
-<span class="index" value="histogram" />
-<span class="index" value="compression" />
+<p>Since lists are mutable, it is possible to write functions which take lists
+as arguments and change them during execution.  We saw this in the previous
+chapter with the <code>delete_head</code> function.  Functions like these are
+called <b>modifiers</b> and the changes they make are called
+<b>side effects</b>.</p>
 
-<p>In Chapter 7, we wrote a function that counted the number of occurrences of
-a letter in a string.  A more general version of this problem is to form a
-histogram of the letters in the string, that is, how many times each letter
-appears.</p>
+<p>Lets look at another example of a modifier:</p>
 
-<p>Such a histogram might be useful for compressing a text file.  Because
-different letters appear with different frequencies, we can compress a file by
-using shorter codes for common letters and longer codes for letters that
-appear less frequently.</p>
+<pre class="python">
+def insert_in_middle(val, lst):
+    middle = len(lst)/2
+    lst[middle:middle] = [val]
+</pre>
 
-<p>Dictionaries provide an elegant way to generate a histogram:</p>
+<p>We can use this to place new values in the middle of a list:</p>
 
 <pre class="python-interpreter">
->>> letter_counts = {}
->>> for letter in "Mississippi":
-...   letter_counts[letter] = letter_counts.get (letter, 0) + 1
-...
->>> letter_counts
-{'M': 1, 's': 4, 'p': 2, 'i': 4}
+>>> my_list = ['a', 'b', 'd', 'e']
+>>> insert_in_middle('c', my_lst)
+>>> my_list
+['a', 'b', 'c', 'd', 'e']
 </pre>
 
-<p>We start with an empty dictionary.  For each letter in the string, we find
-the current count (possibly zero) and increment it.  At the end, the dictionary 
-contains pairs of letters and their frequencies.</p>
-
-<p>It might be more appealing to display the histogram in alphabetical order.
-We can do that with the <code>items</code> and <code>sort</code> methods:</p>
+<p>If we try to use it with a tuple,however, we get an error:</p>
 
 <pre class="python-interpreter">
->>> letter_items = letter_counts.items()
->>> letter_items.sort()
->>> print letter_items
-[('M', 1), ('i', 4), ('p', 2), ('s', 4)]
+>>> my_tuple = ('a', 'b', 'd', 'e')
+>>> insert_in_middle('c', my_tuple)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in ?
+  File "&lt;stdin&gt;", line 3, in insert_in_middle
+TypeError: object doesn't support slice assignment
 </pre>
 
-<p>You have seen the <code>items</code> method before, but <code>sort</code> is 
-the first method you have encountered that applies to lists.  There are several 
-other list methods, including <code>append</code>, <code>extend</code>, and
-<code>reverse</code>.  Consult the Python documentation for details.</p>
+<p>The problem is that tuples are immutable, and don't support slice
+assignment.  A simple solution to this problem is to make
+<code>insert_in_middle</code> a pure function:</p>
 
-<span class="index" value="method!list" />
-<span class="index" value="list method" />
+<pre class="python">
+def insert_in_middle(val, tup):
+    middle = len(tup)/2
+    return tup[:middle] + (val,) + tup[middle:]
+</pre>
+
+<p>This version now works for tuples, but not for lists or strings.  If we
+want a version that works for all sequence types, we need a way to encapsulate
+our value into the correct sequence type.  A small helper function does the
+trick:</p>
+
+<pre class="python">
+def encapsulate(val, seq):
+    if type(seq) == type(""):
+        return str(val)
+    if type(seq) == type([]):
+        return [val]
+    return (val,) 
+</pre>
+
+<p>Now we can write <code>insert_in_middle</code> to work with each of the
+built-in sequence types:</p>
+
+<pre class="python">
+def insert_in_middle(val, seq):
+    middle = len(seq)/2
+    return seq[:middle] + encapsulate(val, seq) + seq[middle:]
+</pre>
+
+<p>The last to versions of <code>insert_in_middle</code> are pure functions,
+and they don't have any side effects:</p>
+
+<pre class="python-interpreter">
+>>> my_string = 'abde'
+>>> insert_in_middle('c', my_string)
+'abcde'
+>>> my_string
+'abde'
+</pre>
+
+<p>If we want to use <code>insert_in_middle</code> to change the value of
+<code>my_string</code>, we have to assign the value returned by the
+function call back to the variable:</p>
+
+<pre class="python-interpreter">
+>>> my_string = insert_in_middle('c', my_string)
+>>> my_string
+'abcde' 
+</pre>
+
+
+<h2>Which is better?</h2>
+<span class="index" value="functional programming style" />
+
+<p>Anything that can be done with modifiers can also be done with pure
+functions.  In fact, some programming languages only allow pure functions.
+There is some evidence that programs that use pure functions are faster to
+develop and less error-prone than programs that use modifiers.  Nevertheless,
+modifiers are convenient at times, and in some cases, functional programs are
+less efficient.</p>
+
+<p>In general, we recommend that you write pure functions whenever it is
+reasonable to do so and resort to modifiers only if there is a compelling
+advantage.  This approach might be called a
+<b>functional programming style</b>.</p>
 
 
 <h2>Glossary</h2>
-<span class="index" value="dictionary" />
-<span class="index" value="key" />
-<span class="index" value="key-value pair" />
-<span class="index" value="hint" />
-<span class="index" value="method" />
-<span class="index" value="invoke" />
+<span class="index" value="mutable type" />
+<span class="index" value="immutable type" />
+<span class="index" value="tuple" />
+<span class="index" value="tuple assignment" />
+<span class="index" value="assignment!tuple" />
+<span class="index" value="module" />
+<span class="index" value="standard library" />
+<span class="index" value="namespace" />
 
 <dl>
-<dt>dictionary:</dt>
-<dd>A collection of key-value pairs that maps from keys to values.  The keys
-can be any immutable type, and the values can be any type.</dd>
+<dt>immutable type:</dt>
+<dd>A type in which the elements cannot be modified.  Assignments to elements
+or slices of immutable types cause an error.</dd>
 
-<dt>key:</dt>
-<dd>A value that is used to look up an entry in a dictionary.</dd>
+<dt>mutable type:</dt>
+<dd>A data type in which the elements can be modified.  All mutable types are
+compound types.  Lists and dictionaries (see next chapter) are mutable data
+types; strings and tuples are not.</dd>
 
-<dt>key-value pair:</dt>
-<dd>One of the items in a dictionary.</dd>
+<dt>tuple:</dt>
+<dd>A sequence type that is similar to a list except that it is immutable.
+Tuples can be used wherever an immutable type is required, such as a key in a
+dictionary.</dd>
 
-<dt>method:</dt>
-<dd>A kind of function that is called with a different syntax and invoked
-<q>on</q> an object.</dd>
+<dt>tuple assignment:</dt>
+<dd>An assignment to all of the elements in a tuple using a single assignment
+statement. Tuple assignment occurs in parallel rather than in sequence, making
+it useful for swapping values.</dd>
 
-<dt>invoke:</dt>
-<dd>To call a method.</dd>
+<dt>module:</dt>
+<dd>A file containing definitions and statements intended to be
+<em>imported</em> by other programs.  File names for Python modules must end in 
+a <code>.py</code> file extention, and the module name is the filename without
+the extention.</dd>
 
-<dt>hint:</dt>
-<dd>Temporary storage of a precomputed value to avoid redundant computation.
+<dt>namespace:</dt>
+<dd>
+A container providing a context for names so that the same name can reside in
+different namespaces without ambiguity.  In Python, modules, classes, functions and methods all form namespaces.
 </dd>
 
-<dt>overflow:</dt>
-<dd>A numerical result that is too large to be represented in a numerical
-format.</dd>
 </dl>
 
 
 <h2>Exercises</h2>
 <ol>
-
 <li><div class="exercise">
-<p>Write a program that reads in a string on the command line and returns a
-table of the letters of the alphabet in alphabetical order which occur in
-the string together with the number of times each letter occurs.  Case
-should be ignored.   A sample run of the program would look this this:</p>
-
-<pre class="shell">
-$ python letter_counts.py "ThiS is String with Upper and lower case Letters."
-a  2
-c  1
-d  1
-e  5
-g  1
-h  2
-i  4
-l  2
-n  2
-o  1
-p  2
-r  4
-s  5
-t  5
-u  1
-w  2
-$
+<pre class="python">
+def swap(x, y):      # incorrect version
+     x, y = y, x
 </pre>
+Draw a state diagram for this function so that you can see why it doesn't work.
 </div></li>
 
 </ol>
