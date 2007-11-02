@@ -5,7 +5,6 @@
 <body>
 
 <h1>Case Study: </h1>
-<span class="index" value="" />
 
 
 <h2>Using <code>while</code> to move a ball</h2>
@@ -64,11 +63,11 @@ Some new things to learn about GASP from this example:
 
 
 <h2>Glossary</h2>
-<span class="index" value="search" />
 
 <dl>
-<dt>search:</dt>
+<dt>:</dt>
 <dd>.</dd>
+</dl>
 
 
 <h2>Exercises</h2>
