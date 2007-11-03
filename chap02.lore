@@ -765,7 +765,7 @@ to <code>10</code>.
 Write a program (Python script) named <code>madlib.py</code>, which asks the
 user to enter a series of nouns, verbs, adjectives, adverbs, plural nouns,
 past tense verbs, etc., and then generates a paragraph which is syntactically
-correct but symantically ridiculus (see
+correct but semantically ridiculous (see
 <a href="http://madlibs.org">http://madlibs.org</a> for examples).
 </div></li>
 </ol>
