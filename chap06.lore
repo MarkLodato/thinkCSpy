@@ -212,7 +212,7 @@ program generates after each instruction is executed.</p>
 <p>To understand this process, let's trace the call to <code>sequence(3)</code>
 from the previous section.  At the start of the trace, we have a local
 variable, <code>n</code> (the parameter), with an initial value of 3.  Since 
-3 is not equal to 1, the <code>while</code> loop body is executated.  3 is
+3 is not equal to 1, the <code>while</code> loop body is executed.  3 is
 printed and <code>3 % 2 == 0</code> is evaluated.  Since it evaluates to
 <code>False</code>, the <code>else</code> branch is executed and
 <code>3 * 3 + 1</code> is evaluated and assigned to <code>n</code>.
@@ -285,7 +285,7 @@ again.  As long as they keep answering with 'y', they can continue playing.</p>
 <span class="index" value="module!math" />
 
 <p>Python has a <b>math module</b> that contains mathematical functions
-for performing triginometric, exponential, and logrithmic calculations. 
+for performing triginometric, exponential, and logarithmic calculations. 
 To use it, add <code>import math</code> to the top of the program.  We can
 look inside the math module by using Python's <code>dir</code> function:
 </p>
@@ -333,7 +333,7 @@ you down a line.  The <q>q</q> key will quit help.
 <p>
 <code>math.e</code> and <code>math.pi</code> are numeric constants representing 
 the numbers e and &pi;.   The rest of the module consists of triginometric,
-logorithmic, and exponential functions.  To use anything within the module,
+logarithmic, and exponential functions.  To use anything within the module,
 write <code>math.</code> followed by the function or constant name:
 </p>
 
@@ -614,9 +614,9 @@ by writing lines of code outside any function, or typing them in to the
 interpreter.  When we get the code working, we extract it and wrap it up in a
 function.</p>
 
-<p>This development plan is particularly useful if you don't know, when you
-start writing, how to divide the program into functions.  This approach lets
-you design as you go along.</p>
+<p>This development plan is particularly useful if you don't know how to divide 
+the program into functions when you start writing.  This approach lets you
+design as you go along.</p>
 
 
 <h2>Local variables</h2>
@@ -823,7 +823,7 @@ terminating condition is satisfied.</dd>
 <dd>A loop in which the terminating condition is never satisfied.</dd>
 
 <dt>trace:</dt>
-<dd>To follow the flow of executation of a program by hand, recording the
+<dd>To follow the flow of execution of a program by hand, recording the
 change of state of the variables and any output produced.</dd>
 
 <dt>initialization (of a variable):</dt>
@@ -892,7 +892,7 @@ Write a single string that
 </div></li>
 
 <li><div class="exercise">
-Modify the while loop at the end of section 6.6 so that it outputs the powers
+Modify the while loop at the end of section 6.7 so that it outputs the powers
 of two up to 65,536 (that's 2<sup>16</sup>).  Print it out and memorize it.
 </div></li>
 
@@ -905,6 +905,40 @@ figure out how it works.
 Write a function, <code>is_prime</code>, which takes a single integral argument
 and returns <code>True</code> when the argument is a <b>prime number</b>  and
 <code>False</code> otherwise.  Add doctests to your function as you develop it.
+</div></li>
+
+<li><div class="exercise">
+Write a function <code>print_triangular_numbers(n)</code> that prints out
+the first n triangular numbers.  A call to
+<code>print_triangular_numbers(5)</code> would produce the following output:
+<pre class='shell'>
+1       1
+2       3
+3       6
+4       10
+5       15
+</pre>
+(<em>hint: use a web search to find out what a triangular number is.</em>)
+</div></li>
+
+<li><div class="exercise">
+<pre class='python'>
+def print_digits(n):
+    """
+      >>> print_digits(13789)
+      9 8 7 3 1
+      >>> print_digits(39874613)
+      3 1 6 4 7 8 9 3
+      >>> print_digits(213141)
+      1 4 1 3 1 2
+    """
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+</pre>
+Add a body to the function <code>print_digits</code> so that it passes the
+given doctests. (<em>hint: 937 % 10 is 7 and 937 / 10 is 93.)
 </div></li>
 </ol>
 
