@@ -940,6 +940,48 @@ if __name__ == '__main__':
 Add a body to the function <code>print_digits</code> so that it passes the
 given doctests. (<em>hint: 937 % 10 is 7 and 937 / 10 is 93</em>)
 </div></li>
+
+<li><div class="exercise">
+<pre class='python'>
+def num_digits(n):
+    """
+      >>> num_digits(12345)
+      5
+      >>> num_digits(12345678)
+      8
+      >>> num_digits(246)
+      3
+      >>> num_digits(8)
+      1
+      >>> num_digits(9876543210987)
+      13
+    """
+</pre>
+Write a body for the function above so that it passes all the doctests.
+</div></li>
+
+<li><div class="exercise">
+Write a function <code>sum_of_squares_of_digits</code> that computes the sum
+of the squares of the digits of an integer passed to it.  For example,
+<code>sum_of_squares_of_digits(987)</code> should return 194, since
+<code>9**2 + 8**2 + 7**2 == 81 + 64 + 49 == 194</code>.
+<pre class='python'>
+def sum_of_squares_of_digits(n):
+    """
+      >>> sum_of_squares_of_digits(1)
+      1
+      >>> sum_of_squares_of_digits(9)
+      81
+      >>> sum_of_squares_of_digits(11)
+      20
+      >>> sum_of_squares_of_digits(121)
+      6
+      >>> sum_of_squares_of_digits(987)
+      194
+    """
+</pre>
+Check your solution against the doctests above.
+</div></li>
 </ol>
 
 </body>
