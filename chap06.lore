@@ -182,7 +182,7 @@ false.</p>
 <p>Each time through the loop, the program outputs the value of <code>n</code>
 and then checks whether it is even or odd.  If it is even, the value of
 <code>n</code> is divided by 2.  If it is odd, the value is replaced by
-<code>n*3+1</code>. For example, if the starting value (the argument passed
+<code>n * 3 + 1</code>. For example, if the starting value (the argument passed
 to sequence) is 3, the resulting sequence is 3, 10, 5, 16, 8, 4, 2, 1.</p>
 
 <p>Since <code>n</code> sometimes increases and sometimes decreases, there is
@@ -196,6 +196,67 @@ reaches 1. The previous example ends with such a sequence, starting with 16.
 <p>Particular values aside, the interesting question is whether we can prove
 that this program terminates for <em>all</em> values of <code>n</code>.  So
 far, no one has been able to prove it <em>or</em> disprove it!</p>
+
+
+<h2>Tracing a program</h2>
+<span class="index" value="hand trace" />
+<span class="index" value="tracing a program" />
+<span class="index" value="program tracing" />
+
+<p>To write effective computer programs a programmer needs to develop the
+ability to <b>trace</b> the execution of a computer program.  Tracing involves
+<q>becoming the computer</q> and following the flow of execution through a
+sample program run, recording the state of all variables and any output the
+program generates after each instruction is executed.</p>
+
+<p>To understand this process, let's trace the call to <code>sequence(3)</code>
+from the previous section.  At the start of the trace, we have a local
+variable, <code>n</code> (the parameter), with an initial value of 3.  Since 
+3 is not equal to 1, the <code>while</code> loop body is executated.  3 is
+printed and <code>3 % 2 == 0</code> is evaluated.  Since it evaluates to
+<code>False</code>, the <code>else</code> branch is executed and
+<code>3 * 3 + 1</code> is evaluated and assigned to <code>n</code>.
+</p>
+
+<p>To keep track of all this as you hand trace a program, make a column heading
+on a piece of paper for each variable created as the program runs and another
+one for output.  Our trace so far would look something like this:</p>
+
+<pre class='boxed'>
+   n              output
+  ---             ------
+   3                 3
+   10
+</pre>
+
+<p>Since <code>10 != 1</code> evaluates to <code>True</code>, the loop body
+is again executed, and 10 is printed.  <code>10 % 2 == 0</code> is true, so
+the <code>if</code> branch is executed and <code>n</code> becomes 5.  By the
+end of the trace we have:</p>
+
+<pre class='boxed'>
+   n              output
+  ---             ------
+   3                 3
+   10                10
+   5                 5
+   16                16
+   8                 8
+   4                 4
+   2                 2
+   1
+</pre>
+
+<p>Tracing can be a bit tedious and error prone (that's why we get computers
+to do this stuff in the first place!), but it is an essential skill for a
+programmer to have.  From this trace we can learn a lot about the way our
+code works.  We can observe that as soon as n becomes a power of 2, for example,
+the program will require log<sub>2</sub>(n) executions of the loop body to
+complete.  We can also see that the final 1 will not be printed as output.
+</p>
+
+
+<h2>Creating a main loop</h2>
 
 <p>Looping is also very useful for enabling users to control how many times
 parts of a program are executed.</p>
@@ -724,6 +785,8 @@ and debug one, you can reuse it.</li>
 <span class="index" value="loop!body" />
 <span class="index" value="loop" />
 <span class="index" value="infinite loop" />
+<span class="index" value="trace" />
+<span class="index" value="program trace" />
 <span class="index" value="initialize a variable" />
 <span class="index" value="variable!initialization" />
 <span class="index" value="math module" />
@@ -758,6 +821,10 @@ terminating condition is satisfied.</dd>
 
 <dt>infinite loop:</dt>
 <dd>A loop in which the terminating condition is never satisfied.</dd>
+
+<dt>trace:</dt>
+<dd>To follow the flow of executation of a program by hand, recording the
+change of state of the variables and any output produced.</dd>
 
 <dt>initialization (of a variable):</dt>
 <dd>
