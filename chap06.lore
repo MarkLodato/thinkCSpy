@@ -938,7 +938,7 @@ if __name__ == '__main__':
     doctest.testmod()
 </pre>
 Add a body to the function <code>print_digits</code> so that it passes the
-given doctests. (<em>hint: 937 % 10 is 7 and 937 / 10 is 93.)
+given doctests. (<em>hint: 937 % 10 is 7 and 937 / 10 is 93</em>)
 </div></li>
 </ol>
 
