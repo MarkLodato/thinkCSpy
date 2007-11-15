@@ -1,10 +1,10 @@
 <html>
 <head>
-  <title>Case Study: </title>
+  <title>Case Study: Target Practice</title>
 </head>
 <body>
 
-<h1>Case Study: </h1>
+<h1>Case Study: Target Practice</h1>
 
 
 <h2>Using <code>while</code> to move a ball</h2>
@@ -20,7 +20,7 @@ begin_graphics(800, 600, background=color.yellow)
 
 x = 5
 y = 5
-ball = Circle((x, y), 5, filled=True)
+ball = Circle((x, y), 10, filled=True)
 dx = 4
 dy = 3
 
@@ -37,6 +37,11 @@ end_graphics()
 looks like this:</p>
 
 <img src="illustrations/gasp03.png" />
+
+<p>
+Trace the first few iterations of this program to be sure you see what is
+happening to the variables <code>x</code> and <code>y</code>.
+</p>
 
 <p>
 Some new things to learn about GASP from this example:
