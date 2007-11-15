@@ -973,7 +973,7 @@ def sum_of_squares_of_digits(n):
       >>> sum_of_squares_of_digits(9)
       81
       >>> sum_of_squares_of_digits(11)
-      20
+      2
       >>> sum_of_squares_of_digits(121)
       6
       >>> sum_of_squares_of_digits(987)
