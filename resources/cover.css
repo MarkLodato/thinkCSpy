@@ -1,0 +1,105 @@
+/* DESIGNED BY DAVID COX*/
+
+body {
+    background: url(images/mainbg.png) repeat-x;
+    margin: 0px;
+    margin: auto;
+    width: 750px;
+}
+#main {
+    background: url(images/mainbody.png) repeat-y;
+    width: 750px;
+    padding: 0px;
+}
+#wrap {
+    width: 750px;
+    margin: 0px;
+    margin: auto;
+    padding: 25px 0px 25px;
+}
+#content {
+    width: 650px;
+    margin: 0px;
+    margin: auto;
+    padding: 0px;
+}
+p {
+    color: #666;
+    padding: 0px;
+    padding-bottom: 10px;
+}
+h1 {
+    font: 30px sans;
+    color: #000;
+    margin: 0px;
+    padding: 0px 10px 0px;
+    text-align: center;
+}
+h2 {
+    font: italic 20px sans;
+    color: #666; margin: 0px;
+    padding: 5px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+h3 {
+    font: 15px sans;
+    color: #333;
+    margin: 0px;
+    padding: 20px;
+    text-align: center;
+}
+h4 {
+    font: 15px sans;
+    color: #333;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+}
+.divider {
+    border-bottom: 1px dotted #ccc;
+    width: 200px;
+    margin: auto;
+}
+
+/* CAPS !IMPORTANT! */
+#topcap {
+    background: url(images/topcap.png) no-repeat;
+    height: 50px;
+    width: 750px;
+    padding: 0px;
+}
+#bottomcap {
+    background: url(images/bottomcap.png) no-repeat;
+    height: 50px;
+    width: 750px;
+    padding: 0px;
+}
+
+/* TABLE OF CONTENTS */
+#content p {
+    font: 15px sans;
+    margin: 0px;
+    padding-bottom: 13px;
+    text-align: left;
+    color: #666;
+}
+#content a {
+    color: #009100;
+    text-decoration: none;
+}
+#content a:hover {
+    color: #000;
+}
+
+/* FOOTER */
+#footer {
+    width: 700px;
+    margin: auto;
+    margin-top: -45px;
+    font: 11px arial;
+}
+#footer p {
+    padding: 0px;
+    color: #999;
+}
