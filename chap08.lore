@@ -327,6 +327,22 @@ True
 True
 </pre>
 
+<p>Combining the <code>in</code> operator with sting concatination using
+<code>+</code>, we can write a function that removes all the vowels from
+a string:</p>
+
+<pre class='python'>
+def remove_vowels(s):
+    vowels = "aeiouAEIOU"
+    s_without_vowels = ""
+    for letter in s:
+        if letter not in vowels:
+            s_without_vowels = s_without_vowels + letter
+    return s_without_vowels 
+</pre>
+
+<p>Test this function to confirm that it does what we wanted it to do.</p> 
+
 
 <h2>A <code>find</code> function</h2>
 <a name="find" />
@@ -458,14 +474,15 @@ well as an upper bound to accomodate this change.</p>
 <span class="index" value="doc string" />
 
 <p>The <code>string</code> module contains useful functions that manipulate
-strings.  As usual, we have to import the module before we can use it:</p>
+strings.  In recent versions of Python the 
+As usual, we have to import the module before we can use it:</p>
 
 <pre class="python-interpreter">
 >>> import string
 </pre>
 
 <p>To see what is inside it, use the <code>dir</code> function with the module
-name as an argument:</p>
+name as an argument.</p>
 
 <pre class="python-interpreter">
 >>> dir(string)
@@ -486,7 +503,7 @@ name as an argument:</p>
 </code></p>
 
 <p>To find out more about an item in this list, we can use the
-<code>type</code> function.  We need to specify the module name followed by the 
+<code>type</code> command.  We need to specify the module name followed by the 
 item using <b>dot notation</b>.</p>
 
 <pre class="python-interpreter">
@@ -706,12 +723,8 @@ white-space characters.</dd>
 
 
 <h2>Exercises</h2>
-<ol>
-<li><div class="exercise">
-Write a function that takes a string as an argument and outputs the letters
-backward, one per line.
-</div></li>
 
+<ol>
 <li><div class="exercise">
 Modify:
 <pre class="python">
@@ -748,6 +761,70 @@ third parameter to locate new occurences of the letter being counted.
 Which version of <code>is_lower</code> do you think will be fastest?  Can you
 think of other reasons besides speed to prefer one version or the other?
 </div></li>
+
+<li><div class="exercise">
+Create a file named <code>string_tools.py</code> and put the following in
+it:
+<pre class='python'>
+def reverse(s):
+    """
+      >>> reverse('happy')
+      'yppah' 
+      >>> reverse('Python')
+      'nohtyP' 
+      >>> reverse("")
+      '' 
+      >>> reverse("P")
+      'p' 
+    """
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+</pre>
+Add a function body to <code>reverse</code> to make the doctests pass.
+</div></li>
+
+<li><div class="exercise">
+Add <code>mirror</code> to <code>string_tools.py</code> .
+<pre class='python'>
+def mirror(s):
+    """
+      >>> mirror("good")
+      'gooddoog'
+      >>> mirror("yes")
+      'yessey'
+      >>> mirror('Python')
+      'PythonnohtyP'
+      >>> mirror("")
+      ''
+      >>> mirror("a")
+      'aa'
+    """
+</pre>
+Write a function body for it that will make it work as indicated by the
+doctests.
+</div></li>
+
+<li><div class="exercise">
+Include <code>remove_letter</code> in <code>string_tools.py</code> .
+<pre class='python'>
+def remove_letter(letter, strng):
+    """
+      >>> remove_letter('a', 'apple')
+      'pple'
+      >>> remove_letter('a', 'banana')
+      'bnn'
+      >>> remove_letter('z', 'banana')
+      'banana'
+      >>> remove_letter('i', 'Mississippi')
+      'Msssspp'
+    """
+</pre>
+Write a function body for it that will make it work as indicated by the
+doctests.
+</div></li>
+
 </ol>
 
 </body>
