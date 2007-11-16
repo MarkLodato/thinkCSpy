@@ -256,6 +256,30 @@ complete.  We can also see that the final 1 will not be printed as output.
 </p>
 
 
+<h2>Counting digits</h2>
+
+<p>The following program counts the number of decimal digits in a positive
+integer expressed in decimal format:</p>
+
+<pre class='python'>
+def num_digits(n):
+    count = 0
+    while n:
+        count = count + 1
+        n = n / 10
+    return count
+</pre>
+
+<p>A call to <code>num_digits(710)</code> will return <code>3</code>.  You
+should trace the execution of this call to convince yourself that it works.</p>
+
+<p>This function demonstrates another pattern of computation called a
+<b>counter</b>.  The variable <code>count</code> is initialized to 0 and then
+incremented each time the loop body is executed.  When the loop exits,
+<code>count</code> contains the result -- the total number of times the loop
+body was executed, which is the same as the number of digits.</p>
+
+
 <h2>Creating a main loop</h2>
 
 <p>Looping is also very useful for enabling users to control how many times
@@ -922,6 +946,12 @@ the first n triangular numbers.  A call to
 </div></li>
 
 <li><div class="exercise">
+What will <code>num_digits(0)</code> return?  Modify it to return
+<code>1</code> for this case?  Why does a call to <code>num_digits(-24)</code>
+result in an infinite loop (<em>hint: -1/10 evaluates to -1</em>)?
+</div></li>
+
+<li><div class="exercise">
 <pre class='python'>
 def print_digits(n):
     """
@@ -939,25 +969,6 @@ if __name__ == '__main__':
 </pre>
 Add a body to the function <code>print_digits</code> so that it passes the
 given doctests. (<em>hint: 937 % 10 is 7 and 937 / 10 is 93</em>)
-</div></li>
-
-<li><div class="exercise">
-<pre class='python'>
-def num_digits(n):
-    """
-      >>> num_digits(12345)
-      5
-      >>> num_digits(12345678)
-      8
-      >>> num_digits(246)
-      3
-      >>> num_digits(8)
-      1
-      >>> num_digits(9876543210987)
-      13
-    """
-</pre>
-Write a body for the function above so that it passes all the doctests.
 </div></li>
 
 <li><div class="exercise">

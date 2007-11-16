@@ -387,24 +387,18 @@ and stop looking.</p>
 <span class="index" value="pattern" />
 
 <p>The following program counts the number of times the letter <code>a</code>
-appears in a string:</p>
+appears in a string, and is another example of the counter pattern introduced
+in chapter 6:</p>
 
 <pre class="python">
 fruit = "banana"
 count = 0
 for char in fruit:
     if char == 'a':
-        count = count + 1
+        count += 1
 print count
 </pre>
 
-<p>This program demonstrates another pattern of computation called a
-<b>counter</b>.  The variable <code>count</code> is initialized to 0
-and then incremented each time an <code>a</code> is found.
-(To <b>increment</b> is to increase by one; it is the opposite of
-<b>decrement</b>, and unrelated to <q>excrement,</q> which is a noun.)
-When the loop exits, <code>count</code> contains the result---the total number
-of <code>a</code>'s.</p>
 
 
 <h2>Optional paramters</h2>
@@ -744,7 +738,7 @@ fruit = "banana"
 count = 0
 for char in fruit:
     if char == 'a':
-    count = count + 1
+        count += 1
 print count
 </pre>
 in a function named <code>count_letters</code>, and generalize it so that it
