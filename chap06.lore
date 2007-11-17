@@ -297,7 +297,7 @@ def num_zero_and_five_digits(n):
 </p>
 
 
-<h2><code>+=</code>, <code>-=</code>, <code>*=</code>, and <code>/=</code></h2>
+<h2>Abbreviated assignment</h2>
 
 <p>Incrementing a variable is so common that Python provides an abbreviated
 syntax for it:</p>
@@ -307,7 +307,41 @@ syntax for it:</p>
 >>> count += 1
 >>> count
 1
+>>> count += 1
+>>> count
+2
 >>>
+</pre>
+
+<p>
+<code>count += 1</code> is an abreviation for <code>count = count + 1</code> .
+The increment value does not have to be 1:</p>
+
+<pre class='python-interpreter'>
+>>> n = 2
+>>> n += 5
+>>> n
+7
+>>>
+</pre>
+
+<p>There are also abbreviations for <code>-=</code>, <code>*=</code>,
+<code>/=</code>, and <code>%=</code>:</p>
+
+<pre class='python-interpreter'>
+>>> n = 2
+>>> n *= 5
+>>> n
+10
+>>> n -= 4
+>>> n
+6
+>>> n /= 2
+>>> n
+3
+>>> n %= 2
+>>> n
+1
 </pre>
 
 
@@ -437,7 +471,7 @@ import math
 x = 1.0
 while x &lt; 10.0:
     print x, '\t', math.log(x)
-    x = x + 1.0
+    x += 1.0
 </pre>
 
 <p>The string '\t' represents a <b>tab</b> character.</p>
@@ -501,7 +535,7 @@ this:</p>
 x = 1.0
 while x &lt; 100.0:
     print x, '\t', math.log(x)/math.log(2.0)
-    x = x * 2.0
+    x *= 2.0
 </pre>
 
 <p>Now instead of adding something to <code>x</code> each time through the
@@ -555,7 +589,7 @@ on one line:</p>
 i = 1
 while i &lt;= 6:
     print 2*i, '   ',
-    i = i + 1
+    i += 1
 print
 </pre>
 
@@ -603,7 +637,7 @@ def print_multiples(n):
     i = 1
     while i &lt;= 6:
         print n*i, '\t',
-        i = i + 1
+        i += 1
     print
 </pre>
 
@@ -632,7 +666,7 @@ fact, we can use another loop:</p>
 i = 1
 while i &lt;= 6:
     print_multiples(i)
-    i = i + 1
+    i += 1
 </pre>
 
 <p>Notice how similar this loop is to the one inside
@@ -661,7 +695,7 @@ def print_mult_table():
     i = 1
     while i &lt;= 6:
         print_multiples(i)
-        i = i + 1
+        i += 1
 </pre>
 
 <p>This process is a common <b>development plan</b>.  We develop code 
@@ -725,7 +759,7 @@ def print_mult_table(high):
     i = 1
     while i &lt;= high:
         print_multiples(i)
-        i = i + 1
+        i += 1
 </pre>
 
 <p>We replaced the value 6 with the parameter <code>high</code>.  If we call
@@ -755,14 +789,14 @@ def print_multiples(n, high):
     i = 1
     while i &lt;= high:
         print n*i, '\t',
-        i = i + 1
+        i += 1
     print
    
 def print_mult_table(high):
     i = 1
     while i &lt;= high:
         print_multiples(i, high)
-        i = i + 1
+        i += 1
 </pre>
 
 <p>Notice that when we added a new parameter, we had to change the first line
@@ -983,11 +1017,45 @@ the first n triangular numbers.  A call to
 
 <li><div class="exercise">
 What will <code>num_digits(0)</code> return?  Modify it to return
-<code>1</code> for this case?  Why does a call to <code>num_digits(-24)</code>
-result in an infinite loop (<em>hint: -1/10 evaluates to -1</em>)?
+<code>1</code> for this case.  Why does a call to <code>num_digits(-24)</code>
+result in an infinite loop (<em>hint: -1/10 evaluates to -1</em>)?  Modify
+<code>num_digits</code> so that it works correctly with any integer value.
+<br /><br />
+Add the following to a file named <code>chapter06.py</code>:
+<pre class='python'>
+def num_digits(n):
+    """
+      >>> num_digits(12345)
+      5
+      >>> num_digits(0)
+      1
+      >>> print_digits(-12345)
+      5
+    """
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+</pre>
+Add your function body to <code>num_digits</code> and confirm that it passes
+the doctests.
 </div></li>
 
 <li><div class="exercise">
+<pre class='python'>
+def num_even_digits(n):
+    """
+      >>> num_even_digits(123456)
+      3
+      >>> num_even_digits(2468)
+      4
+    """
+</pre>
+</div></li>
+
+<li><div class="exercise">
+Add the following to the <code>chapter06.py</code> file you created in the
+previous exercise:
 <pre class='python'>
 def print_digits(n):
     """
@@ -998,13 +1066,8 @@ def print_digits(n):
       >>> print_digits(213141)
       1 4 1 3 1 2
     """
-
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
 </pre>
-Add a body to the function <code>print_digits</code> so that it passes the
-given doctests. (<em>hint: 937 % 10 is 7 and 937 / 10 is 93</em>)
+Write a body for <code>print_digits</code> so that it passes the given doctests.
 </div></li>
 
 <li><div class="exercise">
