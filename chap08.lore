@@ -658,9 +658,6 @@ documentation, it's available from the Python website,
 <span class="index" value="index" />
 <span class="index" value="slice" />
 <span class="index" value="mutable" />
-<span class="index" value="counter" />
-<span class="index" value="increment" />
-<span class="index" value="decrement" />
 <span class="index" value="optional parameter" />
 <span class="index" value="default value" />
 <span class="index" value="dot notation" />
@@ -685,16 +682,6 @@ character from a string.</dd>
 
 <dt>mutable:</dt>
 <dd>A compound data types whose elements can be assigned new values.</dd>
-
-<dt>counter:</dt>
-<dd>A variable used to count something, usually initialized to zero and then
-incremented.</dd>
-
-<dt>increment:</dt>
-<dd>To increase the value of a variable by one.</dd>
-
-<dt>decrement:</dt>
-<dd>To decrease the value of a variable by one.</dd>
 
 <dt>optional parameter:</dt>
 <dd>A parameter written in a function header with an assignment to a default

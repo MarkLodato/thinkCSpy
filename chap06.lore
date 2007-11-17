@@ -82,8 +82,8 @@ Traceback (most recent call last):
 NameError: name 'x' is not defined
 </pre>
 
-<p>Before you can update a variable, you have to initialize it, usually with
-a simple assignment:</p>
+<p>Before you can update a variable, you have to <b>initialize</b> it, usually
+with a simple assignment:</p>
 
 <pre class='python'>
 >>> x = 0
@@ -258,7 +258,7 @@ complete.  We can also see that the final 1 will not be printed as output.
 
 <h2>Counting digits</h2>
 
-<p>The following program counts the number of decimal digits in a positive
+<p>The following function counts the number of decimal digits in a positive
 integer expressed in decimal format:</p>
 
 <pre class='python'>
@@ -270,14 +270,45 @@ def num_digits(n):
     return count
 </pre>
 
-<p>A call to <code>num_digits(710)</code> will return <code>3</code>.  You
-should trace the execution of this call to convince yourself that it works.</p>
+<p>A call to <code>num_digits(710)</code> will return <code>3</code>.  Trace
+the execution of this function call to convince yourself that it works.</p>
 
 <p>This function demonstrates another pattern of computation called a
 <b>counter</b>.  The variable <code>count</code> is initialized to 0 and then
 incremented each time the loop body is executed.  When the loop exits,
 <code>count</code> contains the result -- the total number of times the loop
 body was executed, which is the same as the number of digits.</p>
+
+<p>If we wanted to only count digits that are either 0 or 5, adding a
+conditional before incrementing the counter will do the trick:</p>
+
+<pre class='python'>
+def num_zero_and_five_digits(n):
+    count = 0
+    while n:
+        digit = n % 10
+        if digit == 0 or digit == 5:
+            count = count + 1
+        n = n / 10
+    return count
+</pre>
+
+<p>Confirm that <code>num_zero_and_five_digits(1055030250)</code> returns 7.
+</p>
+
+
+<h2><code>+=</code>, <code>-=</code>, <code>*=</code>, and <code>/=</code></h2>
+
+<p>Incrementing a variable is so common that Python provides an abbreviated
+syntax for it:</p>
+
+<pre class='python-interpreter'>
+>>> count = 0
+>>> count += 1
+>>> count
+1
+>>>
+</pre>
 
 
 <h2>Creating a main loop</h2>
@@ -296,7 +327,7 @@ while choice == 'y':
     choice = raw_input("Would you like to play again? (y/n): ")
 </pre>
 
-<p>The variable <code>choice</code> is <b>initialized</b> to <code>'y'</code>.
+<p>The variable <code>choice</code> is initialized to <code>'y'</code>.
 This makes the condition of the while loop true the first time it is evaluated,
 and assures that users get to play the game at least once.  After the game
 finishes (and we assume the call to <code>play_game()</code> would do something
@@ -803,6 +834,8 @@ and debug one, you can reuse it.</li>
 <h2>Glossary</h2>
 <span class="index" value="multiple assignment" />
 <span class="index" value="assignment!multiple" />
+<span class="index" value="initialize a variable" />
+<span class="index" value="variable!initialization" />
 <span class="index" value="increment" />
 <span class="index" value="decrement" />
 <span class="index" value="iteration" />
@@ -811,8 +844,7 @@ and debug one, you can reuse it.</li>
 <span class="index" value="infinite loop" />
 <span class="index" value="trace" />
 <span class="index" value="program trace" />
-<span class="index" value="initialize a variable" />
-<span class="index" value="variable!initialization" />
+<span class="index" value="counter" />
 <span class="index" value="math module" />
 <span class="index" value="module!math" />
 <span class="index" value="escape sequence" />
@@ -829,6 +861,15 @@ and debug one, you can reuse it.</li>
 <dt>multiple assignment:</dt>
 <dd>Making more than one assignment to the same variable during the execution
 of a program.</dd>
+
+<dt>initialization (of a variable):</dt>
+<dd>
+To initialize a variable is to give it an initial value, usually in the
+context of multiple assignment.  Since in Python variables don't exist until
+they are assigned values, they are initialized when they are created.  In
+other programming languages this is not the case, and variables can be
+created without being initialized, in which case they have either default
+or <em>garbage</em> values.</dd>
 
 <dt>increment</dt>
 <dd>Both as a noun and as a verb, increment means to increase by 1.</dd>
@@ -850,14 +891,9 @@ terminating condition is satisfied.</dd>
 <dd>To follow the flow of execution of a program by hand, recording the
 change of state of the variables and any output produced.</dd>
 
-<dt>initialization (of a variable):</dt>
-<dd>
-To initialize a variable is to give it an initial value, usually in the
-context of multiple assignment.  Since in Python variables don't exist until
-they are assigned values, they are initialized when they are created.  In
-other programming languages this is not the case, and variables can be
-created without being initialized, in which case they have either default
-or <em>garbage</em> values.</dd>
+<dt>counter</dt>
+<dd>A variable used to count something, usually initialized to zero and
+incremented in the body of a loop.</dd>
 
 <dt>math module</dt>
 <dd>A collection of trigonometric, exponential, and logrithmic functions and
