@@ -1042,6 +1042,8 @@ the doctests.
 </div></li>
 
 <li><div class="exercise">
+Add the following to the <code>chapter06.py</code> file you created in the
+previous exercise:
 <pre class='python'>
 def num_even_digits(n):
     """
@@ -1049,13 +1051,19 @@ def num_even_digits(n):
       3
       >>> num_even_digits(2468)
       4
+      >>> num_even_digits(1357)
+      0
+      >>> num_even_digits(2)
+      1
+      >>> num_even_digits(20)
+      2
     """
 </pre>
+Write a body for <code>num_even_digits</code> so that it works as expected.
 </div></li>
 
 <li><div class="exercise">
-Add the following to the <code>chapter06.py</code> file you created in the
-previous exercise:
+Add the following to <code>chapter06.py</code>:
 <pre class='python'>
 def print_digits(n):
     """
