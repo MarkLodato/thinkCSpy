@@ -1,10 +1,34 @@
 <html>
 <head>
-  <title>Case Study: Target Practice</title>
+  <title>Case Study: Catch</title>
 </head>
 <body>
 
-<h1>Case Study: Target Practice</h1>
+<h1>Case Study: Catch</h1>
+
+
+<h2>Creating a main loop</h2>
+
+<p>Looping is also very useful for enabling users to control how many times
+parts of a program are executed.</p>
+
+<pre class='python'>
+def play_game():
+    print "I'm playing... Oh what fun!"
+
+choice = 'y' 
+
+while choice == 'y':
+    play_game()
+    choice = raw_input("Would you like to play again? (y/n): ")
+</pre>
+
+<p>The variable <code>choice</code> is initialized to <code>'y'</code>.
+This makes the condition of the while loop true the first time it is evaluated,
+and assures that users get to play the game at least once.  After the game
+finishes (and we assume the call to <code>play_game()</code> would do something
+more then print a message), users will be asked if they would like to play
+again.  As long as they keep answering with 'y', they can continue playing.</p>
 
 
 <h2>Using <code>while</code> to move a ball</h2>

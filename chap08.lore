@@ -42,7 +42,7 @@ When we display <code>letter</code>, we get a surprise:</p>
 a
 </pre>
 
-<p>The first letter of <code>"banana"</code> is not <code>a</code>.  Unless you 
+<p>The first letter of <code>"banana"</code> is not <code>a</code>, unless you 
 are a computer scientist.  For perverse reasons, computer scientists always
 start counting from zero.  The 0th letter (<q>zero-eth</q>) of
 <code>"banana"</code> is <code>b</code>.  The 1th letter (<q>one-eth</q>) is

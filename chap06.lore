@@ -345,96 +345,6 @@ The increment value does not have to be 1:</p>
 </pre>
 
 
-<h2>Creating a main loop</h2>
-
-<p>Looping is also very useful for enabling users to control how many times
-parts of a program are executed.</p>
-
-<pre class='python'>
-def play_game():
-    print "I'm playing... Oh what fun!"
-
-choice = 'y' 
-
-while choice == 'y':
-    play_game()
-    choice = raw_input("Would you like to play again? (y/n): ")
-</pre>
-
-<p>The variable <code>choice</code> is initialized to <code>'y'</code>.
-This makes the condition of the while loop true the first time it is evaluated,
-and assures that users get to play the game at least once.  After the game
-finishes (and we assume the call to <code>play_game()</code> would do something
-more then print a message), users will be asked if they would like to play
-again.  As long as they keep answering with 'y', they can continue playing.</p>
-
-
-<h2>The <code>math</code> module</h2>
-<span class="index" value="math module" />
-<span class="index" value="module!math" />
-
-<p>Python has a <b>math module</b> that contains mathematical functions
-for performing triginometric, exponential, and logarithmic calculations. 
-To use it, add <code>import math</code> to the top of the program.  We can
-look inside the math module by using Python's <code>dir</code> function:
-</p>
-
-<pre class='python-interpreter'>
->>> import math
->>> help(math)
-</pre>
-
-<p>You will see a screen that looks like this:</p>
-
-<pre class="shell">
-Help on module math:
-
-NAME
-    math
-
-FILE
-    /usr/lib/python2.5/lib-dynload/math.so
-
-MODULE DOCS
-    http://www.python.org/doc/current/lib/module-math.html
-
-DESCRIPTION
-    This module is always available.  It provides access to the
-    mathematical functions defined by the C standard.
-
-FUNCTIONS
-    acos(...)
-        acos(x)
-        
-        Return the arc cosine (measured in radians) of x.
-    
-    asin(...)
-        asin(x)
-:
-</pre>
-
-<p>
-Pressing the space bar will take you to the next page.  The <q>j</q> or up
-arrow keys will move up a line, and the <q>k</q> or down arrow keys will move
-you down a line.  The <q>q</q> key will quit help.
-</p>
-
-<p>
-<code>math.e</code> and <code>math.pi</code> are numeric constants representing 
-the numbers e and &pi;.   The rest of the module consists of triginometric,
-logarithmic, and exponential functions.  To use anything within the module,
-write <code>math.</code> followed by the function or constant name:
-</p>
-
-<pre class='python-interpreter'>
->>> import math
->>> math.sqrt(25)
-5.0
->>> math.hypot(5, 12)
-13.0
-</pre>
-
-
 <h2>Tables</h2>
 <a name="tables" />
 <span class="index" value="table" />
@@ -463,15 +373,14 @@ in the table the Intel Pentium used to perform floating-point division.</p>
 
 <p>Although a log table is not as useful as it once was, it still makes a good
 example of iteration.  The following program outputs a sequence of values in
-the left column and their logarithms in the right column:</p>
+the left column and 2 raised to the power of that value in the right column:
+</p>
 
 <pre class="python">
-import math
-
-x = 1.0
-while x &lt; 10.0:
-    print x, '\t', math.log(x)
-    x += 1.0
+x = 1
+while x &lt; 11:
+    print x, '\t', 2**x
+    x += 1
 </pre>
 
 <p>The string '\t' represents a <b>tab</b> character.</p>
@@ -486,80 +395,20 @@ tab stops.  Tabs are useful for making columns of text line up, as in the
 output of the previous program:</p>
 
 <pre class="shell">
-   1.0     0.0
-   2.0     0.69314718056
-   3.0     1.09861228867
-   4.0     1.38629436112
-   5.0     1.60943791243
-   6.0     1.79175946923
-   7.0     1.94591014906
-   8.0     2.07944154168
-   9.0     2.19722457734
-</pre>
-
-<p>If these values seem odd, remember that the <code>log</code> function uses
-base <code>e</code>. Since powers of two are so important in computer science,
-we often want to find logarithms with respect to base 2.  To do that, we can
-use the following formula:</p>
-
-<p>
-log<sub>2</sub> x = log<sub>e</sub> x / log<sub>e</sub> 2
-</p>
-
-<p>Changing the output statement to:</p>
-
-<pre class="python">
-print x, '\t',  math.log(x)/math.log(2.0)
-</pre>
-
-<p>yields:</p>
-
-<pre class="shell">
-   1.0     0.0
-   2.0     1.0
-   3.0     1.58496250072
-   4.0     2.0
-   5.0     2.32192809489
-   6.0     2.58496250072
-   7.0     2.80735492206
-   8.0     3.0
-   9.0     3.16992500144
-</pre>
-
-<p>We can see that 1, 2, 4, and 8 are powers of two because their
-logarithms base 2 are round numbers.  If we wanted to find the
-logarithms of other powers of two, we could modify the program like
-this:</p>
-
-<pre class="python">
-x = 1.0
-while x &lt; 100.0:
-    print x, '\t', math.log(x)/math.log(2.0)
-    x *= 2.0
-</pre>
-
-<p>Now instead of adding something to <code>x</code> each time through the
-loop, which yields an arithmetic sequence, we multiply <code>x</code> by
-something, yielding a geometric sequence.  The result is:</p>
-
-<span class="index" value="arithmetic sequence" />
-<span class="index" value="geometric sequence" />
-
-<pre class="shell">
-   1.0     0.0
-   2.0     1.0
-   4.0     2.0
-   8.0     3.0
-   16.0    4.0
-   32.0    5.0
-   64.0    6.0
+1       2
+2       4
+3       8
+4       16
+5       32
+6       64
+7       128
+8       256
+9       512
+10      1024
 </pre>
 
 <p>Because of the tab characters between the columns, the position of the
 second column does not depend on the number of digits in the first column.</p>
-
-<p>Logarithm tables may not be useful any more, but for computer scientists,
-knowing the powers of two is!</p>
 
 <span class="index" value="escape sequence" />
 
@@ -1029,7 +878,7 @@ def num_digits(n):
       5
       >>> num_digits(0)
       1
-      >>> print_digits(-12345)
+      >>> num_digits(-12345)
       5
     """
 
