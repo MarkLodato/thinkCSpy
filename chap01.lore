@@ -282,9 +282,9 @@ that you always have a working program.</p>
 
 <p>For example, Linux is an operating system that contains thousands of lines
 of code, but it started out as a simple program Linus Torvalds used to explore
-the Intel 80386 chip.  According to Larry Greenfield, <q>One of Linus's earlier 
+the Intel 80386 chip.  According to Larry Greenfield, <q>one of Linus's earlier 
 projects was a program that would switch between printing AAAA and BBBB.  This
-later evolved to Linux.</q> (<em>The Linux Users' Guide</em> Beta Version 1)
+later evolved to Linux</q> (<em>The Linux Users' Guide</em> Beta Version 1).
 </p>
 
 <span class="index" value="Linux" />

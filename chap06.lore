@@ -378,12 +378,21 @@ the left column and 2 raised to the power of that value in the right column:
 
 <pre class="python">
 x = 1
-while x &lt; 11:
+while x &lt; 13:
     print x, '\t', 2**x
     x += 1
 </pre>
 
-<p>The string '\t' represents a <b>tab</b> character.</p>
+<span class="index" value="escape sequence" />
+
+<p>The string '\t' represents a <b>tab</b> character.  The backslash character
+in '\t' indicates the beginning of an <b>escape sequence</b>.  Escape sequences 
+are used to represent invisible characters like tabs and newlines.  The
+sequence \n represents a <b>newline</b>.</p>
+
+<p>An escape sequence can appear anywhere in a string; in this example, the tab
+escape sequence is the only thing in the string.  How do you think you
+represent a backslash in a string?</p>
 
 <p>As characters and strings are displayed on the screen, an invisible marker
 called the <b>cursor</b> keeps track of where the next character will 
@@ -405,22 +414,12 @@ output of the previous program:</p>
 8       256
 9       512
 10      1024
+11      2048
+12      4096
 </pre>
 
 <p>Because of the tab characters between the columns, the position of the
 second column does not depend on the number of digits in the first column.</p>
-
-<span class="index" value="escape sequence" />
-
-<p>The backslash character in '\t' indicates the beginning of an
-<b>escape sequence</b>.  Escape sequences are used to represent
-invisible characters like tabs and newlines.  The sequence \n represents a
-<b>newline</b>.</p>
-
-<p>An escape sequence can appear anywhere in a string; in the example, the tab
-escape sequence is the only thing in the string.</p>
-
-<p>How do you think you represent a backslash in a string?</p>
 
 
 <h2>Two-dimensional tables</h2>
@@ -455,7 +454,7 @@ line.</p>
 <p>The output of the program is:</p>
 
 <pre class="shell">
-   2      4      6      8      10     12
+2      4      6      8      10     12
 </pre>
 
 <p>So far, so good. The next step is to <b>encapsulate</b> and
@@ -498,13 +497,13 @@ was replace the value 2 with the parameter <code>n</code>.</p>
 before.  With the argument 3, the output is:</p>
 
 <pre class="shell">
-   3      6      9      12     15     18
+3      6      9      12     15     18
 </pre>
 
 <p>With the argument 4, the output is:</p>
 
 <pre class="shell">
-   4      8      12     16     20     24
+4      8      12     16     20     24
 </pre>
 
 <p>By now you can probably guess how to print a multiplication table---by
@@ -525,12 +524,12 @@ statement with a function call.</p>
 <p>The output of this program is a multiplication table:</p>
 
 <pre class="shell">
-   1      2      3      4      5      6
-   2      4      6      8      10     12
-   3      6      9      12     15     18
-   4      8      12     16     20     24
-   5      10     15     20     25     30
-   6      12     18     24     30     36
+1      2      3      4      5      6
+2      4      6      8      10     12
+3      6      9      12     15     18
+4      8      12     16     20     24
+5      10     15     20     25     30
+6      12     18     24     30     36
 </pre>
 
 
@@ -566,8 +565,8 @@ both <code>print_multiples</code> and <code>print_mult_table</code>.  Doesn't it
 cause problems when one of the functions changes the value of the variable?</p>
 
 <p>The answer is no, because the <code>i</code> in <code>print_multiples</code>
-and the <code>i</code> in <code>print_mult_table</code> are <em>not</em> the same 
-variable.</p>
+and the <code>i</code> in <code>print_mult_table</code> are <em>not</em> the
+same variable.</p>
 
 <p>Variables created inside a function definition are local; you can't access a 
 local variable from outside its <q>home</q> function.  That means you are free
@@ -580,9 +579,9 @@ and changing one does not affect the other.</p>
 
 <img src="illustrations/stack4.png" />
 
-<p>The value of <code>i</code> in <code>print_mult_table</code> goes from 1 to 6. 
-In the diagram it happens to be 3.  The next time through the loop it will be 4.
-Each time through the loop, <code>print_mult_table</code> calls
+<p>The value of <code>i</code> in <code>print_mult_table</code> goes from 1 to
+6.  In the diagram it happens to be 3.  The next time through the loop it will
+be 4.  Each time through the loop, <code>print_mult_table</code> calls
 <code>print_multiples</code> with the current value of <code>i</code> as an
 argument.  That value gets assigned to the parameter <code>n</code>.</p>
 
@@ -615,13 +614,13 @@ def print_mult_table(high):
 <code>print_mult_table</code> with the argument 7, it displays:</p>
 
 <pre class="shell">
-   1      2      3      4      5      6
-   2      4      6      8      10     12
-   3      6      9      12     15     18
-   4      8      12     16     20     24
-   5      10     15     20     25     30
-   6      12     18     24     30     36
-   7      14     21     28     35     42
+1      2      3      4      5      6
+2      4      6      8      10     12
+3      6      9      12     15     18
+4      8      12     16     20     24
+5      10     15     20     25     30
+6      12     18     24     30     36
+7      14     21     28     35     42
 </pre>
 
 <p>This is fine, except that we probably want the table to be square---with the 
@@ -655,13 +654,13 @@ where the function is called in <code>print_mult_table</code>.</p>
 <p>As expected, this program generates a square seven-by-seven table:</p>
 
 <pre class="shell">
-   1      2      3      4      5      6      7
-   2      4      6      8      10     12     14
-   3      6      9      12     15     18     21
-   4      8      12     16     20     24     28
-   5      10     15     20     25     30     35
-   6      12     18     24     30     36     42
-   7      14     21     28     35     42     49
+1      2      3      4      5      6      7
+2      4      6      8      10     12     14
+3      6      9      12     15     18     21
+4      8      12     16     20     24     28
+5      10     15     20     25     30     35
+6      12     18     24     30     36     42
+7      14     21     28     35     42     49
 </pre>
 
 <p>When you generalize a function appropriately, you often get a program with
@@ -683,13 +682,13 @@ printing only half the table.  To do that, you only have to change one line of
 <p>and you get</p>
 
 <pre class="shell">
-   1
-   2      4
-   3      6      9
-   4      8      12     16
-   5      10     15     20     25
-   6      12     18     24     30     36
-   7      14     21     28     35     42     49
+1
+2      4
+3      6      9
+4      8      12     16
+5      10     15     20     25
+6      12     18     24     30     36
+7      14     21     28     35     42     49
 </pre>
 
 
