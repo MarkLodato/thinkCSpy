@@ -380,8 +380,8 @@ What...is your name? Arthur, King of the Britons!
 Arthur, King of the Britons!
 </pre>
 
-<p>Notice that the prompt is a string, so it must be enclosed in parenthesis.
-</p>
+<p>Notice that the prompt is a string, so it must be enclosed in quotation
+marks.</p>
 
 <p>If we expect the response to be an integer, we can use the
 <code>input</code> function which evaluates the response as a Python

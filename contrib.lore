@@ -17,7 +17,11 @@ us.</p>
 readers who have sent us suggestions and corrections over the past few years.
 In the spirit of free software, we decided to express our gratitude in the form 
 of a contributor list.  Unfortunately, this list is not complete, but we are
-doing our best to keep it up to date.</p>
+doing our best to keep it up to date.  It was also getting too large to
+include everyone who sends in a typo or two.  You have our gratitude, and you
+have the personal satisfaction of making a book you found useful better for
+you and everyone else who uses it.  New editions to the list for the 2nd
+edition will be those who have made on-going contributions.</p>
 
 <p>If you have a chance to look through the list, you should realize that each
 person here has spared you and all subsequent readers from the confusion of a
@@ -27,12 +31,19 @@ note.</p>
 <p>Impossible as it may seem after so many corrections, there may still be
 errors in this book.  If you should stumble across one, we hope you will take
 a minute to contact us.  The email address is
-<a href="mailto:feedback@thinkpython.com">feedback@thinkpython.com</a>. If we
-make a change due to your suggestion, you will appear in the next version of
-the contributor list (unless you ask to be omitted).  Thank you!</p>
+<a href="mailto:jeff@elkner.net">jeff@elkner.net</a>.  Substantial changes 
+made due to your suggestions will add you to the next version of the
+contributor list (unless you ask to be omitted).  Thank you!</p>
 
 <h3>Second Edition</h3>
 <ul>
+<li>A special thanks to the students in my Computer Science class at the
+HB-Woodlawn program during the 2007-2008 school year: James Crowley, Joshua
+Eddy, Eric Larson, Brian McGrail, and Iliana Vazuka.  Your willingness to serve 
+as beta-testers of the new chapters as they were completed, and to put up with
+frequent changes in response to your feedback have proved invaluable.  Thanks
+to you this is now a truly <em>student tested</em> text.</li>
+
 <li>Ammar Nabulsi sent in numerous corrections from Chapters 1 and 2.</li>
 
 <li>Aldric Giacomoni pointed out an error in our definition of the Fibonacci
@@ -59,6 +70,7 @@ and text in chapters 3, 12, 15, 17, 18, 19, and 20.</li>
 and sent in a suggestion for improving the clarity of the shell vs. script
 section in chapter 1.</li>
 </ul>
+
 
 <h3>First Edition</h3>
 <ul>
