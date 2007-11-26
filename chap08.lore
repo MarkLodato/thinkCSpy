@@ -124,7 +124,7 @@ index = 0
 while index &lt; len(fruit):
     letter = fruit[index]
     print letter
-    index = index + 1
+    index += 1
 </pre>
 
 <p>This loop traverses the string and displays each letter on a line by itself. 
@@ -359,7 +359,7 @@ def find(strng, ch):
     while index &lt; len(strng):
         if strng[index] == ch:
             return index
-        index = index + 1
+        index += 1
     return -1
 </pre>
 
@@ -416,7 +416,7 @@ def find2(strng, ch, start):
     while index &lt; len(strng):
         if strng[index] == ch:
             return index
-        index = index + 1
+        index += 1
     return -1
 </pre>
 
@@ -432,7 +432,7 @@ def find(strng, ch, start=0):
     while index &lt; len(strng):
         if strng[index] == ch:
             return index
-        index = index + 1
+        index += 1
     return -1
 </pre>
 
@@ -450,7 +450,7 @@ def find(strng, ch, start=0, step=1):
     while 0 &lt;= index &lt; len(strng):
         if strng[index] == ch:
             return index
-        index = index + step 
+        index += step 
     return -1
 </pre>
 
