@@ -337,7 +337,7 @@ def remove_vowels(s):
     s_without_vowels = ""
     for letter in s:
         if letter not in vowels:
-            s_without_vowels = s_without_vowels + letter
+            s_without_vowels += letter
     return s_without_vowels 
 </pre>
 
@@ -806,6 +806,37 @@ Write a function body for it that will make it work as indicated by the
 doctests.
 </div></li>
 
+<li><div class="exercise">
+Finally, add bodies to each of the following functions, one at a time, until
+all the doctests pass:
+<pre class='python'>
+def is_palindrome(s):
+    """
+    """
+
+def count(sub, s):
+    """
+      >>> count('is', 'Mississippi')
+      2
+      >>> count('an', 'banana')
+      2
+      >>> count('ana', 'banana')
+      2
+      >>> count('nana', 'banana')
+      1
+      >>> count('nanan', 'banana')
+      0
+    """
+
+def remove(sub s):
+    """
+    """
+
+def remove(sub s):
+    """
+    """
+</pre>
+</div></li>
 </ol>
 
 </body>
