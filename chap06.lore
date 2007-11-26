@@ -718,7 +718,7 @@ and debug one, you can reuse it.</li>
 <p>Loops are often used in programs that compute numerical results by starting
 with an approximate answer and iteratively improving it.</p>
 
-<p>For example, one way of computing square roots is Newton’s method. Suppose
+<p>For example, one way of computing square roots is Newton's method. Suppose
 that you want to know the square root of <code>n</code>. If you start with
 almost any approximation, you can compute a better approximation with the
 following formula:</p>
@@ -748,7 +748,7 @@ that it returns <code>5.0</code>.</p>
 <h2>Algorithms</h2>
 <span class="index" value="algorithm" />
 
-<p>Newton’s method is an example of an <b>algorithm</b>: it is a mechanical
+<p>Newton's method is an example of an <b>algorithm</b>: it is a mechanical
 process for solving a category of problems (in this case, computing square
 roots).</p>
 
@@ -758,9 +758,9 @@ you probably memorized the multiplication table. In effect, you memorized 100
 specific solutions. That kind of knowledge is not algorithmic.</p>
 
 <p>But if you were <q>lazy,</q> you probably cheated by learning a few tricks.
-For example, to find the product of n and 9, you can write n − 1 as the first
-digit and 10 − n as the second digit. This trick is a general solution for
-multiplying any single-digit number by 9. That’s an algorithm!</p>
+For example, to find the product of n and 9, you can write n - 1 as the first
+digit and 10 - n as the second digit. This trick is a general solution for
+multiplying any single-digit number by 9. That's an algorithm!</p>
 
 <p>Similarly, the techniques you learned for addition with carrying,
 subtraction with borrowing, and long division are all algorithms. One of the
