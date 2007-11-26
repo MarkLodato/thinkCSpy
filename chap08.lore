@@ -807,11 +807,20 @@ doctests.
 </div></li>
 
 <li><div class="exercise">
-Finally, add bodies to each of the following functions, one at a time, until
-all the doctests pass:
+Finally, add bodies to each of the following functions, one at a time
 <pre class='python'>
 def is_palindrome(s):
     """
+      >>> is_palindrome('abba'):
+      True
+      >>> is_palindrome('abab'):
+      False
+      >>> is_palindrome('tenet'):
+      True
+      >>> is_palindrome('banana'):
+      False
+      >>> is_palindrome('straw warts'):
+      True
     """
 
 def count(sub, s):
@@ -830,12 +839,25 @@ def count(sub, s):
 
 def remove(sub s):
     """
+      >>> remove('an', 'banana')
+      'bana'
+      >>> remove('cyc', 'bicycle')
+      'bile'
+      >>> remove('iss', 'Mississippi')
+      'Missippi' 
     """
 
-def remove(sub s):
+def remove_all(sub s):
     """
+      >>> remove('an', 'banana')
+      'ba'
+      >>> remove('cyc', 'bicycle')
+      'bile'
+      >>> remove('iss', 'Mississippi')
+      'Mippi' 
     """
 </pre>
+until all the doctests pass.
 </div></li>
 </ol>
 
