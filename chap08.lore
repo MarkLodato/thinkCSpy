@@ -670,8 +670,10 @@ examples:</p>
 >>> age = 10
 >>> "I am %s and I am %d years old." % (name, age)
 'I am Alice and I am 10 years old.'
->>> "2**10 = %d and %d * %d = %f" % (2**10, 4, 5, 4 * 5)
-'2**10 = 1024 and 4 * 5 = 20'
+>>> n1 = 4
+>>> n2 = 5
+>>> "2**10 = %d and %d * %d = %f" % (2**10, n1, n2, n1 * n2)
+'2**10 = 1024 and 4 * 5 = 20.000000'
 >>>
 </pre>
 
@@ -698,6 +700,49 @@ parenthesis are optional if there is only a single value.
 These map to the two converstion specifications, <code>%s</code> and
 <code>%d</code>.  The <code>d</code> in the second converstion specification
 indicates that the value is a decimal integer.</p>
+
+<p>In the third example variables <code>n1</code> and <code>n2</code> have
+integer values <code>4</code> and <code>5</code> respectively.  There are
+four converstion specifications in the format string: three <code>%d</code>'s
+and a <code>%f</code>.  The <code>f</code> indicates that the value should
+be represented as a floating point number.  The four values that map to the
+four converstion specifications are: <code>2**10</code>, <code>n1</code>,
+<code>n2</code>, and <code>n1 * n2</code>.</p>
+
+<p><code>s</code>, <code>d</code>, and <code>f</code> are all the conversion
+types we will need for this book.  To see a complete list, see the
+<a href="http://docs.python.org/lib/typesseq-strings.html">String Formatting 
+Operations</a> section of the Python Library Reference.</p>
+
+<p>The following example illustrates the real utility of string formatting:
+</p>
+
+<pre class='python'>
+i = 1
+print "i\ti**2\ti**3\ti**5\ti**10\ti**20"
+while i <= 10:
+    print i, '\t', i**2, '\t', i**3, '\t', i**5, '\t', i**10, '\t', i**20
+    i += 1
+</pre>
+
+<p>This program prints out a table of various powers of the numbers from
+1 to 10.  In its current form it relies on the tab character (<code>\t</code>)
+to align the columns of values, but this breaks down when the values in the
+table get larger than the 8 character tab width:</p>
+
+<pre class='shell'>
+i       i**2    i**3    i**5    i**10   i**20
+1       1       1       1       1       1
+2       4       8       32      1024    1048576
+3       9       27      243     59049   3486784401
+4       16      64      1024    1048576         1099511627776
+5       25      125     3125    9765625         95367431640625
+6       36      216     7776    60466176        3656158440062976
+7       49      343     16807   282475249       79792266297612001
+8       64      512     32768   1073741824      1152921504606846976
+9       81      729     59049   3486784401      12157665459056928801
+10      100     1000    100000  10000000000     100000000000000000000
+</pre>
 
 
 <h2>Glossary</h2>
@@ -799,13 +844,13 @@ it:
 def reverse(s):
     """
       >>> reverse('happy')
-      'yppah' 
+      'yppah'
       >>> reverse('Python')
-      'nohtyP' 
+      'nohtyP'
       >>> reverse("")
-      '' 
+      ''
       >>> reverse("P")
-      'P' 
+      'P'
     """
 
 if __name__ == '__main__':
@@ -893,7 +938,7 @@ def remove(sub s):
       >>> remove('cyc', 'bicycle')
       'bile'
       >>> remove('iss', 'Mississippi')
-      'Missippi' 
+      'Missippi'
     """
 
 def remove_all(sub s):
@@ -903,7 +948,7 @@ def remove_all(sub s):
       >>> remove('cyc', 'bicycle')
       'bile'
       >>> remove('iss', 'Mississippi')
-      'Mippi' 
+      'Mippi'
     """
 </pre>
 until all the doctests pass.
