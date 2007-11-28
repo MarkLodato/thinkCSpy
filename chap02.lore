@@ -400,7 +400,7 @@ which is 59, which is wrong.</li>
 
 
 <h2>Operations on strings</h2>
-<span class="index" value="string operation" />
+<span class="index" value="string operations" />
 
 <p>In general, you cannot perform mathematical operations on strings, even
 if the strings look like numbers.  The following are illegal (assuming

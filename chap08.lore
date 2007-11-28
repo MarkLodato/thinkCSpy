@@ -652,6 +652,54 @@ documentation, it's available from the Python website,
 
 <span class="index" value="Python Library Reference" />
 
+
+<h2>String formatting</h2>
+<span class="index" value="string formatting" />
+<span class="index" value="string operations" />
+<span class="index" value="formatting!strings" />
+
+<p>The most concise and powerful way to format a string in Python is to use
+the <em>string formatting operator</em>, <code>%</code>, together with Python's
+string formatting operations.  To see how this works, let's start with a few
+examples:</p>
+
+<pre class='python-interpreter'>
+>>> "His name is %s."  % "Arthur"
+'His name is Arthur.'
+>>> name = "Alice"
+>>> age = 10
+>>> "I am %s and I am %d years old." % (name, age)
+'I am Alice and I am 10 years old.'
+>>> "2**10 = %d and %d * %d = %f" % (2**10, 4, 5, 4 * 5)
+'2**10 = 1024 and 4 * 5 = 20'
+>>>
+</pre>
+
+<p>The syntax for the string formatting operation looks like this:</p>
+
+<pre class='boxed'>
+"&lt;FORMAT&gt;" % (&lt;VALUES&gt;)
+</pre>
+
+<p>It begins with a <em>format</em> which contains a sequence of characters
+and <em>conversion specifications</em>.  Conversion specifications start with
+a <code>%</code> operator.  Following the format string is a single
+<code>%</code> and then a sequence of values, <em>one per conversion
+specification</em>, seperated by commas and enclosed in parenthesis.  The
+parenthesis are optional if there is only a single value.
+</p>
+
+<p>In the first example above, there is a single conversion specification,
+<code>%s</code>, which indicates a string.  The single value,
+<code>"Arthur"</code>, maps to it, and is not enclosed in parenthesis.</p>
+
+<p>In the second example, <code>name</code> has string value,
+<code>"Alice"</code>, and <code>age</code> has integer value, <code>10</code>.
+These map to the two converstion specifications, <code>%s</code> and
+<code>%d</code>.  The <code>d</code> in the second converstion specification
+indicates that the value is a decimal integer.</p>
+
+
 <h2>Glossary</h2>
 <span class="index" value="compound data type" />
 <span class="index" value="traverse" />
@@ -734,8 +782,9 @@ accepts the string and the letter as arguments.
 
 <li><div class="exercise">
 Now rewrite the <code>count_letters</code> function so that instead of
-traversing the string, it repeatedly calls <code>find</code>, with the optional 
-third parameter to locate new occurences of the letter being counted.
+traversing the string, it repeatedly calls <code>find</code> (the version from
+section 8.10), with the optional third parameter to locate new occurences of
+the letter being counted.
 </div></li>
 
 <li><div class="exercise">
@@ -756,7 +805,7 @@ def reverse(s):
       >>> reverse("")
       '' 
       >>> reverse("P")
-      'p' 
+      'P' 
     """
 
 if __name__ == '__main__':
