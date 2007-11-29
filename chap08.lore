@@ -720,7 +720,7 @@ Operations</a> section of the Python Library Reference.</p>
 <pre class='python'>
 i = 1
 print "i\ti**2\ti**3\ti**5\ti**10\ti**20"
-while i <= 10:
+while i &lt;= 10:
     print i, '\t', i**2, '\t', i**3, '\t', i**5, '\t', i**10, '\t', i**20
     i += 1
 </pre>
@@ -743,6 +743,38 @@ i       i**2    i**3    i**5    i**10   i**20
 9       81      729     59049   3486784401      12157665459056928801
 10      100     1000    100000  10000000000     100000000000000000000
 </pre>
+
+<p>One possible solution would be to change the tab width, but the first column
+already has more space than it needs.  The best solution would be to set the
+width of each column independently.  As you may have guessed by now, string
+formatting provides the solution:</p> 
+
+<pre class='python'>
+i = 1
+print "%-4s%-5s%-6s%-8s%-13s%-15s" % \
+      ('i', 'i**2', 'i**3', 'i**5', 'i**10', 'i**20')
+while i <= 10:
+    print "%-4d%-5d%-6d%-8d%-13d%-15d" % (i, i**2, i**3, i**5, i**10, i**20)
+    i += 1
+</pre>
+
+<p>Running this version produces the following output:</p>
+
+<pre class='shell'>
+i   i**2 i**3  i**5    i**10        i**20          
+1   1    1     1       1            1              
+2   4    8     32      1024         1048576        
+3   9    27    243     59049        3486784401     
+4   16   64    1024    1048576      1099511627776  
+5   25   125   3125    9765625      95367431640625 
+6   36   216   7776    60466176     3656158440062976
+7   49   343   16807   282475249    79792266297612001
+8   64   512   32768   1073741824   1152921504606846976
+9   81   729   59049   3486784401   12157665459056928801
+10  100  1000  100000  10000000000  100000000000000000000
+</pre>
+
+<p></p>
 
 
 <h2>Glossary</h2>
