@@ -753,7 +753,7 @@ formatting provides the solution:</p>
 i = 1
 print "%-4s%-5s%-6s%-8s%-13s%-15s" % \
       ('i', 'i**2', 'i**3', 'i**5', 'i**10', 'i**20')
-while i <= 10:
+while i &lt;= 10:
     print "%-4d%-5d%-6d%-8d%-13d%-15d" % (i, i**2, i**3, i**5, i**10, i**20)
     i += 1
 </pre>
