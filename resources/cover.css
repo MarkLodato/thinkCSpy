@@ -1,105 +1,197 @@
-/* DESIGNED BY DAVID COX*/
-
 body {
-    background: url(images/mainbg.png) repeat-x;
     margin: 0px;
-    margin: auto;
-    width: 750px;
+    padding: 0px;
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-color: #ffffff;
+    color: #000000;
 }
-#main {
-    background: url(images/mainbody.png) repeat-y;
-    width: 750px;
+#svg {
+    margin: 0px 0px 100px 116px;
+    padding: 0px;
+    position: absolute; right: 0px; top: 0px;
+}
+#Header {
+    color: #007700;
+    margin: 194px 0px 0px 116px;
     padding: 0px;
 }
-#wrap {
-    width: 750px;
-    margin: 0px;
-    margin: auto;
-    padding: 25px 0px 25px;
+#Footer {
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
 }
-#content {
-    width: 650px;
-    margin: 0px;
-    margin: auto;
-    padding: 0px;
+.Content {
+    margin: 5px 125px 5px;
+    padding: 20px;
+    padding-left: 50px;
+    color: #000000;
+    background-color: #fdfdda;
+    border: 1px solid #000000;
+}
+.leftcolumn {
+    margin: 0px 50px 0px 20px;
+    float: left;
+    width: 50%;
+    text-align: justify;
+}
+.rightcolumn {
+    margin: 0px 20px 0px 20px;
+    float: right;
+    width: 50%;
 }
 p {
-    color: #666;
-    padding: 0px;
-    padding-bottom: 10px;
+    font-size: 14px;
+    line-height: 22px;
+    font-family: verdana, arial, helvetica, sans-serif;
+    margin: 0px 12px 12px;	
+}
+#Content>p {
+    margin: 0px;
+}
+#Content>p+p {
+    text-indent: 30px;
+}
+
+a {
+    color: #d97405;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: verdana, arial, helvetica, sans-serif;
+}
+a:link {
+    color: #d97405;
+}
+a:visited {
+    color: #d97405;
+}
+a:hover {
+    background-color: white;
 }
 h1 {
-    font: 30px sans;
-    color: #000;
-    margin: 0px;
-    padding: 0px 10px 0px;
+    padding: 0px;
+    color: #009100;
+    font: 32px/32px verdana, arial, helvetica, sans-serif;
+    font-weight: 900;
     text-align: center;
 }
 h2 {
-    font: italic 20px sans;
-    color: #666; margin: 0px;
-    padding: 5px;
-    padding-bottom: 20px;
+    padding: 0px;
+    color:#333333;
+    font: 20px verdana, arial, helvetica, sans-serif;
+    font-weight: 700;
+    margin:0px 0px 5px;
     text-align: center;
 }
 h3 {
-    font: 15px sans;
-    color: #333;
-    margin: 0px;
-    padding: 20px;
+    padding: 0px;
+    color: #666666;
+    font-size: 15px;
+    font-weight: 800;
+    margin: 5px 0px 5px;
     text-align: center;
 }
 h4 {
-    font: 15px sans;
-    color: #333;
-    margin: 0px;
-    padding: 0px;
     text-align: center;
 }
-.divider {
-    border-bottom: 1px dotted #ccc;
-    width: 200px;
-    margin: auto;
+
+img {
+    border-width: 0px;
+}
+img.thumb {
+    margin: 10px 1px;
 }
 
-/* CAPS !IMPORTANT! */
-#topcap {
-    background: url(images/topcap.png) no-repeat;
-    height: 50px;
-    width: 750px;
-    padding: 0px;
+#Copyright {
+    clear: both;
+    padding: 50px 0px 100px 0px;
+    text-align: center;
+    font-weight: 800;
+    color: #999999;
 }
-#bottomcap {
-    background: url(images/bottomcap.png) no-repeat;
-    height: 50px;
-    width: 750px;
-    padding: 0px;
+#copyrightText {
+    position: relative;
+    left: -17px;
 }
 
-/* TABLE OF CONTENTS */
-#content p {
-    font: 15px sans;
-    margin: 0px;
-    padding-bottom: 13px;
-    text-align: left;
-    color: #666;
+.first {
+    margin-top: 0px;
+    padding-top: 0px;
 }
-#content a {
-    color: #009100;
+td {
+    width: 50%;
+    padding: 0px 20px 0px 20px;
+    text-align: justify;
+    vertical-align: top;
+}
+.Content {
+    margin-top:100px;
+}
+
+
+.cssbtn {
+    display: inline;
+    width: 50px;
+    margin: 0.2em;
+    padding: 1px;
+    font-size: 9px;
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: normal;
     text-decoration: none;
+    text-align: left;
+    background: #cdf;
+    color: #333;
+    border: 1px solid black;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
 }
-#content a:hover {
-    color: #000;
+.cssbtn[class] {
+    width: auto;
+    min-width: 50px;
 }
-
-/* FOOTER */
-#footer {
-    width: 700px;
-    margin: auto;
-    margin-top: -45px;
-    font: 11px arial;
+.cssbtn strong {
+    font-weight: bold;
+    background: white;
+    color: #06c;
 }
-#footer p {
-    padding: 0px;
-    color: #999;
+.cssbtn:hover {
+    background: black;
+    color: white;
+}
+.cssbtn:hover strong {
+    background: #ccc;
+    color: black;
+}
+.btnw3c {
+    background: #06c;
+    color: white;
+}
+.btnxml {
+    background: #f90;
+    color:black;
+}
+.btnw4d {
+    background:#090;
+    color: white;
+}
+.btnw4d strong {
+    color: #090;
+}
+.btnpwr {
+    background: #006;
+    color: white;
+}
+.btnpwr strong {
+    background: #ccf;
+    color: #006;
+}
+.btnauth {
+    background: #dd9;
+    color: black;
+}
+.btnauth strong {
+    background: #003;
+    color: #ffc
 }

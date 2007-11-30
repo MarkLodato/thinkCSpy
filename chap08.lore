@@ -774,7 +774,10 @@ i   i**2 i**3  i**5    i**10        i**20
 10  100  1000  100000  10000000000  100000000000000000000
 </pre>
 
-<p></p>
+<p>The <code>-</code> after each <code>%</code> in the converstion
+specifications indicates left justification.  The numerical values specify
+the minimum length, so <code>%-13d</code> is a left justified number at
+least 13 characters wide.</p>
 
 
 <h2>Glossary</h2>
@@ -984,6 +987,16 @@ def remove_all(sub s):
     """
 </pre>
 until all the doctests pass.
+</div></li>
+
+<li><div class="exercise">
+Try each of the following formatted string operations in a Python shell and
+record the results:
+<ol style="list-style-type: lower-alpha;">
+  <li>"%s %d %f" % (5, 5, 5)</li>
+  <li>"%-.2f" % 3</li>
+  <li>"%-10.2f%-10.2f" % (7, 1.0/2)</li>
+</ol>
 </div></li>
 </ol>
 
