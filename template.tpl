@@ -16,7 +16,7 @@ href="stylesheet.css" />
 	
     </div>
 
-    <p><a href="index.html">Table of Contents</a> |
+    <p><a href="index.xhtml">Table of Contents</a> |
     <a href="dex.html">Index</a></p>
   </body>
 </html>

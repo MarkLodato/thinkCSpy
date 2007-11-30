@@ -992,11 +992,21 @@ until all the doctests pass.
 <li><div class="exercise">
 Try each of the following formatted string operations in a Python shell and
 record the results:
-<ol style="list-style-type: lower-alpha;">
-  <li>"%s %d %f" % (5, 5, 5)</li>
-  <li>"%-.2f" % 3</li>
-  <li>"%-10.2f%-10.2f" % (7, 1.0/2)</li>
-</ol>
+  <ol style="list-style-type: lower-alpha;">
+    <li>"%s %d %f" % (5, 5, 5)</li>
+    <li>"%-.2f" % 3</li>
+    <li>"%-10.2f%-10.2f" % (7, 1.0/2)</li>
+    <li>print "  $%5.2f\n  $%5.2f\n  $%5.2f" % (3, 4.5, 11.2)
+  </ol>
+</div></li>
+
+<li><div class="exercise">
+The following formatted strings have errors.  Fix them:
+  <ol style="list-style-type: lower-alpha;">
+    <li>"%s %s %s %s" % ('this', 'that', 'something')</li>
+    <li>"%s %s %s" % ('yes', 'no', 'up', 'down')</li>
+    <li>"%d %f %f" % (3, 3, 'three')</li>
+  </ol>
 </div></li>
 </ol>
 
