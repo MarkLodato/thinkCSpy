@@ -470,8 +470,8 @@ line.</p>
 
 <p>Encapsulation is the process of wrapping a piece of code in a function,
 allowing you to take advantage of all the things functions are good for.  You
-have already seen two examples of encapsulation: <code>printParity</code> in
-chapter 4; and <code>isDivisible</code> in chapter 5.</p>
+have already seen two examples of encapsulation: <code>print_parity</code> in
+chapter 4; and <code>is_divisible</code> in chapter 5.</p>
 
 <p>Generalization means taking something specific, such as printing the
 multiples of 2, and making it more general, such as printing the multiples of

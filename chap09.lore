@@ -674,6 +674,25 @@ three-eth element of <code>nested</code> and extracts the one-eth element from
 it.</p>
 
 
+<h2>Recursion</h2>
+<a name="recursion" />
+<span class="index" value="recursion" />
+
+<p>You have seen and written several functions which call other functions.
+It is also legal for a function to call itself.  It may not be obvious why that 
+is a good thing, but it turns out to be one of the most magical and interesting 
+things a program can do.  For example, look at the following function:</p>
+
+<pre class="python">
+def countdown(n):
+    if n == 0:
+        print "Blastoff!"
+    else:
+        print n
+        countdown(n-1)
+</pre>
+
+
 <h2>Recursive list traversal</h2>
 <span class="index" value="recursive definition" />
 <span class="index" value="definition!recursive" />
@@ -873,6 +892,10 @@ $
 <span class="index" value="aliasing" />
 <span class="index" value="clone" />
 <span class="index" value="recursive definition" />
+<span class="index" value="recursion" />
+<span class="index" value="base case" />
+<span class="index" value="infinite recursion" />
+<span class="index" value="tail recursion" />
 <span class="index" value="delimiter" />
 
 <dl>
@@ -917,6 +940,26 @@ Copying a reference to an object creates an alias but doesn't clone the object.
 must include <em>base cases</em> which are not recursive.  In this way it
 differs from a <em>circular definition</em>.  Recursive definitions often
 provide an elegant way to express complex data structures.</dd> 
+
+<dt>recursion:</dt>
+<dd>The process of calling the function that is currently executing.</dd>
+
+<dt>recursive call:</dt>
+<dd>The statement in a recursive function with is a call to itself.</dd>
+
+<dt>base case:</dt>
+<dd>A branch of the conditional statement in a recursive function that does not
+result in a recursive call.</dd>
+
+<dt>infinite recursion:</dt>
+<dd>A function that calls itself recursively without ever reaching the base
+case.  Eventually, an infinite recursion causes a runtime error.</dd>
+
+<dt>tail recursion:</dt>
+<dd>A recursive call that occurs as the last statement (at the tail) of a
+recursive function.  Tail recursion is considered bad practice in Python
+programs since a logically equivalent function can be written using
+<em>iteration</em> which is more efficient.</dd>
 
 <dt>delimiter:</dt>
 <dd>A character or string used to indicate where a string should be split.</dd>
