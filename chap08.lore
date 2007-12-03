@@ -940,15 +940,15 @@ Finally, add bodies to each of the following functions, one at a time
 <pre class='python'>
 def is_palindrome(s):
     """
-      >>> is_palindrome('abba'):
+      >>> is_palindrome('abba')
       True
-      >>> is_palindrome('abab'):
+      >>> is_palindrome('abab')
       False
-      >>> is_palindrome('tenet'):
+      >>> is_palindrome('tenet')
       True
-      >>> is_palindrome('banana'):
+      >>> is_palindrome('banana')
       False
-      >>> is_palindrome('straw warts'):
+      >>> is_palindrome('straw warts')
       True
     """
 
@@ -966,17 +966,17 @@ def count(sub, s):
       0
     """
 
-def remove(sub s):
+def remove(sub, s):
     """
       >>> remove('an', 'banana')
       'bana'
       >>> remove('cyc', 'bicycle')
       'bile'
       >>> remove('iss', 'Mississippi')
-      'Missippi'
+      'Mippi'
     """
 
-def remove_all(sub s):
+def remove_all(sub, s):
     """
       >>> remove('an', 'banana')
       'ba'
@@ -996,7 +996,7 @@ record the results:
     <li>"%s %d %f" % (5, 5, 5)</li>
     <li>"%-.2f" % 3</li>
     <li>"%-10.2f%-10.2f" % (7, 1.0/2)</li>
-    <li>print "  $%5.2f\n  $%5.2f\n  $%5.2f" % (3, 4.5, 11.2)
+    <li>print "  $%5.2f\n  $%5.2f\n  $%5.2f" % (3, 4.5, 11.2)</li>
   </ol>
 </div></li>
 

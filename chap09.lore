@@ -151,7 +151,7 @@ horsemen = ["war", "famine", "pestilence", "death"]
 i = 0
 while i &lt; 4:
     print horsemen[i]
-    i = i + 1
+    i += 1
 </pre>
 
 <p>This <code>while</code> loop counts from 0 to 4.  When the loop variable
@@ -413,7 +413,7 @@ second index.</p>
 <h2>Converting strings to lists</h2>
 <span class="index" value="function!list" />
 
-<p>Python has a function called <code>list</code> that takes a sequence
+<p>Python has a command called <code>list</code> that takes a sequence
 type as an argument and creates a list out of its elements.
 </p>
 
