@@ -647,14 +647,14 @@ list.  Creating <code>rest</code>, and any subsequent changes to
 <span class="index" value="list!nested" />
 
 <p>A nested list is a list that appears as an element in another list.  In this 
-list, the three-eth is a nested list:</p>
+list, the element with index 3 is a nested list:</p>
 
 <pre class="python-interpreter">
 >>> nested = ["hello", 2.0, 5, [10, 20]]
 </pre>
 
-<p>If we print <code>nested[3]</code>, we get <code>[10, 20]</code>.  To extract
-an element from the nested list, we can proceed in two steps:</p>
+<p>If we print <code>nested[3]</code>, we get <code>[10, 20]</code>.  To
+extract an element from the nested list, we can proceed in two steps:</p>
 
 <pre class="python-interpreter">
 >>> elem = nested[3]
@@ -672,71 +672,6 @@ an element from the nested list, we can proceed in two steps:</p>
 <p>Bracket operators evaluate from left to right, so this expression gets the
 three-eth element of <code>nested</code> and extracts the one-eth element from
 it.</p>
-
-
-<h2>Recursion</h2>
-<a name="recursion" />
-<span class="index" value="recursion" />
-
-<p>You have seen and written several functions which call other functions.
-It is also legal for a function to call itself.  It may not be obvious why that 
-is a good thing, but it turns out to be one of the most magical and interesting 
-things a program can do.  For example, look at the following function:</p>
-
-<pre class="python">
-def countdown(n):
-    if n == 0:
-        print "Blastoff!"
-    else:
-        print n
-        countdown(n-1)
-</pre>
-
-
-<h2>Recursive list traversal</h2>
-<span class="index" value="recursive definition" />
-<span class="index" value="definition!recursive" />
-
-<p>Python has a built-in function which finds the sum of a sequence of numbers:
-</p>
-
-<pre class="python-interpreter">
->>> sum([1, 2, 8])
-11
-</pre>
-
-<p>Suppose we have what we'll call a <em>nested number list</em>, a list whose
-elements are either numbers or nested number lists themselves. If we want to
-sum all the numbers in such a list, no matter how deeply nested, the built-in
-<code>sum</code> function will not work for us:</p>
-
-<pre class="python-interpreter">
->>> nested_number_list = [1, 2, [3, 4, [5, 6], 7], 8, [1, [1, [1, 2], 2], 8], 5]
->>> sum(nested_number_list)
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in ?
-TypeError: unsupported operand type(s) for +: 'int' and 'list'
-</pre>
-
-<p>To solve this problem, we first notice that our nested number list has a
-<b>recursive definition</b>---it is defined in terms of itself.  To sum all the 
-numbers in our list we need to traverse it, visiting each of the elements
-within its nested structure, adding any numeric elements to our sum, and
-<em>repeating this process</em> with any elements which are lists.  Thanks to
-recursion, the Python code needed to do this is surprisingly short:</p>
-
-<pre class="python">
-def recursive_sum(nested_list):
-    sum = 0
-    for element in nested_list:
-        if type(element) == type([]):
-            sum = sum + recursive_sum(element)
-        else:
-            sum = sum + element
-    return sum
-</pre>
-
-<p>Recursion is truly one of the most beautiful things in computer science.</p>
 
 
 <h2>Matrixes</h2>
@@ -891,11 +826,6 @@ $
 <span class="index" value="object" />
 <span class="index" value="aliasing" />
 <span class="index" value="clone" />
-<span class="index" value="recursive definition" />
-<span class="index" value="recursion" />
-<span class="index" value="base case" />
-<span class="index" value="infinite recursion" />
-<span class="index" value="tail recursion" />
 <span class="index" value="delimiter" />
 
 <dl>
@@ -934,32 +864,6 @@ compound types.  Lists are mutable data types; strings are not.</dd>
 <dd>To create a new object that has the same value as an existing object.
 Copying a reference to an object creates an alias but doesn't clone the object.
 </dd>
-
-<dt>recursive definition:</dt>
-<dd>A definition which defines something in terms of itself. To be useful it
-must include <em>base cases</em> which are not recursive.  In this way it
-differs from a <em>circular definition</em>.  Recursive definitions often
-provide an elegant way to express complex data structures.</dd> 
-
-<dt>recursion:</dt>
-<dd>The process of calling the function that is currently executing.</dd>
-
-<dt>recursive call:</dt>
-<dd>The statement in a recursive function with is a call to itself.</dd>
-
-<dt>base case:</dt>
-<dd>A branch of the conditional statement in a recursive function that does not
-result in a recursive call.</dd>
-
-<dt>infinite recursion:</dt>
-<dd>A function that calls itself recursively without ever reaching the base
-case.  Eventually, an infinite recursion causes a runtime error.</dd>
-
-<dt>tail recursion:</dt>
-<dd>A recursive call that occurs as the last statement (at the tail) of a
-recursive function.  Tail recursion is considered bad practice in Python
-programs since a logically equivalent function can be written using
-<em>iteration</em> which is more efficient.</dd>
 
 <dt>delimiter:</dt>
 <dd>A character or string used to indicate where a string should be split.</dd>

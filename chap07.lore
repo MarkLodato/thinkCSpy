@@ -8,58 +8,33 @@
 
 <h2>Getting Started</h2>
 
-<p>In our first case study we will build a small video game using the facilities
-in the gasp package.  The game will shoot a ball across a window from left to
-right and you will manipulate a <q>mitt</q> at the right side of the window to
-catch it. From this program you will a chance to see a bit how animated game
-programs work.</p>
-
-
-<h2>Creating a main loop</h2>
-
-<p>Iteration is useful for enabling users to control how many times parts of a
-program are executed.  Edit a file named <code>catch.py</code>, and put the
-following into it:</p>
-
-<pre class='python'>
-def play_game():
-    print "I'm playing... Oh what fun!"
-
-choice = 'y' 
-
-while choice == 'y':
-    play_game()
-    choice = raw_input("Would you like to play again? (y/n): ")
-</pre>
-
-<p>The variable <code>choice</code> is initialized to <code>'y'</code>.
-This makes the condition of the while loop true the first time it is evaluated,
-and assures that users get to play the game at least once.  After the game
-finishes (and soon the call to <code>play_game()</code> will do something more
-then print a message), users will be asked if they would like to play again. 
-As long as they keep answering with 'y', they can continue playing.</p>
+<p>In our first case study we will build a small video game using the
+facilities in the gasp package.  The game will shoot a ball across a window
+from left to right and you will manipulate a <q>mitt</q> at the right side of
+the window to catch it. From this program you will a chance to see a bit how
+animated game programs work.</p>
 
 
 <h2>Using <code>while</code> to move a ball</h2>
 
-<p><code>while</code> statements can be used with <code>GASP</code> to add
+<p><code>while</code> statements can be used with <code>gasp</code> to add
 motion to a program.  The program below moves a black ball across an 800x600
 pixel graphics canvas:</p>
 
 <pre class='python'>
 from gasp import *
 
-begin_graphics(800, 600, background=color.yellow)
+begin_graphics(800, 600, title="Catch", background=color.yellow)
 
-x = 5
-y = 5
+x = 10
+y = 300
 ball = Circle((x, y), 10, filled=True)
 dx = 4
-dy = 3
+dy = 1
 
-while x &lt; 795:
-    x = x + dx
-    y = y + dy
+while x &lt; 790:
+    x += dx
+    y += dy
     move_to(ball, (x, y))
     sleep(0.02)
 
@@ -71,18 +46,14 @@ looks like this:</p>
 
 <img src="illustrations/gasp03.png" />
 
-<p>
-Trace the first few iterations of this program to be sure you see what is
-happening to the variables <code>x</code> and <code>y</code>.
-</p>
+<p>Trace the first few iterations of this program to be sure you see what is
+happening to the variables <code>x</code> and <code>y</code>.</p>
 
-<p>
-Some new things to learn about GASP from this example:
-</p>
+<p>Some new things to learn about GASP from this example:</p>
 
 <ul>
   <li><code>begin_graphics</code> can take arguments for width, height,
-  and background color of the graphics canvas.</li>
+  title, and background color of the graphics canvas.</li>
 
   <li>Adding <code>filled=True</code> to <code>Circle(...)</code> makes
   the resulting circle solid.</li>
@@ -96,64 +67,12 @@ Some new things to learn about GASP from this example:
   shape to that location.</li>
 
   <li>The <code>sleep</code> function takes a time value in seconds as
-  an argument and pauses the program for that length of time.</li>
+  an argument and pauses execution of the program for that length of time.
+  In general computers do things much to fast to allow you to interact with
+  them.  We can slow things down by making the computer sleep a bit at the
+  right place.</li>
 </ul>
 
-
-<p>If you are using IDLE, open a new window to edit a program. This program will evolve and you may want to save it at certain times when everything is working just right. Start your program with just these 3 lines.</p>
-
-<pre class="shell">
-  from gasp import *
-  begin_graphics()
-  end_graphics()
-</pre>
-
-<p>The first statement gives you access to all the gasp functions including begin_graphics and end_graphics. We will be using several other functions as we go.</p>
-
-<p>Run this program. You should see a window appear and then immediately dissappear again.</p>
-
-<h2>Slowing things up a bit</h2>
-
-<p>In general computers do things much to fast to allow you to interact with them. But we can slow things down by making the computer sleep a bit at the right place. Between the begin_graphics and the end_graphics function calls insert the statement "sleep(3)" and run the program again. This time your window should stay on the screen for 2 seconds.</p>
-
-<h2>Placing a ball</h2>
-
-<p>The window is a grid with a width of 600 pixels and a height of 450 pixels. Pixel (0,0) is the lower left corner. Let's create a circle 5 pixels wide and place it on the left hand side of the window half way up. Add the following statements just before the sleep function is called.</p>
-
-<pre class="shell">
-  ballX = 10
-  ballY = 200
-  ball = Circle((ballX,ballY),5)
-</pre>
-
-<h2>Moving the ball</h2>
-
-<p>Gasp has a function move_to which makes it easy to move the ball around the screen. Each time we move it however we will need to make the computer sleep a little so that we can have a chance to see it happen. Try adding these lines just after the lines above and run the program again.</p>
-
-<pre class="shell">
-  sleep(.1)
-  ballX += 10
-  move_to(ball, (ballX, ballY))
-  sleep(.1)
-  ballX += 10
-  move_to(ball, (ballX, ballY))
-  sleep(.1)
-  ballX += 10
-  move_to(ball, (ballX, ballY))
-</pre>
-
-<p>Now, anytime we're repeating code it's time to think about a loop. Try replacing the above with a simple while loop.</p>
-
-<pre class="shell">
-  while 1 :
-     sleep(.1)
-     ballX += 10
-     move_to(ball, (ballX, ballY))
-</pre>
-
-<p>Run it again. This time the ball should travel the full width of the screen and then disappear. To stop the program either close the window or click the Python Shell window and type a Ctrl-C.</p>
-
-<p>How can you change the while condition to automatically stop the program once the ball has left the right hand edge? Try it.</p>
 
 <h2>Looking at key strokes</h2>
 
@@ -164,7 +83,11 @@ Some new things to learn about GASP from this example:
    if key : print key
 </pre>
 
-<p>Run the program again pressing some keys. Look at the output in the Python Shell window coming from the print statement. The keys pressed are nicely returned as strings in a list. We will used this feature to control our mitt.</p>
+<p>Run the program again pressing some keys. Look at the output in the Python
+Shell window coming from the print statement. The keys pressed are nicely
+returned as strings in a list.  We will used this feature to control our mitt.
+</p>
+
 
 <h2>Catching the ball</h2>
 
@@ -209,6 +132,39 @@ Some new things to learn about GASP from this example:
 </pre>
 
 <p>Another option might be to call random_between just once to establish a constant Y increment. This puts the ball on a slope. Try it.</p>
+
+
+<h2>Creating a main loop</h2>
+
+<p>Iteration is useful for enabling users to control how many times parts of a
+program are executed.</p>
+
+<pre class='python'>
+def play_game():
+    print "I'm playing... Oh what fun!"
+
+choice = 'y' 
+
+while choice == 'y':
+    play_game()
+    choice = raw_input("Would you like to play again? (y/n): ")
+</pre>
+
+<p>The variable <code>choice</code> is initialized to <code>'y'</code>.
+This makes the condition of the while loop true the first time it is evaluated,
+and assures that users get to play the game at least once.  After the game
+finishes (and soon the call to <code>play_game()</code> will do something more
+then print a message), users will be asked if they would like to play again. 
+As long as they keep answering with 'y', they can continue playing.</p>
+
+<pre class='shell'>
+I'm playing... Oh what fun!
+Would you like to play again? (y/n): y
+I'm playing... Oh what fun!
+Would you like to play again? (y/n): y
+I'm playing... Oh what fun!
+Would you like to play again? (y/n): n
+</pre>
 
 
 <h2>Glossary</h2>
