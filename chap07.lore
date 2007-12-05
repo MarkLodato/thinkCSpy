@@ -103,9 +103,9 @@ mitt_y = 300
 mitt = Circle((mitt_x, mitt_y), 20)
 
 while True:
-    if key_pressed('j') and mitt_y <= 460:
+    if key_pressed('j') and mitt_y &lt;= 460:
         mitt_y += 5
-    elif key_pressed('k') and mitt_y >= 20:
+    elif key_pressed('k') and mitt_y &gt;= 20:
         mitt_y -= 5
     elif key_pressed('escape'):
         break
