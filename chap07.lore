@@ -973,17 +973,21 @@ def remove(sub, s):
       >>> remove('cyc', 'bicycle')
       'bile'
       >>> remove('iss', 'Mississippi')
-      'Mippi'
+      'Missippi'
+      >>> remove('egg', 'bicycle')
+      'bicycle'
     """
 
 def remove_all(sub, s):
     """
-      >>> remove('an', 'banana')
+      >>> remove_all('an', 'banana')
       'ba'
-      >>> remove('cyc', 'bicycle')
+      >>> remove_all('cyc', 'bicycle')
       'bile'
-      >>> remove('iss', 'Mississippi')
+      >>> remove_all('iss', 'Mississippi')
       'Mippi'
+      >>> remove_all('eggs', 'bicycle')
+      'bicycle'
     """
 </pre>
 until all the doctests pass.

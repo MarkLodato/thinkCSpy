@@ -9,16 +9,15 @@
 <h2>Getting Started</h2>
 
 <p>In our first case study we will build a small video game using the
-facilities in the gasp package.  The game will shoot a ball across a window
+facilities in the GASP package.  The game will shoot a ball across a window
 from left to right and you will manipulate a <q>mitt</q> at the right side of
-the window to catch it. From this program you will a chance to see a bit how
-animated game programs work.</p>
+the window to catch it.</p>
 
 
 <h2>Using <code>while</code> to move a ball</h2>
 
 <p><code>while</code> statements can be used with <code>gasp</code> to add
-motion to a program.  The program below moves a black ball across an 800x600
+motion to a program.  The program below moves a black ball across an 800 x 600
 pixel graphics canvas:</p>
 
 <pre class='python'>
@@ -74,10 +73,42 @@ happening to the variables <code>x</code> and <code>y</code>.</p>
 </ul>
 
 
+<h2>Varying the pitches</h2>
+<span class="index" value="random" />
+<span class="index" value="random values" />
+
+<p>To make our game more interesting, we want to be able to vary the speed and
+direction of the ball.  GASP has a function,
+<code>random_between(low, high)</code>, that returns a <b>random</b> integer
+between <code>low</code> and <code>high</code>.  To see how this works,
+run the following program:</p>
+
+<pre class="python">
+from gasp import *
+
+for i in range(10):
+    print random_between(-5, 5)
+</pre>
+
+<p>Each time the function is called a more or less random integer is chosen
+between -5 and 5. Let's use this to add some "spin" to the ball. Where ballX
+is being incremented, change the value of ballY too.</p>
+
+<pre class="shell">
+  ballX += 10
+  ballY -= random_between(-5,5)
+  move_to(ball, (ballX, ballY))
+</pre>
+
+<p>Another option might be to call random_between just once to establish a
+constant Y increment. This puts the ball on a slope. Try it.</p>
+
+
 <h2>The <code>break</code> statement</h2>
 
-<p>The <code>break</code> statement can be used to break out of a loop
-from any point in the body.</p>
+<p>It is sometimes the case that you know the body of a loop should execute at
+least once.
+</p>
 
 <pre class='python'>
 </pre>
@@ -106,32 +137,6 @@ while True:
 
 end_graphics()
 </pre>
-
-
-<h2>Imperfect pitches</h2>
-
-<p>We can add a bit of randomness to the game with the gasp function
-"random_between". Try the following in the Python Shell window.</p>
-
-<pre class="python-interpreter">
->>> from gasp import *
->>> print random_between(-5, 5)
->>> print random_between(-5, 5)
->>> etc.
-</pre>
-
-<p>Each time the function is called a more or less random integer is chosen
-between -5 and 5. Let's use this to add some "spin" to the ball. Where ballX
-is being incremented, change the value of ballY too.</p>
-
-<pre class="shell">
-  ballX += 10
-  ballY -= random_between(-5,5)
-  move_to(ball, (ballX, ballY))
-</pre>
-
-<p>Another option might be to call random_between just once to establish a
-constant Y increment. This puts the ball on a slope. Try it.</p>
 
 
 <h2>Creating a main loop</h2>
@@ -168,9 +173,10 @@ Would you like to play again? (y/n): n
 
 
 <h2>Glossary</h2>
+<span class="index" value="random" />
 
 <dl>
-<dt>:</dt>
+<dt>random:</dt>
 <dd>.</dd>
 </dl>
 
