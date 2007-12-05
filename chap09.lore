@@ -9,6 +9,8 @@
 <span class="index" value="data type!list" />
 <span class="index" value="element" />
 <span class="index" value="sequence" />
+<span class="index" value="nested list" />
+<span class="index" value="list!nested" />
 <span class="index" value="data type!mutable" />
 
 
@@ -79,18 +81,17 @@ the empty list, and is denoted <code>[]</code>.</p>
 couldn't assign list values to variables or pass lists as parameters to
 functions.  We can:</p>
 
-<pre class="python">
-vocabulary = ["ameliorate", "castigate", "defenestrate"]
-numbers = [17, 123]
-empty = []
-print vocabulary, numbers, empty
+<pre class="python-interpreter">
+>>> vocabulary = ["ameliorate", "castigate", "defenestrate"]
+>>> numbers = [17, 123]
+>>> empty = []
+>>> print vocabulary, numbers, empty
 ['ameliorate', 'castigate', 'defenestrate'] [17, 123] []
 </pre>
 
 
 <h2>Accessing elements</h2>
 <span class="index" value="list!element"/>
-<span class="index" value="access"/>
 
 <p>The syntax for accessing the elements of a list is the same as the syntax
 for accessing the characters of a string---the bracket operator
@@ -99,14 +100,9 @@ inside the brackets specifies the index.  Remember that the indices start at
 0:</p>
 
 <pre class="python">
-print numbers[0]
-numbers[1] = 5
+>>> print numbers[0]
+17
 </pre>
-
-<p>The bracket operator can appear anywhere in an expression.  When it appears
-on the left side of an assignment, it changes one of the elements in the list,
-so the one-eth element of <code>numbers</code>, which used to be 123, is now 5.
-</p>
 
 <p>Any integer expression can be used as an index:</p>
 
@@ -170,18 +166,20 @@ computation is called a <b>list traversal</b>.</p>
 <span class="index" value="length" />
 <span class="index" value="list!length" />
 
-<p>The function <code>len</code> returns the length of a list.  It is a good
-idea to use this value as the upper bound of a loop instead of a constant.
-That way, if the size of the list changes, you won't have to go through the
-program changing all the loops; they will work correctly for any size list:</p>
+<p>The function <code>len</code> returns the length of a list, which is equal
+to the number of its elements.  It is a good idea to use this value as the
+upper bound of a loop instead of a constant.  That way, if the size of the list 
+changes, you won't have to go through the program changing all the loops; they
+will work correctly for any size list:</p>
 
 <pre class="python">
 horsemen = ["war", "famine", "pestilence", "death"]
    
 i = 0
-while i &lt; len(horsemen):
+num = len(horsemen)
+while i &lt; num:
     print horsemen[i]
-    i = i + 1
+    i += 1
 </pre>
 
 <p>The last time the body of the loop is executed, <code>i</code> is
@@ -343,6 +341,29 @@ elements.  Using the bracket operator on the left side of an assignment, we can 
 >>> fruit[-1] = "orange"
 >>> print fruit
 ['pear', 'apple', 'orange']
+</pre>
+
+<p>The bracket operator applied to a list can appear anywhere in an expression.
+When it appears on the left side of an assignment, it changes one of the
+elements in the list, so the one-eth element of <code>numbers</code>, which
+used to be 123, is now 5.  An assignment to an element of a list is called
+<b>item assignment</b>.  Item assignment does not work for strings:</p>
+
+<pre class="python-interpreter">
+>>> my_string = 'TEST'
+>>> my_string[2] = 'X'
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: 'str' object does not support item assignment
+</pre>
+
+<p>but it does for lists:</p>
+
+<pre class="python-interpreter">
+>>> my_list = ['T', 'E', 'S', 'T']
+>>> my_list[2] = 'X'
+>>> my_list
+['T', 'E', 'X', 'T']
 </pre>
 
 <p>With the slice operator we can update several elements at once:</p>
@@ -821,6 +842,7 @@ $
 <span class="index" value="sequence" />
 <span class="index" value="element" />
 <span class="index" value="nested list" />
+<span class="index" value="step size" />
 <span class="index" value="list traversal" />
 <span class="index" value="mutable type" />
 <span class="index" value="object" />
@@ -846,6 +868,11 @@ element identified by an index.</dd>
 
 <dt>nested list:</dt>
 <dd>A list that is an element of another list.</dd>
+
+<dt>step size:</dt>
+<dd>The interval between successive elements of a linear sequence.  The third
+(and optional argument) to the <code>range</code> function is called the
+step size. If not specified, it defaults to 1.</dd>
 
 <dt>list traversal:</dt>
 <dd>The sequential accessing of each element in a list.</dd>
