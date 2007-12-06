@@ -17,8 +17,9 @@ the window to catch it.</p>
 <h2>Using <code>while</code> to move a ball</h2>
 
 <p><code>while</code> statements can be used with <code>gasp</code> to add
-motion to a program.  The program below moves a black ball across an 800 x 600
-pixel graphics canvas:</p>
+motion to a program.  The following program moves a black ball across an
+800 x 600 pixel graphics canvas.  Add this to a file named
+<code>pitch.py</code></p>
 
 <pre class='python'>
 from gasp import *
@@ -31,11 +32,11 @@ ball = Circle((x, y), 10, filled=True)
 dx = 4
 dy = 1
 
-while x &lt; 790:
+while x &lt; 810:
     x += dx
     y += dy
     move_to(ball, (x, y))
-    sleep(0.02)
+    sleep(0.01)
 
 end_graphics()
 </pre>
@@ -86,22 +87,50 @@ run the following program:</p>
 <pre class="python">
 from gasp import *
 
-for i in range(10):
+i = 0
+while i &lt; 10:
     print random_between(-5, 5)
+    i += 1
 </pre>
 
 <p>Each time the function is called a more or less random integer is chosen
-between -5 and 5. Let's use this to add some "spin" to the ball. Where ballX
-is being incremented, change the value of ballY too.</p>
+between -5 and 5.  When we ran this program we got:</p>
 
-<pre class="shell">
-  ballX += 10
-  ballY -= random_between(-5,5)
-  move_to(ball, (ballX, ballY))
+<pre class='shell'>
+-2
+-1
+-4
+1
+-2
+3
+-5
+-3
+4
+-5
 </pre>
 
-<p>Another option might be to call random_between just once to establish a
-constant Y increment. This puts the ball on a slope. Try it.</p>
+
+<p>Let's use <code>random_between</code> to vary the direction of the ball.
+Replace the line in <code>pitch.py</code> that assigns <code>1</code>
+to <code>y</code>:</p>
+
+<pre class='python'>
+dy = 1 
+</pre>
+
+<p>with an assignment to a random number between -4 and 4:</p>
+
+<pre class='python'>
+dy = random_between(-4, 4) 
+</pre>
+
+
+<h2>Making the ball <q>bounce</q></h2>
+
+<p>Running this new version of the program, you will notice that ball
+frequently goes off either the top or bottom edges of the screen before it
+completes its journey.</p>
+
 
 
 <h2>The <code>break</code> statement</h2>
