@@ -145,11 +145,58 @@ if y &gt;= 590 or y &lt;= 10:
 <p>Run the program several times to see how it behaves.</p>
 
 
+<h2>The <code>break</code> statement</h2>
+<span class="index" value="break" />
+<span class="index" value="break statement" />
+
+<p>The <b>break</b> statement is used to immediately leave the body of a loop.  
+The following program impliments simple simple guessing game:</p>
+
+<pre class='python'>
+from gasp import *
+
+number = random_between(0, 1000)
+guesses = 1
+guess = input("Guess the number between 0 and 1000: ")
+
+while guess != number:
+    if guess &gt; number:
+        print "Too high!"
+    else:
+        print "Too low!"
+    guess = input("Guess the number between 0 and 1000: ")
+    guesses += 1
+
+print "\n\nCongratulations, you got it in %d guesses!\n\n" % guesses
+</pre>
+
+<p>Using a <code>break</code> statement, we can rewrite this program to
+eliminate the duplication of the <code>input</code> statement:</p>
+
+<pre class='python'>
+from gasp import *
+
+number = random_between(0, 1000)
+guesses = 0
+
+while True:
+    guess = input("Guess the number between 0 and 1000: ")
+    guesses += 1
+    if guess &gt; number:
+        print "Too high!"
+    elif guess &lt; number:
+        print "Too low!"
+    else:
+        print "\n\nCongratulations, you got it in %d guesses!\n\n" % guesses
+        break
+</pre>
+
+
 <h2>Responding to the keyboard</h2>
 
-<p>The following program creates a movable circle (or <q>mitt</q>) which
-response to keyboard input.  Pressing the <code>j</code> or <code>k</code>
-keys moves the mitt up and down, respectively.  Add this to a file named
+<p>The following program creates a circle (or <q>mitt</q>) which responds to
+keyboard input.  Pressing the <code>j</code> or <code>k</code> keys moves the
+mitt up and down, respectively.  Add this to a file named
 <code>mitt.py</code>:</p>
 
 <pre class='python'>
@@ -178,32 +225,6 @@ end_graphics()
 move up and down the screen.  What happens when you press the
 <code>&lt;Escape&gt;</code> key? What happens when you move the mitt to the
 top or bottom of the screen?  Why?</p>
-
-
-<h2>Responding to the keyboard</h2>
-<span class="index" value="break" />
-<span class="index" value="break statement" />
-
-<p>The <b>break</b> statement is used to immediately leave the body of a loop.  
-The following program impliments simple simple guessing game:</p>
-
-<pre class='python'>
-from gasp import *
-
-number = random_between(0, 1000)
-guesses = 1
-guess = raw_input("Guess the number between 0 and 1000: ")
-
-while guess != number:
-    if guess &gt; number:
-        print "Too high!"
-    else:
-        print "Too low!"
-    guess = raw_input("Guess the number between 0 and 1000: ")
-    guesses += 1
-
-print "Congratulations, you got it in %d guesses!" % guesses
-</pre>
 
 
 <h2>Checking for collisions</h2>
