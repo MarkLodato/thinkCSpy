@@ -19,7 +19,7 @@ the window to catch it.</p>
 <p><code>while</code> statements can be used with <code>gasp</code> to add
 motion to a program.  The following program moves a black ball across an
 800 x 600 pixel graphics canvas.  Add this to a file named
-<code>pitch.py</code></p>
+<code>pitch.py</code>:</p>
 
 <pre class='python'>
 from gasp import *
@@ -142,12 +142,15 @@ if y &gt;= 590 or y &lt;= 10:
     dy *= -1
 </pre>
 
+<p>Run the program several times to see how it behaves.</p>
+
 
 <h2>Responding to the keyboard</h2>
 
 <p>The following program creates a movable circle (or <q>mitt</q>) which
 response to keyboard input.  Pressing the <code>j</code> or <code>k</code>
-keys moves the mitt up and down, respectively.</p>
+keys moves the mitt up and down, respectively.  Add this to a file named
+<code>mitt.py</code>:</p>
 
 <pre class='python'>
 from gasp import *
@@ -171,8 +174,43 @@ while True:
 end_graphics()
 </pre>
 
+<p>Run <code>mitt.py</code>, pressing <code>j</code> and <code>k</code> to
+move up and down the screen.  What happens when you press the
+<code>&lt;Escape&gt;</code> key? What happens when you move the mitt to the
+top or bottom of the screen?  Why?</p>
+
+
+<h2>Responding to the keyboard</h2>
+<span class="index" value="break" />
+<span class="index" value="break statement" />
+
+<p>The <b>break</b> statement is used to immediately leave the body of a loop.  
+The following program impliments simple simple guessing game:</p>
+
+<pre class='python'>
+from gasp import *
+
+number = random_between(0, 1000)
+guesses = 1
+guess = raw_input("Guess the number between 0 and 1000: ")
+
+while guess != number:
+    if guess &gt; number:
+        print "Too high!"
+    else:
+        print "Too low!"
+    guess = raw_input("Guess the number between 0 and 1000: ")
+    guesses += 1
+
+print "Congratulations, you got it in %d guesses!" % guesses
+</pre>
+
 
 <h2>Checking for collisions</h2>
+
+<p>The following program moves two balls toward each other from opposite sides
+of the screen.  When they <q>collide</q>, both balls disappear and the program
+ends:</p>
 
 <pre class='python'>
 from gasp import *
@@ -208,6 +246,11 @@ end_graphics()
 
 
 <h2>Displaying text</h2>
+
+<p>This program displays scores for both a player and the computer on the
+graphics screen.  It generates a random number of 0 or 1 (like flipping a coin)
+and adds a point to the player if the value is 1 and to the computer if it is
+not.  It then updates the display on the screen.</p> 
 
 <pre class='python'>
 from gasp import *
@@ -278,6 +321,8 @@ Would you like to play again? (y/n): n
 
 <h2>Glossary</h2>
 <span class="index" value="random" />
+<span class="index" value="break" />
+<span class="index" value="break statement" />
 
 <dl>
 <dt>random:</dt>
@@ -292,13 +337,13 @@ we get from Python.</dd>
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
+Combine the <code>pitch.py</code> and <code>mitt.py</code> programs into
+one program, called <code>catch.py</code>, that allows the player to move the
+mitt up and down as the ball is moving across the screen.
 </div></li>
 
-<li><div class="exercise">
-</div></li>
-
-<li><div class="exercise">
-</div></li>
+<!-- li><div class="exercise">
+</div></li -->
 
 </ol>
 
