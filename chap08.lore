@@ -109,6 +109,7 @@ between -5 and 5.  When we ran this program we got:</p>
 -5
 </pre>
 
+<p>You will probably get a different sequence of numbers.</p>
 
 <p>Let's use <code>random_between</code> to vary the direction of the ball.
 Replace the line in <code>pitch.py</code> that assigns <code>1</code>
@@ -129,33 +130,36 @@ dy = random_between(-4, 4)
 
 <p>Running this new version of the program, you will notice that ball
 frequently goes off either the top or bottom edges of the screen before it
-completes its journey.</p>
+completes its journey.  To prevent this, let's make the ball <q>bounce</q>
+off the edges by changing the sign of <code>dy</code> and sending the
+ball back in the opposite verticle direction.</p>
 
-
-
-<h2>The <code>break</code> statement</h2>
-
-<p>It is sometimes the case that you know the body of a loop should execute at
-least once.
-</p>
+<p>Add the following as the first line of the body of the while loop in
+<code>pitch.py</code>:</p>
 
 <pre class='python'>
+if y &gt;= 590 or y &lt;= 10:
+    dy *= -1
 </pre>
 
 
 <h2>Responding to the keyboard</h2>
 
+<p>The following program creates a movable circle (or <q>mitt</q>) which
+response to keyboard input.  Pressing the <code>j</code> or <code>k</code>
+keys moves the mitt up and down, respectively.</p>
+
 <pre class='python'>
 from gasp import *
 
-begin_graphics()
+begin_graphics(800, 600, title="Catch", background=color.yellow)
 
-mitt_x = 620
+mitt_x = 780
 mitt_y = 300
 mitt = Circle((mitt_x, mitt_y), 20)
 
 while True:
-    if key_pressed('j') and mitt_y &lt;= 460:
+    if key_pressed('j') and mitt_y &lt;= 580:
         mitt_y += 5
     elif key_pressed('k') and mitt_y &gt;= 20:
         mitt_y -= 5
@@ -163,6 +167,77 @@ while True:
         break
     move_to(mitt, (mitt_x, mitt_y))
     sleep(0.01)
+
+end_graphics()
+</pre>
+
+
+<h2>Checking for collisions</h2>
+
+<pre class='python'>
+from gasp import *
+
+def distance((x1, y1), (x2, y2)):
+    return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
+
+begin_graphics(800, 600, title="Catch", background=color.yellow)
+
+ball1_x = 10
+ball1_y = 300
+ball1 = Circle((ball1_x, ball1_y), 10, filled=True)
+ball1_dx = 4
+
+ball2_x = 790
+ball2_y = 300
+ball2 = Circle((ball2_x, ball2_y), 10)
+ball2_dx = -4
+
+while ball1_x &lt; 810:
+    ball1_x += ball1_dx
+    ball2_x += ball2_dx
+    move_to(ball1, (ball1_x, ball1_y))
+    move_to(ball2, (ball2_x, ball2_y))
+    if distance((ball1_x, ball1_y), (ball2_x, ball2_y)) &lt;= 20:
+        remove_from_screen(ball1)
+        remove_from_screen(ball2)
+        break
+    sleep(0.01)
+
+end_graphics()
+</pre>
+
+
+<h2>Displaying text</h2>
+
+<pre class='python'>
+from gasp import *
+
+begin_graphics(800, 600, title="Catch", background=color.yellow)
+
+player_score = 0
+comp_score = 0
+
+player = Text("Player: %d Points" % player_score, (10, 570), size=24)
+computer = Text("Computer: %d Points" % comp_score, (640, 570), size=24)
+
+while player_score &lt; 5 and comp_score &lt; 5:
+    sleep(1)
+    winner = random_between(0, 1)
+    if winner:
+        player_score += 1
+        remove_from_screen(player)
+        player = Text("Player: %d Points" % player_score, (10, 570), size=24)
+    else:
+        comp_score += 1
+        remove_from_screen(computer)
+        computer = Text("Computer: %d Points" % comp_score, (640, 570), size=24)
+
+if player_score == 5:
+    Text("Player Wins!", (340, 290), size=32)
+else:
+    Text("Computer Wins!", (340, 290), size=32)
+
+sleep(4)
 
 end_graphics()
 </pre>
@@ -206,7 +281,11 @@ Would you like to play again? (y/n): n
 
 <dl>
 <dt>random:</dt>
-<dd>.</dd>
+<dd>Having no specific pattern. Unpredictable. Computers are designed to be
+predicatable, and it is not possible to get a truly random value from
+a computer.  Certain functions produce sequences of values that appear
+as if they were random, and it is these <em>psuedorandom</em> values that
+we get from Python.</dd>
 </dl>
 
 
