@@ -276,6 +276,10 @@ end_graphics()
 
 <h2>Putting the pieces together</h2>
 
+<p>In order to combine the moving ball, moving mitt, and collision detection,
+we need a single <code>while</code> loop that does each of these things in
+turn:</p>
+
 <pre class='python'>
 from gasp import *
 
@@ -322,6 +326,9 @@ while True:
 end_graphics()
 </pre>
 
+<p>Put this program in a file named <code>catch.py</code> and run it several
+times. Be sure to <q>catch</q> the ball on some runs and miss it on others.</p>
+
 
 <h2>Displaying text</h2>
 
@@ -365,6 +372,27 @@ end_graphics()
 
 <p>Put this program in a file named <code>scores.py</code> and run it.</p>
 
+<p>We can now modify <code>catch.py</code> to diplay the winner.  Immediately
+after the <code>if ball_x &lt; 810:</code> conditional, add the following:</p>
+
+<pre class='python'>
+Text("Computer Wins!", (340, 290), size=32)
+sleep(2)
+</pre>
+
+<p>It is left as an excercise to display when the player wins.</p>
+
+
+<h2>Abstraction</h2>
+<span class="index" value="abstraction" />
+
+<p>Our program is getting a bit complex.  Overly complex programs are difficult 
+to read and therefore difficult to maintain.  To handle this increasing
+complexity, we can wrap groups of related statements in functions, using
+<b>abstraction</b> to hide unnecessary program details.</p>
+
+
+
 
 <h2>Creating a main loop</h2>
 
@@ -405,6 +433,8 @@ Would you like to play again? (y/n): n
 <span class="index" value="break statement" />
 <span class="index" value="trichotomy" />
 <span class="index" value="law of trichotomy" />
+<span class="index" value="abstraction" />
+
 
 <dl>
 <dt>random:</dt>
@@ -413,13 +443,21 @@ predicatable, and it is not possible to get a truly random value from
 a computer.  Certain functions produce sequences of values that appear
 as if they were random, and it is these <em>psuedorandom</em> values that
 we get from Python.</dd>
-</dl>
 
 <dt>trichotomy:</dt>
 <dd>Given any real numbers <em>a</em> and <em>b</em>, exactly one of
 the following relations holds:  <em>a &lt; b</em>, <em>a &gt; b</em>,
 or <em>a = b</em>.  Thus when you can establish that two of the relations are
 false, you can assume the remaining one is true.</dd>
+
+<dt>abstraction:</dt>
+<dd>
+<em>Generalization</em> by reducing the information content of a concept.
+Functions in Python can be used to group a number of program statements with
+a single name, abstracting out the details and making the program easier to
+understand. 
+</dd>
+</dl>
 
 
 <h2>Exercises</h2>
@@ -458,6 +496,16 @@ Experiment with commenting and uncommenting the two
 <code>remove_from_screen</code> statements and the <code>break</code> statement
 until you can describe <em>specifically</em> how these statement work together
 to produce the desired behavior in the program.
+</div></li>
+
+<li><div class="exercise">
+Where can you add the lines
+<pre class='python'>
+Text("Player Wins!", (340, 290), size=32)
+sleep(2)
+</pre>
+to <code>catch.py</code> so that the program displays this message when the
+ball is <q>caught</q>?
 </div></li>
 </ol>
 
