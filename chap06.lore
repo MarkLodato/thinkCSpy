@@ -257,6 +257,7 @@ complete.  We can also see that the final 1 will not be printed as output.
 
 
 <h2>Counting digits</h2>
+<span class="index" value="counter" />
 
 <p>The following function counts the number of decimal digits in a positive
 integer expressed in decimal format:</p>

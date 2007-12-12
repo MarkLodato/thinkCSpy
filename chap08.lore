@@ -26,16 +26,16 @@ from gasp import *
 
 begin_graphics(800, 600, title="Catch", background=color.yellow)
 
-x = 10
-y = 300
-ball = Circle((x, y), 10, filled=True)
+ball_x = 10
+ball_y = 300
+ball = Circle((ball_x, ball_y), 10, filled=True)
 dx = 4
 dy = 1
 
-while x &lt; 810:
-    x += dx
-    y += dy
-    move_to(ball, (x, y))
+while ball_x &lt; 810:
+    ball_x += dx
+    ball_y += dy
+    move_to(ball, (ball_x, ball_y))
     sleep(0.01)
 
 end_graphics()
@@ -138,7 +138,7 @@ ball back in the opposite verticle direction.</p>
 <code>pitch.py</code>:</p>
 
 <pre class='python'>
-if y &gt;= 590 or y &lt;= 10:
+if ball_y &gt;= 590 or ball_y &lt;= 10:
     dy *= -1
 </pre>
 
@@ -155,16 +155,16 @@ The following program impliments simple simple guessing game:</p>
 <pre class='python'>
 from gasp import *
 
-number = random_between(0, 1000)
+number = random_between(1, 1000)
 guesses = 1
-guess = input("Guess the number between 0 and 1000: ")
+guess = input("Guess the number between 1 and 1000: ")
 
 while guess != number:
     if guess &gt; number:
         print "Too high!"
     else:
         print "Too low!"
-    guess = input("Guess the number between 0 and 1000: ")
+    guess = input("Guess the number between 1 and 1000: ")
     guesses += 1
 
 print "\n\nCongratulations, you got it in %d guesses!\n\n" % guesses
@@ -176,11 +176,11 @@ eliminate the duplication of the <code>input</code> statement:</p>
 <pre class='python'>
 from gasp import *
 
-number = random_between(0, 1000)
+number = random_between(1, 1000)
 guesses = 0
 
 while True:
-    guess = input("Guess the number between 0 and 1000: ")
+    guess = input("Guess the number between 1 and 1000: ")
     guesses += 1
     if guess &gt; number:
         print "Too high!"
@@ -190,6 +190,13 @@ while True:
         print "\n\nCongratulations, you got it in %d guesses!\n\n" % guesses
         break
 </pre>
+
+<p>This program makes use of the mathematical law of <b>trichotomy</b> (given
+real numbers a and b, a &gt; b, a &lt; b, or a = b).  While both versions of
+the program are 15 lines long, it could be argued that the logic in the second
+version is clearer.</p>
+
+<p>Put this program in a file named <code>guess.py</code>.</p>
 
 
 <h2>Responding to the keyboard</h2>
@@ -222,9 +229,7 @@ end_graphics()
 </pre>
 
 <p>Run <code>mitt.py</code>, pressing <code>j</code> and <code>k</code> to
-move up and down the screen.  What happens when you press the
-<code>&lt;Escape&gt;</code> key? What happens when you move the mitt to the
-top or bottom of the screen?  Why?</p>
+move up and down the screen.</p>
 
 
 <h2>Checking for collisions</h2>
@@ -260,6 +265,58 @@ while ball1_x &lt; 810:
         remove_from_screen(ball1)
         remove_from_screen(ball2)
         break
+    sleep(0.01)
+
+sleep(1)
+end_graphics()
+</pre>
+
+<p>Put this program in a file named <code>collide.py</code> and run it.</p>
+
+
+<h2>Putting the pieces together</h2>
+
+<pre class='python'>
+from gasp import *
+
+def distance((x1, y1), (x2, y2)):
+        return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
+
+begin_graphics(800, 600, title="Catch", background=color.yellow)
+
+ball_x = 10
+ball_y = 300
+ball = Circle((ball_x, ball_y), 10, filled=True)
+dx = 4
+dy = random_between(-4, 4) 
+
+mitt_x = 780
+mitt_y = 300
+mitt = Circle((mitt_x, mitt_y), 20)
+
+while True:
+    # move the ball
+    if ball_y &gt;= 590 or ball_y &lt;= 10:
+        dy *= -1
+    ball_x += dx
+    if ball_x &gt; 810:             # the ball has gone off the screen
+        break
+    ball_y += dy
+    move_to(ball, (ball_x, ball_y))
+
+    # check on the mitt
+    if key_pressed('j') and mitt_y &lt;= 580:
+        mitt_y += 5
+    elif key_pressed('k') and mitt_y &gt;= 20:
+        mitt_y -= 5
+    elif key_pressed('escape'):
+        break
+    move_to(mitt, (mitt_x, mitt_y))
+
+    if distance((ball_x, ball_y), (mitt_x, mitt_y)) &lt;= 30:  # ball is caught
+        remove_from_screen(ball)
+        break
+
     sleep(0.01)
 
 end_graphics()
@@ -306,6 +363,8 @@ sleep(4)
 end_graphics()
 </pre>
 
+<p>Put this program in a file named <code>scores.py</code> and run it.</p>
+
 
 <h2>Creating a main loop</h2>
 
@@ -344,6 +403,8 @@ Would you like to play again? (y/n): n
 <span class="index" value="random" />
 <span class="index" value="break" />
 <span class="index" value="break statement" />
+<span class="index" value="trichotomy" />
+<span class="index" value="law of trichotomy" />
 
 <dl>
 <dt>random:</dt>
@@ -354,18 +415,50 @@ as if they were random, and it is these <em>psuedorandom</em> values that
 we get from Python.</dd>
 </dl>
 
+<dt>trichotomy:</dt>
+<dd>Given any real numbers <em>a</em> and <em>b</em>, exactly one of
+the following relations holds:  <em>a &lt; b</em>, <em>a &gt; b</em>,
+or <em>a = b</em>.  Thus when you can establish that two of the relations are
+false, you can assume the remaining one is true.</dd>
+
 
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
-Combine the <code>pitch.py</code> and <code>mitt.py</code> programs into
-one program, called <code>catch.py</code>, that allows the player to move the
-mitt up and down as the ball is moving across the screen.
+What happens when you press the &lt;Escape&gt; key while running
+<code>mitt.py</code>? List the two lines from the program that produce this
+behavior and explain how they work.
 </div></li>
 
-<!-- li><div class="exercise">
-</div></li -->
+<li><div class="exercise">
+What is the name of the counter variable in <code>guess.py</code>?  With
+a proper strategy, the maximum number of guesses required to arrive at the
+correct number should be 11.  What is this strategy?
+</div></li>
 
+<li><div class="exercise">
+What happens when the <q>mitt</q> in <code>mitt.py</code> gets to the top or
+bottom of the graphics window?  List the lines from the program that control
+this behavior and explain <em>in detail</em> how they work.
+</div></li>
+
+<li><div class="exercise">
+Change the value of <code>ball1_dx</code> in <code>collide.py</code> to 2.  How 
+does the program behave differently?  Now change <code>ball1_dx</code> back to
+4 and set <code>ball2_dx</code> to -2.  Explain <em>in detail</em> how these
+changes effect the behavior of the program.
+</div></li>
+
+<li><div class="exercise">
+Comment out (put a <code>#</code> in front of the statement) the
+<code>break</code> statement in <code>collide.py</code>.  Do you notice any
+change in the behavior of the program?  Now also comment out the 
+<code>remove_from_screen(ball1)</code> statement.  What happens now?
+Experiment with commenting and uncommenting the two
+<code>remove_from_screen</code> statements and the <code>break</code> statement
+until you can describe <em>specifically</em> how these statement work together
+to produce the desired behavior in the program.
+</div></li>
 </ol>
 
 </body>
