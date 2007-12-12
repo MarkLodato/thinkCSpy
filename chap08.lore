@@ -404,7 +404,10 @@ experienced programmer to develop and maintain.</p>
 <p>To handle increasing complexity, we can wrap groups of related statements in
 functions, using <b>abstraction</b> to hide program details.  This allows us to 
 mentally treat a group of programming statements as a single concept, freeing
-up mental <q>bandwidth</q> for further tasks.</p>
+up mental <q>bandwidth</q> for further tasks.  The ability to use abstraction
+is one of the most power ideas in computer programming.</p>
+
+<p>Here is a completed version of <code>catch.py</code>:
 
 <pre class='python'>
 from gasp import *
@@ -420,21 +423,23 @@ def distance((x1, y1), (x2, y2)):
 
 def play_round():
     ball_x = 10
-    ball_y = 300
+    ball_y = random_between(20, 280)
     ball = Circle((ball_x, ball_y), 10, filled=True)
     dx = 4
-    dy = random_between(-4, 4) 
+    dy = random_between(-5, 5) 
 
     mitt_x = 780
-    mitt_y = 300
+    mitt_y = random_between(20, 280)
     mitt = Circle((mitt_x, mitt_y), 20)
 
     while True:
-        if ball_y &lt;= 590 or ball_y &gt;= 10:
+        if ball_y &gt;= 590 or ball_y &lt;= 10:
             dy *= -1
         ball_x += dx
         ball_y += dy
         if ball_x &gt;= 810:
+            remove_from_screen(ball)
+            remove_from_screen(mitt)
             return COMPUTER_WINS 
         move_to(ball, (ball_x, ball_y))
 
@@ -448,16 +453,17 @@ def play_round():
 
         if distance((ball_x, ball_y), (mitt_x, mitt_y)) &lt;= 30:
             remove_from_screen(ball)
+            remove_from_screen(mitt)
             return PLAYER_WINS
 
-        sleep(0.01)
+        sleep(0.005)
 
 
 def play_game():
     player_score = 0
     comp_score = 0
 
-    while player_score &lt; 5 and comp_score &lt; 5:
+    while True:
         pmsg = Text("Player: %d Points" % player_score, (10, 570), size=24)
         cmsg = Text("Computer: %d Points" % comp_score, (640, 570), size=24)
         sleep(3)
@@ -469,9 +475,14 @@ def play_game():
         if result == PLAYER_WINS:
             player_score += 1
         elif result == COMPUTER_WINS:
-            computer_score += 1
+            comp_score += 1
         else:
             return QUIT 
+
+        if player_score == 5:
+            return PLAYER_WINS
+        elif comp_score == 5:
+            return COMPUTER_WINS 
 
 
 begin_graphics(800, 600, title="Catch", background=color.yellow)
@@ -487,6 +498,13 @@ elif result == COMPUTER_WINS:
 
 end_graphics()
 </pre>
+
+<p>Some new things to learn from this example:</p>
+
+<ul>
+  <li>
+  </li>
+</ul>
 
 
 <h2>Glossary</h2>
@@ -571,6 +589,10 @@ sleep(2)
 </pre>
 to <code>catch.py</code> so that the program displays this message when the
 ball is <q>caught</q>?
+</div></li>
+
+<li><div class="exercise">
+
 </div></li>
 </ol>
 
