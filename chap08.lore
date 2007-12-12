@@ -384,14 +384,88 @@ sleep(2)
 
 
 <h2>Abstraction</h2>
+<span class="index" value="nested loop" />
 <span class="index" value="abstraction" />
 
-<p>Our program is getting a bit complex.  Overly complex programs are difficult 
-to read and therefore difficult to maintain.  To handle this increasing
-complexity, we can wrap groups of related statements in functions, using
-<b>abstraction</b> to hide unnecessary program details.</p>
+<p>Our program is getting a bit complex.  To make matters worse, we are about
+to increase its complexity.  The next stage of development requires a
+<b>nested loop</b>.  The outer loop will handle repeating rounds of play until
+either the player or the computer reaches a winning score.  The inner loop will
+be the one we already have, which plays a single round, moving the ball and
+mitt, and determining if a catch or a miss has occured.</p>
+
+<p>Research suggests there is are clear limits to our ability to process
+cognitive tasks (see George A. Miller's 
+<a href="http://psychclassics.yorku.ca/Miller">The Magical Number Seven, Plus
+or Minus Two: Some Limits on our Capacity for Processing Information</a>).
+The more complex a program becomes, the more difficult it is for even an
+experienced programmer to develop and maintain.</p>
+
+<p>To handle increasing complexity, we can wrap groups of related statements in
+functions, using <b>abstraction</b> to hide unnecessary program details.  This
+allows us to mentally treat a group of programming statements as a single
+concept, free up mental <em>bandwidth</em>.</p>
+
+<pre class='python'>
+from gasp import *
+
+COMPUTER_WINS = 1
+PLAYER_WINS = 0
+QUIT = -1
+
+def distance((x1, y1), (x2, y2)):
+        return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
+
+def play_round():
+    ball_x = 10
+    ball_y = 300
+    ball = Circle((ball_x, ball_y), 10, filled=True)
+    dx = 4
+    dy = random_between(-4, 4) 
+
+    mitt_x = 780
+    mitt_y = 300
+    mitt = Circle((mitt_x, mitt_y), 20)
+
+    while True:
+        if ball_y &lt;= 590 or ball_y &gt;= 10:
+            dy *= -1
+        ball_x += dx
+        ball_y += dy
+        if ball_x &gt;= 810:
+            return COMPUTER_WINS 
+        move_to(ball, (ball_x, ball_y))
+
+        if key_pressed('j') and mitt_y &lt;= 580:
+            mitt_y += 5
+        elif key_pressed('k') and mitt_y &gt;= 20:
+            mitt_y -= 5
+        elif key_pressed('escape'):
+            return QUIT
+        move_to(mitt, (mitt_x, mitt_y))
+
+        if distance((ball_x, ball_y), (mitt_x, mitt_y)) &lt;= 30:
+            remove_from_screen(ball)
+            return PLAYER_WINS
+
+        sleep(0.01)
 
 
+def play_game():
+    player_score = 0
+    comp_score = 0
+
+    while player_score &lt; 5 and comp_score &lt; 5:
+        pmsg = Text("Player: %d Points" % player_score, (10, 570), size=24)
+        cmsg = Text("Computer: %d Points" % comp_score, (640, 570), size=24)
+
+    play_round()
+
+
+begin_graphics(800, 600, title="Catch", background=color.yellow)
+play_game()
+end_graphics()
+</pre>
 
 
 <h2>Creating a main loop</h2>
@@ -433,8 +507,8 @@ Would you like to play again? (y/n): n
 <span class="index" value="break statement" />
 <span class="index" value="trichotomy" />
 <span class="index" value="law of trichotomy" />
+<span class="index" value="nested loop" />
 <span class="index" value="abstraction" />
-
 
 <dl>
 <dt>random:</dt>
@@ -449,6 +523,9 @@ we get from Python.</dd>
 the following relations holds:  <em>a &lt; b</em>, <em>a &gt; b</em>,
 or <em>a = b</em>.  Thus when you can establish that two of the relations are
 false, you can assume the remaining one is true.</dd>
+
+<dt>nested loop:</dt>
+<dd>A loop inside the body of another loop.</dd>
 
 <dt>abstraction:</dt>
 <dd>
