@@ -216,9 +216,9 @@ mitt_y = 300
 mitt = Circle((mitt_x, mitt_y), 20)
 
 while True:
-    if key_pressed('j') and mitt_y &lt;= 580:
+    if key_pressed('k') and mitt_y &lt;= 580:
         mitt_y += 5
-    elif key_pressed('k') and mitt_y &gt;= 20:
+    elif key_pressed('j') and mitt_y &gt;= 20:
         mitt_y -= 5
     elif key_pressed('escape'):
         break
@@ -309,9 +309,9 @@ while True:
     move_to(ball, (ball_x, ball_y))
 
     # check on the mitt
-    if key_pressed('j') and mitt_y &lt;= 580:
+    if key_pressed('k') and mitt_y &lt;= 580:
         mitt_y += 5
-    elif key_pressed('k') and mitt_y &gt;= 20:
+    elif key_pressed('j') and mitt_y &gt;= 20:
         mitt_y -= 5
     elif key_pressed('escape'):
         break
@@ -443,9 +443,9 @@ def play_round():
             return COMPUTER_WINS 
         move_to(ball, (ball_x, ball_y))
 
-        if key_pressed('j') and mitt_y &lt;= 580:
+        if key_pressed('k') and mitt_y &lt;= 580:
             mitt_y += 5
-        elif key_pressed('k') and mitt_y &gt;= 20:
+        elif key_pressed('j') and mitt_y &gt;= 20:
             mitt_y -= 5
         elif key_pressed('escape'):
             return QUIT
@@ -525,8 +525,15 @@ end_graphics()
   it in a function named <code>play_round()</code>.  <code>play_round</code>
   makes use of the constants defined at the top of the program.  It is much
   easier to remember <code>COMPUTER_WINS</code> than it is the arbitrary
-  numeric value assigned to it.
-  </li>
+  numeric value assigned to it.</li>
+
+  <li>A new function, <code>play_game()</code>, creates variables for
+  <code>player_score</code> and <code>comp_score</code>.  Using a
+  <code>while</code> loop, it repeatedly calls <code>play_round</code>,
+  checking the result of each call and updating the score appropriately.
+  Finally, when either the player or computer reach 5 points,
+  <code>play_game</code> returns the winner to the main body of the program,
+  which then displays the winner and then quits.</li>
 </ul>
 
 
@@ -625,7 +632,15 @@ displays this message when the ball is <q>caught</q>?
 </div></li>
 
 <li><div class="exercise">
+Trace the flow of execution in the final version of <code>catch.py</code> when
+you press the &lt;Escape&gt; during the execution of <code>play_round</code>.
+What happens when you press this key?  Why?
+</div></li>
 
+<li><div class="exercise">
+List the main body of the final version of <code>catch.py</code>.  Describe
+<em>in detail</em> what each line of code does.  Which statement calls the
+function that starts the game?
 </div></li>
 </ol>
 
