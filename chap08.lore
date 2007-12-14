@@ -405,9 +405,9 @@ experienced programmer to develop and maintain.</p>
 functions, using <b>abstraction</b> to hide program details.  This allows us to 
 mentally treat a group of programming statements as a single concept, freeing
 up mental <q>bandwidth</q> for further tasks.  The ability to use abstraction
-is one of the most power ideas in computer programming.</p>
+is one of the most powerful ideas in computer programming.</p>
 
-<p>Here is a completed version of <code>catch.py</code>:
+<p>Here is a completed version of <code>catch.py</code>:</p>
 
 <pre class='python'>
 from gasp import *
@@ -500,9 +500,32 @@ end_graphics()
 </pre>
 
 <p>Some new things to learn from this example:</p>
+<span class="index" value="constant" />
 
 <ul>
-  <li>
+  <li>Following good organizational practices makes programs easier to read.
+  Use the following organization in your programs:
+  <ul>
+    <li>imports</li>
+    <li>global constants</li>
+    <li>function definitions</li>
+    <li>main body of the program</li>
+  </ul>
+  </li>
+
+  <li>Symbolic <b>constants</b> like <code>COMPUTER_WINS</code>,
+  <code>PLAYER_WINS</code>, and <code>QUIT</code> can be used to enhance
+  readability of the program.  It is customary to name constants with
+  all capital letters.  In Python it is up to the programmer to never
+  assign a new value to a <q>constant</q>, since the language does not
+  provide an easy way to enforce this (many other programming languages do).
+  </li>
+
+  <li>We took the version of the program developed in section 8.8 and wrapped
+  it in a function named <code>play_round()</code>.  <code>play_round</code>
+  makes use of the constants defined at the top of the program.  It is much
+  easier to remember <code>COMPUTER_WINS</code> than it is the arbitrary
+  numeric value assigned to it.
   </li>
 </ul>
 
@@ -515,6 +538,7 @@ end_graphics()
 <span class="index" value="law of trichotomy" />
 <span class="index" value="nested loop" />
 <span class="index" value="abstraction" />
+<span class="index" value="constant" />
 
 <dl>
 <dt>random:</dt>
@@ -539,6 +563,15 @@ false, you can assume the remaining one is true.</dd>
 Functions in Python can be used to group a number of program statements with
 a single name, abstracting out the details and making the program easier to
 understand. 
+</dd>
+
+<dt>constant:</dt>
+<dd>
+A numerical value that does not change during the execution of a program.
+It is conventional to use names with all uppercase letters to repesent
+constants, though Python programs rely on the discipline of the programmers
+to enforce this, since there is no language mechanism to to support true
+constants in Python. 
 </dd>
 </dl>
 
@@ -587,8 +620,8 @@ Where can you add the lines
 Text("Player Wins!", (340, 290), size=32)
 sleep(2)
 </pre>
-to <code>catch.py</code> so that the program displays this message when the
-ball is <q>caught</q>?
+to the version of <code>catch.py</code> in section 8.8 so that the program
+displays this message when the ball is <q>caught</q>?
 </div></li>
 
 <li><div class="exercise">
