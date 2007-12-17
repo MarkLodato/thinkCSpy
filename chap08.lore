@@ -642,7 +642,23 @@ List the main body of the final version of <code>catch.py</code>.  Describe
 <em>in detail</em> what each line of code does.  Which statement calls the
 function that starts the game?
 </div></li>
+
+<li><div class="exercise">
+Identify the function responsible for displaying the ball and the mitt.  What
+other operations are provided by this function?
+</div></li>
+
+<li><div class="exercise">
+Which function keeps track of the score?  Is this also the function that
+displays the score?  Justify your answer by discussing specific parts of the
+code which implement these operations.
+</div></li>
 </ol>
+
+
+<h2>Project: <code>pong.py</code></h2>
+
+<p></p>
 
 </body>
 </html>
