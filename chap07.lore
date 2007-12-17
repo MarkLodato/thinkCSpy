@@ -468,8 +468,7 @@ well as an upper bound to accomodate this change.</p>
 <span class="index" value="doc string" />
 
 <p>The <code>string</code> module contains useful functions that manipulate
-strings.  In recent versions of Python the 
-As usual, we have to import the module before we can use it:</p>
+strings.  As usual, we have to import the module before we can use it:</p>
 
 <pre class="python-interpreter">
 >>> import string
