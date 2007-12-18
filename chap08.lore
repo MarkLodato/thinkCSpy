@@ -673,7 +673,19 @@ games.</p>
 
 <p><code>catch.py</code> already contains all the programming tools we need
 to develop our own version of pong.   Incrementally changing
-<code>catch.py</code> into <code>pong.py</code> is the goalof this project.</p>
+<code>catch.py</code> into <code>pong.py</code> is the goal of this project,
+which you will accomplish by completing the following series of exercises:</p>
+
+<ol>
+<li><div class="exercise">
+Copy <code>catch.py</code> to <code>pong.py</code> and change the ball into
+a paddle by using <code>Box</code> instead of the <code>Circle</code>.  You can 
+look at Appendix A for more information on <code>Box</code>.
+</div></li>
+
+<!-- li><div class="exercise">
+</div></li -->
+</ol>
 
 </body>
 </html>
