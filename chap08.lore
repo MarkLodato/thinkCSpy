@@ -534,6 +534,14 @@ end_graphics()
   Finally, when either the player or computer reach 5 points,
   <code>play_game</code> returns the winner to the main body of the program,
   which then displays the winner and then quits.</li>
+
+  <li>There are two variables named <code>result</code>---one in the
+  <code>play_game</code> function and one in the main body of the program.
+  While they have the same name, they are in different <em>namespaces</em>,
+  and bear no relation to each other.  Each function creates its own
+  namespace, and names defined within the body of the function are not
+  <q>visible</q> to code outside the function body.  Namespaces will be
+  discussed in greater detail in the next chapter.</li>
 </ul>
 
 
@@ -658,7 +666,14 @@ code which implement these operations.
 
 <h2>Project: <code>pong.py</code></h2>
 
-<p></p>
+<p><a href="http://en.wikipedia.org/wiki/Pong">Pong</a> was one of the first
+commercial video games.  With a capital P it is a registered trademark, but
+<q>pong</q> is used to refer any of the table tennis like paddle and ball video 
+games.</p>
+
+<p><code>catch.py</code> already contains all the programming tools we need
+to develop our own version of pong.   Incrementally changing
+<code>catch.py</code> into <code>pong.py</code> is the goalof this project.</p>
 
 </body>
 </html>
