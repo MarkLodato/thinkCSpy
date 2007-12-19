@@ -701,7 +701,9 @@ the left.
 <li><div class="exercise">
 Copy <code>pong2.py</code> to <code>pong3.py</code>.   Add a new paddle on
 the left side of the screen which moves up when <code>'a'</code> is pressed
-and down when <code>'s'</code> is pressed.
+and down when <code>'s'</code> is pressed.  Change the starting point for the
+ball to the center of the screen, (400, 300), and make it randomly move to
+the left or right at the start of each round.
 </div></li>
 
 <!-- li><div class="exercise">
