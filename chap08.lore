@@ -241,7 +241,7 @@ ends:</p>
 <pre class='python'>
 from gasp import *
 
-def distance((x1, y1), (x2, y2)):
+def distance(x1, y1, x2, y2):
     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
 begin_graphics(800, 600, title="Catch", background=color.yellow)
@@ -261,7 +261,7 @@ while ball1_x &lt; 810:
     ball2_x += ball2_dx
     move_to(ball1, (ball1_x, ball1_y))
     move_to(ball2, (ball2_x, ball2_y))
-    if distance((ball1_x, ball1_y), (ball2_x, ball2_y)) &lt;= 20:
+    if distance(ball1_x, ball1_y, ball2_x, ball2_y) &lt;= 20:
         remove_from_screen(ball1)
         remove_from_screen(ball2)
         break
@@ -283,7 +283,7 @@ turn:</p>
 <pre class='python'>
 from gasp import *
 
-def distance((x1, y1), (x2, y2)):
+def distance(x1, y1, x2, y2):
         return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
 begin_graphics(800, 600, title="Catch", background=color.yellow)
@@ -317,7 +317,7 @@ while True:
         break
     move_to(mitt, (mitt_x, mitt_y))
 
-    if distance((ball_x, ball_y), (mitt_x, mitt_y)) &lt;= 30:  # ball is caught
+    if distance(ball_x, ball_y, mitt_x, mitt_y) &lt;= 30:  # ball is caught
         remove_from_screen(ball)
         break
 
@@ -417,7 +417,7 @@ PLAYER_WINS = 0
 QUIT = -1
 
 
-def distance((x1, y1), (x2, y2)):
+def distance(x1, y1, x2, y2):
         return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
 
@@ -451,7 +451,7 @@ def play_round():
             return QUIT
         move_to(mitt, (mitt_x, mitt_y))
 
-        if distance((ball_x, ball_y), (mitt_x, mitt_y)) &lt;= 30:
+        if distance(ball_x, ball_y, mitt_x, mitt_y) &lt;= 30:
             remove_from_screen(ball)
             remove_from_screen(mitt)
             return PLAYER_WINS
@@ -678,9 +678,30 @@ which you will accomplish by completing the following series of exercises:</p>
 
 <ol>
 <li><div class="exercise">
-Copy <code>catch.py</code> to <code>pong.py</code> and change the ball into
+Copy <code>catch.py</code> to <code>pong1.py</code> and change the ball into
 a paddle by using <code>Box</code> instead of the <code>Circle</code>.  You can 
-look at Appendix A for more information on <code>Box</code>.
+look at Appendix A for more information on <code>Box</code>.   Make the
+adjustments needed to keep the paddle on the screen.
+</div></li>
+
+<li><div class="exercise">
+Copy <code>pong1.py</code> to <code>pong2.py</code>.  Replace the
+<code>distance</code> function with a boolean function
+<code>hit(bx, by, r, px, py, h)</code> that returns <code>True</code> when
+the vertical coordinate of the ball (<code>by</code>) is between the bottom
+and top of the paddle, and the horizontal location of the ball
+(<code>bx</code>) is less than or equal to the radius (<code>r</code>) away
+from the front of the paddle.  Use <code>hit</code> to determine when the
+ball hits the paddle, and make the ball bounce back in the opposite horizontal
+direction when <code>hit</code> returns <code>True</code>.  Finally, change the
+scoring logic to give the player a point when the ball goes off the screen on
+the left.
+</div></li>
+
+<li><div class="exercise">
+Copy <code>pong2.py</code> to <code>pong3.py</code>.   Add a new paddle on
+the left side of the screen which moves up when <code>'a'</code> is pressed
+and down when <code>'s'</code> is pressed.
 </div></li>
 
 <!-- li><div class="exercise">
