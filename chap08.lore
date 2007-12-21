@@ -220,8 +220,10 @@ while True:
         mitt_y += 5
     elif key_pressed('j') and mitt_y &gt;= 20:
         mitt_y -= 5
-    elif key_pressed('escape'):
+
+    if key_pressed('escape'):
         break
+
     move_to(mitt, (mitt_x, mitt_y))
     sleep(0.01)
 
@@ -313,8 +315,10 @@ while True:
         mitt_y += 5
     elif key_pressed('j') and mitt_y &gt;= 20:
         mitt_y -= 5
-    elif key_pressed('escape'):
+
+    if key_pressed('escape'):
         break
+
     move_to(mitt, (mitt_x, mitt_y))
 
     if distance(ball_x, ball_y, mitt_x, mitt_y) &lt;= 30:  # ball is caught
@@ -447,8 +451,10 @@ def play_round():
             mitt_y += 5
         elif key_pressed('j') and mitt_y &gt;= 20:
             mitt_y -= 5
-        elif key_pressed('escape'):
+
+        if key_pressed('escape'):
             return QUIT
+
         move_to(mitt, (mitt_x, mitt_y))
 
         if distance(ball_x, ball_y, mitt_x, mitt_y) &lt;= 30:
@@ -693,9 +699,23 @@ and top of the paddle, and the horizontal location of the ball
 (<code>bx</code>) is less than or equal to the radius (<code>r</code>) away
 from the front of the paddle.  Use <code>hit</code> to determine when the
 ball hits the paddle, and make the ball bounce back in the opposite horizontal
-direction when <code>hit</code> returns <code>True</code>.  Finally, change the
-scoring logic to give the player a point when the ball goes off the screen on
-the left.
+direction when <code>hit</code> returns <code>True</code>.  Your completed
+function should pass these doctests:
+<pre class='python'>
+def hit(bx, by, r, px, py, h):
+    """
+      >>> hit(760, 100, 10, 780, 100, 100)
+      False
+      >>> hit(770, 100, 10, 780, 100, 100)
+      True
+      >>> hit(770, 200, 10, 780, 100, 100)
+      True
+      >>> hit(770, 210, 10, 780, 100, 100)
+      False
+    """
+</pre>
+Finally, change the scoring logic to give the player a point when the ball goes 
+off the screen on the left.
 </div></li>
 
 <li><div class="exercise">
@@ -705,9 +725,6 @@ and down when <code>'s'</code> is pressed.  Change the starting point for the
 ball to the center of the screen, (400, 300), and make it randomly move to
 the left or right at the start of each round.
 </div></li>
-
-<!-- li><div class="exercise">
-</div></li -->
 </ol>
 
 </body>
