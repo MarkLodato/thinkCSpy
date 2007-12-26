@@ -1,194 +1,268 @@
 <html>
 <head>
-  <title>Tuples, modules, and recursion</title>
+  <title>Modules and files</title>
 </head>
 <body>
 
-<h1>Tuples, modules, and recursion</h1>
-<a name="tuplechap" />
-<span class="index" value="tuple" />
+<h1>Modules and files</h1>
 
-<h2>Mutability and tuples</h2>
-<span class="index" value="tuple" />
-<span class="index" value="immutable" />
-<span class="index" value="data type!tuple" />
-<span class="index" value="data type!immutable" />
-<span class="index" value="sequence!immutable" />
 
-<p>So far, you have seen two compound types: strings, which are made up of
-characters; and lists, which are made up of elements of any type.  One of the
-differences we noted is that the elements of a list can be modified, but the
-characters in a string cannot.  In other words, strings are
-<b>immutable</b> and lists are <b>mutable</b>.</p>
+<h2>Reading and writing text files</h2>
+<span class="index" value="volitile memory" />
+<span class="index" value="non-volitile memory" />
+<span class="index" value="file" />
 
-<span class="index" value="mutable" />
-<span class="index" value="immutable" />
+<p>While a program is running, its data is stored in
+<em>random access memory</em> (RAM).  RAM is fast and inexpensive, but it is
+also <b>volitile</b>, which means that when the program ends, or the computer
+shuts down, data in RAM disappears.  To store data permanently, you have to put 
+it in a <b>non-volitile</b> storage medium, such a hard drive, usb drive, or
+CD-RW.</p>
 
-<p>There is another type in Python called a <b>tuple</b> that is
-similar to a list except that it is immutable.  Syntactically, a tuple is a
-comma-separated list of values:</p>
+<p>Data on non-volitile storage media is stored in named locations on the
+media called <b>files</b>.  By reading and writing files, programs can save
+information between program runs.</p>
 
-<pre class="python-interpreter">
->>> tup = 2, 4, 6, 8, 10
-</pre>
+<p>Working with files is a lot like working with a notebook.  To use a
+notebook, you have to open it.  When you're done, you have to close it.  While
+the notebook is open, you can either write in it or read from it.  In either
+case, you know where you are in the notebook.  You can read the whole notebook
+in its natural order or you can skip around.</p>
 
-<p>Although it is not necessary, it is conventional to enclose tuples in
-parentheses:</p>
+<p>All of this applies to files as well.  To open a file, you specify its name
+and indicate whether you want to read or write.</p>
 
-<pre class="python-interpreter">
->>> tup = (2, 4, 6, 8, 10)
-</pre>
-
-<p>To create a tuple with a single element, we have to include the final
-comma:</p>
+<p>Opening a file creates a file object.  In this example, the variable
+<code>f</code> refers to the new file object.</p>
 
 <pre class="python-interpreter">
->>> tup = (5,)
->>> type(tup)
-&lt;type 'tuple'>
+>>> f = open('test.dat', 'w')
+>>> print f
+&lt;open file 'test.dat', mode 'w' at 0x2aaaaab80cd8&gt;
 </pre>
 
-<p>Without the comma, Python treats <code>(5)</code> as an integer in
-parentheses:</p>
+<p>The open function takes two arguments.  The first is the name of the file,
+and the second is the <b>mode</b>.  Mode <code>'w'</code> means that we are
+opening the file for writing.</p>
+
+<p>If there is no file named <code>test.dat</code>, it will be created.  If
+there already is one, it will be replaced by the file we are writing.</p>
+
+<p>When we print the file object, we see the name of the file, the mode, and
+the location of the object.</p>
+
+<p>To put data in the file we invoke the <code>write</code> method on the file
+object:</p>
 
 <pre class="python-interpreter">
->>> tup = (5)
->>> type(tup)
-&lt;type 'int'&gt;
+>>> f.write("Now is the time")
+>>> f.write("to close the file")
 </pre>
 
-<p>Syntax issues aside, tuples support the same sequence operations as 
-strings and lists.  The index operator selects an element from a tuple.</p>
+<p>Closing the file tells the system that we are done writing and makes the
+file available for reading:</p>
 
 <pre class="python-interpreter">
->>> tup = ('a', 'b', 'c', 'd', 'e')
->>> tup[0]
-'a'
+>>> f.close()
 </pre>
 
-<p>And the slice operator selects a range of elements.</p>
-
-<pre class="python-interpreter">
->>> tup[1:3]
-('b', 'c')
-</pre>
-
-<p>But if we try to use item assignment to modify one of the elements of the
-tuple, we get a error:
+<p>Now we can open the file again, this time for reading, and read the contents 
+into a string.  This time, the mode argument is <code>'r'</code> for reading:
 </p>
+
+<pre class="python-interpreter">
+>>> f = open('test.dat', 'r')
+</pre>
+
+<p>If we try to open a file that doesn't exist, we get an error:</p>
+
 <span class="index" value="runtime error" />
 
 <pre class="python-interpreter">
->>> tup[0] = 'X'
-TypeError: 'tuple' object does not support item assignment
+>>> f = open('test.cat', 'r')
+IOError: [Errno 2] No such file or directory: 'test.cat'
 </pre>
 
-<p>Of course, even if we can't modify the elements of a tuple, we can replace
-it with a different tuple:</p>
+<p>Not surprisingly, the <code>read</code> method reads data from the file.
+With no arguments, it reads the entire contents of the file into a single
+string:</p>
 
 <pre class="python-interpreter">
->>> tup = ('X',) + tup[1:]
->>> tup
-('X', 'b', 'c', 'd', 'e')
+>>> text = f.read()
+>>> print text
+Now is the timeto close the file
 </pre>
 
-<p>Alternatively, we could first convert it to a list, modify it, and convert
-it back into a tuple:</p>
+<p>There is no space between <q>time</q> and <q>to</q> because we did not write 
+a space between the strings.</p>
+
+<p><code>read</code> can also take an argument that indicates how many
+characters to read:</p>
 
 <pre class="python-interpreter">
->>> tup = ('X', 'b', 'c', 'd', 'e')
->>> tup = list(tup)
->>> tup
-['X', 'b', 'c', 'd', 'e']
->>> tup[0] = 'a'
->>> tup = tuple(tup)
->>> tup
-('a', 'b', 'c', 'd', 'e')
+>>> f = open('test.dat', 'r')
+>>> print f.read(5)
+Now i
 </pre>
 
-
-<h2>Tuple assignment</h2>
-<a name="tuple assignment" />
-<span class="index" value="tuple assignment" />
-<span class="index" value="assignment!tuple" />
-
-<p>Once in a while, it is useful to swap the values of two variables.  With
-conventional assignment statements, we have to use a temporary variable.  For
-example, to swap <code>a</code> and <code>b</code>:</p>
+<p>If not enough characters are left in the file, <code>read</code> returns the 
+remaining characters.  When we get to the end of the file, <code>read</code>
+returns the empty string:</p>
 
 <pre class="python-interpreter">
->>> temp = a
->>> a = b
->>> b = temp
+>>> print f.read(1000006)
+s the timeto close the file
+>>> print f.read()
+   
+>>>
 </pre>
 
-<p>If we have to do this often, this approach becomes cumbersome.  Python
-provides a form of <b>tuple assignment</b> that solves this problem
-neatly:</p>
-
-<pre class="python-interpreter">
->>> a, b = b, a
-</pre>
-
-<p>The left side is a tuple of variables; the right side is a tuple of values.  
-Each value is assigned to its respective variable.  All the expressions on the
-right side are evaluated before any of the assignments.  This feature makes
-tuple assignment quite versatile.</p>
-
-<p>Naturally, the number of variables on the left and the number of values on
-the right have to be the same:</p>
-
-<pre class="python-interpreter">
->>> a, b, c, d = 1, 2, 3
-ValueError: need more than 3 values to unpack 
-</pre>
-
-
-<h2>Tuples as return values</h2>
-<span class="index" value="tuple" />
-<span class="index" value="value!tuple" />
-<span class="index" value="return value!tuple" />
-<span class="index" value="function!tuple as return value" />
-
-<p>Functions can return tuples as return values.  For example, we could write a 
-function that swaps two parameters:</p>
+<p>The following function copies a file, reading and writing up to fifty
+characters at a time.  The first argument is the name of the original file; the 
+second is the name of the new file:</p>
 
 <pre class="python">
-def swap(x, y):
-    return y, x
+def copy_file(old_file, new_file):
+    f1 = open(old_file, 'r')
+    f2 = open(new_file, 'w')
+    while True:
+        text = f1.read(50)
+        if text == "":
+            break
+        f2.write(text)
+    f1.close()
+    f2.close()
+    return
 </pre>
 
-<p>Then we can assign the return value to a tuple with two variables:</p>
+<p>This functions continues looping, reading 50 characters from <code>f1</code>
+and writing the same 50 charaters to <code>f2</code> until the end of
+<code>f1</code> is reached, at which point <code>text</code> is empty and the
+<code>break</code> statement is executed.</p>
+
+
+<h2>Text files</h2>
+<span class="index" value="text file" />
+<span class="index" value="file!text" />
+
+<p>A <b>text file</b> is a file that contains printable characters and
+whitespace, organized into lines separated by newline characters.  Since Python 
+is specifically designed to process text files, it provides methods that make
+the job easy.</p>
+
+<p>To demonstrate, we'll create a text file with three lines of text separated
+by newlines:</p>
+
+<pre class="python-interpreter">
+>>> f = open("test.dat","w")
+>>> f.write("line one\nline two\nline three\n")
+>>> f.close()
+</pre>
+
+<p>The <code>readline</code> method reads all the characters up to and
+including the next newline character:</p>
+
+<pre class="python-interpreter">
+>>> f = open("test.dat","r")
+>>> print f.readline()
+line one
+   
+>>>
+</pre>
+
+<p><code>readlines</code> returns all of the remaining lines as a list of
+strings:</p>
+
+<pre class="python-interpreter">
+>>> print f.readlines()
+['line two\012', 'line three\012']
+</pre>
+
+<p>In this case, the output is in list format, which means that the strings
+appear with quotation marks and the newline character appears as the escape
+sequence <code>\\012</code>.</p>
+
+<p>At the end of the file, <code>readline</code> returns the empty string
+and <code>readlines</code> returns the empty list:</p>
+
+<pre class="python-interpreter">
+>>> print f.readline()
+   
+>>> print f.readlines()
+[]
+</pre>
+
+<p>The following is an example of a line-processing program.
+<code>filter</code> makes a copy of <code>old_file</code>, omitting any
+lines that begin with <code>#</code>:</p>
 
 <pre class="python">
-a, b = swap(a, b)
+def filter(old_file, new_file):
+    f1 = open(old_file, 'r')
+    f2 = open(new_file, 'w')
+    while True:
+        text = f1.readline()
+        if text == "":
+           break
+        if text[0] == '#':
+           continue
+        f2.write(text)
+    f1.close()
+    f2.close()
+    return
 </pre>
 
-<p>In this case, there is no great advantage in making <code>swap</code> a
-function.  In fact, there is a danger in trying to encapsulate
-<code>swap</code>, which is the following tempting mistake:</p>
+<p>The <code>continue</code> statement ends the current iteration of the loop,
+but continues looping.  The flow of execution moves to the top of the loop,
+checks the condition, and proceeds accordingly.</p>
 
-<pre class="python">
-def swap(x, y):      # incorrect version
-     x, y = y, x
+<span class="index" value="continue statement" />
+<span class="index" value="statement!continue" />
+
+<p>Thus, if <code>text</code> is the empty string, the loop exits.  If the
+first character of <code>text</code> is a hash mark, the flow of execution goes 
+to the top of the loop.  Only if both conditions fail do we copy
+<code>text</code> into the new file.</p>
+
+
+<h2>Directories</h2>
+<span class="index" value="file system" />
+<span class="index" value="directory" />
+
+<p>Files on non-volitile storage media are organized by a set of rules known
+as a <b>file system</b>.  File systems are made up of files and
+<b>directories</b>, which are containers for both files and other directories.
+</p>
+
+<p>When you create a new file by opening it and writing, the new file goes in
+the current directory (wherever you were when you ran the program).  Similarly, 
+when you open a file for reading, Python looks for it in the current directory.
+</p>
+
+<p>If you want to open a file somewhere else, you have to specify the
+<b>path</b> to the file, which is the name of the directory
+(or folder) where the file is located:</p>
+
+<pre class="python-interpreter">
+>>>   f = open('/usr/share/dict/words', 'r')
+>>>   print f.readline()
+Aarhus
 </pre>
 
-<p>If we call this function like this:</p>
+<p>This example opens a file named <code>words</code> that resides in a
+directory named <code>dict</code>, which resides in <code>share</code>, which
+resides in <code>usr</code>, which resides in the top-level directory of the
+system, called <code>/</code>.</p>
 
-<pre class="python">
-swap(a, b)
-</pre>
+<span class="index" value="path" />
+<span class="index" value="delimiter" />
 
-<p>then <code>a</code> and <code>x</code> are aliases for the same value.
-Changing <code>x</code> inside <code>swap</code> makes <code>x</code> refer to
-a different value, but it has no effect on <code>a</code> in
-<code>__main__</code>.  Similarly, changing <code>y</code> has no effect on
-<code>b</code>.</p>
+<p>You cannot use <code>/</code> as part of a filename; it is reserved as a
+delimiter between directory and filenames.</p>
 
-<p>This function runs without producing an error message, but it doesn't do
-what we intended.  This is an example of a semantic error.</p>
-
-<span class="index" value="semantic error" />
+<p>The file <code>/usr/share/dict/words</code> contains a list of words
+in alphabetical order, of which the first is the name of a Danish university.
+</p>
 
 
 <h2>Modules</h2>
@@ -251,374 +325,47 @@ several programmers work on the same project without having namespace clashes.
 </p>
 
 
-<h2>Recursion</h2>
-<a name="recursion" />
-<span class="index" value="recursion" />
-
-<p>You have seen and written several functions which call other functions.
-It is also legal for a function to call itself.  It may not be obvious why that 
-is a good thing, but it turns out to be one of the most magical and interesting 
-things a program can do.  For example, look at the following function:</p>
-
-<pre class="python">
-def countdown(n):
-    if n == 0:
-        print "Blastoff!"
-    else:
-        print n
-        countdown(n-1)
-</pre>
-
-
-<h2>Recursive list traversal</h2>
-<span class="index" value="recursive definition" />
-<span class="index" value="definition!recursive" />
-
-<p>Python has a built-in function which finds the sum of a sequence of numbers:
-</p>
-
-<pre class="python-interpreter">
->>> sum([1, 2, 8])
-11
-</pre>
-
-<p>Suppose we have what we'll call a <em>nested number list</em>, a list whose
-elements are either numbers or nested number lists themselves. If we want to
-sum all the numbers in such a list, no matter how deeply nested, the built-in
-<code>sum</code> function will not work for us:</p>
-
-<pre class="python-interpreter">
->>> nested_number_list = [1, 2, [3, 4, [5, 6], 7], 8, [1, [1, [1, 2], 2], 8], 5]
->>> sum(nested_number_list)
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in ?
-TypeError: unsupported operand type(s) for +: 'int' and 'list'
-</pre>
-
-<p>To solve this problem, we first notice that our nested number list has a
-<b>recursive definition</b>---it is defined in terms of itself.  To sum all the 
-numbers in our list we need to traverse it, visiting each of the elements
-within its nested structure, adding any numeric elements to our sum, and
-<em>repeating this process</em> with any elements which are lists.  Thanks to
-recursion, the Python code needed to do this is surprisingly short:</p>
-
-<pre class="python">
-def recursive_sum(nested_list):
-    sum = 0
-    for element in nested_list:
-        if type(element) == type([]):
-            sum = sum + recursive_sum(element)
-        else:
-            sum = sum + element
-    return sum
-</pre>
-
-<p>Recursion is truly one of the most beautiful things in computer science.</p>
-
-
-<h2>Comparing values of different types</h2>
-
-<p>Python has a built-in function, <code>max</code>, that finds the maximum
-value of a sequence:</p>
-
-<pre class="python-interpreter">
->>> max([3, 9, 17, 5])
-17
->>> max(['banana', 'orange', 'apricot', 'fig'])
-'orange'
-</pre>
-
-<p>If we want to find the maximum value in a nested number list,
-<code>max</code> does not work the way we would like it to, but instead gives
-us a curious result:</p>
-
-<pre class="python-interpreter">
->>> max([3, 9, [1, 17], [7, 2], 5])
-[7, 2]
-</pre>
-
-<p>To understand this result, we need to understand how Python compares
-values of different types.  Python permits values of any type to be compared,
-and always returns a result, though the results are sometimes a bit arbitrary:
-</p>
-
-<pre class="python-interpreter">
->>> [1, 2] &gt; (1, 2)
-False
->>> [1, 2] &lt; (1, 2)
-True
->>> '12' &gt; [1, 2]
-True
->>> '12' &gt; (1, 2)
-False
->>> [1, 2] &gt; 5 
-True
-</pre>
-
-<p>So it appears that tuples are greater than strings; strings are greater than
-lists, and lists are greater than integers.  A simple experiment confirms this:
-</p>
-
-<pre class="python-interpreter">
->>> (7, ) &gt; '7' &gt; [7] &gt; 7
-True
-</pre>
-
-<p>When comparing like types, the first elements are compared.  If they match,
-the second elements are compared, and so forth:</p>
-
-<pre class="python-interpreter">
->>> [3, 7] &gt; [4, 5]
-False
->>> [3, 7] &gt; [3, 6, 8]
-True
-</pre>
-
-<p>In the first example, the two items being compared are both lists, so their
-first elements are compared.  Since <code>3</code> is not greater than
-<code>4</code>, <code>[3, 7]</code> is not greater than <code>[4, 5]</code>.
-The second example returns <code>True</code> because <code>7</code> is greater
-than <code>6</code>.</p>
-
-<p>result of <code>max([3, 9, [1, 17], [7, 2], 5])</code> makes sense.
-</p>
-
-
-<h2>A recursive <code>max</code> function</h2>
-<span class="index" value="recursion" />
-<span class="index" value="recursive function" />
-
-<p>If we want to find the maximum number in a nested number list, we can
-write a recursive function much like the <code>recursive_sum</code> function
-we wrote in the previous chapter.  To illustrate the use of modules to avoid
-namespace clashes, let's name our function <code>max</code> and put it
-in the <code>seqtools</code> module:</p>
-
-<pre class="python">
-# seqtools.py
-#
-def max(nested_list):
-    the_max = nested_list[0]
-    if type(the_max) == type([]):
-        the_max = max(the_max)
-    for item in nested_list[1:]:
-        if type(item) == type([]):
-            its_max = max(item)
-            if its_max > the_max: the_max = its_max
-        else:
-            if item > the_max: the_max = item
-    return the_max
-</pre>
-
-<p>We can now use both our version and the built-in version of max:</p>
-
-<pre class="python-interpreter">
->>> import seqtools
->>> max([3, 9, [1, 17], [7, 2], 5])
-[7, 2]
->>> seqtools.max([3, 9, [1, 17], [7, 2], 5])
-17
-</pre>
-
-
-<h2>Pure functions and modifiers</h2>
-<span class="index" value="pure function" />
-<span class="index" value="function type!pure" />
-
-<p>Since lists are mutable, it is possible to write functions which take lists
-as arguments and change them during execution.  We saw this in the previous
-chapter with the <code>delete_head</code> function.  Functions like these are
-called <b>modifiers</b> and the changes they make are called
-<b>side effects</b>.</p>
-
-<p>Lets look at another example of a modifier:</p>
-
-<pre class="python">
-def insert_in_middle(val, lst):
-    middle = len(lst)/2
-    lst[middle:middle] = [val]
-</pre>
-
-<p>We can use this to place new values in the middle of a list:</p>
-
-<pre class="python-interpreter">
->>> my_list = ['a', 'b', 'd', 'e']
->>> insert_in_middle('c', my_lst)
->>> my_list
-['a', 'b', 'c', 'd', 'e']
-</pre>
-
-<p>If we try to use it with a tuple,however, we get an error:</p>
-
-<pre class="python-interpreter">
->>> my_tuple = ('a', 'b', 'd', 'e')
->>> insert_in_middle('c', my_tuple)
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in ?
-  File "&lt;stdin&gt;", line 3, in insert_in_middle
-TypeError: object doesn't support slice assignment
-</pre>
-
-<p>The problem is that tuples are immutable, and don't support slice
-assignment.  A simple solution to this problem is to make
-<code>insert_in_middle</code> a pure function:</p>
-
-<pre class="python">
-def insert_in_middle(val, tup):
-    middle = len(tup)/2
-    return tup[:middle] + (val,) + tup[middle:]
-</pre>
-
-<p>This version now works for tuples, but not for lists or strings.  If we
-want a version that works for all sequence types, we need a way to encapsulate
-our value into the correct sequence type.  A small helper function does the
-trick:</p>
-
-<pre class="python">
-def encapsulate(val, seq):
-    if type(seq) == type(""):
-        return str(val)
-    if type(seq) == type([]):
-        return [val]
-    return (val,) 
-</pre>
-
-<p>Now we can write <code>insert_in_middle</code> to work with each of the
-built-in sequence types:</p>
-
-<pre class="python">
-def insert_in_middle(val, seq):
-    middle = len(seq)/2
-    return seq[:middle] + encapsulate(val, seq) + seq[middle:]
-</pre>
-
-<p>The last to versions of <code>insert_in_middle</code> are pure functions,
-and they don't have any side effects:</p>
-
-<pre class="python-interpreter">
->>> my_string = 'abde'
->>> insert_in_middle('c', my_string)
-'abcde'
->>> my_string
-'abde'
-</pre>
-
-<p>If we want to use <code>insert_in_middle</code> to change the value of
-<code>my_string</code>, we have to assign the value returned by the
-function call back to the variable:</p>
-
-<pre class="python-interpreter">
->>> my_string = insert_in_middle('c', my_string)
->>> my_string
-'abcde' 
-</pre>
-
-
-<h2>Which is better?</h2>
-<span class="index" value="functional programming style" />
-
-<p>Anything that can be done with modifiers can also be done with pure
-functions.  In fact, some programming languages only allow pure functions.
-There is some evidence that programs that use pure functions are faster to
-develop and less error-prone than programs that use modifiers.  Nevertheless,
-modifiers are convenient at times, and in some cases, functional programs are
-less efficient.</p>
-
-<p>In general, we recommend that you write pure functions whenever it is
-reasonable to do so and resort to modifiers only if there is a compelling
-advantage.  This approach might be called a
-<b>functional programming style</b>.</p>
-
-
 <h2>Glossary</h2>
-<span class="index" value="mutable type" />
-<span class="index" value="immutable type" />
-<span class="index" value="tuple" />
-<span class="index" value="tuple assignment" />
-<span class="index" value="assignment!tuple" />
-<span class="index" value="module" />
-<span class="index" value="import statement" />
-<span class="index" value="recursive definition" />
-<span class="index" value="recursion" />
-<span class="index" value="base case" />
-<span class="index" value="infinite recursion" />
-<span class="index" value="tail recursion" />
-<span class="index" value="standard library" />
-<span class="index" value="namespace" />
+<span class="index" value="volitile memory" />
+<span class="index" value="non-volitile memory" />
+<span class="index" value="file" />
+<span class="index" value="directory" />
+<span class="index" value="path" />
 
 <dl>
-<dt>immutable type:</dt>
-<dd>A type in which the elements cannot be modified.  Assignments to elements
-or slices of immutable types cause an error.</dd>
+<dt>file:</dt>
+<dd>A named entity, usually stored on a hard drive, floppy disk, or CD-ROM,
+that contains a stream of characters.</dd>
 
-<dt>mutable type:</dt>
-<dd>A data type in which the elements can be modified.  All mutable types are
-compound types.  Lists and dictionaries (see next chapter) are mutable data
-types; strings and tuples are not.</dd>
+<dt>directory:</dt>
+<dd>A named collection of files, also called a folder.</dd>
 
-<dt>tuple:</dt>
-<dd>A sequence type that is similar to a list except that it is immutable.
-Tuples can be used wherever an immutable type is required, such as a key in a
-dictionary.</dd>
-
-<dt>tuple assignment:</dt>
-<dd>An assignment to all of the elements in a tuple using a single assignment
-statement. Tuple assignment occurs in parallel rather than in sequence, making
-it useful for swapping values.</dd>
-
-<dt>module:</dt>
-<dd>A file containing definitions and statements intended to be
-<em>imported</em> by other programs.  File names for Python modules must end in 
-a <code>.py</code> file extention, and the module name is the filename without
-the extention.</dd>
-
-
-<dt>recursive definition:</dt>
-<dd>A definition which defines something in terms of itself. To be useful it
-must include <em>base cases</em> which are not recursive.  In this way it
-differs from a <em>circular definition</em>.  Recursive definitions often
-provide an elegant way to express complex data structures.</dd> 
-
-<dt>recursion:</dt>
-<dd>The process of calling the function that is currently executing.</dd>
-
-<dt>recursive call:</dt>
-<dd>The statement in a recursive function with is a call to itself.</dd>
-
-<dt>base case:</dt>
-<dd>A branch of the conditional statement in a recursive function that does not
-result in a recursive call.</dd>
-
-<dt>infinite recursion:</dt>
-<dd>A function that calls itself recursively without ever reaching the base
-case.  Eventually, an infinite recursion causes a runtime error.</dd>
-
-<dt>tail recursion:</dt>
-<dd>A recursive call that occurs as the last statement (at the tail) of a
-recursive function.  Tail recursion is considered bad practice in Python
-programs since a logically equivalent function can be written using
-<em>iteration</em> which is more efficient.</dd>
-
-<dt>namespace:</dt>
-<dd>
-A container providing a context for names so that the same name can reside in
-different namespaces without ambiguity.  In Python, modules, classes, functions and methods all form namespaces.
+<dt>mode:</dt>
+<dd>A distinct method of operation within a computer program.  Files in Python
+can be openned in one of three modes: read ('r'), write ('w'), and append ('a').
 </dd>
 
+<dt>path:</dt>
+<dd>A sequence of directory names that specifies the exact location of a file.
+</dd>
+
+<dt>text file:</dt>
+<dd>A file that contains printable characters organized into lines separated
+by newline characters.</dd>
+
+<dt>continue statement:</dt>
+<dd>A statement that causes the current iteration of a loop to end.  The flow
+of execution goes to the top of the loop, evaluates the condition, and
+proceeds accordingly.</dd>
 </dl>
 
 
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
-<pre class="python">
-def swap(x, y):      # incorrect version
-     x, y = y, x
-</pre>
-Draw a state diagram for this function so that you can see why it doesn't work.
 </div></li>
-
 </ol>
+
 
 </body>
 </html>
