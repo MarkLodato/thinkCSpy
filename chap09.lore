@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Lists</title>
+  <title>Lists and files</title>
 </head>
 <body>
 
@@ -55,7 +55,7 @@ simple way to create them:</p>
 
 <p>The <code>range</code> function takes two arguments and returns a list that
 contains all the integers from the first to the second, including the first but 
-not including the second!</p>
+<em>not the second</em>.</p>
 
 <p>There are two other forms of <code>range</code>.  With a single argument, it
 creates a list that starts at 0:</p>
@@ -110,6 +110,8 @@ inside the brackets specifies the index.  Remember that the indices start at
 >>> numbers[9-8]
 5
 >>> numbers[1.0]
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 TypeError: list indices must be integers
 </pre>
 
@@ -119,8 +121,10 @@ runtime error:</p>
 <span class="index" value="runtime error" />
 
 <pre class="python-interpreter">
->>> numbers[2] = 5
-IndexError: list assignment index out of range
+>>> numbers[2]
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+IndexError: list index out of range
 </pre>
 
 <p>If an index has a negative value, it counts backward from the end of the
@@ -132,6 +136,8 @@ list:</p>
 >>> numbers[-2]
 17
 >>> numbers[-3]
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 IndexError: list index out of range
 </pre>
 
@@ -246,7 +252,7 @@ i = 0
 while i &lt; len(LIST):
     VARIABLE = LIST[i]
     BODY
-    i = i + 1
+    i += 1
 </pre>
 
 <p>The <code>for</code> loop is more concise because we can eliminate the loop
@@ -265,15 +271,15 @@ horsemen, print (the name of the) horseman.</q></p>
 
 <pre class="python">
 for number in range(20):
-    if number % 2 == 0:
+    if number % 3 == 0:
         print  number
    
 for fruit in ["banana", "apple", "quince"]:
     print "I like to eat " + fruit + "s!"
 </pre>
 
-<p>The first example prints all the even numbers between one and nineteen.
-The second example expresses enthusiasm for various fruits.</p>
+<p>The first example prints all the multiples of 3 between 0 and 19.  The
+second example expresses enthusiasm for various fruits.</p>
 
 
 <h2>List operations</h2>
@@ -345,9 +351,11 @@ elements.  Using the bracket operator on the left side of an assignment, we can 
 
 <p>The bracket operator applied to a list can appear anywhere in an expression.
 When it appears on the left side of an assignment, it changes one of the
-elements in the list, so the one-eth element of <code>numbers</code>, which
-used to be 123, is now 5.  An assignment to an element of a list is called
-<b>item assignment</b>.  Item assignment does not work for strings:</p>
+elements in the list, so the first element of <code>fruit</code> has been
+changed from <code>'banana'</code> to <code>'pear'</code>, and the last
+from <code>'quince'</code> to <code>'orange'</code>.  An assignment to 
+an element of a list is called <b>item assignment</b>.  Item assignment does
+not work for strings:</p>
 
 <pre class="python-interpreter">
 >>> my_string = 'TEST'
@@ -429,60 +437,6 @@ runtime error if the index is out of range.</p>
 
 <p>As usual, slices select all the elements up to, but not including, the
 second index.</p>
-
-
-<h2>Converting strings to lists</h2>
-<span class="index" value="function!list" />
-<span class="index" value="join function" />
-
-<p>Python has a command called <code>list</code> that takes a sequence
-type as an argument and creates a list out of its elements.
-</p>
-
-<pre class="python-interpreter">
->>> list("Crunchy Frog")
-['C', 'r', 'u', 'n', 'c', 'h', 'y', ' ', 'F', 'r', 'o', 'g']
-</pre>
-
-<p>There is also a <code>str</code> command that takes any Python value as an
-argument and returns a string representation of it.
-</p>
-
-<pre class="python-interpreter">
->>> str(5)
-'5'
->>> str(None)
-'None'
->>> str(list("nope"))
-"['n', 'o', 'p', 'e']"
-</pre>
-
-<p>As we can see from the last example, <code>str</code> can't be used to join
-a list of characters together.  To do this we could use the <code>join</code>
-function in the <code>string</code> module:
-</p>
-
-<pre class="python-interpreter">
->>> import string
->>> char_list = list("Frog")
->>> char_list
-['F', 'r', 'o', 'g']
->>> string.join(char_list, '')
-'Frog'
-</pre>
-
-<p><code>string.join</code> takes two arguments: a list of strings and a
-<em>seperator</em> which will be placed between each element in the list in the
-resultant string.</p>
-
-<pre class="python-interpreter">
->>> import string
->>> words = ['crunchy', 'raw', 'unboned', 'real', 'dead', 'frog']
->>> string.join(words, ' ')
-'crunchy raw unboned real dead frog'
->>> string.join(words, '**')
-'crunchy**raw**unboned**real**dead**frog'
-</pre>
 
 
 <h2>Objects and values</h2>
@@ -712,7 +666,7 @@ three-eth element of <code>nested</code> and extracts the one-eth element from
 it.</p>
 
 
-<h2>Matrixes</h2>
+<h2>Matrices</h2>
 <span class="index" value="matrix" />
 <span class="index" value="list!nested" />
 
@@ -744,18 +698,56 @@ form:</p>
 5
 </pre>
 
+<span class="index" value="row" />
+<span class="index" value="column" />
+
 <p>The first index selects the row, and the second index selects the column.
 Although this way of representing matrices is common, it is not the only
 possibility.  A small variation is to use a list of columns instead of a list
 of rows.  Later we will see a more radical alternative using a dictionary.</p>
 
-<span class="index" value="dictionary" />
-<span class="index" value="row" />
-<span class="index" value="column" />
-
 
 <h2>Strings and lists</h2>
+<span class="index" value="command!list" />
+<span class="index" value="command!str" />
+<span class="index" value="join function" />
 <span class="index" value="split function" />
+
+<p>Python has a command called <code>list</code> that takes a sequence
+type as an argument and creates a list out of its elements.
+</p>
+
+<pre class="python-interpreter">
+>>> list("Crunchy Frog")
+['C', 'r', 'u', 'n', 'c', 'h', 'y', ' ', 'F', 'r', 'o', 'g']
+</pre>
+
+<p>There is also a <code>str</code> command that takes any Python value as an
+argument and returns a string representation of it.
+</p>
+
+<pre class="python-interpreter">
+>>> str(5)
+'5'
+>>> str(None)
+'None'
+>>> str(list("nope"))
+"['n', 'o', 'p', 'e']"
+</pre>
+
+<p>As we can see from the last example, <code>str</code> can't be used to join
+a list of characters together.  To do this we could use the <code>join</code>
+function in the <code>string</code> module:
+</p>
+
+<pre class="python-interpreter">
+>>> import string
+>>> char_list = list("Frog")
+>>> char_list
+['F', 'r', 'o', 'g']
+>>> string.join(char_list, '')
+'Frog'
+</pre>
 
 <p>Two of the most useful functions in the <code>string</code> module involve
 lists of strings.  The <code>split</code> function breaks a string into a list
@@ -780,14 +772,25 @@ the string <code>ai</code> as the delimiter:</p>
 
 <p>Notice that the delimiter doesn't appear in the list.</p>
 
-<p>The <code>join</code> function we saw in section 9.10 is the inverse of
-<code>split</code>.</p>
+<p><code>string.join</code> is the inverse of <code>string.split</code>.  It
+takes two arguments: a list of strings and a <em>seperator</em> which will be
+placed between each element in the list in the resultant string.</p>
+
+<pre class="python-interpreter">
+>>> import string
+>>> words = ['crunchy', 'raw', 'unboned', 'real', 'dead', 'frog']
+>>> string.join(words, ' ')
+'crunchy raw unboned real dead frog'
+>>> string.join(words, '**')
+'crunchy**raw**unboned**real**dead**frog'
+</pre>
 
 
 <h2>The <code>sys</code> module and <code>argv</code></h2>
 <span class="index" value="sys module" />
 <span class="index" value="module!sys" />
 <span class="index" value="argv" />
+<span class="index" value="command line" />
 <span class="index" value="command line arguments" />
 
 <p>The <code>sys</code> module contains a variable named <code>argv</code>,
@@ -838,19 +841,20 @@ $
 
 
 <h2>Reading and writing text files</h2>
+<span class="index" value="volitile memory" />
+<span class="index" value="non-volitile memory" />
 <span class="index" value="file" />
 
-<p>While a program is running, its data is in memory.  When the program ends,
-or the computer shuts down, data in memory disappears.  To store data
-permanently, you have to put it in a <b>file</b>.  Files are usually stored on
-a hard drive, usb drive, or CD.</p>
+<p>While a program is running, its data is stored in
+<em>random access memory</em> (RAM).  RAM is fast and inexpensive, but it is
+also <b>volitile</b>, which means that when the program ends, or the computer
+shuts down, data in RAM disappears.  To store data permanently, you have to put 
+it in a <b>non-volitile</b> storage medium, such a hard drive, usb drive, or
+CD-RW.</p>
 
-<p>When there are a large number of files, they are often organized into
-<b>directories</b> (also called <q>folders</q>).  Each file is identified by a
-unique name, or a combination of a file name and a directory name.</p>
-
-<p>By reading and writing files, programs can exchange information with each
-other and generate printable formats like PDF.</p>
+<p>Data on non-volitile storage media is stored in named locations on the
+media called <b>files</b>.  By reading and writing files, programs can save
+information between program runs.</p>
 
 <p>Working with files is a lot like working with a notebook.  To use a
 notebook, you have to open it.  When you're done, you have to close it.  While
@@ -1022,13 +1026,13 @@ and <code>readlines</code> returns the empty list:</p>
 </pre>
 
 <p>The following is an example of a line-processing program.
-<code>filterFile</code> makes a copy of <code>oldFile</code>, omitting any
+<code>filter</code> makes a copy of <code>old_file</code>, omitting any
 lines that begin with <code>#</code>:</p>
 
 <pre class="python">
-def filterFile(oldFile, newFile):
-    f1 = open(oldFile, "r")
-    f2 = open(newFile, "w")
+def filter(old_file, new_file):
+    f1 = open(old_file, 'r')
+    f2 = open(new_file, 'w')
     while True:
         text = f1.readline()
         if text == "":
@@ -1054,141 +1058,14 @@ to the top of the loop.  Only if both conditions fail do we copy
 <code>text</code> into the new file.</p>
 
 
-<h2>Writing variables</h2>
-<span class="index" value="format operator" />
-<span class="index" value="format string" />
-<span class="index" value="operator!format" />
-
-<p>The argument of <code>write</code> has to be a string, so if we want to put
-other values in a file, we have to convert them to strings first.  The easiest
-way to do that is with the <code>str</code> function:</p>
-
-<pre class="python-interpreter">
->>> x = 52
->>> f.write (str(x))
-</pre>
-
-<p>An alternative is to use the <b>format operator</b>,
-<code>%</code>.  When applied to integers, <code>%</code> is the modulus
-operator.  But when the first operand is a string, <code>%</code> is the format 
-operator.</p>
-
-<p>The first operand is the <b>format string</b>, and the second
-operand is a tuple of expressions.  The result is a string that contains
-the values of the expressions, formatted according to the format string.</p>
-
-<p>As a simple example, the <b>format sequence</b> <code>"%d"</code>
-means that the first expression in the tuple should be formatted as an integer. 
-Here the letter <em>d</em> stands for <q>decimal</q>:</p>
-
-<pre class="python-interpreter">
->>> cars = 52
->>> "%d" % cars
-'52'
-</pre>
-
-<p>The result is the string <code>'52'</code>, which is not to be confused
-with the integer value <code>52</code>.</p>
-
-<p>A format sequence can appear anywhere in the format string, so we can embed
-a value in a sentence:</p>
-
-<pre class="python-interpreter">
->>> cars = 52
->>> "In July we sold %d cars." % cars
-'In July we sold 52 cars.'
-</pre>
-
-<p>The format sequence <code>"%f"</code> formats the next item in the tuple as
-a floating-point number, and <code>"%s"</code> formats the next item as a
-string:</p>
-
-<pre class="python-interpreter">
->>> "In %d days we made %f million %s." % (34,6.1,'dollars')
-'In 34 days we made 6.100000 million dollars.'
-</pre>
-
-<p>By default, the floating-point format prints six decimal places.</p>
-
-<p>The number of expressions in the tuple has to match the number of format
-sequences in the string.  Also, the types of the expressions have to match the
-format sequences:</p>
-
-<span class="index" value="runtime error" />
-
-<pre class="python-interpreter">
->>> "%d %d %d" % (1,2)
-TypeError: not enough arguments for format string
->>> "%d" % 'dollars'
-TypeError: illegal argument type for built-in operation
-</pre>
-
-<p>In the first example, there aren't enough expressions; in the second, the
-expression is the wrong type.</p>
-
-<p>For more control over the format of numbers, we can specify the number of
-digits as part of the format sequence:</p>
-
-<pre class="python-interpreter">
->>> "%6d" % 62
-'    62'
->>> "%12f" % 6.1
-'    6.100000'
-</pre>
-
-<p>The number after the percent sign is the minimum number of spaces the number 
-will take up.  If the value provided takes fewer digits, leading spaces are
-added.  If the number of spaces is negative, trailing spaces are added:</p>
-
-<pre class="python-interpreter">
->>> "%-6d" % 62
-'62    '
-</pre>
-
-<p>For floating-point numbers, we can also specify the number of digits after
-the decimal point:</p>
-
-<pre class="python-interpreter">
->>> "%12.2f" % 6.1
-'        6.10'
-</pre>
-
-<p>In this example, the result takes up twelve spaces and includes two digits
-after the decimal.  This format is useful for printing dollar amounts with the
-decimal points aligned.</p>
-
-<span class="index" value="dictionary" />
-
-<p>For example, imagine a dictionary that contains student names as keys and
-hourly wages as values.  Here is a function that prints the contents of the
-dictionary as a formatted report:</p>
-
-<pre class="python">
-def report (wages) :
-    students = wages.keys()
-    students.sort()
-    for student in students:
-        print "%-20s %12.02f" % (student, wages[student])
-</pre>
-
-<p>To test this the function, we'll create a small dictionary and print the
-contents:</p>
-
-<pre class="python-interpreter">
->>> wages = {'mary': 6.23, 'joe': 5.45, 'joshua': 4.25}
->>> report (wages)
-joe                          5.45
-joshua                       4.25
-mary                         6.23
-</pre>
-
-<p>By controlling the width of each value, we guarantee that the columns will
-line up, as long as the names contain fewer than twenty-one characters and the
-wages are less than one billion dollars an hour.</p>
-
-
 <h2>Directories</h2>
+<span class="index" value="file system" />
 <span class="index" value="directory" />
+
+<p>Files on non-volitile storage media are organized by a set of rules known
+as a <b>file system</b>.  File systems are made up of files and
+<b>directories</b>, which are containers for both files and other directories.
+</p>
 
 <p>When you create a new file by opening it and writing, the new file goes in
 the current directory (wherever you were when you ran the program).  Similarly, 
@@ -1200,7 +1077,7 @@ when you open a file for reading, Python looks for it in the current directory.
 (or folder) where the file is located:</p>
 
 <pre class="python-interpreter">
->>>   f = open("/usr/share/dict/words","r")
+>>>   f = open('/usr/share/dict/words', 'r')
 >>>   print f.readline()
 Aarhus
 </pre>
@@ -1233,6 +1110,10 @@ in alphabetical order, of which the first is the name of a Danish university.
 <span class="index" value="aliasing" />
 <span class="index" value="clone" />
 <span class="index" value="delimiter" />
+<span class="index" value="command line" />
+<span class="index" value="command line arguments" />
+<span class="index" value="volitile memory" />
+<span class="index" value="non-volitile memory" />
 <span class="index" value="file" />
 <span class="index" value="directory" />
 <span class="index" value="path" />
@@ -1317,7 +1198,8 @@ Write a loop that traverses:
 ['spam!', 1, ['Brie', 'Roquefort', 'Pol le Veq'], [1, 2, 3]]
 </pre>
 and prints the length of each element.  What happens if you send an integer
-to <code>len</code>?
+to <code>len</code>?  Change <code>1</code> to <code>'one'</code> and run
+your solution again.
 </div></li>
 
 <li><div class="exercise">
@@ -1328,6 +1210,18 @@ b[0] = 5
 </pre>
 Draw a state diagram for <code>a</code> and <code>b</code> before and after
 the third line is executed.
+</div></li>
+
+<li><div class="exercise">
+What will be the output of the following program?
+<pre class="python">
+this = ['I', 'am', 'not', 'a', 'crook']
+that = ['I', 'am', 'not', 'a', 'crook']
+print "Test 1: %s" % (id(this) == id(that))
+that = this
+print "Test 2: %s" % (id(this) == id(that))
+</pre>
+Provide a <em>detailed</em> explaination of the results.
 </div></li>
 
 <li><div class="exercise">
