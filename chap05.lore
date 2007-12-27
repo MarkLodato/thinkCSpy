@@ -11,7 +11,7 @@
 
 <p>The built-in functions we have used, such as <code>abs</code>,
 <code>pow</code>, and <code>max</code>, have produced results.  Calling each of
-these functions generates a new value, which we usually assign to a variable or 
+these functions generates a value, which we usually assign to a variable or 
 use as part of an expression.</p>
 
 <pre class="python">
