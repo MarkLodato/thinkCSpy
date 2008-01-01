@@ -252,12 +252,12 @@ statements but only a single (and optional) <code>else</code> statement is
 allowed and it must be the last branch in the statement:</p>
 
 <pre class="python">
-if choice == 'A':
-    functionA()
-elif choice == 'B':
-    functionB()
-elif choice == 'C':
-    functionC()
+if choice == 'a':
+    function_a()
+elif choice == 'b':
+    function_b()
+elif choice == 'c':
+    function_c()
 else:
     print "Invalid choice."
 </pre>
@@ -738,36 +738,36 @@ Which of these are logically equivalent?
 
 <li><div class="exercise">
 <pre class="python">
-if choice == 'A':
-    functionA()
-elif choice == 'B':
-    functionB()
-elif choice == 'C':
-    functionC()
+if choice == 'a':
+    function_a()
+elif choice == 'b':
+    function_b()
+elif choice == 'c':
+    function_c()
 else:
     print "Invalid choice."
 </pre>
 <p>
 Wrap this code in a function called <code>dispatch(choice)</code>. Then
-define <code>functionA</code>, <code>functionB</code>, and
-<code>functionC</code> so that they print out a message saying they were
+define <code>function_a</code>, <code>function_b</code>, and
+<code>function_c</code> so that they print out a message saying they were
 called.  For example:
 </p>
 <pre class="python">
-def functionA():
-    print "functionA was called..."
+def function_a():
+    print "function_a was called..."
 </pre>
 <p>
-Put the four functions (<code>dispatch</code>, <code>functionA</code>,
-<code>functionB</code>, and <code>functionC</code> into a script named
+Put the four functions (<code>dispatch</code>, <code>function_a</code>,
+<code>function_b</code>, and <code>function_c</code> into a script named
 <code>ch4prob4.py</code>.  At the bottom of this script add a call to
-<code>dispatch('B')</code>.  Your output should be:
+<code>dispatch('b')</code>.  Your output should be:
 </p>
 <pre class="boxed">
-functionB was called...
+function_b was called...
 </pre>
 <p>
-Finally, modify the script so that user can enter 'A', 'B', or 'C'.  Test
+Finally, modify the script so that user can enter 'a', 'b', or 'c'.  Test
 it by importing your script into the Python shell.
 </p>
 </div></li>
