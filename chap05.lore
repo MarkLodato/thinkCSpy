@@ -719,7 +719,7 @@ def intercept(x1, y1, x2, y2):
 Write a function called <code>is_even(n)</code> that takes an integer as an
 argument and returns <code>True</code> if the argument is an <b>even number</b>
 and <code>False</code> if it is <b>odd</b>.  Add your own doctests to this
-function and include your function with doctests in <code>ch05.py</code>.
+function.</code>.
 </div></li>
 
 <li><div class="exercise">
@@ -727,7 +727,6 @@ Now write the function <code>is_odd(n)</code> that returns <code>True</code>
 when <code>n</code> is odd and <code>False</code> otherwise. Include doctests
 for this function as you write it.  Finally, modify it so that it uses a call
 to <code>is_even</code> to determine if its argument is an odd integer.
-Add these functions to <code>ch05.py</code>.
 </div></li>
 
 <li><div class="exercise">
@@ -746,25 +745,24 @@ def is_factor(f, n):
       False
     """
 </pre>
-Add a body to <code>is_factor</code> to make the doctests pass and include
-it in <code>ch05.py</code>.
+Add a body to <code>is_factor</code> to make the doctests pass.
 </div></li>
 
 <li><div class="exercise">
 <pre class='python'>
 def is_multiple(m, n):
-   """
-     >>> is_multiple(12, 3)
-     True
-     >>> is_multiple(12, 4)
-     True
-     >>> is_multiple(12, 5)
-     False 
-     >>> is_multiple(12, 6)
-     True
-     >>> is_multiple(12, 7)
-     False 
-   """
+    """
+      >>> is_multiple(12, 3)
+      True
+      >>> is_multiple(12, 4)
+      True
+      >>> is_multiple(12, 5)
+      False
+      >>> is_multiple(12, 6)
+      True
+      >>> is_multiple(12, 7)
+      False
+    """
 </pre>
 Add a body to <code>is_multiple</code> to make the doctests pass.  Can you
 find a way to use <code>is_factor</code> in your definition of
