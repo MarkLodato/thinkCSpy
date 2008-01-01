@@ -789,11 +789,11 @@ Now write a similar function named <code>is_divisible_by_5</code>.
 Generalize the functions you wrote in the previous exercise into a function
 named <code>is_divisible_by_n(x, n)</code> that takes two integer arguments
 and prints out whether the first is divisible by the second.  Save this in
-a file named <code>chap04.py</code>. Import it into a shell and try it out. 
+a file named <code>ch04e06.py</code>. Import it into a shell and try it out. 
 A sample session might look like this:
 </p>
 <pre class="python-interpreter">
->>> from chap04 import *
+>>> from ch04e06 import *
 >>> is_divisible_by_n(20, 4)
 Yes, 20 is divisible by 4
 >>> is_divisible_by_n(21, 8)
