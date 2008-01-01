@@ -623,11 +623,26 @@ purpose.</dd>
 </dl>
 
 <h2>Exercises</h2>
+<p>
+All of the exercises below should be added to a file named
+<code>ch05.py</code> that contains the following at the bottom:
+</p>
+<pre class='python'>
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+</pre>
+<p>
+After completing each exercise in turn, run the program to confirm that
+the doctests for your new function pass.
+</p>
+
 <ol>
 <li><div class="exercise">
 Write a <code>compare</code> function that returns <code>1</code> if
-<code>a &gt; b</code>, <code>0</code> if <code>a == b</code>, and
-<code>-1</code> if <code>a &lt; b</code>.
+<code>a &gt; b</code>, <code>0</code> if <code>a == b</code>,
+and <code>-1</code> if <code>a &lt; b</code>.
 <pre class='python'>
 def compare(a, b):
     """
@@ -641,7 +656,7 @@ def compare(a, b):
       1
     """
 </pre>
-Fill in the body of the function above so the doctests pass.
+Fill in the body of the function so the doctests pass.
 </div></li>
 
 <li><div class="exercise">
@@ -662,7 +677,8 @@ def hypotenuse(a, b):
       15.0
     """
 </pre>
-When you are finished add the doctests below and confirm that they pass.
+When you are finished add your completed function with the doctests to
+<code>ch05.py</code> and confirm that the doctests pass.
 </div></li>
 
 <li><div class="exercise">
@@ -696,14 +712,14 @@ def intercept(x1, y1, x2, y2):
       5.0
     """
 </pre>
-<code>intercept</code> should pass the doctests above.
+<code>intercept</code> should pass the doctests above. 
 </div></li>
 
 <li><div class="exercise">
 Write a function called <code>is_even(n)</code> that takes an integer as an
 argument and returns <code>True</code> if the argument is an <b>even number</b>
 and <code>False</code> if it is <b>odd</b>.  Add your own doctests to this
-function.
+function and include your function with doctests in <code>ch05.py</code>.
 </div></li>
 
 <li><div class="exercise">
@@ -711,6 +727,7 @@ Now write the function <code>is_odd(n)</code> that returns <code>True</code>
 when <code>n</code> is odd and <code>False</code> otherwise. Include doctests
 for this function as you write it.  Finally, modify it so that it uses a call
 to <code>is_even</code> to determine if its argument is an odd integer.
+Add these functions to <code>ch05.py</code>.
 </div></li>
 
 <li><div class="exercise">
@@ -729,7 +746,8 @@ def is_factor(f, n):
       False
     """
 </pre>
-Add a body to <code>is_factor</code> to make the doctests pass.
+Add a body to <code>is_factor</code> to make the doctests pass and include
+it in <code>ch05.py</code>.
 </div></li>
 
 <li><div class="exercise">
