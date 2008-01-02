@@ -101,7 +101,7 @@ def absolute_value(x):
 <p>This version is not correct because if <code>x</code> happens to be 0,
 neither condition is true, and the function ends without hitting a
 <code>return</code> statement.  In this case, the return value is a special
-value called <code>None</code>:</p>
+value called <b><code>None</code></b>:</p>
 
 <span class="index" value="None" />
 <span class="index" value="value!None" />
@@ -719,7 +719,7 @@ def intercept(x1, y1, x2, y2):
 Write a function called <code>is_even(n)</code> that takes an integer as an
 argument and returns <code>True</code> if the argument is an <b>even number</b>
 and <code>False</code> if it is <b>odd</b>.  Add your own doctests to this
-function.</code>.
+function.
 </div></li>
 
 <li><div class="exercise">

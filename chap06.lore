@@ -945,7 +945,7 @@ What will <code>num_digits(0)</code> return?  Modify it to return
 result in an infinite loop (<em>hint: -1/10 evaluates to -1</em>)?  Modify
 <code>num_digits</code> so that it works correctly with any integer value.
 <br /><br />
-Add the following to a file named <code>chapter06.py</code>:
+Add the following to a file named <code>ch06.py</code>:
 <pre class='python'>
 def num_digits(n):
     """
@@ -966,7 +966,7 @@ the doctests.
 </div></li>
 
 <li><div class="exercise">
-Add the following to the <code>chapter06.py</code> file you created in the
+Add the following to the <code>ch06.py</code> file you created in the
 previous exercise:
 <pre class='python'>
 def num_even_digits(n):
