@@ -872,7 +872,7 @@ think of other reasons besides speed to prefer one version or the other?
 </div></li>
 
 <li><div class="exercise">
-Create a file named <code>string_tools.py</code> and put the following in
+Create a file named <code>stringtools.py</code> and put the following in
 it:
 <pre class='python'>
 def reverse(s):
@@ -895,7 +895,7 @@ Add a function body to <code>reverse</code> to make the doctests pass.
 </div></li>
 
 <li><div class="exercise">
-Add <code>mirror</code> to <code>string_tools.py</code> .
+Add <code>mirror</code> to <code>stringtools.py</code> .
 <pre class='python'>
 def mirror(s):
     """
@@ -916,7 +916,7 @@ doctests.
 </div></li>
 
 <li><div class="exercise">
-Include <code>remove_letter</code> in <code>string_tools.py</code> .
+Include <code>remove_letter</code> in <code>stringtools.py</code> .
 <pre class='python'>
 def remove_letter(letter, strng):
     """
