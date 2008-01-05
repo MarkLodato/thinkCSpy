@@ -104,6 +104,7 @@ neither condition is true, and the function ends without hitting a
 value called <b><code>None</code></b>:</p>
 
 <span class="index" value="None" />
+<span class="index" value="NoneType" />
 <span class="index" value="value!None" />
 <span class="index" value="type!NoneType" />
 

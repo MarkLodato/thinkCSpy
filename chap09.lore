@@ -840,6 +840,53 @@ $
 </pre>
 
 
+<h2>The <code>eval</code> function</h2>
+<span class="index" value="eval" />
+<span class="index" value="funtion!eval" />
+
+<p>The <code>eval</code> function takes a string as an argument and
+<em>evaluates</em> it as a Python expression, returning the value of the
+expression.</p>
+
+<pre class="python-interpreter">
+>>> eval('4 + 5')
+9
+>>> thing = eval('[1, 2, 3]')
+>>> type(thing)
+&lt;type 'list'&gt;
+>>> thing
+[1, 2, 3]
+</pre>
+
+<p><code>eval</code> and <code>raw_input</code> can be used together to
+safely read numeric data:</p>
+
+<pre class="python">
+def alldigits(s):
+    for ch in s:
+        if ch not in "0123456789":
+            return False
+    return True
+
+age = input("Please enter your age: ")
+while not alldigits(age) or int(age) &gt;= 0:
+    age = input("Please enter your age as a positive integer: ")
+
+age = int(age)
+</pre>
+
+<p>The boolean function <code>alldigits</code> checks whether the user
+input consists of only a sequence of digits.  If the user enters
+<code>ten</code> or <code>-6</code>, when propted for her age, she will be
+prompted again to enter a positive integer.</p>
+
+<p>Be advised that there are security risks associated with using
+<code>eval</code> with data from untrusted sources (see the 
+<a href="http://en.wikipedia.org/wiki/Eval">wikipedia article on eval</a>
+for more on this).  In the example above we check to make sure the only
+data evaluated consists of a string of digits."</p>
+
+
 <h2>Glossary</h2>
 <span class="index" value="list" />
 <span class="index" value="index" />

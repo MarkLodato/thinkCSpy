@@ -737,6 +737,31 @@ Which of these are logically equivalent?
 </div></li>
 
 <li><div class="exercise">
+<p>
+Enter the following expressions into the Python shell:
+</p>
+<pre class='python'>
+True or False
+True and False
+not(False) and True
+True or 7
+False or 7
+True and 0
+False or 8
+"happy" and "sad"
+"happy" or "sad"
+"" and "sad"
+"happy" and ""
+</pre>
+<p>
+Analyze these results.  What observations can you make about values of
+different types and logical operators?  Can you write these observations
+in the form of simple <em>rules</em> about <code>and</code> and
+<code>or</code> expressions?
+</p>
+</div></li>
+
+<li><div class="exercise">
 <pre class="python">
 if choice == 'a':
     function_a()
