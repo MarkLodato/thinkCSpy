@@ -883,13 +883,14 @@ boolean expression involving two boolean variables, <code>p</code> and
 from sys import argv
 
 def truth_table(expression):
-    print " p      q      %s"  % expression
+    print "\n p      q      %s"  % expression
     length = len( " p      q      %s"  % expression)
     print length*"="
 
     for p in True, False:
         for q in True, False:
             print "%-7s %-7s %-7s" % (p, q, eval(expression))
+    print
 
 if len(argv) != 2:
     print "Invalid input, enter a quoted string containing a boolean"
@@ -897,6 +898,27 @@ if len(argv) != 2:
 else:
     truth_table(argv[1])
 </pre>
+
+<p>Save the program above in a file named <code>truth_in_p_and_q.py</code>.
+It can now be passed an arbitrary boolean expression involving boolean
+variables <code>p</code> and <code>q</code> at the command line, and it
+will print a truth table for the given expression:</p>
+
+<pre class="python">
+$ python truth_in_p_and_q.py "(p and not q) or (not p and q)"
+
+ p      q      (p and not q) or (not p and q)
+=============================================
+True    True    False  
+True    False   True   
+False   True    True   
+False   False   False  
+
+$
+</pre>
+
+<p>Note that the boolean expression needs to be enclosed in quotation marks.
+</p>
 
 
 <h2>Glossary</h2>
@@ -1092,7 +1114,6 @@ and <code>song</code>.  Are they the same for all strings?  When would they be
 different?
 </div></li>
 </ol>
-
 
 </body>
 </html>
