@@ -802,11 +802,9 @@ pass information into a program at the same time it is invoked.</p>
 #
 # demo_argv.py
 #
-import sys
+from sys import argv
 
-print "And the command-line arguments are:"
-for i in range(len(sys.argv)):
-    print "    argument number %d is %s" % (i, sys.argv[i])
+print argv 
 </pre>
 
 <p>Running this program from the unix command prompt demonstrates how
@@ -814,28 +812,18 @@ for i in range(len(sys.argv)):
 
 <pre class="shell">
 $ python demo_argv.py this and that 1 2 3
-And the command-line arguments are:
-    argument number 0 is demo_argv.py
-    argument number 1 is this
-    argument number 2 is and
-    argument number 3 is that
-    argument number 4 is 1
-    argument number 5 is 2
-    argument number 6 is 3
+['demo_argv.py', 'this', 'and', 'that', '1', '2', '3']
 $ 
 </pre>
 
-<p>Arguments are seperated by white space.  If you want an argument with white
-space in it, use quotes:</p>
+<p><code>argv</code> is a list of strings.  Notice that the first element is
+the name of the program.  Arguments are seperated by white space, and separated
+into a list in the same way that <code>string.split</code> operates.  If you
+want an argument with white space in it, use quotes:</p>
 
 <pre class="shell">
 $ python demo_argv.py "this and" that "1 2" 3
-And the command-line arguments are:
-    argument number 0 is demo_argv.py
-    argument number 1 is this and
-    argument number 2 is that
-    argument number 3 is 1 2
-    argument number 4 is 3
+['demo_argv.py', 'this and', 'that', '1 2', '3']
 $ 
 </pre>
 
@@ -885,6 +873,30 @@ prompted again to enter a positive integer.</p>
 <a href="http://en.wikipedia.org/wiki/Eval">wikipedia article on eval</a>
 for more on this).  In the example above we check to make sure the only
 data evaluated consists of a string of digits."</p>
+
+<p>Combining <code>argv</code> with <code>eval</code> we can write a handy
+little command line program that prints a truth table for an arbitrary
+boolean expression involving two boolean variables, <code>p</code> and
+<code>q</code>:</p>
+
+<pre class="python">
+from sys import argv
+
+def truth_table(expression):
+    print " p      q      %s"  % expression
+    length = len( " p      q      %s"  % expression)
+    print length*"="
+
+    for p in True, False:
+        for q in True, False:
+            print "%-7s %-7s %-7s" % (p, q, eval(expression))
+
+if len(argv) != 2:
+    print "Invalid input, enter a quoted string containing a boolean"
+    print "expression in p and q."
+else:
+    truth_table(argv[1])
+</pre>
 
 
 <h2>Glossary</h2>
@@ -949,12 +961,15 @@ Copying a reference to an object creates an alias but doesn't clone the object.
 <dd>A character or string used to indicate where a string should be split.</dd>
 
 <dt>command line:</dt>
-<dd>
-.</dd>
+<dd>The sequence of characters read into the <em>command interpreter</em> in
+a <em>command line interface</em> (see the Wikipedia article on
+<a href="http://en.wikipedia.org/wiki/Command_line">command line interface</a>
+for more information).</dd>
 
 <dt>command line argument:</dt>
 <dd>
-.</dd>
+A value passed to a program along with the program's invocation at the
+<em>command prompt</em> of a command line interface (CLI).</dd>
 </dl>
 
 
@@ -968,6 +983,80 @@ Write a loop that traverses:
 and prints the length of each element.  What happens if you send an integer
 to <code>len</code>?  Change <code>1</code> to <code>'one'</code> and run
 your solution again.
+</div></li>
+
+<li><div class="exercise">
+Open a file named <code>ch09e02.py</code> and with the following content:
+<pre class="python">
+#  Add your doctests here:
+"""
+"""
+
+# Write your Python code here:
+
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod() 
+</pre>
+Add each of the following sets of doctests to the docstring at the top
+of the file and write Python code to make the doctests pass.
+<ol style="list-style-type: lower-alpha">
+<li><pre class="python">
+"""
+  >>> a_list[3]
+  42
+  >>> a_list[6]
+  'Ni!'
+  >>> len(a_list)
+  8
+"""
+</pre></li>
+<li><pre class="python">
+"""
+  >>> b_list[1:]
+  ['Stills', 'Nash']
+  >>> group = b_list + c_list
+  >>> group[-1]
+  'Young'
+"""
+</pre></li>
+<li><pre class="python">
+"""
+  >>> 'war' in mystery_list
+  False
+  >>> 'peace' in mystery_list
+  True
+  >>> 'justice' in mystery_list
+  True
+  >>> 'oppression' in mystery_list
+  False
+  >>> 'equality' in mystery_list
+  True
+"""
+</pre></li>
+<li><pre class="python">
+"""
+  >>> range(a, b, c)
+  [5, 9, 13, 17]
+"""
+</pre></li>
+</ol>
+Only add one set of doctests at a time.  The next set of doctests should
+not be added until the previous set pass.
+</div></li>
+
+<li><div class="exercise">
+What is the Python interpreter's response to the following?
+<pre class="python-interpreter">
+>>> range(10, 0, -2) 
+</pre>
+The three arguments to the <em>range</em> function are <em>start</em>,
+<em>stop</em>, and <em>step</em>, respectively.  In this example,
+<code>start</code> is greater than <code>stop</code>.  What happens if
+<code>start &lt; stop</code> and <code>step &lt; 0</code>?  Write a rule
+for the relationships among <code>start</code>, <code>stop</code>, and
+<code>step</code>.
 </div></li>
 
 <li><div class="exercise">
