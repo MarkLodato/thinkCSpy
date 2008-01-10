@@ -904,7 +904,7 @@ It can now be passed an arbitrary boolean expression involving boolean
 variables <code>p</code> and <code>q</code> at the command line, and it
 will print a truth table for the given expression:</p>
 
-<pre class="python">
+<pre class="shell">
 $ python truth_in_p_and_q.py "(p and not q) or (not p and q)"
 
  p      q      (p and not q) or (not p and q)
@@ -1101,6 +1101,18 @@ that = this
 print "Test 2: %s" % (id(this) == id(that))
 </pre>
 Provide a <em>detailed</em> explaination of the results.
+</div></li>
+
+<li><div class="exercise">
+Open a file named <code>ch09e07.py</code> and use the same proceedure as
+in exercise 2 to make the following doctests pass: 
+<ol style="list-style-type: lower-alpha">
+<li><pre class="python">
+"""
+  >>> 
+"""
+</pre></li>
+</ol>
 </div></li>
 
 <li><div class="exercise">
