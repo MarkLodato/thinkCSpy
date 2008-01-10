@@ -11,9 +11,9 @@
 build:	book
 
 book:
-	mkdir -p xhtml/
+	mkdir -p html/
 	lore --config template=template.tpl -pN -b thinkCSpy.book
-	mv *.xhtml html
+	mv *.html html
 	cp -r illustrations html/
 	cp -r resources/* html/
 	mv .bzr ../
