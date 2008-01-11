@@ -17,6 +17,7 @@ book:
 	cp -r illustrations html/
 	cp -r resources/* html/
 	mv .bzr ../
+	rm -f html/thinkCSpy2.tgz
 	tar czvf ../thinkCSpy2.tgz ../english2e
 	mv ../thinkCSpy2.tgz html/
 	mv ../.bzr .
