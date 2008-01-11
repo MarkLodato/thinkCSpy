@@ -45,6 +45,37 @@ list:</p>
 
 <span class="index" value="list!nested" />
 
+<p>Finally, there is a special list that contains no elements.  It is called
+the empty list, and is denoted <code>[]</code>.</p>
+
+<p>Like numeric 0 values and the empty string, the empty list is false in
+a boolean expression:</p>
+
+<pre class="python">
+>>> if []:
+...    print 'This is true."
+... else:
+...    print 'This is false."
+...
+This is false.
+>>>
+</pre>
+
+<p>With all these ways to create lists, it would be disappointing if we
+couldn't assign list values to variables or pass lists as parameters to
+functions.  We can:</p>
+
+<pre class="python-interpreter">
+>>> vocabulary = ["ameliorate", "castigate", "defenestrate"]
+>>> numbers = [17, 123]
+>>> empty = []
+>>> print vocabulary, numbers, empty
+['ameliorate', 'castigate', 'defenestrate'] [17, 123] []
+</pre>
+
+
+<h2>The <code>range</code> function</h2>
+
 <p>Lists that contain consecutive integers are common, so Python provides a
 simple way to create them:</p>
 
@@ -74,19 +105,19 @@ from 1 to 10 by steps of 2:</p>
 [1, 3, 5, 7, 9]
 </pre>
 
-<p>Finally, there is a special list that contains no elements.  It is called
-the empty list, and is denoted <code>[]</code>.</p>
-
-<p>With all these ways to create lists, it would be disappointing if we
-couldn't assign list values to variables or pass lists as parameters to
-functions.  We can:</p>
+<p>If the step size is negative, then <code>start</code> must be greater than
+<code>stop</code></p>
 
 <pre class="python-interpreter">
->>> vocabulary = ["ameliorate", "castigate", "defenestrate"]
->>> numbers = [17, 123]
->>> empty = []
->>> print vocabulary, numbers, empty
-['ameliorate', 'castigate', 'defenestrate'] [17, 123] []
+>>> range(20, 4, -5)
+[20, 15, 10, 5]
+</pre>
+
+<p>or the result will be an empty list.</p>
+
+<pre class="python-interpreter">
+>>> range(10, 20, -5)
+[]
 </pre>
 
 
@@ -230,56 +261,6 @@ whether an element is not a member of a list:</p>
 >>> 'debauchery' not in horsemen
 True
 </pre>
-
-
-<h2>Lists and <code>for</code> loops</h2>
-<span class="index" value="for loop" />
-<span class="index" value="list!for loop" />
-<span class="index" value="traversal" />
-
-<p>The <code>for</code> loop also works with lists.  The generalized syntax of
-a <code>for</code> loop is:</p>
-
-<pre>
-for VARIABLE in LIST:
-    BODY
-</pre>
-
-<p>This statement is equivalent to:</p>
-
-<pre class="python">
-i = 0
-while i &lt; len(LIST):
-    VARIABLE = LIST[i]
-    BODY
-    i += 1
-</pre>
-
-<p>The <code>for</code> loop is more concise because we can eliminate the loop
-variable, <code>i</code>.  Here is the previous loop written with a
-<code>for</code> loop.</p>
-
-<pre class="python">
-for horseman in horsemen:
-    print horseman
-</pre>
-
-<p>It almost reads like English: <q>For (every) horseman in (the list of)
-horsemen, print (the name of the) horseman.</q></p>
-
-<p>Any list expression can be used in a <code>for</code> loop:</p>
-
-<pre class="python">
-for number in range(20):
-    if number % 3 == 0:
-        print  number
-   
-for fruit in ["banana", "apple", "quince"]:
-    print "I like to eat " + fruit + "s!"
-</pre>
-
-<p>The first example prints all the multiples of 3 between 0 and 19.  The
-second example expresses enthusiasm for various fruits.</p>
 
 
 <h2>List operations</h2>
@@ -562,6 +543,56 @@ slice happens to consist of the whole list.</p>
 >>> print a
 [1, 2, 3]
 </pre>
+
+
+<h2>Lists and <code>for</code> loops</h2>
+<span class="index" value="for loop" />
+<span class="index" value="list!for loop" />
+<span class="index" value="traversal" />
+
+<p>The <code>for</code> loop also works with lists.  The generalized syntax of
+a <code>for</code> loop is:</p>
+
+<pre>
+for VARIABLE in LIST:
+    BODY
+</pre>
+
+<p>This statement is equivalent to:</p>
+
+<pre class="python">
+i = 0
+while i &lt; len(LIST):
+    VARIABLE = LIST[i]
+    BODY
+    i += 1
+</pre>
+
+<p>The <code>for</code> loop is more concise because we can eliminate the loop
+variable, <code>i</code>.  Here is the previous loop written with a
+<code>for</code> loop.</p>
+
+<pre class="python">
+for horseman in horsemen:
+    print horseman
+</pre>
+
+<p>It almost reads like English: <q>For (every) horseman in (the list of)
+horsemen, print (the name of the) horseman.</q></p>
+
+<p>Any list expression can be used in a <code>for</code> loop:</p>
+
+<pre class="python">
+for number in range(20):
+    if number % 3 == 0:
+        print  number
+   
+for fruit in ["banana", "apple", "quince"]:
+    print "I like to eat " + fruit + "s!"
+</pre>
+
+<p>The first example prints all the multiples of 3 between 0 and 19.  The
+second example expresses enthusiasm for various fruits.</p>
 
 
 <h2>List parameters</h2>
