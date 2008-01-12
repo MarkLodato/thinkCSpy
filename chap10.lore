@@ -17,8 +17,7 @@
 <p>A <b>module</b> is a file containing Python definitions and statements
 intended for use in other Python programs.  There are many Python modules that
 come bundled with Python as part of the <b>standard library</b>.  We have seen
-two of these already, the <code>math</code> module and the <code>string</code>
-module.</p>
+one of these already, the <code>string</code> module.</p>
 
 <p>All we need to create a module is a text file with a <code>.py</code>
 extension on the filename:</p>
@@ -460,6 +459,10 @@ in alphabetical order, of which the first is the name of a Danish university.
 
 
 <h2>Glossary</h2>
+<span class="index" value="module" />
+<span class="index" value="standard library" />
+<span class="index" value="import" />
+<span class="index" value="namespace" />
 <span class="index" value="command line" />
 <span class="index" value="command line arguments" />
 <span class="index" value="volitile memory" />
@@ -467,8 +470,18 @@ in alphabetical order, of which the first is the name of a Danish university.
 <span class="index" value="file" />
 <span class="index" value="directory" />
 <span class="index" value="path" />
+<span class="index" value="math module" />
+<span class="index" value="module!math" />
 
 <dl>
+
+<dt>namespace:</dt>
+<dd>
+A container providing a context for names so that the same name can reside in
+different namespaces without ambiguity.  In Python, modules, classes, functions 
+and methods all form namespaces.
+</dd>
+
 <dt>command line:</dt>
 <dd>The sequence of characters read into the <em>command interpreter</em> in
 a <em>command line interface</em> (see the Wikipedia article on
@@ -504,6 +517,11 @@ by newline characters.</dd>
 <dd>A statement that causes the current iteration of a loop to end.  The flow
 of execution goes to the top of the loop, evaluates the condition, and
 proceeds accordingly.</dd>
+
+<dt>math module</dt>
+<dd>A collection of trigonometric, exponential, and logrithmic functions and
+constants.  Adding <code>import math</code> in a Python program enables access
+to the module.</dd>
 </dl>
 
 

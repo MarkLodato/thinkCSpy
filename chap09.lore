@@ -1078,7 +1078,7 @@ Provide a <em>detailed</em> explaination of the results.
 </div></li>
 
 <li><div class="exercise">
-Open a file named <code>ch09e07.py</code> and use the same proceedure as
+Open a file named <code>ch09e06.py</code> and use the same proceedure as
 in exercise 2 to make the following doctests pass: 
 <ol style="list-style-type: lower-alpha">
 <li><pre class="python">

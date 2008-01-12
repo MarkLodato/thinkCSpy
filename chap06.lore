@@ -797,8 +797,6 @@ to explain <em>how</em> we do it, at least not in the form of an algorithm.</p>
 <span class="index" value="trace" />
 <span class="index" value="program trace" />
 <span class="index" value="counter" />
-<span class="index" value="math module" />
-<span class="index" value="module!math" />
 <span class="index" value="escape sequence" />
 <span class="index" value="cursor" />
 <span class="index" value="tab" />
@@ -847,11 +845,6 @@ change of state of the variables and any output produced.</dd>
 <dt>counter</dt>
 <dd>A variable used to count something, usually initialized to zero and
 incremented in the body of a loop.</dd>
-
-<dt>math module</dt>
-<dd>A collection of trigonometric, exponential, and logrithmic functions and
-constants.  Adding <code>import math</code> in a Python program enables access
-to the module.</dd>
 
 <dt>body:</dt>
 <dd>The statements inside a loop.</dd>

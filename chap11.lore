@@ -484,7 +484,6 @@ advantage.  This approach might be called a
 <span class="index" value="infinite recursion" />
 <span class="index" value="tail recursion" />
 <span class="index" value="standard library" />
-<span class="index" value="namespace" />
 
 <dl>
 <dt>immutable type:</dt>
@@ -538,13 +537,6 @@ case.  Eventually, an infinite recursion causes a runtime error.</dd>
 recursive function.  Tail recursion is considered bad practice in Python
 programs since a logically equivalent function can be written using
 <em>iteration</em> which is more efficient.</dd>
-
-<dt>namespace:</dt>
-<dd>
-A container providing a context for names so that the same name can reside in
-different namespaces without ambiguity.  In Python, modules, classes, functions and methods all form namespaces.
-</dd>
-
 </dl>
 
 
