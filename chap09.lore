@@ -713,7 +713,7 @@ def double_stuff(a_list):
 
 <p>To use the pure function version of <code>double_stuff</code> to modify
 <code>things</code>, you would assign the return value back to
-<code>things</code>:
+<code>things</code>:</p>
 
 <pre class="python-interpreter">
 >>> things = double_stuff(things)
@@ -1083,7 +1083,20 @@ in exercise 2 to make the following doctests pass:
 <ol style="list-style-type: lower-alpha">
 <li><pre class="python">
 """
-  >>> 
+  >>> nlist[2][1]
+  0
+  >>> nlist[0][2]
+  17
+  >>> nlist[1][1]
+  5
+"""
+</pre></li>
+
+<li><pre class="python">
+"""
+  >>> import string
+  >>> string.split(message, '??')
+  ['this', 'and', 'that']
 """
 </pre></li>
 </ol>
