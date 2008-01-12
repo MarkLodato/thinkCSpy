@@ -642,67 +642,101 @@ clearly how <code>enumerate</code> works:</p>
 <span class="index" value="parameter!list" />
 
 <p>Passing a list as an argument actually passes a reference to the list, not a 
-copy of the list.  Since lists are mutable For example, the function <code>double</code> takes a list
-as an argument and returns the first element:</p>
+copy of the list.  Since lists are mutable changes made to the parameter
+change the argument as well.  For example, the function below takes a list
+as an argument and multiplies each element in the list by 2:</p>
 
 <pre class="python">
-def head(a_list):
-    return a_list[0]
+def double_stuff(a_list):
+    for i, value in enumerate(a_list):
+        a_list[i] = 2 * value
 </pre>
 
-<p>Here's how it is used:</p>
+<p>If we put <code>double_stuff</code> in a file named <code>ch09.py</code>, we
+can test it out like this:</p>
 
 <pre class="python-interpreter">
->>> numbers = [1, 2, 3]
->>> head(numbers)
-1
+>>> from ch09 import double_stuff
+>>> things = [2, 5, 'Spam', 9.5]
+>>> double_stuff(things)
+>>> things
+[4, 10, 'SpamSpam', 19.0]
+>>>
 </pre>
 
-<p>The parameter <code>a_list</code> and the variable <code>numbers</code> are
+<p>The parameter <code>a_list</code> and the variable <code>things</code> are
 aliases for the same object.  The state diagram looks like this:</p>
 
 <img src="illustrations/stack5.png" />
 
 <p>Since the list object is shared by two frames, we drew it between them.</p>
 
-<p>If a function modifies a list parameter, the caller sees the change.  For
-example, <code>delete_head</code> removes the first element from a list:</p>
+<p>If a function modifies a list parameter, the caller sees the change.</p>
+
+
+<h2>Pure functions and modifiers</h2>
+<span class="index" value="modifier" />
+<span class="index" value="function type!modifier" />
+<span class="index" value="side effect" />
+<span class="index" value="pure function" />
+<span class="index" value="function type!pure" />
+
+<p>Functions which take lists as arguments and change them during execution
+are called <b>modifiers</b> and the changes they make are called
+<b>side effects</b>.</p>
+
+<p>A <b>pure function</b> does not produce side effects.  It communicates
+with the calling program only through parameters, which it does not modify,
+and a return value.  Here is <code>double_stuff</code> written as a pure
+function:</p>
 
 <pre class="python">
-def delete_head(a_list):
-    del a_list[0]
+def double_stuff(a_list):
+    new_list = []
+    for value in a_list:
+        new_list += [2 * value]
+    return new_list
 </pre>
 
-<p>Here's how <code>delete_head</code> is used:</p>
+<p>This version of <code>double_stuff</code> does not change its arguments: 
+</p>
 
 <pre class="python-interpreter">
->>> numbers = [1, 2, 3]
->>> delete_head(numbers)
->>> print numbers
-[2, 3]
+>>> from ch09 import double_stuff
+>>> things = [2, 5, 'Spam', 9.5]
+>>> double_stuff(things)
+[4, 10, 'SpamSpam', 19.0]
+>>> things
+[2, 5, 'Spam', 9.5]
+>>>
 </pre>
 
-<p>If a function returns a list, it returns a reference to the list.  For
-example, <code>tail</code> returns a list that contains all but the first
-element of the given list:</p>
-
-<pre class="python">
-def tail(a_list):
-    return a_list[1:]
-</pre>
-
-<p>Here's how <code>tail</code> is used:</p>
+<p>To use the pure function version of <code>double_stuff</code> to modify
+<code>things</code>, you would assign the return value back to
+<code>things</code>:
 
 <pre class="python-interpreter">
->>> numbers = [1, 2, 3]
->>> rest = tail(numbers)
->>> print rest
-[2, 3]
+>>> things = double_stuff(things)
+>>> things
+[4, 10, 'SpamSpam', 19.0]
+>>>
 </pre>
 
-<p>Because the return value was created with the slice operator, it is a new
-list.  Creating <code>rest</code>, and any subsequent changes to
-<code>rest</code>, have no effect on <code>numbers</code>.</p>
+
+<h2>Which is better?</h2>
+<span class="index" value="functional programming style" />
+
+<p>Anything that can be done with modifiers can also be done with pure
+functions.  In fact, some programming languages only allow pure functions.
+There is some evidence that programs that use pure functions are faster to
+develop and less error-prone than programs that use modifiers.  Nevertheless,
+modifiers are convenient at times, and in some cases, functional programs are
+less efficient.</p>
+
+<p>In general, we recommend that you write pure functions whenever it is
+reasonable to do so and resort to modifiers only if there is a compelling
+advantage.  This approach might be called a
+<em>functional programming style</em>.</p>
 
 
 <h2>Nested lists</h2>
@@ -870,9 +904,10 @@ placed between each element in the list in the resultant string.</p>
 <span class="index" value="object" />
 <span class="index" value="aliasing" />
 <span class="index" value="clone" />
+<span class="index" value="modifier" />
+<span class="index" value="side effect" />
+<span class="index" value="pure function" />
 <span class="index" value="delimiter" />
-<span class="index" value="command line" />
-<span class="index" value="command line arguments" />
 
 <dl>
 <dt>list:</dt>
@@ -916,19 +951,21 @@ compound types.  Lists are mutable data types; strings are not.</dd>
 Copying a reference to an object creates an alias but doesn't clone the object.
 </dd>
 
+<dt>modifier:</dt>
+<dd>A function which changes its arguments inside the function body.
+Only mutable types can be changed by modifiers.</dd>
+
+<dt>side effect:</dt>
+<dd>A change in the state of a program made by calling a function that is
+not a result of reading the return value from the function.  Side effects
+can only be produced by modifiers.</dd>
+
+<dt>pure function:</dt>
+<dd>A function which has no side effects.  Pure functions only make changes
+to the calling program through their return values.</dd>
+
 <dt>delimiter:</dt>
 <dd>A character or string used to indicate where a string should be split.</dd>
-
-<dt>command line:</dt>
-<dd>The sequence of characters read into the <em>command interpreter</em> in
-a <em>command line interface</em> (see the Wikipedia article on
-<a href="http://en.wikipedia.org/wiki/Command_line">command line interface</a>
-for more information).</dd>
-
-<dt>command line argument:</dt>
-<dd>
-A value passed to a program along with the program's invocation at the
-<em>command prompt</em> of a command line interface (CLI).</dd>
 </dl>
 
 

@@ -6,6 +6,65 @@
 
 <h1>Modules and files</h1>
 
+<h2>Modules</h2>
+<span class="index" value="module" />
+<span class="index" value="standard library" />
+<span class="index" value="import" />
+<span class="index" value="import statement" />
+<span class="index" value="statement!import" />
+<span class="index" value="namespace" />
+
+<p>A <b>module</b> is a file containing Python definitions and statements
+intended for use in other Python programs.  There are many Python modules that
+come bundled with Python as part of the <b>standard library</b>.  We have seen
+two of these already, the <code>math</code> module and the <code>string</code>
+module.</p>
+
+<p>All we need to create a module is a text file with a <code>.py</code>
+extension on the filename:</p>
+
+<pre class="python">
+#  seqtools.py
+#
+def remove_at(pos, seq):
+    return seq[:pos] + seq[pos+1:]
+</pre>
+
+<p>We can now use our module in both scripts and the Python shell.  To do
+so, we must first <b>import</b> the module.  There are two ways to do this:
+</p>
+
+<pre class="python-interpreter">
+>>> from seqtools import remove_at
+>>> s = "A string!"
+>>> remove_at(4, s)
+'A sting!'
+</pre>
+
+<p>Using this format, we have brought the <code>remove_at</code> function
+into our top level <b>namespace</b>.  The danger of this kind of import is
+that if there is already another <code>remove_at</code> function imported from
+another module, access to the first function will be lost.</p>
+
+<p>The second way to import a module preserves the module's namespace, but
+requires you to specify the module name when accessing things inside it:</p>
+
+<pre class="python-interpreter">
+>>> import seqtools
+>>> s = "A string!"
+>>> seqtools.remove_at(4, s)
+'A sting!'
+</pre>
+
+<p>Notice that we do not include the <code>.py</code> file extension when
+importing.  It must be there for a file to be a Python module, but it is not
+included in the <b>import statement</b>.</p>
+
+<p>The use of modules makes it possible to break up very large programs into
+managable sized parts, and to keep related parts together.  Modules also help
+several programmers work on the same project without having namespace clashes.
+</p>
+
 
 <h2>The <code>sys</code> module and <code>argv</code></h2>
 <span class="index" value="sys module" />
@@ -400,67 +459,9 @@ in alphabetical order, of which the first is the name of a Danish university.
 </p>
 
 
-<h2>Modules</h2>
-<span class="index" value="module" />
-<span class="index" value="standard library" />
-<span class="index" value="import" />
-<span class="index" value="import statement" />
-<span class="index" value="statement!import" />
-<span class="index" value="namespace" />
-
-<p>A <b>module</b> is a file containing Python definitions and statements
-intended for use in other Python programs.  There are many Python modules that
-come bundled with Python as part of the <b>standard library</b>.  We have seen
-two of these already, the <code>math</code> module and the <code>string</code>
-module.</p>
-
-<p>All we need to create a module is a text file with a <code>.py</code>
-extension on the filename:</p>
-
-<pre class="python">
-#  seqtools.py
-#
-def remove_at(pos, seq):
-    return seq[:pos] + seq[pos+1:]
-</pre>
-
-<p>We can now use our module in both scripts and the Python shell.  To do
-so, we must first <b>import</b> the module.  There are two ways to do this:
-</p>
-
-<pre class="python-interpreter">
->>> from seqtools import remove_at
->>> s = "A string!"
->>> remove_at(4, s)
-'A sting!'
-</pre>
-
-<p>Using this format, we have brought the <code>remove_at</code> function
-into our top level <b>namespace</b>.  The danger of this kind of import is
-that if there is already another <code>remove_at</code> function imported from
-another module, access to the first function will be lost.</p>
-
-<p>The second way to import a module preserves the module's namespace, but
-requires you to specify the module name when accessing things inside it:</p>
-
-<pre class="python-interpreter">
->>> import seqtools
->>> s = "A string!"
->>> seqtools.remove_at(4, s)
-'A sting!'
-</pre>
-
-<p>Notice that we do not include the <code>.py</code> file extension when
-importing.  It must be there for a file to be a Python module, but it is not
-included in the <b>import statement</b>.</p>
-
-<p>The use of modules makes it possible to break up very large programs into
-managable sized parts, and to keep related parts together.  Modules also help
-several programmers work on the same project without having namespace clashes.
-</p>
-
-
 <h2>Glossary</h2>
+<span class="index" value="command line" />
+<span class="index" value="command line arguments" />
 <span class="index" value="volitile memory" />
 <span class="index" value="non-volitile memory" />
 <span class="index" value="file" />
@@ -468,6 +469,17 @@ several programmers work on the same project without having namespace clashes.
 <span class="index" value="path" />
 
 <dl>
+<dt>command line:</dt>
+<dd>The sequence of characters read into the <em>command interpreter</em> in
+a <em>command line interface</em> (see the Wikipedia article on
+<a href="http://en.wikipedia.org/wiki/Command_line">command line interface</a>
+for more information).</dd>
+
+<dt>command line argument:</dt>
+<dd>
+A value passed to a program along with the program's invocation at the
+<em>command prompt</em> of a command line interface (CLI).</dd>
+
 <dt>file:</dt>
 <dd>A named entity, usually stored on a hard drive, floppy disk, or CD-ROM,
 that contains a stream of characters.</dd>
