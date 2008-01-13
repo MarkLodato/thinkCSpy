@@ -1083,6 +1083,17 @@ in exercise 2 to make the following doctests pass:
 <ol style="list-style-type: lower-alpha">
 <li><pre class="python">
 """
+  >>> 13 in junk
+  True
+  >>> del junk[4]
+  >>> junk
+  [3, 7, 9, 10, 17, 21, 24, 27]
+  >>> del junk[a:b]
+  [3, 7, 27]
+"""
+</pre></li>
+<li><pre class="python">
+"""
   >>> nlist[2][1]
   0
   >>> nlist[0][2]
@@ -1091,7 +1102,6 @@ in exercise 2 to make the following doctests pass:
   5
 """
 </pre></li>
-
 <li><pre class="python">
 """
   >>> import string
@@ -1100,6 +1110,23 @@ in exercise 2 to make the following doctests pass:
 """
 </pre></li>
 </ol>
+</div></li>
+
+<li><div class="exercise">
+Write a function <code>make_matrix(rows, columns)</code> that creates
+a matrix of size <code>rows</code> by <code>columns</code> filled with
+zeros.  <code>make_matrix</code> should pass the following doctests:
+<pre class="python">
+def make_matrix(rows, columns):
+    """
+      >>> m = make_matrix(3, 5)
+      >>> m
+      [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+      >>> m = make_matrix(4, 2)
+      >>> m
+      [[0, 0], [0, 0], [0, 0], [0, 0]]
+    """
+</pre>
 </div></li>
 
 <li><div class="exercise">
