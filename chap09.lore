@@ -1113,9 +1113,9 @@ in exercise 2 to make the following doctests pass:
 </div></li>
 
 <li><div class="exercise">
-Write a function <code>make_matrix(rows, columns)</code> that creates
-a matrix of size <code>rows</code> by <code>columns</code> filled with
-zeros.  <code>make_matrix</code> should pass the following doctests:
+In a file named <code>matrices.py</code> write a function
+<code>make_matrix(rows, columns)</code> that creates a matrix of size
+<code>rows</code> by <code>columns</code> filled with zeros.
 <pre class="python">
 def make_matrix(rows, columns):
     """
@@ -1127,6 +1127,7 @@ def make_matrix(rows, columns):
       [[0, 0], [0, 0], [0, 0], [0, 0]]
     """
 </pre>
+<code>make_matrix</code> should pass the doctests above.
 </div></li>
 
 <li><div class="exercise">
