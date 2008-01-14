@@ -1131,6 +1131,36 @@ def make_matrix(rows, columns):
 </div></li>
 
 <li><div class="exercise">
+Add the following two functions to <code>matrices.py</code>:
+<pre class="python">
+def add_row(matrix):
+    """
+      >>> m = [[0, 0], [0, 0]]
+      >>> m = add_row(m)
+      >>> m
+      [[0, 0], [0, 0], [0, 0]]
+      >>> n = [[3, 2, 5], [1, 4, 7]]
+      >>> n = add_row(n)
+      >>> n
+      [[3, 2, 5], [1, 4, 7], [0, 0, 0]]
+    """
+
+def add_column(matrix):
+    """
+      >>> m = [[0, 0], [0, 0]]
+      >>> m = add_column(m)
+      >>> m
+      [[0, 0, 0], [0, 0, 0]]
+      >>> n = [[3, 2], [5, 1], [4, 7]]
+      >>> n = add_column(n)
+      >>> n
+      [[3, 2, 0], [5, 1, 0], [4, 7, 0]]
+    """
+</pre>
+Your new functions should pass the doctests.
+</div></li>
+
+<li><div class="exercise">
 <pre class="python">
 import string
 
@@ -1157,7 +1187,7 @@ def replace(s, old, new):
     """
 </pre>
 Your solution should pass the doctests above.  <em>Hint: use
-<code>string.split</code> and <code>string.join</code>.
+<code>string.split</code> and <code>string.join</code>.</em>
 </div></li>
 </ol>
 
