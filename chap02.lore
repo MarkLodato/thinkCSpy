@@ -718,32 +718,32 @@ happens when you rerun the program.
 The difference between <code>input</code> and <code>raw_input</code> is that
 <code>input</code> evaluates the input string and <code>raw_input</code> does
 not.  Try the following in the interpreter and record what happens:
-<pre class="python-shell">
+<pre class="python-interpreter">
 >>> x = input()
 3.14
 >>> type(x)
 </pre>
 
-<pre class="python-shell">
+<pre class="python-interpreter">
 >>> x = raw_input()
 3.14
 >>> type(x)
 </pre>
 
-<pre class="python-shell">
+<pre class="python-interpreter">
 >>> x = input()
 'The knights who say "ni!"'
 >>> x
 </pre>
 
 What happens if you try the example above without the quotation marks?
-<pre class="python-shell">
+<pre class="python-interpreter">
 >>> x = input()
 The knights who say "ni!"
 >>> x
 </pre>
 
-<pre class="python-shell">
+<pre class="python-interpreter">
 >>> x = raw_input()
 'The knights who say "ni!"'
 >>> x

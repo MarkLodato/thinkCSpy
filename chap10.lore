@@ -474,13 +474,24 @@ in alphabetical order, of which the first is the name of a Danish university.
 <span class="index" value="module!math" />
 
 <dl>
+<dt>module:</dt>
+<dd>A file containing Python definitions and statements intended for use
+in other Python programs.  The contents of a module are made available to the
+other program by using the <code>import</code> statement.</dd>
+
+<dt>standard library:</dt>
+<dd>A library is a collection of software used as tools in the development
+of other software.  The standard library of a programming language is the set
+of such tools that are distributed with the core programming language.
+Python comes with an extensive standard library.</dd>
+
+<dt>import:</dt>
+<dd></dd>
 
 <dt>namespace:</dt>
-<dd>
-A container providing a context for names so that the same name can reside in
-different namespaces without ambiguity.  In Python, modules, classes, functions 
-and methods all form namespaces.
-</dd>
+<dd>A container providing a context for names so that the same name can reside
+in different namespaces without ambiguity.  In Python, modules, classes,
+functions and methods all form namespaces.</dd>
 
 <dt>command line:</dt>
 <dd>The sequence of characters read into the <em>command interpreter</em> in

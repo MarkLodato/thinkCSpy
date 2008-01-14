@@ -781,10 +781,10 @@ least 13 characters wide.</p>
 
 <h2>Glossary</h2>
 <span class="index" value="compound data type" />
-<span class="index" value="traverse" />
 <span class="index" value="index" />
+<span class="index" value="traverse" />
 <span class="index" value="slice" />
-<span class="index" value="mutable" />
+<span class="index" value="immutable" />
 <span class="index" value="optional parameter" />
 <span class="index" value="default value" />
 <span class="index" value="dot notation" />
@@ -796,19 +796,22 @@ least 13 characters wide.</p>
 <dd>A data type in which the values are made up of components, or elements,
 that are themselves values.</dd>
 
-<dt>traverse:</dt>
-<dd>To iterate through the elements of a set, performing a similar operation on 
-each.</dd>
-
 <dt>index:</dt>
 <dd>A variable or value used to select a member of an ordered set, such as a
 character from a string.</dd>
 
-<dt>slice:</dt>
-<dd>A part of a string specified by a range of indices.</dd>
+<dt>traverse:</dt>
+<dd>To iterate through the elements of a set, performing a similar operation on 
+each.</dd>
 
-<dt>mutable:</dt>
-<dd>A compound data types whose elements can be assigned new values.</dd>
+<dt>slice:</dt>
+<dd>A part of a string (substring) specified by a range of indices.  More
+generally, a subsequence of any sequence type in Python can be created
+using the slice operator
+(<code><em>sequence</em>[<em>start</em>:<em>stop</em>]</code>).</dd>
+
+<dt>immutable:</dt>
+<dd>A compound data types whose elements can not be assigned new values.</dd>
 
 <dt>optional parameter:</dt>
 <dd>A parameter written in a function header with an assignment to a default
@@ -822,6 +825,13 @@ in the function call.</dd>
 <dt>dot notation</dt>
 <dd>Use of the <b>dot operator</b>, <code>.</code>, to access functions inside
 a module.</dd>
+
+<dt>docstring</dt>
+<dd>A string constant on the first line of a function or module definition
+(and as we will see later, in class and method definitions as well).
+Docstrings provide a convinient way to associate documentation with code.
+Docstrings are also used by the <code>doctest</code> module for automated
+testing.</dd>
 
 <dt>whitespace:</dt>
 <dd>Any of the characters that move the cursor without printing visible

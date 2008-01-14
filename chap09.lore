@@ -1089,6 +1089,7 @@ in exercise 2 to make the following doctests pass:
   >>> junk
   [3, 7, 9, 10, 17, 21, 24, 27]
   >>> del junk[a:b]
+  >>> junk
   [3, 7, 27]
 """
 </pre></li>
