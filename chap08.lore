@@ -377,7 +377,7 @@ end_graphics()
 <p>Put this program in a file named <code>scores.py</code> and run it.</p>
 
 <p>We can now modify <code>catch.py</code> to diplay the winner.  Immediately
-after the <code>if ball_x &lt; 810:</code> conditional, add the following:</p>
+after the <code>if ball_x &gt; 810:</code> conditional, add the following:</p>
 
 <pre class='python'>
 Text("Computer Wins!", (340, 290), size=32)
