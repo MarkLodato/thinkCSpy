@@ -486,7 +486,20 @@ of such tools that are distributed with the core programming language.
 Python comes with an extensive standard library.</dd>
 
 <dt>import:</dt>
-<dd></dd>
+<dd>A statement which makes the objects contained in a module available for
+use.  There are two forms for the import statement.  Using a hypothetical
+module named <code>mymod</code> containing functions <code>f1</code>
+and <code>f2</code>, and variables <code>v1</code> and <code>v2</code>,
+examples of these two forms include:
+<pre class='python'>
+import mymod 
+</pre>
+The first form.
+<pre class='python'>
+from mymod import f1, f2, v1, v2 
+</pre>
+Import all objects
+</dd>
 
 <dt>namespace:</dt>
 <dd>A container providing a context for names so that the same name can reside

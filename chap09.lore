@@ -1162,6 +1162,28 @@ Your new functions should pass the doctests.
 </div></li>
 
 <li><div class="exercise">
+Write a function <code>add_matrices(m1, m2)</code> that adds <code>m1</code>
+and <code>m2</code> and returns a new matrix containing their sum.  You can
+assume that <code>m1</code> and <code>m2</code> are the same size.  You add
+two matrices by adding their corresponding values.
+<pre class="python">
+def add_matrices(m1, m2):
+    """
+      >>> a = [[1, 2], [3, 4]]
+      >>> b = [[2, 2], [2, 2]]
+      >>> add_matrices(a, b)
+      [[3, 4], [5, 6]]
+      >>> c = [[8, 2], [3, 4], [5, 7]
+      >>> d = [[3, 2], [9, 2], [10, 12]
+      >>> add_matrices(c, d)
+      [[3, 4], [5, 6]]
+    """
+</pre>
+Add your new function to <code>matrices.py</code> and be sure it passes the
+doctests above.
+</div></li>
+
+<li><div class="exercise">
 <pre class="python">
 import string
 
