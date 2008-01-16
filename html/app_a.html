@@ -1,0 +1,146 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>How to Think Like a Computer Scientist: A. GASP: Graphics API for Students of Python</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">A. GASP: Graphics API for Students of Python</h1><div class="toc"><ol><li><a href="#auto0">Coordinates</a></li><li><a href="#auto1">Colors</a></li><li><a href="#auto2">The Essentials</a></li><li><a href="#auto3">Graphics Functions</a></li><ul><li><a href="#auto4">begin_graphics()</a></li><li><a href="#auto5">end_graphics()</a></li><li><a href="#auto6">clear_screen()</a></li><li><a href="#auto7">remove_from_screen()</a></li></ul><li><a href="#auto8">Screen Objects</a></li><ul><li><a href="#auto9">Plot</a></li><li><a href="#auto10">Line</a></li><li><a href="#auto11">Box</a></li><li><a href="#auto12">Polygon</a></li><li><a href="#auto13">Circle</a></li><li><a href="#auto14">Arc</a></li><li><a href="#auto15">Oval</a></li><li><a href="#auto16">Image</a></li></ul><li><a href="#auto17">Screen Object Methods</a></li><ul><li><a href="#auto18">move_to()</a></li><li><a href="#auto19">move_by()</a></li><li><a href="#auto20">rotate_to()</a></li><li><a href="#auto21">rotate_by()</a></li></ul><li><a href="#auto22">Text</a></li><ul><li><a href="#auto23">Text()</a></li></ul><li><a href="#auto24">Sound</a></li><ul><li><a href="#auto25">Sound()</a></li><li><a href="#auto26">play_sound()</a></li><li><a href="#auto27">stop_sound()</a></li></ul><li><a href="#auto28">Mouse</a></li><ul><li><a href="#auto29">mouse_position()</a></li><li><a href="#auto30">mouse_buttons()</a></li></ul><li><a href="#auto31">Keyboard</a></li><ul><li><a href="#auto32">keys_pressed()</a></li></ul><li><a href="#auto33">Gasp Tools</a></li><ul><li><a href="#auto34">screen_shot</a></li></ul></ol></div><div class="content"><span></span><h2>A.1 Coordinates<a name="auto0"></a></h2><p>
+(0, 0) is at the bottom left of the window. The window is 640 pixels by 480, by
+default. (You can make it a different size if you want to.) Coordinates are
+given in units of one pixel.
+</p><p>
+All functions that take coordinates take them as a tuple (x, y).
+</p><pre class="python">
+<span class="py-src-variable">Circle</span>((<span class="py-src-number">300</span>, <span class="py-src-number">200</span>), <span class="py-src-number">10</span>)     <span class="py-src-comment"># :) This is good</span>
+<span class="py-src-variable">Circle</span>(<span class="py-src-number">300</span>, <span class="py-src-number">200</span>, <span class="py-src-number">10</span>)       <span class="py-src-comment"># :( This is bad</span>
+</pre><h2>A.2 Colors<a name="auto1"></a></h2><p>
+To access the color module GASP has to offer. Call <code>color.*</code> where
+<code>*</code> is the color you wish to call. For example:
+</p><code> color.black </code><p>
+This is the color black. Check out the gasp color refrence chart to see all of
+the availble color options.
+</p><h2>A.3 The Essentials<a name="auto2"></a></h2><pre class="python">
+<span class="py-src-keyword">from</span> <span class="py-src-variable">gasp</span> <span class="py-src-keyword">import</span> *
+
+<span class="py-src-variable">begin_graphics</span>()
+
+...    <span class="py-src-comment"># all of your code</span>
+
+<span class="py-src-variable">end_graphics</span>()
+</pre><p>
+These are the essentials. <code> from gasp import * </code> imports the gasp module,
+<code>begin_graphics()</code> starts the graphics window, and <code>end_graphics()</code> quits the graphics 
+window. It's dead simple, but also dead necessary. 
+</p><h2>A.4 Graphics Functions<a name="auto3"></a></h2><h3>begin_graphics()<a name="auto4"></a></h3><pre class="python">
+<span class="py-src-variable">begin_graphics</span>(<span class="py-src-variable">height</span>=<span class="py-src-number">640</span>, <span class="py-src-variable">width</span>=<span class="py-src-number">480</span>, <span class="py-src-variable">title</span>=<span class="py-src-string">&quot;Gasp&quot;</span>, <span class="py-src-variable">background</span>=<span class="py-src-variable">color</span>.<span class="py-src-variable">white</span>)
+</pre><p>
+This by default creates a graphics window with the dimensions 640x480, 
+a title of Gasp, and a background color of white.
+</p><dl><dt>height</dt><dd>The windows height in pixels.</dd><dt>width</dt><dd> The width of the window in pixels.</dd><dt>title</dt><dd> A string that will be the title of the window </dd><dt>background</dt><dd> It is the background of the graphics window. It can either be a color or an image</dd></dl><h3>end_graphics()<a name="auto5"></a></h3><pre class="python">
+<span class="py-src-variable">endgraphics</span>()
+</pre><p>
+Ends a graphics window.
+</p><h3>clear_screen()<a name="auto6"></a></h3><pre class="python">
+<span class="py-src-variable">clear_screen</span>()
+</pre><p> 
+Clears everything off of the graphics window. It looks like a new graphcs window 
+as if you just called begin_graphics(). 
+</p><h3>remove_from_screen()<a name="auto7"></a></h3><pre class="python">
+<span class="py-src-variable">remove_from_screen</span>(<span class="py-src-variable">obj</span>)
+</pre><p>
+removes those objects from the screen
+</p><dl><dt>obj</dt><dd> A screen object of a list of screen_objects you would like to remove 
+         from the screen</dd></dl><h2>A.5 Screen Objects<a name="auto8"></a></h2><p>
+The objects that you will be displayed in your graphics window. You can 
+manipulate these objects using the screen object methods 
+</p><h3>Plot<a name="auto9"></a></h3><pre class="python">
+<span class="py-src-variable">Plot</span>(<span class="py-src-variable">pos</span>, <span class="py-src-variable">color</span>=<span class="py-src-variable">color</span>.<span class="py-src-variable">black</span>, <span class="py-src-variable">size</span>=<span class="py-src-number">1</span>)
+</pre><p>
+It puts a dot on the screen.
+</p><dl><dt>pos</dt><dd>The coordinate on the screen that you wish to plot.</dd><dt>color</dt><dd>The color you wish the dot to be.</dd><dt>size</dt><dd>An integer that determinse the size the of the dot</dd></dl><h3>Line<a name="auto10"></a></h3><pre class="python">
+<span class="py-src-variable">Line</span>(<span class="py-src-variable">start</span>, <span class="py-src-variable">end</span>, <span class="py-src-variable">color</span>=<span class="py-src-variable">color</span>.<span class="py-src-variable">black</span>)
+</pre><p>
+Creates a line on the screen.
+</p><dl><dt>start</dt><dd>The starting coordinate of the line.</dd><dt>end</dt><dd>The coordinate at which the line will end.</dd><dt>color</dt><dd>The color of the line</dd></dl><h3>Box<a name="auto11"></a></h3><pre class="python">
+<span class="py-src-variable">Box</span>(<span class="py-src-variable">center</span>, <span class="py-src-variable">width</span>, <span class="py-src-variable">height</span>, <span class="py-src-variable">filled</span>=<span class="py-src-variable">False</span>, <span class="py-src-variable">color</span>=<span class="py-src-variable">color</span>.<span class="py-src-variable">black</span>, <span class="py-src-variable">thickness</span>=<span class="py-src-number">1</span>)
+</pre><p>
+This creates a Box on the screen
+</p><dl><dt>center</dt><dd> A coorinate where the center of your box will be.</dd><dt>width</dt><dd> The width in pixels of the box. </dd><dt>height</dt><dd> The height of the box in pixels. </dd><dt>filled</dt><dd> A boolean value that determines if your box will be filled</dd><dt>color</dt><dd> The color of your box. </dd><dt>thickness</dt><dd> The thickness in pixels of your box's lines. </dd></dl><h3>Polygon<a name="auto12"></a></h3><pre class="python">
+<span class="py-src-variable">Polygon</span>(<span class="py-src-variable">points</span>, <span class="py-src-variable">filled</span>=<span class="py-src-variable">False</span>, <span class="py-src-variable">color</span>=<span class="py-src-variable">color</span>.<span class="py-src-variable">black</span>, <span class="py-src-variable">thickness</span>=<span class="py-src-number">1</span>)
+</pre><p>
+Creates a polygon on the screen
+</p><dl><dt>points</dt><dd>A list of coorinates that is each point on the polygon. The must be more
+         than two items in the list </dd><dt>filled</dt><dd> A boolean value. If it is False the polygon will not be filled. 
+        Else, the polygon will not be filled</dd><dt>color</dt><dd> The color of the polygon's lines </dd><dt>thickness</dt><dd> An integer that determines the thickness of the lines. </dd></dl><h3>Circle<a name="auto13"></a></h3><pre class="python">
+<span class="py-src-variable">Circle</span>(<span class="py-src-variable">center</span>, <span class="py-src-variable">radius</span>, <span class="py-src-variable">filled</span>=<span class="py-src-variable">False</span>, <span class="py-src-variable">color</span>=<span class="py-src-variable">color</span>.<span class="py-src-variable">black</span>, <span class="py-src-variable">thickness</span>=<span class="py-src-number">1</span>)
+</pre><p>
+Draws a circle, its <code>center</code> is a set of coordinates, and the <code>radius</code> is in pixels. It defaults to not being filled and the color black.
+</p><dl><dt>center</dt><dd> The circle's center coordinate.</dd><dt>width</dt><dd> An integer that is the radius of the circle </dd><dt>filled</dt><dd> A boolean value that determines if your circle will be filled</dd><dt>color</dt><dd> The color of your circle. </dd><dt>thickness</dt><dd> The thickness in pixels of the circles lines. </dd></dl><h3>Arc<a name="auto14"></a></h3><pre class="python">
+<span class="py-src-variable">Arc</span>(<span class="py-src-variable">center</span>, <span class="py-src-variable">radius</span>, <span class="py-src-variable">start_angle</span>, <span class="py-src-variable">end_angle</span>, <span class="py-src-variable">filled</span>=<span class="py-src-variable">False</span>, <span class="py-src-variable">color</span>=<span class="py-src-variable">color</span>.<span class="py-src-variable">black</span>, <span class="py-src-variable">thickness</span>=<span class="py-src-number">1</span>)
+</pre><p>
+Creates an arc on the screen.
+</p><dl><dt>center</dt><dd> A coordinate that is the center of the arc. </dd><dt>radius</dt><dd> An integer that is the distance between the center and the outer edge 
+            of the arc.</dd><dt>start_angle</dt><dd> The start angle in degrees of the arc </dd><dt>end_angle</dt><dd> The end angle in degrees of your arc </dd><dt>filled</dt><dd> A boolean value that if True it fills the arc </dd><dt>color</dt><dd> The color the arc </dd><dt>thickness</dt><dd> The thickness in pixels of the arc </dd></dl><h3>Oval<a name="auto15"></a></h3><pre class="python">
+<span class="py-src-variable">Oval</span>(<span class="py-src-variable">center</span>, <span class="py-src-variable">width</span>, <span class="py-src-variable">height</span>, <span class="py-src-variable">filled</span>=<span class="py-src-variable">False</span>, <span class="py-src-variable">color</span>=<span class="py-src-variable">color</span>.<span class="py-src-variable">black</span>, <span class="py-src-variable">thickness</span>=<span class="py-src-number">1</span>)
+</pre><p>
+Puts an oval on the screen wherever you want.
+</p><dl><dt>center</dt><dd>The center coordinate of the Oval</dd><dt>width</dt><dd>The width in pixels of the oval</dd><dt>height</dt><dd>The height of the oval in pixels</dd><dt>filled</dt><dd>A boolean value determining if the oval will be filles or not.</dd><dt>color</dt><dd> The oval's color </dd><dt>thickness</dt><dd> The thickness of the ovals lines </dd></dl><h3>Image<a name="auto16"></a></h3><pre class="python">
+<span class="py-src-variable">Image</span>(<span class="py-src-variable">self</span>, <span class="py-src-variable">file_path</span>, <span class="py-src-variable">center</span>, <span class="py-src-variable">width</span>=<span class="py-src-variable">None</span>, <span class="py-src-variable">height</span>=<span class="py-src-variable">None</span>):
+</pre><p>
+It uploads an image onto the screen. If you only pass width and not a height it automatically scales the height to fit the width you passed it. It is the same for the height.
+</p><dl><dt>file_path</dt><dd> The path name where the image is. </dd><dt>center</dt><dd> The center coordinate of the image </dd><dt>width</dt><dd> The width of the image in pixels. If width equals None then it 
+        defaults to the image files width </dd><dt>height</dt><dd> The height of the image in pixels. If no height is passed it defaults 
+        to the image files height </dd></dl><h2>A.6 Screen Object Methods<a name="auto17"></a></h2><p>
+The methods that manipulates screen objects
+</p><h3>move_to()<a name="auto18"></a></h3><pre class="python">
+<span class="py-src-variable">move_to</span>(<span class="py-src-variable">obj</span>, <span class="py-src-variable">pos</span>)
+</pre><p>
+Move a screen object to a pos
+</p><dl><dt>obj</dt><dd> A screen object you wish to move. </dd><dt>pos</dt><dd> The coordinate on the screen that the object will move to </dd></dl><h3>move_by()<a name="auto19"></a></h3><pre class="python">
+<span class="py-src-variable">move_by</span>(<span class="py-src-variable">obj</span>, <span class="py-src-variable">dx</span>, <span class="py-src-variable">dy</span>)
+</pre><p>
+Move a screen object relative to it's position
+</p><dl><dt>obj</dt><dd>The screen object you wish to move</dd><dt>dx</dt><dd> How much the object will move in the 'x' direction. Positive or 
+        negative.</dd><dt>dy</dt><dd> How much the object will move in the 'y' direction. A pixel value.</dd></dl><h3>rotate_to()<a name="auto20"></a></h3><pre class="python">
+<span class="py-src-variable">rotate_to</span>(<span class="py-src-variable">obj</span>, <span class="py-src-variable">angle</span>)
+</pre><p>
+Rotate an object to an angle
+</p><dl><dt>obj</dt><dd> The screen object that will be rotated </dd><dt>angle</dt><dd> The angle in degrees that the object will be rotated to </dd></dl><h3>rotate_by()<a name="auto21"></a></h3><pre class="python">
+<span class="py-src-variable">rotate_by</span>(<span class="py-src-variable">obj</span>, <span class="py-src-variable">angle</span>)
+</pre><p>
+Rotate an object a certain degree.
+</p><dl><dt>obj</dt><dd> The screen object you wish to rotate </dd><dt>angle</dt><dd> The degree that the object will be rotate. Can be positive or negative.        </dd></dl><h2>A.7 Text<a name="auto22"></a></h2><p></p><h3>Text()<a name="auto23"></a></h3><pre class="python">
+<span class="py-src-variable">Text</span>(<span class="py-src-variable">text</span>, <span class="py-src-variable">pos</span>, <span class="py-src-variable">color</span>=<span class="py-src-variable">color</span>.<span class="py-src-variable">black</span>, <span class="py-src-variable">size</span>=<span class="py-src-number">12</span>)
+</pre><p>
+Puts text on the screen
+</p><dl><dt>text</dt><dd> A string of the text that will be displayed </dd><dt>pos</dt><dd> The center coordinate of the text </dd><dt>color</dt><dd> The color of the text </dd><dt>size</dt><dd> The font size </dd></dl><h2>A.8 Sound<a name="auto24"></a></h2><p>
+All of the functions that manipulate sound.
+</p><h3>Sound()<a name="auto25"></a></h3><pre class="python">
+<span class="py-src-variable">Sound</span>(<span class="py-src-variable">file_path</span>)
+</pre><p>
+Creates a sound object
+</p><dl><dt>file_path</dt><dd> The path of the sound file you wish to make the sound object out of </dd></dl><h3>play_sound()<a name="auto26"></a></h3><pre class="python">
+<span class="py-src-variable">play_sound</span>(<span class="py-src-variable">obj</span>, <span class="py-src-variable">loop</span>=<span class="py-src-variable">False</span>)
+</pre><p>
+Plays a sound object
+</p><dl><dt>obj</dt><dd>A sound object</dd><dt>loop</dt><dd> If loop equals false in will play the file all the way through one 
+        time. If loop equals True it will repeat the file untill it is stopped 
+        </dd></dl><h3>stop_sound()<a name="auto27"></a></h3><pre class="python">
+<span class="py-src-variable">stop_sound</span>(<span class="py-src-variable">obj</span>, <span class="py-src-variable">finish</span>=<span class="py-src-variable">False</span>, <span class="py-src-variable">fade</span>=<span class="py-src-variable">True</span>)
+</pre><p>
+It stops a sound object that was playing
+</p><dl><dt>obj</dt><dd> The sound object you wish to stop </dd><dt>finish</dt><dd> If True it will wait to stop the file untill it has finished. If False
+ it will imedietly stop.</dd><dt>fade</dt><dd> If True it will fade out. If False it will stop the sound </dd></dl><h2>A.9 Mouse<a name="auto28"></a></h2><p></p><h3>mouse_position()<a name="auto29"></a></h3><pre class="python">
+<span class="py-src-variable">mouse_position</span>()
+</pre><p>
+Returns the current mouse coordinate
+</p><h3>mouse_buttons()<a name="auto30"></a></h3><pre class="python">
+<span class="py-src-variable">mouse_buttons</span>()
+</pre><p>
+returns a dictionary of the buttons state. There is a 'left', 'middle', and 'right' key.
+</p><h2>A.10 Keyboard<a name="auto31"></a></h2><p></p><h3>keys_pressed()<a name="auto32"></a></h3><pre class="python">
+<span class="py-src-variable">keys_pressed</span>()
+</pre><p>
+returns a list of all of the keys pressed at that moment.
+</p><h2>A.11 Gasp Tools<a name="auto33"></a></h2><h3>screen_shot<a name="auto34"></a></h3><pre class="python">
+<span class="py-src-variable">screen_shot</span>(<span class="py-src-variable">filename</span>)
+</pre><p>
+It saves a screenshot of the current graphics screen to a png file.
+</p><dl><dt>filename</dt><dd> The file path relative to the current directory that the image will be
+  written to. </dd></dl></div><p><a href="index.xhtml">Table of Contents</a> |
+    <a href="dex.html">Index</a></p></body></html>

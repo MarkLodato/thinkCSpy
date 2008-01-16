@@ -1,0 +1,19 @@
+<dt>file:</dt>
+<dd>A named entity, usually stored on a hard drive, floppy disk, or CD-ROM,
+that contains a stream of characters.</dd>
+
+<dt>directory:</dt>
+<dd>A named collection of files, also called a folder.</dd>
+
+<dt>path:</dt>
+<dd>A sequence of directory names that specifies the exact location of a file.
+</dd>
+
+<dt>text file:</dt>
+<dd>A file that contains printable characters organized into lines separated
+by newline characters.</dd>
+
+<dt>continue statement:</dt>
+<dd>A statement that causes the current iteration of a loop to end.  The flow
+of execution goes to the top of the loop, evaluates the condition, and
+proceeds accordingly.</dd>

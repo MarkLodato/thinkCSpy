@@ -1,0 +1,552 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>How to Think Like a Computer Scientist: 6. Iteration</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">6. Iteration</h1><div class="toc"><ol><li><a href="#auto0">Multiple assignment</a></li><li><a href="#auto1">Updating variables</a></li><li><a href="#auto2">The while statement</a></li><li><a href="#auto3">Tracing a program</a></li><li><a href="#auto4">Counting digits</a></li><li><a href="#auto5">Abbreviated assignment</a></li><li><a href="#auto6">Tables</a></li><li><a href="#auto7">Two-dimensional tables</a></li><li><a href="#auto8">Encapsulation and generalization</a></li><li><a href="#auto9">More encapsulation</a></li><li><a href="#auto10">Local variables</a></li><li><a href="#auto11">More generalization</a></li><li><a href="#auto12">Functions</a></li><li><a href="#auto13">Newton's Method</a></li><li><a href="#auto14">Algorithms</a></li><li><a href="#auto15">Glossary</a></li><li><a href="#auto16">Exercises</a></li></ol></div><div class="content"><span></span><a name="index01"></a><h2>6.1 Multiple assignment<a name="auto0"></a></h2><a name="index02"></a><a name="index03"></a><a name="index04"></a><p>As you may have discovered, it is legal to make more than one assignment to
+the same variable.  A new assignment makes an existing variable refer to a new
+value (and stop referring to the old value).</p><pre class="python">
+<span class="py-src-variable">bruce</span> = <span class="py-src-number">5</span>
+<span class="py-src-keyword">print</span> <span class="py-src-variable">bruce</span>,
+<span class="py-src-variable">bruce</span> = <span class="py-src-number">7</span>
+<span class="py-src-keyword">print</span> <span class="py-src-variable">bruce</span>
+</pre><p>The output of this program is <code>5 7</code>, because the first time
+<code>bruce</code> is printed, his value is 5, and the second time, his value
+is 7.  The comma at the end of the first <code>print</code> statement
+suppresses the newline after the output, which is why both outputs appear on
+the same line.</p><p>Here is what <b>multiple assignment</b> looks like in a state
+diagram:</p><img src="illustrations/assign2.png" /><p>With multiple assignment it is especially important to distinguish between
+an assignment operation and a statement of equality.  Because Python uses the
+equal sign (<code>=</code>) for assignment, it is tempting to interpret a
+statement like <code>a = b</code> as a statement of equality. It is not!</p><p>First, equality is symmetric and assignment is not.  For example, in
+mathematics, if a = 7 then 7 = a.  But in Python, the statement
+<code>a = 7</code> is legal and <code>7 = a</code> is not.</p><p>Furthermore, in mathematics, a statement of equality is always true.
+If a = b now, then a will always equal b.  In Python, an assignment statement
+can make two variables equal, but they don't have to stay that way:</p><pre class="python">
+<span class="py-src-variable">a</span> = <span class="py-src-number">5</span>
+<span class="py-src-variable">b</span> = <span class="py-src-variable">a</span>    <span class="py-src-comment"># a and b are now equal</span>
+<span class="py-src-variable">a</span> = <span class="py-src-number">3</span>    <span class="py-src-comment"># a and b are no longer equal</span>
+</pre><p>The third line changes the value of <code>a</code> but does not change the
+value of <code>b</code>, so they are no longer equal. (In some programming
+languages, a different symbol is used for assignment, such as
+<code>&lt;-</code> or <code>:=</code>, to avoid confusion.)</p><h2>6.2 Updating variables<a name="auto1"></a></h2><p>One of the most common forms of multiple assignment is an update, where the
+new value of the variable depends on the old.</p><pre class="python">
+<span class="py-src-variable">x</span> = <span class="py-src-variable">x</span> + <span class="py-src-number">1</span>
+</pre><p>This means <q>get the current value of x, add one, and then update x with
+the new value.</q></p><p>If you try to update a variable that doesn't exist, you get an error,
+because Python evaluates the expression on the right side of the assignment
+operator before it assigns the resulting value to the name on the left:</p><pre class="python">
+&gt;&gt;&gt; <span class="py-src-variable">x</span> = <span class="py-src-variable">x</span> + <span class="py-src-number">1</span>
+<span class="py-src-variable">Traceback</span> (<span class="py-src-variable">most</span> <span class="py-src-variable">recent</span> <span class="py-src-variable">call</span> <span class="py-src-variable">last</span>):
+  <span class="py-src-variable">File</span> <span class="py-src-string">&quot;&lt;stdin&gt;&quot;</span>, <span class="py-src-variable">line</span> <span class="py-src-number">1</span>, <span class="py-src-keyword">in</span> &lt;<span class="py-src-variable">module</span>&gt;
+<span class="py-src-variable">NameError</span>: <span class="py-src-variable">name</span> <span class="py-src-string">'x'</span> <span class="py-src-keyword">is</span> <span class="py-src-keyword">not</span> <span class="py-src-variable">defined</span>
+</pre><p>Before you can update a variable, you have to <b>initialize</b> it, usually
+with a simple assignment:</p><pre class="python">
+&gt;&gt;&gt; <span class="py-src-variable">x</span> = <span class="py-src-number">0</span>
+&gt;&gt;&gt; <span class="py-src-variable">x</span> = <span class="py-src-variable">x</span> + <span class="py-src-number">1</span>
+&gt;&gt;&gt;
+</pre><p>Updating a variable by adding 1 is called an <b>increment</b>; subtracting
+1 is called a <b>decrement</b>.</p><h2>6.3 The <code>while</code> statement<a name="auto2"></a></h2><a name="index05"></a><a name="index06"></a><a name="index07"></a><a name="index08"></a><p>Computers are often used to automate repetitive tasks.  Repeating identical
+or similar tasks without making errors is something that computers do well and
+people do poorly.</p><p>Repeated execution of a set of statements is called <b>iteration</b>.
+Because iteration is so common, Python provides several language features to
+make it easier.  The first feature we are going to look at is the
+<code>while</code> statement.</p><p>Here is a function called <code>countdown</code> that demonstrates the
+use of the <code>while</code> statement:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">countdown</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">n</span> &gt; <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">n</span>
+        <span class="py-src-variable">n</span> = <span class="py-src-variable">n</span>-<span class="py-src-number">1</span>
+    <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;Blastoff!&quot;</span>
+</pre><p>You can almost read the <code>while</code> statement as if it were English.
+It means, <q>While <code>n</code> is greater than 0, continue displaying the
+value of <code>n</code> and then reducing the value of <code>n</code> by 1.
+When you get to 0, display the word <code>Blastoff!</code></q></p><p>More formally, here is the flow of execution for a <code>while</code>
+statement:</p><ol><li>Evaluate the condition, yielding <code>False</code> or <code>True</code>.
+</li><li>If the condition is false, exit the <code>while</code> statement and
+continue execution at the next statement.</li><li>If the condition is true, execute each of the statements in the body
+and then go back to step 1.</li></ol><p>The body consists of all of the statements below the header with the same
+indentation.</p><p>This type of flow is called a <b>loop</b> because the third step
+loops back around to the top.  Notice that if the condition is false the first
+time through the loop, the statements inside the loop are never executed.</p><a name="index09"></a><a name="index10"></a><a name="index11"></a><a name="index12"></a><a name="index13"></a><a name="index14"></a><p>The body of the loop should change the value of one or more variables
+so that eventually the condition becomes false and the loop terminates.
+Otherwise the loop will repeat forever, which is called an
+<b>infinite loop</b>.  An endless source of amusement for computer
+scientists is the observation that the directions on shampoo, <q>Lather, rinse, repeat,</q> are an infinite loop.</p><p>In the case of <code>countdown</code>, we can prove that the loop terminates 
+because we know that the value of <code>n</code> is finite, and we can see that 
+the value of <code>n</code> gets smaller each time through the loop, so
+eventually we have to get to 0.  In other cases, it is not so easy to tell:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">sequence</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">n</span> != <span class="py-src-number">1</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">n</span>,
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">n</span> % <span class="py-src-number">2</span> == <span class="py-src-number">0</span>:        <span class="py-src-comment"># n is even</span>
+            <span class="py-src-variable">n</span> = <span class="py-src-variable">n</span> / <span class="py-src-number">2</span>
+        <span class="py-src-keyword">else</span>:                 <span class="py-src-comment"># n is odd</span>
+            <span class="py-src-variable">n</span> = <span class="py-src-variable">n</span> * <span class="py-src-number">3</span> + <span class="py-src-number">1</span>
+</pre><p>The condition for this loop is <code>n != 1</code>, so the loop will
+continue until <code>n</code> is <code>1</code>, which will make the condition
+false.</p><p>Each time through the loop, the program outputs the value of <code>n</code>
+and then checks whether it is even or odd.  If it is even, the value of
+<code>n</code> is divided by 2.  If it is odd, the value is replaced by
+<code>n * 3 + 1</code>. For example, if the starting value (the argument passed
+to sequence) is 3, the resulting sequence is 3, 10, 5, 16, 8, 4, 2, 1.</p><p>Since <code>n</code> sometimes increases and sometimes decreases, there is
+no obvious proof that <code>n</code> will ever reach 1, or that the program
+terminates.  For some particular values of <code>n</code>, we can prove
+termination.  For example, if the starting value is a power of two, then the
+value of <code>n</code> will be even each time through the loop until it
+reaches 1. The previous example ends with such a sequence, starting with 16.
+</p><p>Particular values aside, the interesting question is whether we can prove
+that this program terminates for <em>all</em> values of <code>n</code>.  So
+far, no one has been able to prove it <em>or</em> disprove it!</p><h2>6.4 Tracing a program<a name="auto3"></a></h2><a name="index15"></a><a name="index16"></a><a name="index17"></a><p>To write effective computer programs a programmer needs to develop the
+ability to <b>trace</b> the execution of a computer program.  Tracing involves
+<q>becoming the computer</q> and following the flow of execution through a
+sample program run, recording the state of all variables and any output the
+program generates after each instruction is executed.</p><p>To understand this process, let's trace the call to <code>sequence(3)</code>
+from the previous section.  At the start of the trace, we have a local
+variable, <code>n</code> (the parameter), with an initial value of 3.  Since 
+3 is not equal to 1, the <code>while</code> loop body is executed.  3 is
+printed and <code>3 % 2 == 0</code> is evaluated.  Since it evaluates to
+<code>False</code>, the <code>else</code> branch is executed and
+<code>3 * 3 + 1</code> is evaluated and assigned to <code>n</code>.
+</p><p>To keep track of all this as you hand trace a program, make a column heading
+on a piece of paper for each variable created as the program runs and another
+one for output.  Our trace so far would look something like this:</p><pre class="boxed">
+   n              output
+  ---             ------
+   3                 3
+   10
+</pre><p>Since <code>10 != 1</code> evaluates to <code>True</code>, the loop body
+is again executed, and 10 is printed.  <code>10 % 2 == 0</code> is true, so
+the <code>if</code> branch is executed and <code>n</code> becomes 5.  By the
+end of the trace we have:</p><pre class="boxed">
+   n              output
+  ---             ------
+   3                 3
+   10                10
+   5                 5
+   16                16
+   8                 8
+   4                 4
+   2                 2
+   1
+</pre><p>Tracing can be a bit tedious and error prone (that's why we get computers
+to do this stuff in the first place!), but it is an essential skill for a
+programmer to have.  From this trace we can learn a lot about the way our
+code works.  We can observe that as soon as n becomes a power of 2, for example,
+the program will require log<sub>2</sub>(n) executions of the loop body to
+complete.  We can also see that the final 1 will not be printed as output.
+</p><h2>6.5 Counting digits<a name="auto4"></a></h2><a name="index18"></a><p>The following function counts the number of decimal digits in a positive
+integer expressed in decimal format:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">num_digits</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-variable">count</span> = <span class="py-src-number">0</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">n</span>:
+        <span class="py-src-variable">count</span> = <span class="py-src-variable">count</span> + <span class="py-src-number">1</span>
+        <span class="py-src-variable">n</span> = <span class="py-src-variable">n</span> / <span class="py-src-number">10</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">count</span>
+</pre><p>A call to <code>num_digits(710)</code> will return <code>3</code>.  Trace
+the execution of this function call to convince yourself that it works.</p><p>This function demonstrates another pattern of computation called a
+<b>counter</b>.  The variable <code>count</code> is initialized to 0 and then
+incremented each time the loop body is executed.  When the loop exits,
+<code>count</code> contains the result -- the total number of times the loop
+body was executed, which is the same as the number of digits.</p><p>If we wanted to only count digits that are either 0 or 5, adding a
+conditional before incrementing the counter will do the trick:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">num_zero_and_five_digits</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-variable">count</span> = <span class="py-src-number">0</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">n</span>:
+        <span class="py-src-variable">digit</span> = <span class="py-src-variable">n</span> % <span class="py-src-number">10</span>
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">digit</span> == <span class="py-src-number">0</span> <span class="py-src-keyword">or</span> <span class="py-src-variable">digit</span> == <span class="py-src-number">5</span>:
+            <span class="py-src-variable">count</span> = <span class="py-src-variable">count</span> + <span class="py-src-number">1</span>
+        <span class="py-src-variable">n</span> = <span class="py-src-variable">n</span> / <span class="py-src-number">10</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">count</span>
+</pre><p>Confirm that <code>num_zero_and_five_digits(1055030250)</code> returns 7.
+</p><h2>6.6 Abbreviated assignment<a name="auto5"></a></h2><p>Incrementing a variable is so common that Python provides an abbreviated
+syntax for it:</p><pre class="python-interpreter">
+&gt;&gt;&gt; count = 0
+&gt;&gt;&gt; count += 1
+&gt;&gt;&gt; count
+1
+&gt;&gt;&gt; count += 1
+&gt;&gt;&gt; count
+2
+&gt;&gt;&gt;
+</pre><p><code>count += 1</code> is an abreviation for <code>count = count + 1</code> .
+The increment value does not have to be 1:</p><pre class="python-interpreter">
+&gt;&gt;&gt; n = 2
+&gt;&gt;&gt; n += 5
+&gt;&gt;&gt; n
+7
+&gt;&gt;&gt;
+</pre><p>There are also abbreviations for <code>-=</code>, <code>*=</code>,
+<code>/=</code>, and <code>%=</code>:</p><pre class="python-interpreter">
+&gt;&gt;&gt; n = 2
+&gt;&gt;&gt; n *= 5
+&gt;&gt;&gt; n
+10
+&gt;&gt;&gt; n -= 4
+&gt;&gt;&gt; n
+6
+&gt;&gt;&gt; n /= 2
+&gt;&gt;&gt; n
+3
+&gt;&gt;&gt; n %= 2
+&gt;&gt;&gt; n
+1
+</pre><h2>6.7 Tables<a name="auto6"></a></h2><a name="tables"></a><a name="index19"></a><a name="index20"></a><p>One of the things loops are good for is generating tabular data.  Before
+computers were readily available, people had to calculate logarithms, sines and 
+cosines, and other mathematical functions by hand.  To make that easier,
+mathematics books contained long tables listing the values of these functions.  
+Creating the tables was slow and boring, and they tended to be full of errors.
+</p><p>When computers appeared on the scene, one of the initial reactions was,
+<q>This is great!  We can use the computers to generate the tables, so there
+will be no errors.</q> That turned out to be true (mostly) but shortsighted.
+Soon thereafter, computers and calculators were so pervasive that the tables
+became obsolete.</p><p>Well, almost.  For some operations, computers use tables of values to get an 
+approximate answer and then perform computations to improve the approximation.  
+In some cases, there have been errors in the underlying tables, most famously
+in the table the Intel Pentium used to perform floating-point division.</p><a name="index21"></a><a name="index22"></a><p>Although a log table is not as useful as it once was, it still makes a good
+example of iteration.  The following program outputs a sequence of values in
+the left column and 2 raised to the power of that value in the right column:
+</p><pre class="python">
+<span class="py-src-variable">x</span> = <span class="py-src-number">1</span>
+<span class="py-src-keyword">while</span> <span class="py-src-variable">x</span> &lt; <span class="py-src-number">13</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-variable">x</span>, <span class="py-src-string">'\t'</span>, <span class="py-src-number">2</span>**<span class="py-src-variable">x</span>
+    <span class="py-src-variable">x</span> += <span class="py-src-number">1</span>
+</pre><a name="index23"></a><p>The string '\t' represents a <b>tab</b> character.  The backslash character
+in '\t' indicates the beginning of an <b>escape sequence</b>.  Escape sequences 
+are used to represent invisible characters like tabs and newlines.  The
+sequence \n represents a <b>newline</b>.</p><p>An escape sequence can appear anywhere in a string; in this example, the tab
+escape sequence is the only thing in the string.  How do you think you
+represent a backslash in a string?</p><p>As characters and strings are displayed on the screen, an invisible marker
+called the <b>cursor</b> keeps track of where the next character will 
+go.  After a <code>print</code> statement, the cursor normally goes to the
+beginning of the next line.</p><p>The tab character shifts the cursor to the right until it reaches one of the 
+tab stops.  Tabs are useful for making columns of text line up, as in the
+output of the previous program:</p><pre class="shell">
+1       2
+2       4
+3       8
+4       16
+5       32
+6       64
+7       128
+8       256
+9       512
+10      1024
+11      2048
+12      4096
+</pre><p>Because of the tab characters between the columns, the position of the
+second column does not depend on the number of digits in the first column.</p><h2>6.8 Two-dimensional tables<a name="auto7"></a></h2><a name="index24"></a><p>A two-dimensional table is a table where you read the value at the
+intersection of a row and a column.  A multiplication table is a good example.
+Let's say you want to print a multiplication table for the values from 1 to 6.
+</p><p>A good way to start is to write a loop that prints the multiples of 2, all
+on one line:</p><pre class="python">
+<span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+<span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-number">6</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-number">2</span>*<span class="py-src-variable">i</span>, <span class="py-src-string">'   '</span>,
+    <span class="py-src-variable">i</span> += <span class="py-src-number">1</span>
+<span class="py-src-keyword">print</span>
+</pre><p>The first line initializes a variable named <code>i</code>, which acts as a
+counter or <b>loop variable</b>.  As the loop executes, the value of
+<code>i</code> increases from 1 to 6.  When <code>i</code> is 7, the loop
+terminates.  Each time through the loop, it displays the value of
+<code>2*i</code>, followed by three spaces.</p><p>Again, the comma in the <code>print</code> statement suppresses the newline.
+After the loop completes, the second <code>print</code> statement starts a new
+line.</p><p>The output of the program is:</p><pre class="shell">
+2      4      6      8      10     12
+</pre><p>So far, so good. The next step is to <b>encapsulate</b> and
+<b>generalize</b>.</p><h2>6.9 Encapsulation and generalization<a name="auto8"></a></h2><a name="encapsulation"></a><a name="index25"></a><a name="index26"></a><a name="index27"></a><a name="index28"></a><p>Encapsulation is the process of wrapping a piece of code in a function,
+allowing you to take advantage of all the things functions are good for.  You
+have already seen two examples of encapsulation: <code>print_parity</code> in
+chapter 4; and <code>is_divisible</code> in chapter 5.</p><p>Generalization means taking something specific, such as printing the
+multiples of 2, and making it more general, such as printing the multiples of
+any integer.</p><p>This function encapsulates the previous loop and generalizes it to print
+multiples of <code>n</code>:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_multiples</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-number">6</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">n</span>*<span class="py-src-variable">i</span>, <span class="py-src-string">'\t'</span>,
+        <span class="py-src-variable">i</span> += <span class="py-src-number">1</span>
+    <span class="py-src-keyword">print</span>
+</pre><p>To encapsulate, all we had to do was add the first line, which declares the
+name of the function and the parameter list.  To generalize, all we had to do
+was replace the value 2 with the parameter <code>n</code>.</p><p>If we call this function with the argument 2, we get the same output as
+before.  With the argument 3, the output is:</p><pre class="shell">
+3      6      9      12     15     18
+</pre><p>With the argument 4, the output is:</p><pre class="shell">
+4      8      12     16     20     24
+</pre><p>By now you can probably guess how to print a multiplication table---by
+calling <code>print_multiples</code> repeatedly with different arguments.  In
+fact, we can use another loop:</p><pre class="python">
+<span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+<span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-number">6</span>:
+    <span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>)
+    <span class="py-src-variable">i</span> += <span class="py-src-number">1</span>
+</pre><p>Notice how similar this loop is to the one inside
+<code>print_multiples</code>.  All we did was replace the <code>print</code>
+statement with a function call.</p><p>The output of this program is a multiplication table:</p><pre class="shell">
+1      2      3      4      5      6
+2      4      6      8      10     12
+3      6      9      12     15     18
+4      8      12     16     20     24
+5      10     15     20     25     30
+6      12     18     24     30     36
+</pre><h2>6.10 More encapsulation<a name="auto9"></a></h2><p>To demonstrate encapsulation again, let's take the code the last 
+section and wrap it up in a function:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_mult_table</span>():
+    <span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-number">6</span>:
+        <span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>)
+        <span class="py-src-variable">i</span> += <span class="py-src-number">1</span>
+</pre><p>This process is a common <b>development plan</b>.  We develop code 
+by writing lines of code outside any function, or typing them in to the
+interpreter.  When we get the code working, we extract it and wrap it up in a
+function.</p><p>This development plan is particularly useful if you don't know how to divide 
+the program into functions when you start writing.  This approach lets you
+design as you go along.</p><h2>6.11 Local variables<a name="auto10"></a></h2><a name="index29"></a><a name="index30"></a><p>You might be wondering how we can use the same variable, <code>i</code>, in
+both <code>print_multiples</code> and <code>print_mult_table</code>.  Doesn't it
+cause problems when one of the functions changes the value of the variable?</p><p>The answer is no, because the <code>i</code> in <code>print_multiples</code>
+and the <code>i</code> in <code>print_mult_table</code> are <em>not</em> the
+same variable.</p><p>Variables created inside a function definition are local; you can't access a 
+local variable from outside its <q>home</q> function.  That means you are free
+to have multiple variables with the same name as long as they are not in the
+same function.</p><p>The stack diagram for this program shows that the two variables named
+<code>i</code> are not the same variable.  They can refer to different values,
+and changing one does not affect the other.</p><img src="illustrations/stack4.png" /><p>The value of <code>i</code> in <code>print_mult_table</code> goes from 1 to
+6.  In the diagram it happens to be 3.  The next time through the loop it will
+be 4.  Each time through the loop, <code>print_mult_table</code> calls
+<code>print_multiples</code> with the current value of <code>i</code> as an
+argument.  That value gets assigned to the parameter <code>n</code>.</p><p>Inside <code>print_multiples</code>, the value of <code>i</code> goes from
+1 to 6.  In the diagram, it happens to be 2.  Changing this variable has no
+effect on the value of <code>i</code> in <code>print_mult_table</code>.</p><p>It is common and perfectly legal to have different local variables with the
+same name.  In particular, names like <code>i</code> and <code>j</code> are
+used frequently as loop variables.  If you avoid using them in one function
+just because you used them somewhere else, you will probably make the program
+harder to read.</p><h2>6.12 More generalization<a name="auto11"></a></h2><p>As another example of generalization, imagine you wanted a program that
+would print a multiplication table of any size, not just the six-by-six table.
+You could add a parameter to <code>print_mult_table</code>:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_mult_table</span>(<span class="py-src-parameter">high</span>):
+    <span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-variable">high</span>:
+        <span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>)
+        <span class="py-src-variable">i</span> += <span class="py-src-number">1</span>
+</pre><p>We replaced the value 6 with the parameter <code>high</code>.  If we call
+<code>print_mult_table</code> with the argument 7, it displays:</p><pre class="shell">
+1      2      3      4      5      6
+2      4      6      8      10     12
+3      6      9      12     15     18
+4      8      12     16     20     24
+5      10     15     20     25     30
+6      12     18     24     30     36
+7      14     21     28     35     42
+</pre><p>This is fine, except that we probably want the table to be square---with the 
+same number of rows and columns.  To do that, we add another parameter to
+<code>print_multiples</code> to specify how many columns the table should have.
+</p><p>Just to be annoying, we call this parameter <code>high</code>, demonstrating
+that different functions can have parameters with the same name (just like
+local variables).  Here's the whole program:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_multiples</span>(<span class="py-src-parameter">n</span>, <span class="py-src-parameter">high</span>):
+    <span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-variable">high</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">n</span>*<span class="py-src-variable">i</span>, <span class="py-src-string">'\t'</span>,
+        <span class="py-src-variable">i</span> += <span class="py-src-number">1</span>
+    <span class="py-src-keyword">print</span>
+   
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_mult_table</span>(<span class="py-src-parameter">high</span>):
+    <span class="py-src-variable">i</span> = <span class="py-src-number">1</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">i</span> &lt;= <span class="py-src-variable">high</span>:
+        <span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>, <span class="py-src-variable">high</span>)
+        <span class="py-src-variable">i</span> += <span class="py-src-number">1</span>
+</pre><p>Notice that when we added a new parameter, we had to change the first line
+of the function (the function heading), and we also had to change the place
+where the function is called in <code>print_mult_table</code>.</p><p>As expected, this program generates a square seven-by-seven table:</p><pre class="shell">
+1      2      3      4      5      6      7
+2      4      6      8      10     12     14
+3      6      9      12     15     18     21
+4      8      12     16     20     24     28
+5      10     15     20     25     30     35
+6      12     18     24     30     36     42
+7      14     21     28     35     42     49
+</pre><p>When you generalize a function appropriately, you often get a program with
+capabilities you didn't plan.  For example, you might notice that, because
+ab = ba, all the entries in the table appear twice.  You could save ink by
+printing only half the table.  To do that, you only have to change one line of
+<code>print_mult_table</code>.  Change</p><pre class="python">
+<span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>, <span class="py-src-variable">high</span>)
+</pre><p>to</p><pre class="python">
+<span class="py-src-variable">print_multiples</span>(<span class="py-src-variable">i</span>, <span class="py-src-variable">i</span>)
+</pre><p>and you get</p><pre class="shell">
+1
+2      4
+3      6      9
+4      8      12     16
+5      10     15     20     25
+6      12     18     24     30     36
+7      14     21     28     35     42     49
+</pre><h2>6.13 Functions<a name="auto12"></a></h2><a name="index31"></a><p>A few times now, we have mentioned <q>all the things functions are good
+for.</q>  By now, you might be wondering what exactly those things are.  Here
+are some of them:</p><ol><li>Giving a name to a sequence of statements makes your program easier to read 
+and debug.</li><li>Dividing a long program into functions allows you to separate parts of the
+program, debug them in isolation, and then compose them into a whole.</li><li>Functions facilitate the use of iteration.</li><li>Well-designed functions are often useful for many programs.  Once you write 
+and debug one, you can reuse it.</li></ol><h2>6.14 Newton's Method<a name="auto13"></a></h2><p>Loops are often used in programs that compute numerical results by starting
+with an approximate answer and iteratively improving it.</p><p>For example, one way of computing square roots is Newton's method. Suppose
+that you want to know the square root of <code>n</code>. If you start with
+almost any approximation, you can compute a better approximation with the
+following formula:</p><pre class="boxed">
+better =  (approx + n/approx)/2
+</pre><p>By repeatedly applying this formula until the better approximation is
+equal to the previous one, we can write a function for computing the square
+root:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">sqrt</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-variable">approx</span> = <span class="py-src-variable">n</span>/<span class="py-src-number">2.0</span>
+    <span class="py-src-variable">better</span> = (<span class="py-src-variable">approx</span> + <span class="py-src-variable">n</span>/<span class="py-src-variable">approx</span>)/<span class="py-src-number">2.0</span>
+    <span class="py-src-keyword">while</span> <span class="py-src-variable">better</span> != <span class="py-src-variable">approx</span>:
+        <span class="py-src-variable">approx</span> = <span class="py-src-variable">better</span>
+        <span class="py-src-variable">better</span> = (<span class="py-src-variable">approx</span> + <span class="py-src-variable">n</span>/<span class="py-src-variable">approx</span>)/<span class="py-src-number">2.0</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">approx</span>
+</pre><p>Try calling this function with <code>25</code> as an argument to confirm
+that it returns <code>5.0</code>.</p><h2>6.15 Algorithms<a name="auto14"></a></h2><a name="index32"></a><p>Newton's method is an example of an <b>algorithm</b>: it is a mechanical
+process for solving a category of problems (in this case, computing square
+roots).</p><p>It is not easy to define an algorithm. It might help to start with something
+that is not an algorithm. When you learned to multiply single-digit numbers,
+you probably memorized the multiplication table. In effect, you memorized 100
+specific solutions. That kind of knowledge is not algorithmic.</p><p>But if you were <q>lazy,</q> you probably cheated by learning a few tricks.
+For example, to find the product of n and 9, you can write n - 1 as the first
+digit and 10 - n as the second digit. This trick is a general solution for
+multiplying any single-digit number by 9. That's an algorithm!</p><p>Similarly, the techniques you learned for addition with carrying,
+subtraction with borrowing, and long division are all algorithms. One of the
+characteristics of algorithms is that they do not require any intelligence to
+carry out. They are mechanical processes in which each step follows from the
+last according to a simple set of rules.</p><p>In our opinion, it is embarrassing that humans spend so much time in school
+learning to execute algorithms that, quite literally, require no intelligence.
+</p><p>On the other hand, the process of designing algorithms is interesting,
+intellectually challenging, and a central part of what we call programming.</p><p>Some of the things that people do naturally, without difficulty or conscious
+thought, are the hardest to express algorithmically. Understanding natural
+language is a good example. We all do it, but so far no one has been able
+to explain <em>how</em> we do it, at least not in the form of an algorithm.</p><h2>6.16 Glossary<a name="auto15"></a></h2><a name="index33"></a><a name="index34"></a><a name="index35"></a><a name="index36"></a><a name="index37"></a><a name="index38"></a><a name="index39"></a><a name="index40"></a><a name="index41"></a><a name="index42"></a><a name="index43"></a><a name="index44"></a><a name="index45"></a><a name="index46"></a><a name="index47"></a><a name="index48"></a><a name="index49"></a><a name="index50"></a><a name="index51"></a><a name="index52"></a><a name="index53"></a><a name="index54"></a><a name="index55"></a><dl><dt>multiple assignment:</dt><dd>Making more than one assignment to the same variable during the execution
+of a program.</dd><dt>initialization (of a variable):</dt><dd>
+To initialize a variable is to give it an initial value, usually in the
+context of multiple assignment.  Since in Python variables don't exist until
+they are assigned values, they are initialized when they are created.  In
+other programming languages this is not the case, and variables can be
+created without being initialized, in which case they have either default
+or <em>garbage</em> values.</dd><dt>increment</dt><dd>Both as a noun and as a verb, increment means to increase by 1.</dd><dt>decrement</dt><dd>Decrease by 1.</dd><dt>iteration:</dt><dd>Repeated execution of a set of programming statements.</dd><dt>loop:</dt><dd>A statement or group of statements that execute repeatedly until a
+terminating condition is satisfied.</dd><dt>infinite loop:</dt><dd>A loop in which the terminating condition is never satisfied.</dd><dt>trace:</dt><dd>To follow the flow of execution of a program by hand, recording the
+change of state of the variables and any output produced.</dd><dt>counter</dt><dd>A variable used to count something, usually initialized to zero and
+incremented in the body of a loop.</dd><dt>body:</dt><dd>The statements inside a loop.</dd><dt>loop variable:</dt><dd>A variable used as part of the terminating condition of a loop.</dd><dt>tab:</dt><dd>A special character that causes the cursor to move to the next tab stop on
+the current line.</dd><dt>newline:</dt><dd>A special character that causes the cursor to move to the beginning of the
+next line.</dd><dt>cursor:</dt><dd>An invisible marker that keeps track of where the next character will be
+printed.</dd><dt>escape sequence:</dt><dd>An escape character, \, followed by one or more printable characters used
+to designate a nonprintable character.</dd><dt>encapsulate:</dt><dd>To divide a large complex program into components (like functions) and
+isolate the components from each other (by using local variables, for example).
+</dd><dt>generalize:</dt><dd>To replace something unnecessarily specific (like a constant value) with
+something appropriately general (like a variable or parameter).  Generalization 
+makes code more versatile, more likely to be reused, and sometimes even easier
+to write.</dd><dt>development plan:</dt><dd>A process for developing a program. In this chapter, we demonstrated a
+style of development based on developing code to do simple, specific things and 
+then encapsulating and generalizing.</dd><dt>algorithm:</dt><dd>A step-by-step process for solving a category of problems.</dd></dl><h2>6.17 Exercises<a name="auto16"></a></h2><ol><li><div class="exercise">
+Write a single string that
+<pre class="shell">
+   produces
+   this
+   output.
+</pre>&nbsp;</div></li><li><div class="exercise">
+Add a print statement to the <code>sqrt</code> function defined in section
+6.14 that prints out <code>better</code> each time it is calculated.  Call
+your modified function with 25 as an argument and record the results.
+</div></li><li><div class="exercise">
+Trace the execution of the last version of <code>print_mult_table</code> and
+figure out how it works.
+</div></li><li><div class="exercise">
+Write a function <code>print_triangular_numbers(n)</code> that prints out
+the first n triangular numbers.  A call to
+<code>print_triangular_numbers(5)</code> would produce the following output:
+<pre class="shell">
+1       1
+2       3
+3       6
+4       10
+5       15
+</pre>
+(<em>hint: use a web search to find out what a triangular number is.</em>)
+</div></li><li><div class="exercise">
+Open a file named <code>ch06.py</code> and add the following:
+<pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-variable">__name__</span> == <span class="py-src-string">'__main__'</span>:
+    <span class="py-src-keyword">import</span> <span class="py-src-variable">doctest</span>
+    <span class="py-src-variable">doctest</span>.<span class="py-src-variable">testmod</span>()
+</pre>
+Write a function, <code>is_prime</code>, which takes a single integral argument
+and returns <code>True</code> when the argument is a <b>prime number</b>  and
+<code>False</code> otherwise.  Add doctests to your function as you develop it.
+</div></li><li><div class="exercise">
+What will <code>num_digits(0)</code> return?  Modify it to return
+<code>1</code> for this case.  Why does a call to <code>num_digits(-24)</code>
+result in an infinite loop (<em>hint: -1/10 evaluates to -1</em>)?  Modify
+<code>num_digits</code> so that it works correctly with any integer value.
+<br /><br />
+Add the following to the <code>ch06.py</code> file you created in the
+previous exercise:
+<pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">num_digits</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; num_digits(12345)
+      5
+      &gt;&gt;&gt; num_digits(0)
+      1
+      &gt;&gt;&gt; num_digits(-12345)
+      5
+    &quot;&quot;&quot;</span>
+</pre>
+Add your function body to <code>num_digits</code> and confirm that it passes
+the doctests.
+</div></li><li><div class="exercise">
+Add the following to the <code>ch06.py</code>:
+<pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">num_even_digits</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; num_even_digits(123456)
+      3
+      &gt;&gt;&gt; num_even_digits(2468)
+      4
+      &gt;&gt;&gt; num_even_digits(1357)
+      0
+      &gt;&gt;&gt; num_even_digits(2)
+      1
+      &gt;&gt;&gt; num_even_digits(20)
+      2
+    &quot;&quot;&quot;</span>
+</pre>
+Write a body for <code>num_even_digits</code> so that it works as expected.
+</div></li><li><div class="exercise">
+Add the following to <code>ch06.py</code>:
+<pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">print_digits</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; print_digits(13789)
+      9 8 7 3 1
+      &gt;&gt;&gt; print_digits(39874613)
+      3 1 6 4 7 8 9 3
+      &gt;&gt;&gt; print_digits(213141)
+      1 4 1 3 1 2
+    &quot;&quot;&quot;</span>
+</pre>
+Write a body for <code>print_digits</code> so that it passes the given doctests.
+</div></li><li><div class="exercise">
+Write a function <code>sum_of_squares_of_digits</code> that computes the sum
+of the squares of the digits of an integer passed to it.  For example,
+<code>sum_of_squares_of_digits(987)</code> should return 194, since
+<code>9**2 + 8**2 + 7**2 == 81 + 64 + 49 == 194</code>.
+<pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">sum_of_squares_of_digits</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; sum_of_squares_of_digits(1)
+      1
+      &gt;&gt;&gt; sum_of_squares_of_digits(9)
+      81
+      &gt;&gt;&gt; sum_of_squares_of_digits(11)
+      2
+      &gt;&gt;&gt; sum_of_squares_of_digits(121)
+      6
+      &gt;&gt;&gt; sum_of_squares_of_digits(987)
+      194
+    &quot;&quot;&quot;</span>
+</pre>
+Check your solution against the doctests above.
+</div></li></ol></div><p><a href="index.xhtml">Table of Contents</a> |
+    <a href="dex.html">Index</a></p></body></html>
