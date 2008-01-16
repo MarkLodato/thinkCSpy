@@ -15,7 +15,8 @@ book:
 	lore --config template=template.tpl -pN -b thinkCSpy.book
 	mv *.html html
 	cp -r illustrations html/
-	cp -r resources/* html/
+	cp -r resources html/
+	cp -r files2copy/* html/
 	mv .bzr ../
 	rm -f html/thinkCSpy2.tgz
 	tar czvf ../thinkCSpy2.tgz ../english2e
