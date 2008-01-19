@@ -1143,28 +1143,30 @@ Add the following two functions to <code>matrices.py</code>:
 def add_row(matrix):
     """
       >>> m = [[0, 0], [0, 0]]
-      >>> m = add_row(m)
-      >>> m
+      >>> add_row(m)
       [[0, 0], [0, 0], [0, 0]]
       >>> n = [[3, 2, 5], [1, 4, 7]]
-      >>> n = add_row(n)
-      >>> n
+      >>> add_row(n)
       [[3, 2, 5], [1, 4, 7], [0, 0, 0]]
+      >>> n
+      [[3, 2, 5], [1, 4, 7]]
     """
 
 def add_column(matrix):
     """
       >>> m = [[0, 0], [0, 0]]
-      >>> m = add_column(m)
-      >>> m
+      >>> add_column(m)
       [[0, 0, 0], [0, 0, 0]]
       >>> n = [[3, 2], [5, 1], [4, 7]]
-      >>> n = add_column(n)
-      >>> n
+      >>> add_column(n)
       [[3, 2, 0], [5, 1, 0], [4, 7, 0]]
+      >>> n
+      [[3, 2], [5, 1], [4, 7]]
     """
 </pre>
-Your new functions should pass the doctests.
+Your new functions should pass the doctests.  Note that the last doctest in
+each function assures that <code>add_row</code> and <code>add_column</code>
+are pure functions.
 </div></li>
 
 <li><div class="exercise">
@@ -1205,7 +1207,7 @@ def scalar_mult(n, m):
       [[3, 6], [9, 12]] 
       >>> b = [[3, 5, 7], [1, 1, 1], [0, 2, 0], [2, 2, 3]]
       >>> scaler_mult(10, b)
-      >>> [[30, 50, 70], [10, 10, 10], [0, 20, 0], [20, 20, 30]]
+      [[30, 50, 70], [10, 10, 10], [0, 20, 0], [20, 20, 30]]
       >>> b
       [[3, 5, 7], [1, 1, 1], [0, 2, 0], [2, 2, 3]]
     """

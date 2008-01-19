@@ -6,6 +6,9 @@ def make_matrix(rows, columns):
       >>> m = make_matrix(4, 2)
       >>> m
       [[0, 0], [0, 0], [0, 0], [0, 0]]
+      >>> m[0][1] = 7
+      >>> m
+      [[0, 7], [0, 0], [0, 0], [0, 0]]
     """
     m = []
     row = [0] * columns
@@ -17,33 +20,32 @@ def make_matrix(rows, columns):
 def add_row(matrix):
     """
       >>> m = [[0, 0], [0, 0]]
-      >>> m = add_row(m)
-      >>> m
+      >>> add_row(m)
       [[0, 0], [0, 0], [0, 0]]
       >>> n = [[3, 2, 5], [1, 4, 7]]
-      >>> n = add_row(n)
-      >>> n
+      >>> add_row(n)
       [[3, 2, 5], [1, 4, 7], [0, 0, 0]]
+      >>> n
+      [[3, 2, 5], [1, 4, 7]]
     """
     size = len(matrix[0])
-    matrix += [[0] * size]
-    return matrix
+    return matrix[:] + [[0] * size]
 
 
 def add_column(matrix):
     """
       >>> m = [[0, 0], [0, 0]]
-      >>> m = add_column(m)
-      >>> m
+      >>> add_column(m)
       [[0, 0, 0], [0, 0, 0]]
       >>> n = [[3, 2], [5, 1], [4, 7]]
-      >>> n = add_column(n)
-      >>> n
+      >>> add_column(n)
       [[3, 2, 0], [5, 1, 0], [4, 7, 0]]
+      >>> n
+      [[3, 2], [5, 1], [4, 7]]
     """
-    new = matrix[:]
-    for row in new:
-        row += [0]
+    new = []
+    for row in matrix:
+        new += [row + [0]]
     return new 
 
 
@@ -57,6 +59,10 @@ def add_matrices(m1, m2):
       >>> d = [[3, 2], [9, 2], [10, 12]]
       >>> add_matrices(c, d)
       [[11, 4], [12, 6], [15, 19]]
+      >>> c
+      [[8, 2], [3, 4], [5, 7]]
+      >>> d
+      [[3, 2], [9, 2], [10, 12]]
     """
     sum = make_matrix(len(m1), len(m1[0]))
     for row in range(len(sum)):
@@ -65,6 +71,24 @@ def add_matrices(m1, m2):
     return sum
 
 
+def scalar_mult(n, m):
+    """
+      >>> a = [[1, 2], [3, 4]]
+      >>> scaler_mult(3, a)
+      [[3, 6], [9, 12]] 
+      >>> b = [[3, 5, 7], [1, 1, 1], [0, 2, 0], [2, 2, 3]]
+      >>> scaler_mult(10, b)
+      [[30, 50, 70], [10, 10, 10], [0, 20, 0], [20, 20, 30]]
+      >>> b
+      [[3, 5, 7], [1, 1, 1], [0, 2, 0], [2, 2, 3]]
+    """
+    prod = []
+    for row in m:
+        newrow = []
+        for elem in row:
+            newrow += [elem * n]
+        prod += [newrow]
+    return prod
 
 
 
