@@ -18,10 +18,12 @@ book:
 	cp -r resources html/
 	cp -r files2copy/* html/
 	mv .bzr ../
+	mv .bzrignore ../
 	rm -f html/thinkCSpy2.tgz
 	tar czvf ../thinkCSpy2.tgz ../english2e
 	mv ../thinkCSpy2.tgz html/
 	mv ../.bzr .
+	mv ../.bzrignore .
 
 # Don't run this unless you are Jeff Elkner copying the output to ibiblio ;-)
 export:
