@@ -656,6 +656,7 @@ def compare(a, b):
       >>> compare(42, 1)
       1
     """
+    #  Your function body should begin here.
 </pre>
 Fill in the body of the function so the doctests pass.
 </div></li>
