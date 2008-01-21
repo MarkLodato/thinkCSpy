@@ -28,6 +28,7 @@ book:
 # Don't run this unless you are Jeff Elkner copying the output to ibiblio ;-)
 export:
 	rsync -avz -e ssh --delete xhtml/ login.ibiblio.org:obp/thinkCS/python/english2e/
+	bzr push bzr+ssh://jelkner@bazaar.launchpad.net/~jelkner/thinkcspy/english2e
 
 clean:
 	rm -rf xhtml
