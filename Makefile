@@ -11,23 +11,23 @@
 build:	book
 
 book:
-	mkdir -p html/
+	mkdir -p xhtml/
 	lore --config template=template.tpl -pN -b thinkCSpy.book
-	mv *.html html
-	cp -r illustrations html/
-	cp -r resources html/
-	cp -r files2copy/* html/
+	mv *.html xhtml
+	cp -r illustrations xhtml/
+	cp -r resources xhtml/
+	cp -r files2copy/* xhtml/
 	mv .bzr ../
 	mv .bzrignore ../
-	rm -f html/thinkCSpy2.tgz
+	rm -f xhtml/thinkCSpy2.tgz
 	tar czvf ../thinkCSpy2.tgz ../english2e
-	mv ../thinkCSpy2.tgz html/
+	mv ../thinkCSpy2.tgz xhtml/
 	mv ../.bzr .
 	mv ../.bzrignore .
 
 # Don't run this unless you are Jeff Elkner copying the output to ibiblio ;-)
 export:
-	rsync -avz -e ssh --delete html/ login.ibiblio.org:thinkCSpy2/
+	rsync -avz -e ssh --delete xhtml/ login.ibiblio.org:obp/thinkCS/python/english2e/
 
 clean:
-	rm -rf html
+	rm -rf xhtml
