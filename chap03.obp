@@ -36,7 +36,8 @@ same pattern:</p>
 <ol>
   <li>A <b>header</b>, which begins with a keyword and ends with a colon.</li>
   <li>A <b>body</b> consisting of one or more Python statements, each
-  indented the same amount from the header.</li>
+  indented the same amount (4 spaces is the Python standard) from the header.
+  </li>
 </ol>
 
 <p>In a function definition, the keyword in the header is <code>def</code>,
