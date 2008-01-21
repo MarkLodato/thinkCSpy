@@ -5,7 +5,7 @@
 <body>
 <h1>Preface</h1>
 
-<p>By Jeff Elkner</p>
+<p>By Jeffrey Elkner</p>
 
 <p>This book owes its existence to the collaboration made possible by the
 Internet and the free software movement.  Its three authors---a college
@@ -208,7 +208,7 @@ of programming that this engenders.</p>
 learn or to teach programming.  A user community has begun to emerge, and many
 people have been contributing to the project by sending in materials for the
 companion Website at
-<a href="http://openbookproject.net/pyBibiblio">http://openbookproject.net/pyBiblio</a>.</p>
+<a href="http://openbookproject.net/pyBiblio">http://openbookproject.net/pyBiblio</a>.</p>
 
 <p>With the continued growth of Python, I expect the growth in the
 user community to continue and accelerate.  The emergence of this user
@@ -219,7 +219,7 @@ use and save valuable time.  I invite you to join our community and look
 forward to hearing from you.  Please write to me at
 <a href="mailto:jeff@elkner.net">jeff@elkner.net</a>.</p>
 
-<p>Jeff Elkner<br />
+<p>Jeffrey Elkner<br />
 Yorktown High School<br />
 Arlington, Virginia</p>
 

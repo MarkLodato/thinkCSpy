@@ -536,7 +536,7 @@ statement with a function call.</p>
 
 <h2>More encapsulation</h2>
 
-<p>To demonstrate encapsulation again, let's take the code the last 
+<p>To demonstrate encapsulation again, let's take the code from the last 
 section and wrap it up in a function:</p>
 
 <pre class="python">
