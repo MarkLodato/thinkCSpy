@@ -508,7 +508,7 @@ and end with a colon (:)</dd>
 <dd>The second part of a compound statement.  The body consists of a
 sequence of statements all indented the same amount from the beginning
 of the header.  The standard amount of indentation used within the Python
-community is usually 4 spaces.</dd>   
+community is 4 spaces.</dd>   
 
 <dt>function call:</dt>
 <dd>A statement that executes a function. It consists of the name of the

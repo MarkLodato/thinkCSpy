@@ -443,6 +443,44 @@ a few pointers will be helpful already:</p>
 </ul>
 
 
+<h2>Triple quoted strings</h2>
+<span class="index" value="strings!triple quoted" />
+<span class="index" value="triple quoted strings" />
+
+<p>In addition to the single and double quoted strings we first saw in
+Chapter 2, Python also has <em>triple quoted strings</em>:</p>
+
+<pre class="python-interpreter">
+>>> type("""This is a triple quoted string using 3 double quotes.""")
+&lt;type 'str'&gt;
+>>> type('''This triple quoted strings uses 3 single quotes.''')
+&lt;type 'str'&gt;
+>>>
+</pre>
+
+<p>Triple quoted strings can contain both single and double quotes inside
+them:</p>
+
+<pre class="python-interpreter">
+>>> print '''"Oh no", she exclaimed, "Ben's bike is broken!"'''
+"Oh no", she exclaimed, "Ben's bike is broken!"
+>>>
+</pre>
+
+<p>Finally, triple quoted strings can span multiple lines:</p>
+
+<pre class="python-interpreter">
+>>> message = """This message will
+... span several
+... lines."""
+>>> print message
+This message will
+span several
+lines.
+>>>
+</pre>
+
+
 <h2>Unit testing with <code>doctest</code></h2>
 
 <p>It is a common best practice in software development these days to
@@ -453,7 +491,16 @@ implimentation of a function at a later time and quickly test that it still
 does what it was intended to do.</p>
 
 <p>Python has a built-in <code>doctest</code> module for easy unit testing.
-To see how this works, put the following in a script named
+Doctests can be written within a triple quoted string on the <em>first line</em>
+of the body of a function or script.  They consist of sample interpreter
+sessions with a series of inputs to a Python prompt followed by the expected
+output from the Python interpreter.</p>
+
+<p>The <code>doctest</code> module automatically runs any statement begining 
+with <code>&gt;&gt;&gt; </code> and compares the following line with the output
+from the interpreter.</p>
+
+<p>To see how this works, put the following in a script named
 <code>myfunctions.py</code>:</p>
 
 <pre class='python'>
@@ -487,8 +534,7 @@ Got nothing
 $
 </pre>
 
-<p>This is an example of a <em>failing test</em>.  Tests in doctest are
-written in the same format as Python shell sessions.  This test says: if you
+<p>This is an example of a <em>failing test</em>.  The test says: if you
 call <code>is_divisible_by_2_or_5(8)</code> the result should be
 <code>True</code>.  Since <code>is_divisible_by_2_or_5</code> as written
 doesn't return anything at all, the test fails, and doctest tells us that
@@ -511,8 +557,8 @@ if __name__ == '__main__':
 </pre>
 
 <p>If we run it now, there will be no output, which indicates that the
-test passed.  Note that the doctest string must be placed immediately after
-the function definition header.</p>
+test passed.  Note again that the doctest string must be placed immediately
+after the function definition header in order to run.</p>
 
 <p>To see more detailed out put, call the script with the
 <code>-v</code> command line option:</p>

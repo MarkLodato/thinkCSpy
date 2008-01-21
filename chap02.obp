@@ -34,9 +34,9 @@ interpreter) can identify strings because they are enclosed in quotation marks.
 
 <pre class="python-interpreter">
 >>> type("Hello, World!")
-&lt;type 'str'>
+&lt;type 'str'&gt;
 >>> type(17)
-&lt;type 'int'>
+&lt;type 'int'&gt;
 </pre>
 
 <p>Not surprisingly, strings belong to the type <b>str</b> and
@@ -52,10 +52,11 @@ numbers are represented in a format called <em>floating-point</em>.
 <span class="index" value="type!int" />
 <span class="index" value="float" />
 <span class="index" value="type!float" />
+<span class="index" value="strings!single and double quoted" />
 
 <pre class="python-interpreter">
 >>> type(3.2)
-&lt;type 'float'>
+&lt;type 'float'&gt;
 </pre>
 
 <p>What about values like <code>"17"</code> and <code>"3.2"</code>?  They look
@@ -63,12 +64,26 @@ like numbers, but they are in quotation marks like strings.</p>
 
 <pre class="python-interpreter">
 >>> type("17")
-&lt;type 'str'>
+&lt;type 'str'&gt;
 >>> type("3.2")
-&lt;type 'str'>
+&lt;type 'str'&gt;
 </pre>
 
 <p>They're strings.</p>
+
+<p>Strings in Python can be enclosed in either single quotes (') or double
+quotes ("):</p>
+
+<pre class="python-interpreter">
+>>> type('This is a string.')
+&lt;type 'str'&gt;
+>>> type("And so is this.")
+&lt;type 'str'&gt;
+</pre>
+
+<p>Double quoted strings can contain single quotes inside them, as in
+<code>"Bruce's beard"</code>, and single quoted strings can have double
+quotes inside them, as in <code>'The knights who say "Ni!"'</code>.</p>
 
 <p>When you type a large integer, you might be tempted to use commas between
 groups of three digits, as in <code>1,000,000</code>.  This is not a legal
