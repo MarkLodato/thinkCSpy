@@ -516,7 +516,11 @@ if __name__ == '__main__':
     doctest.testmod()
 </pre>
 
-<p>Running this script will produce the following output:</p>
+<p>The last three lines are what make <code>doctest</code> run.  Put them
+at the bottom of any file that includes doctests.  We will explain how they
+work in Chapter 10 when we discuss modules.</p>
+
+<p>Running the script will produce the following output:</p>
 
 <pre class='shell'>
 $ python myfunctions.py 
