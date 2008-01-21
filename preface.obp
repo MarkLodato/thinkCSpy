@@ -106,9 +106,11 @@ Chris is a professional programmer who started teaching a programming course
 last year using Python at Lane Community College in Eugene, Oregon.  The
 prospect of teaching the course had led Chris to the book, and he started
 helping out with it immediately.  By the end of the school year he had created
-a companion project on our Website at <link>http://www.ibiblio.org/obp</link>
-called <em>Python for Fun</em> and was working with some of my most advanced
-students as a master teacher, guiding them beyond where I could take them.</p>
+a companion project on our Website at
+<a href="http://openbookproject.net">http://openbookproject.net</a>
+called <a href="http://openbookproject.net/py4fun"><em>Python for Fun</em></a>
+and was working with some of my most advanced students as a master teacher,
+guiding them beyond where I could take them.</p>
 
 
 <h2>Introducing programming with Python</h2>
@@ -205,16 +207,17 @@ of programming that this engenders.</p>
 <p>I have received email from all over the globe from people using this book to 
 learn or to teach programming.  A user community has begun to emerge, and many
 people have been contributing to the project by sending in materials for the
-companion Website at <link>http://www.thinkpython.com</link>.</p>
+companion Website at
+<a href="http://openbookproject.net/pyBibiblio">http://openbookproject.net/pyBiblio</a>.</p>
 
-<p>With the publication of the book in print form, I expect the growth in the
+<p>With the continued growth of Python, I expect the growth in the
 user community to continue and accelerate.  The emergence of this user
 community and the possibility it suggests for similar collaboration among
 educators have been the most exciting parts of working on this project for me.  
 By working together, we can increase the quality of materials available for our 
 use and save valuable time.  I invite you to join our community and look
-forward to hearing from you.  Please write to the authors at
-<link>feedback@thinkpython.com</link>.</p>
+forward to hearing from you.  Please write to me at
+<a href="mailto:jeff@elkner.net">jeff@elkner.net</a>.</p>
 
 <p>Jeff Elkner<br />
 Yorktown High School<br />
