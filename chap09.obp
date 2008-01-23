@@ -813,6 +813,187 @@ possibility.  A small variation is to use a list of columns instead of a list
 of rows.  Later we will see a more radical alternative using a dictionary.</p>
 
 
+<h2>Test-driven development (TDD)</h2>
+<span class="index" value="test-driven development" />
+<span class="index" value="TDD" />
+
+<p><b>Test-driven development (TDD)</b> is a software development practice 
+which arrives at a desired feature through a series of small, iterative steps
+motivated by automated tests which are <em>written first</em> that express
+increasing refinements of the desired feature.</p>
+
+<p>Doctest enables us to easily demontrate TDD.  Let's say we want a
+function which creates a <code>rows</code> by <code>columns</code> matrix
+given arguments for <code>rows</code> and <code>columns</code>.</p>
+
+<p>We first setup a test for this function in a file named
+<code>matrices.py</code>:</p>
+
+<pre class="python">
+def make_matrix(rows, columns):
+    """
+      >>> make_matrix(3, 5)
+      [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+    """
+
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+</pre>
+
+<p>Running this returns in a failing test:</p>
+
+<pre class='shell'>
+**********************************************************************
+File "matrices.py", line 3, in __main__.make_matrix
+Failed example:
+    make_matrix(3, 5)
+Expected:
+    [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+Got nothing
+**********************************************************************
+1 items had failures:
+   1 of   1 in __main__.make_matrix
+***Test Failed*** 1 failures.
+</pre>
+
+<p>The test fails because the body of the function contains only a single
+triple quoted string and no return statement, so it returns <code>None</code>.
+Our test indicates that we wanted it to return a matrix with 3 rowns of 5
+columns of zeros.</p>
+
+<p>The rule in using TDD is to use the <em>simplest thing that works</em> in
+writing a solution to pass the test, so in this case we can simply return
+the desired result:</p>
+
+<pre class="python">
+def make_matrix(rows, columns):
+    """
+      >>> make_matrix(3, 5)
+      [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+    """
+    return [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+</pre>
+
+<p>Running this now the test passes, but our current implimentation of
+<code>make_matrix</code> <em>always</em> returns the same result, which
+is clearly not what we intended.  To fix this, we first motivate our
+improvement by adding a test:</p>
+
+<pre class="python">
+def make_matrix(rows, columns):
+    """
+      >>> make_matrix(3, 5)
+      [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+      >>> make_matrix(4, 2)
+      [[0, 0], [0, 0], [0, 0], [0, 0]]
+    """
+    return [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+</pre>
+
+<p>which as we expect fails:</p>
+
+<pre class='shell'>
+**********************************************************************
+File "matrices.py", line 5, in __main__.make_matrix
+Failed example:
+    make_matrix(4, 2)
+Expected:
+    [[0, 0], [0, 0], [0, 0], [0, 0]]
+Got:
+    [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+**********************************************************************
+1 items had failures:
+   1 of   2 in __main__.make_matrix
+***Test Failed*** 1 failures.
+</pre>
+
+<p>This technique is called <em>test-driven</em> because code should only
+be written when there is a failing test to make pass.  Motivated by the
+failing test, we can now produce a more general solution:</p>
+
+<pre class="python">
+def make_matrix(rows, columns):
+    """
+      >>> make_matrix(3, 5)
+      [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+      >>> make_matrix(4, 2)
+      [[0, 0], [0, 0], [0, 0], [0, 0]]
+    """
+    return [[0] * columns] * rows 
+</pre>
+
+<p>This solution appears to work, and we may think we are finished, but when
+we use the new function later we discover a bug:</p>
+
+<pre class='python-interpreter'>
+>>> from matrices import *
+>>> m = make_matrix(4, 3)
+>>> m
+[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
+>>> m[1][2] = 7
+>>> m
+[[0, 0, 7], [0, 0, 7], [0, 0, 7], [0, 0, 7]]
+>>>
+</pre>
+
+<p>We wanted to assign the element in the second row and the third column the
+value 7, instead, <em>all</em> elements in the third column are 7!</p>
+
+<p>Upon reflection, we realize that in our current solution, each row is an
+<em>alias</em> of the other rows.  This is definitely not what we intended, so
+we set about fixing the problem, <em>first by writing a failing test</em>:</p>
+
+<pre class="python">
+def make_matrix(rows, columns):
+    """
+      >>> make_matrix(3, 5)
+      [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+      >>> make_matrix(4, 2)
+      [[0, 0], [0, 0], [0, 0], [0, 0]]
+      >>> m = make_matrix(4, 2)
+      >>> m[1][1] = 7
+      >>> m
+      [[0, 0], [0, 7], [0, 0], [0, 0]]
+    """
+    return [[0] * columns] * rows 
+</pre>
+
+<p>With a failing test to fix, we are now driven to a better solution:</p>
+
+<pre class="python">
+def make_matrix(rows, columns):
+    """
+      >>> make_matrix(3, 5)
+      [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+      >>> make_matrix(4, 2)
+      [[0, 0], [0, 0], [0, 0], [0, 0]]
+      >>> m = make_matrix(4, 2)
+      >>> m[1][1] = 7
+      >>> m
+      [[0, 0], [0, 7], [0, 0], [0, 0]]
+    """
+    matrix = []
+    for row in range(rows):
+        matrix += [[0] * columns]
+    return matrix
+</pre>
+
+<p>Using TDD has two main benefits to our software:</p>
+
+<ol>
+  <li>It helps us think clearly about about the problem we are trying
+  solve in a systematic way <em>before</em> we attempt to solve it.</li>
+
+  <li>It assures that we have a well developed automated test suite for
+  our software, facilitating additions and improvements to the software
+  later.</li>
+</ol>
+
+<p>NOTE: add concluding paragraph here about XP...</p>
+
+
 <h2>Strings and lists</h2>
 <span class="index" value="command!list" />
 <span class="index" value="command!str" />
@@ -907,6 +1088,8 @@ placed between each element in the list in the resultant string.</p>
 <span class="index" value="modifier" />
 <span class="index" value="side effect" />
 <span class="index" value="pure function" />
+<span class="index" value="test-driven development" />
+<span class="index" value="TDD" />
 <span class="index" value="delimiter" />
 
 <dl>
@@ -963,6 +1146,14 @@ can only be produced by modifiers.</dd>
 <dt>pure function:</dt>
 <dd>A function which has no side effects.  Pure functions only make changes
 to the calling program through their return values.</dd>
+
+<dt>test-driven development (TDD):</dt>
+<dd>A software development practice which arrives at a desired feature through
+a series of small, iterative steps motivated by automated tests which are
+<em>written first</em> that express increasing refinements of the desired
+feature.  (see the Wikipedia article on
+<a href="http://en.wikipedia.org/wiki/Test_driven_development">Test-driven
+development</a> for more information.)</dd>
 
 <dt>delimiter:</dt>
 <dd>A character or string used to indicate where a string should be split.</dd>
@@ -1111,30 +1302,6 @@ in exercise 2 to make the following doctests pass:
 """
 </pre></li>
 </ol>
-</div></li>
-
-<li><div class="exercise">
-In a file named <code>matrices.py</code> write a function
-<code>make_matrix(rows, columns)</code> that creates a matrix of size
-<code>rows</code> by <code>columns</code> filled with zeros.
-<pre class="python">
-def make_matrix(rows, columns):
-    """
-      >>> m = make_matrix(3, 5)
-      >>> m
-      [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
-      >>> m = make_matrix(4, 2)
-      >>> m
-      [[0, 0], [0, 0], [0, 0], [0, 0]]
-      >>> m[0][1] = 7
-      >>> m
-      [[0, 7], [0, 0], [0, 0], [0, 0]]
-    """
-</pre>
-<code>make_matrix</code> should pass the doctests above.  The last doctest
-makes sure the rows of the matrix are not <em>aliases</em>.  If they are,
-the test will fail because <code>7</code> will appear as the last element
-of each row.
 </div></li>
 
 <li><div class="exercise">

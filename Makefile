@@ -12,7 +12,7 @@ build:	book
 
 book:
 	mkdir -p xhtml/
-	lore --config template=template.tpl -pN -b thinkCSpy.book
+	obpdoc --config template=template.tpl -pN -b thinkCSpy.book
 	mv *.html xhtml
 	cp -r illustrations xhtml/
 	cp -r resources xhtml/
