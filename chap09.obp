@@ -1405,24 +1405,24 @@ doctests above.
 
 <li><div class="exercise">
 <pre class="python">
-def row_times_column(m1, m2, row, column):
+def row_times_column(m1, row, m2, column):
     """
-      >>> row_times_column([[1, 2], [3,  4]], [[1, 1], [2, 2]], 0, 0)
-      3
-      >>> row_times_column([[1, 2], [3,  4]], [[1, 1], [2, 2]], 0, 1)
-      6
-      >>> row_times_column([[1, 2], [3,  4]], [[1, 1], [2, 2]], 1, 0)
-      7
-      >>> row_times_column([[1, 2], [3,  4]], [[1, 1], [2, 2]], 1, 1)
-      14
+      >>> row_times_column([[1, 2], [3, 4]], 0, [[5, 6], [7, 8]], 0)
+      19
+      >>> row_times_column([[1, 2], [3, 4]], 0, [[5, 6], [7, 8]], 1)
+      22
+      >>> row_times_column([[1, 2], [3, 4]], 1, [[5, 6], [7, 8]], 0)
+      43
+      >>> row_times_column([[1, 2], [3, 4]], 1, [[5, 6], [7, 8]], 1)
+      50
     """
 
 def matrix_mult(m1, m2):
     """
-      >>> matrix_mult([[1, 2], [3,  4]], [[1, 1], [2, 2]])
-      [[3, 6], [7, 14]]
-      >>> matrix_mult([[1, 2, 1], [3,  4, 1]], [[1, 1], [2, 2], [3, 4]])
-      [[8, -], [-, -]]
+      >>> matrix_mult([[1, 2], [3,  4]], [[5, 6], [7, 8]])
+      [[19, 22], [43, 50]]
+      >>> matrix_mult([[1, 2, 3], [4,  5, 6]], [[7, 8], [9, 1], [2, 3]])
+      [[31, 19], [85, 55]]
     """
 </pre>
 Add your new functions to <code>matrices.py</code> and be sure it passes the

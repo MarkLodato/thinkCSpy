@@ -17,6 +17,21 @@ def make_matrix(rows, columns):
     return m
 
 
+def mult_lists(a, b):
+    """
+      >>> mult_lists([1, 1], [1, 1])
+      2
+      >>> mult_lists([1, 2], [1, 4])
+      9
+      >>> mult_lists([1, 2, 1], [1, 4, 3])
+      12
+    """
+    sum = 0
+    for i in range(len(a)):
+        sum += a[i] * b[i]
+    return sum
+
+
 def add_row(matrix):
     """
       >>> m = [[0, 0], [0, 0]]
@@ -75,7 +90,7 @@ def scalar_mult(n, m):
     """
       >>> a = [[1, 2], [3, 4]]
       >>> scalar_mult(3, a)
-      [[3, 6], [9, 12]] 
+      [[3, 6], [9, 12]]
       >>> b = [[3, 5, 7], [1, 1, 1], [0, 2, 0], [2, 2, 3]]
       >>> scalar_mult(10, b)
       [[30, 50, 70], [10, 10, 10], [0, 20, 0], [20, 20, 30]]
@@ -91,22 +106,40 @@ def scalar_mult(n, m):
     return prod
 
 
-def mult_lists(a, b):
-        """
-          >>> mult_lists([1, 1], [1, 1])
-          2
-          >>> mult_lists([1, 2], [1, 4])
-          9
-          >>> mult_lists([1, 2, 1], [1, 4, 3])
-          12 
-        """
-        sum = 0
-        for i in range(len(a)):
-            sum += a[i] * b[i]
-        return sum
+def row_times_column(m1, row, m2, column):
+    """
+      >>> row_times_column([[1, 2], [3, 4]], 0, [[5, 6], [7, 8]], 0)
+      19
+      >>> row_times_column([[1, 2], [3, 4]], 0, [[5, 6], [7, 8]], 1)
+      22
+      >>> row_times_column([[1, 2], [3, 4]], 1, [[5, 6], [7, 8]], 0)
+      43
+      >>> row_times_column([[1, 2], [3, 4]], 1, [[5, 6], [7, 8]], 1)
+      50
+    """
+    v1 = m1[row]
+    v2 = []
+    for i in range(len(m1[0])):
+        v2 += [m2[i][column]]
+    return mult_lists(v1, v2)
 
 
+def matrix_mult(m1, m2):
+    """
+      >>> matrix_mult([[1, 2], [3,  4]], [[5, 6], [7, 8]])
+      [[19, 22], [43, 50]]
+      >>> matrix_mult([[1, 2, 3], [4,  5, 6]], [[7, 8], [9, 1], [2, 3]])
+      [[31, 19], [85, 55]]
+    """
+    m = []
+    for i in range(len(m1)):
+        v = []
+        for j in range(len(m2[0])):
+           v += [row_times_column(m1, i, m2, j)]
+        m += [v]
+    return m
 
 if __name__ == '__main__':
     import doctest
+#    doctest.testmod(optionflags=doctest.NORMALIZE_WHITESPACE)
     doctest.testmod()
