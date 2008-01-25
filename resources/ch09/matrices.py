@@ -74,10 +74,10 @@ def add_matrices(m1, m2):
 def scalar_mult(n, m):
     """
       >>> a = [[1, 2], [3, 4]]
-      >>> scaler_mult(3, a)
+      >>> scalar_mult(3, a)
       [[3, 6], [9, 12]] 
       >>> b = [[3, 5, 7], [1, 1, 1], [0, 2, 0], [2, 2, 3]]
-      >>> scaler_mult(10, b)
+      >>> scalar_mult(10, b)
       [[30, 50, 70], [10, 10, 10], [0, 20, 0], [20, 20, 30]]
       >>> b
       [[3, 5, 7], [1, 1, 1], [0, 2, 0], [2, 2, 3]]
@@ -89,6 +89,21 @@ def scalar_mult(n, m):
             newrow += [elem * n]
         prod += [newrow]
     return prod
+
+
+def mult_lists(a, b):
+        """
+          >>> mult_lists([1, 1], [1, 1])
+          2
+          >>> mult_lists([1, 2], [1, 4])
+          9
+          >>> mult_lists([1, 2, 1], [1, 4, 3])
+          12 
+        """
+        sum = 0
+        for i in range(len(a)):
+            sum += a[i] * b[i]
+        return sum
 
 
 
