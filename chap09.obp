@@ -1306,9 +1306,27 @@ in exercise 2 to make the following doctests pass:
 </div></li>
 
 <li><div class="exercise">
-Write a function <code>mult_lists(a, b)</code> that takes two lists of of
-numbers of the same length, and returns the sum of the products of the
+Write a function <code>add_lists(a, b)</code> that takes two lists of numbers
+of the same length, and returns a new list containing the sums of the
 corresponding elements of each.
+<pre class="python">
+def add_lists(a, b):
+    """
+      >>> add_lists([1, 1], [1, 1])
+      [2, 2]
+      >>> add_lists([1, 2], [1, 4])
+      [2, 6]
+      >>> mult_lists([1, 2, 1], [1, 4, 3])
+      [2, 6, 4]
+    """
+</pre>
+<code>add_lists</code> should pass the doctests above.
+</div></li>
+
+<li><div class="exercise">
+Write a function <code>mult_lists(a, b)</code> that takes two lists of numbers
+of the same length, and returns the sum of the products of the corresponding
+elements of each.
 <pre class="python">
 def mult_lists(a, b):
     """
@@ -1320,7 +1338,7 @@ def mult_lists(a, b):
       12
     """
 </pre>
-Your new functions should pass the doctests.
+Verify that <code>mult_lists</code> passes the doctests above.
 </div></li>
 
 <li><div class="exercise">
@@ -1423,6 +1441,8 @@ def matrix_mult(m1, m2):
       [[19, 22], [43, 50]]
       >>> matrix_mult([[1, 2, 3], [4,  5, 6]], [[7, 8], [9, 1], [2, 3]])
       [[31, 19], [85, 55]]
+      >>> matrix_mult([[7, 8], [9, 1], [2, 3]], [[1, 2, 3], [4, 5, 6]])
+      [[39, 54, 69], [13, 23, 33], [14, 19, 24]]
     """
 </pre>
 Add your new functions to <code>matrices.py</code> and be sure it passes the
