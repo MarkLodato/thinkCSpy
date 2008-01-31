@@ -620,13 +620,15 @@ for index, value in enumerate(numbers):
     numbers[index] = value**2
 </pre>
 
+<span class="index" value="enumerate" />
+
 <p><code>enumerate</code> generates both the index and the value associated
 with it during the list traversal.  Try this next example to see more
 clearly how <code>enumerate</code> works:</p>
 
 <pre class="python-interpreter">
->>> for a, b in enumerate(['banana', 'apple', 'pear', 'quince']):
-...    print a, b
+>>> for index, value in enumerate(['banana', 'apple', 'pear', 'quince']):
+...    print index, value 
 ...
 0 banana
 1 apple
@@ -648,8 +650,8 @@ as an argument and multiplies each element in the list by 2:</p>
 
 <pre class="python">
 def double_stuff(a_list):
-    for i, value in enumerate(a_list):
-        a_list[i] = 2 * value
+    for index, value in enumerate(a_list):
+        a_list[index] = 2 * value
 </pre>
 
 <p>If we put <code>double_stuff</code> in a file named <code>ch09.py</code>, we

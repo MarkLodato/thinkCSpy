@@ -620,6 +620,16 @@ to the module.</dd>
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
+Complete the following:
+<ul>
+  <li>Start the pydoc server with the command <code>pydoc -g</code> at the
+  command prompt.</li>
+  <li>Click on the <q>open browser</q> button in the pydoc tk window.</li>
+  <li>Find the <code>calendar</code> module and click on it.</li> 
+</ul>
+</div></li>
+
+<li><div class="exercise">
 </div></li>
 </ol>
 
