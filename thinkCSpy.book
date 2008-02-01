@@ -1,4 +1,4 @@
-index('dex') # .html will be added
+index('dex') # .xhtml will be added
 chapter('foreword.obp', '')#Foreword
 chapter('preface2ver.obp', '')#Preface to Version 2
 chapter('preface.obp', '')#Preface

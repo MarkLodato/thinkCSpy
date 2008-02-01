@@ -12,8 +12,8 @@ build:	book
 
 book:
 	mkdir -p xhtml/
-	obpdoc --config template=template.tpl -pN -b thinkCSpy.book
-	mv *.html xhtml
+	obpdoc --config template=template.tpl -o xhtml -pN -b thinkCSpy.book
+	mv *.xhtml xhtml
 	cp -r illustrations xhtml/
 	cp -r resources xhtml/
 	cp -r files2copy/* xhtml/

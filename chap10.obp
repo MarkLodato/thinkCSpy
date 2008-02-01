@@ -164,9 +164,9 @@ def alldigits(s):
             return False
     return True
 
-age = input("Please enter your age: ")
-while not alldigits(age) or int(age) &gt;= 0:
-    age = input("Please enter your age as a positive integer: ")
+age = raw_input("Please enter your age: ")
+while not alldigits(age) or eval(age) == 0:
+    age = raw_input("Please enter your age as a positive integer: ")
 
 age = int(age)
 </pre>
@@ -626,11 +626,54 @@ Complete the following:
   command prompt.</li>
   <li>Click on the <q>open browser</q> button in the pydoc tk window.</li>
   <li>Find the <code>calendar</code> module and click on it.</li> 
+  <li>While looking at the <em>Functions</em> section, try out the following
+  in a Python shell:
+  <pre class='python-interpreter'>
+  >>> import calendar
+  >>> year = calendar.calendar(2008)
+  >>> print year                      # What happens here?
+  </pre></li>
+  <li>Experiment with <code>calendar.isleap</code>.  What does it expect as
+  an argument?  What does it return as a result?  What kind of a function is
+  this?</li>
 </ul>
+Make detailed notes about what you learned from this exercise.
 </div></li>
 
 <li><div class="exercise">
+<p>If you don't have <code>Tkinter</code> installed on your computer, then
+<code>pydoc -g</code> will return an error, since the graphics window that
+it opens requires <code>Tkinter</code>.  An alternative is to start the web
+server directly:</p>
+<pre class='shell'>
+$ pydoc -p 7464
+</pre>
+<p>This starts the pydoc web server on port 7464.  Now point your web brower
+at:</p>
+<pre>
+http://localhost:7464
+</pre>
+<p>and you will be able to browse the Python libraries installed on you
+system.</p>
+<p>Use this approach to start <code>pydoc</code> and take a look at the
+<code>math</code> module.</p>
+<ol style='list-style-type: lower-alpha;'>
+  <li>How many functions are in the <code>math</code> module?</li>
+  <li>What does <code>math.ceil</code> do?  What about <code>math.floor</code>?
+  </li>
+  <li>Describe how we have been computing the same value as
+  <code>math.sqrt</code> without using the <code>math</code> module.</li>
+  <li>What are the two data contstants in the <code>math</code> module?</li>
+</ol>
+<p>Record detailed notes of your investigation in this exercise.</p>
 </div></li>
+
+<li><div class="exercise">
+Use <code>pydoc</code> to investigate the <code>copy</code> module.  What
+does <code>deepcopy</code> do?  In which exercises from the last would
+<code>deepcopy</code> have come in handy?
+</div></li>
+
 </ol>
 
 
