@@ -1,12 +1,8 @@
-<?xml version="1.0"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-  <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<head>
 <title>How to Think Like a Computer Scientist: </title>
-<link type="text/css" rel="stylesheet"
-href="stylesheet.css" />
+<link type="text/css" rel="stylesheet" href="stylesheet.css" />
   </head>
 
   <body bgcolor="white">
@@ -17,6 +13,6 @@ href="stylesheet.css" />
     </div>
 
     <p><a href="index.xhtml">Table of Contents</a> |
-    <a href="dex.html">Index</a></p>
+    <a href="dex.xhtml">Index</a></p>
   </body>
 </html>
