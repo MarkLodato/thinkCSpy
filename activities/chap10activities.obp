@@ -1,0 +1,155 @@
+<html>
+<head>
+  <title>Activities to accompany <q>Modules and files</q> chapter</title>
+</head>
+<body>
+
+<h1>Activities to accompany <q>Modules and files</q> chapter</h1>
+
+
+<h2>The <code>sys</code> module and <code>argv</code></h2>
+<span class="index" value="sys module" />
+<span class="index" value="module!sys" />
+<span class="index" value="argv" />
+<span class="index" value="command line" />
+<span class="index" value="command line arguments" />
+
+<p>The <code>sys</code> module contains a variable named <code>argv</code>,
+which holds a list of strings read in from the <b>command line</b> when
+a Python script is run.  These <b>command line arguments</b> can be used to
+pass information into a program at the same time it is invoked.</p>
+
+<pre class="python">
+#
+# demo_argv.py
+#
+from sys import argv
+
+print argv 
+</pre>
+
+<p>Running this program from the unix command prompt demonstrates how
+<code>sys.argv</code> works:</p>
+
+<pre class="shell">
+$ python demo_argv.py this and that 1 2 3
+['demo_argv.py', 'this', 'and', 'that', '1', '2', '3']
+$ 
+</pre>
+
+<p><code>argv</code> is a list of strings.  Notice that the first element is
+the name of the program.  Arguments are seperated by white space, and separated
+into a list in the same way that <code>string.split</code> operates.  If you
+want an argument with white space in it, use quotes:</p>
+
+<pre class="shell">
+$ python demo_argv.py "this and" that "1 2" 3
+['demo_argv.py', 'this and', 'that', '1 2', '3']
+$ 
+</pre>
+
+
+<h2>The <code>eval</code> function</h2>
+<span class="index" value="eval" />
+<span class="index" value="funtion!eval" />
+
+<p>The <code>eval</code> function takes a string as an argument and
+<em>evaluates</em> it as a Python expression, returning the value of the
+expression.</p>
+
+<pre class="python-interpreter">
+>>> eval('4 + 5')
+9
+>>> thing = eval('[1, 2, 3]')
+>>> type(thing)
+&lt;type 'list'&gt;
+>>> thing
+[1, 2, 3]
+</pre>
+
+<p>Be advised that there are security risks associated with using
+<code>eval</code> with data from untrusted sources (see the 
+<a href="http://en.wikipedia.org/wiki/Eval">wikipedia article on eval</a>
+for more on this).  In the example above we check to make sure the only
+data evaluated consists of a string of digits."</p>
+
+<p>Combining <code>argv</code> with <code>eval</code> we can write a handy
+little command line program that prints a truth table for an arbitrary
+boolean expression involving two boolean variables, <code>p</code> and
+<code>q</code>:</p>
+
+<pre class="python">
+from sys import argv
+
+def truth_table(expression):
+    print "\n p      q      %s"  % expression
+    length = len( " p      q      %s"  % expression)
+    print length*"="
+
+    for p in True, False:
+        for q in True, False:
+            print "%-7s %-7s %-7s" % (p, q, eval(expression))
+    print
+
+if len(argv) != 2:
+    print "Invalid input, enter a quoted string containing a boolean"
+    print "expression in p and q."
+else:
+    truth_table(argv[1])
+</pre>
+
+<p>Save the program above in a file named <code>truth_in_p_and_q.py</code>.
+It can now be passed an arbitrary boolean expression involving boolean
+variables <code>p</code> and <code>q</code> at the command line, and it
+will print a truth table for the given expression:</p>
+
+<pre class="shell">
+$ python truth_in_p_and_q.py "(p and not q) or (not p and q)"
+
+ p      q      (p and not q) or (not p and q)
+=============================================
+True    True    False  
+True    False   True   
+False   True    True   
+False   False   False  
+
+$
+</pre>
+
+<p>Note that the boolean expression needs to be enclosed in quotation marks.
+</p>
+
+
+<h2>Glossary</h2>
+<span class="index" value="command line" />
+<span class="index" value="command line arguments" />
+
+<dl>
+<dt>command prompt:</dt>
+<dd>A string displayed by a 
+<a href="http://en.wikipedia.org/wiki/Command_line">command line interface</a>
+indicating that commands can be entered.</dd>
+
+<dt>command line:</dt>
+<dd>The sequence of characters read into the <em>command interpreter</em> in
+a <em>command line interface</em> (see the Wikipedia article on
+<a href="http://en.wikipedia.org/wiki/Command_line">command line interface</a>
+for more information).</dd>
+
+<dt>command line argument:</dt>
+<dd>
+A value passed to a program along with the program's invocation at the
+<em>command prompt</em> of a command line interface (CLI).</dd>
+</dl>
+
+
+<h2>Exercises</h2>
+<ol>
+
+<li><div class="exercise">
+</div></li>
+
+</ol>
+
+</body>
+</html>

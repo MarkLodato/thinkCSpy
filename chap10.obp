@@ -12,13 +12,12 @@
 <span class="index" value="import" />
 <span class="index" value="import statement" />
 <span class="index" value="statement!import" />
-<span class="index" value="namespace" />
 
 <p>A <b>module</b> is a file containing Python definitions and statements
 intended for use in other Python programs.  There are many Python modules that
-come bundled with Python as part of the <b>standard library</b>.  We have seen
-two of these already, the <code>doctest</code> module and the
-<code>string</code> module.</p>
+come with Python as part of the <b>standard library</b>.  We have seen two of
+these already, the <code>doctest</code> module and the <code>string</code>
+module.</p>
 
 
 <h2>pydoc</h2>
@@ -52,9 +51,9 @@ page:</p>
 
 <p>Documentation for most modules contains three color coded sections:</p>
 <ul>
-  <li>Classes in pink</li>
-  <li>Functions in orange</li> 
-  <li>Data in green</li>
+  <li><em>Classes</em> in pink</li>
+  <li><em>Functions</em> in orange</li> 
+  <li><em>Data</em> in green</li>
 </ul>
 
 <p>Classes will be discussed in later chapters, but for now we can use pydoc
@@ -64,7 +63,7 @@ to see the functions and data contained within modules.</p>
 <code>iskeyword</code>, which as its name suggests is a boolean function
 that returns <code>True</code> if a string passed to it is a keyword:</p>
 
-<pre class='python-shell'>
+<pre class='python-interpreter'>
 >>> from keyword import *
 >>> iskeyword('for')
 True
@@ -73,8 +72,22 @@ False
 >>>
 </pre>
 
-<p>You are incouraged to use <code>pydoc</code> to poke around the extensive
-libraries that come with Python.</p>
+<p>The data item, <code>kwlist</code> contains a list of all the current
+keywords in Python:</p>
+
+<pre class='python-interpreter'>
+>>> from keyword import *
+>>> print kwlist
+['and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del', 'elif',
+'else', 'except', 'exec', 'finally', 'for', 'from', 'global', 'if', 'import',
+'in', 'is', 'lambda', 'not', 'or', 'pass', 'print', 'raise', 'return', 'try',
+'while', 'with', 'yield']
+>>>
+</pre>
+
+<p>We encourage you to use <code>pydoc</code> to explore the extensive
+libraries that come with Python.  There are so many exciting things to
+discover!</p>
 
 
 <h2>Creating modules</h2>
@@ -109,19 +122,25 @@ we must first <b>import</b> the module.  There are two ways to do this:</p>
 </pre>
 
 <p>In the first example, <code>remove_at</code> is called just like the 
-functions we have seen previously, while in the second example the name of the
+functions we have seen previously.  In the second example the name of the
 module and a dot (.) are written before the function name.</p> 
 
-<p>Notice that we do not include the <code>.py</code> file extension when
-importing.  It must be there for a file to be a Python module, but it is not
-included in the <b>import statement</b>.</p>
+<p>Notice that in either case we do not include the <code>.py</code> file
+extension when importing.  Python expects the file names of Python modules to
+end in <code>.py</code>, so the file extention is not included in the
+<b>import statement</b>.</p>
 
 
 <h2>Namespaces</h2>
 <span class="index" value="namespace" />
+<span class="index" value="naming collision" />
 
-<p>Since each module determines its own <b>namespace</b>, the same name can
-appear in several modules without causing a problem.</p>
+<p>A <b>namespace</b> is a syntactic container which permits the same name
+to be used in different modules or functions (and as we will see soon, in
+classes and methods).</p>
+
+<p>Each module determines its own namespace, so we can use the same name
+in multiple modules without causing an identification problem.</p>
 
 <pre class='python'>
 # module1.py
@@ -137,122 +156,31 @@ question = "What is your quest?"
 answer = "To seek the holy grail." 
 </pre>
 
+<p>We can now import both modules and access <code>question</code> and
+<code>answer</code> in each:</p>
+
+<pre class="python-interpreter">
+>>> import module1
+>>> import module2
+>>> print module1.question
+What is the meaning of life, the Universe, and everything?
+>>> print module2.question
+What is your quest?
+>>> print module1.answer
+42
+>>> print module2.answer
+To seek the holy grail.
+>>>
+</pre>
+
+<p>If we had used <code>from module1 import *</code> and
+<code>from module2 import *</code> instead, we would have a
+<b>naming collision</b> and would not be able to access <code>question</code>
+and <code>answer</code> from <code>module1</code>.</p>
+
 <p>The use of modules makes it possible to break up very large programs into
 managable sized parts, and to keep related parts together.  Modules also help
 several programmers work on the same project without having namespace clashes.
-</p>
-
-
-<h2>The <code>sys</code> module and <code>argv</code></h2>
-<span class="index" value="sys module" />
-<span class="index" value="module!sys" />
-<span class="index" value="argv" />
-<span class="index" value="command line" />
-<span class="index" value="command line arguments" />
-
-<p>The <code>sys</code> module contains a variable named <code>argv</code>,
-which holds a list of strings read in from the <b>command line</b> when
-a Python script is run.  These <b>command line arguments</b> can be used to
-pass information into a program at the same time it is invoked.</p>
-
-<pre class="python">
-#
-# demo_argv.py
-#
-from sys import argv
-
-print argv 
-</pre>
-
-<p>Running this program from the unix command prompt demonstrates how
-<code>sys.argv</code> works:</p>
-
-<pre class="shell">
-$ python demo_argv.py this and that 1 2 3
-['demo_argv.py', 'this', 'and', 'that', '1', '2', '3']
-$ 
-</pre>
-
-<p><code>argv</code> is a list of strings.  Notice that the first element is
-the name of the program.  Arguments are seperated by white space, and separated
-into a list in the same way that <code>string.split</code> operates.  If you
-want an argument with white space in it, use quotes:</p>
-
-<pre class="shell">
-$ python demo_argv.py "this and" that "1 2" 3
-['demo_argv.py', 'this and', 'that', '1 2', '3']
-$ 
-</pre>
-
-
-<h2>The <code>eval</code> function</h2>
-<span class="index" value="eval" />
-<span class="index" value="funtion!eval" />
-
-<p>The <code>eval</code> function takes a string as an argument and
-<em>evaluates</em> it as a Python expression, returning the value of the
-expression.</p>
-
-<pre class="python-interpreter">
->>> eval('4 + 5')
-9
->>> thing = eval('[1, 2, 3]')
->>> type(thing)
-&lt;type 'list'&gt;
->>> thing
-[1, 2, 3]
-</pre>
-
-<p>Be advised that there are security risks associated with using
-<code>eval</code> with data from untrusted sources (see the 
-<a href="http://en.wikipedia.org/wiki/Eval">wikipedia article on eval</a>
-for more on this).  In the example above we check to make sure the only
-data evaluated consists of a string of digits."</p>
-
-<p>Combining <code>argv</code> with <code>eval</code> we can write a handy
-little command line program that prints a truth table for an arbitrary
-boolean expression involving two boolean variables, <code>p</code> and
-<code>q</code>:</p>
-
-<pre class="python">
-from sys import argv
-
-def truth_table(expression):
-    print "\n p      q      %s"  % expression
-    length = len( " p      q      %s"  % expression)
-    print length*"="
-
-    for p in True, False:
-        for q in True, False:
-            print "%-7s %-7s %-7s" % (p, q, eval(expression))
-    print
-
-if len(argv) != 2:
-    print "Invalid input, enter a quoted string containing a boolean"
-    print "expression in p and q."
-else:
-    truth_table(argv[1])
-</pre>
-
-<p>Save the program above in a file named <code>truth_in_p_and_q.py</code>.
-It can now be passed an arbitrary boolean expression involving boolean
-variables <code>p</code> and <code>q</code> at the command line, and it
-will print a truth table for the given expression:</p>
-
-<pre class="shell">
-$ python truth_in_p_and_q.py "(p and not q) or (not p and q)"
-
- p      q      (p and not q) or (not p and q)
-=============================================
-True    True    False  
-True    False   True   
-False   True    True   
-False   False   False  
-
-$
-</pre>
-
-<p>Note that the boolean expression needs to be enclosed in quotation marks.
 </p>
 
 
@@ -549,7 +477,10 @@ for i in range(len(counts)):
 <span class="index" value="command prompt" />
 <span class="index" value="pydoc" />
 <span class="index" value="import" />
+<span class="index" value="import statement" />
+<span class="index" value="statement!import" />
 <span class="index" value="namespace" />
+<span class="index" value="naming collision" />
 <span class="index" value="command line" />
 <span class="index" value="command line arguments" />
 <span class="index" value="volitile memory" />
@@ -597,9 +528,22 @@ Import all objects
 </dd>
 
 <dt>namespace:</dt>
-<dd>A container providing a context for names so that the same name can reside
-in different namespaces without ambiguity.  In Python, modules, classes,
-functions and methods all form namespaces.</dd>
+<dd>A syntactic container providing a context for names so that the same name
+can reside in different namespaces without ambiguity.  In Python, modules,
+classes, functions and methods all form namespaces.</dd>
+
+<dt>naming collision:</dt>
+<dd>A situation in which two or more names in a given namespace cannot be
+unambiguously resolved.  Using
+<pre class='python'>
+import string
+</pre>
+instead of
+<pre class='python'>
+from string import *
+</pre>
+prevents naming collisions.
+</dd>
 
 <dt>command line:</dt>
 <dd>The sequence of characters read into the <em>command interpreter</em> in
