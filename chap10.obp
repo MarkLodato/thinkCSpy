@@ -130,6 +130,9 @@ extension when importing.  Python expects the file names of Python modules to
 end in <code>.py</code>, so the file extention is not included in the
 <b>import statement</b>.</p>
 
+<p>The use of modules makes it possible to break up very large programs into
+managable sized parts, and to keep related parts together.</p>
+
 
 <h2>Namespaces</h2>
 <span class="index" value="namespace" />
@@ -178,10 +181,77 @@ To seek the holy grail.
 <b>naming collision</b> and would not be able to access <code>question</code>
 and <code>answer</code> from <code>module1</code>.</p>
 
-<p>The use of modules makes it possible to break up very large programs into
-managable sized parts, and to keep related parts together.  Modules also help
-several programmers work on the same project without having namespace clashes.
-</p>
+<p>Functions also have their own namespace:</p>
+
+<pre class='python'>
+def f():
+    n = 7
+    print "printing n inside of f: %d"  % n
+
+def g():
+    n = 42
+    print "printing n inside of g: %d"  % n
+
+n = 11
+print "printing n before calling f: %d"  % n
+f()
+print "printing n after calling f: %d"  % n
+g()
+print "printing n after calling g: %d"  % n
+</pre>
+
+<p>Running this program produces the following output:</p>
+
+<pre class='shell'>
+printing n before calling f: 11
+printing n inside of f: 7
+printing n after calling f: 11
+printing n inside of g: 42
+printing n after calling g: 11
+</pre>
+
+<p>The three <code>n</code>'s here do not collide since they are each in a
+different namepace.</p>
+
+<p>Namespaces permit several programmers can work on the same project without
+having naming collisions.</p>
+
+
+<h2>Attributes and the dot operator</h2>
+<span class="index" value="attribute" />
+<span class="index" value="dot operator" />
+<span class="index" value="operator!." />
+
+<p>Variables defined inside a module are called <b>attributes</b> of the
+module.  They are accessed by using the <b>dot operator</b> (<code>.</code>).
+The <code>question</code> attribute of <code>module1</code> and
+<code>module2</code> are accessed using <code>module1.question</code> and
+<code>module2.question</code>.</p>
+
+<p>Modules contain functions as well as attributes, and the dot operator is
+used to access them in the same way. <code>seqtools.remove_at</code> refers to
+the <code>remove_at</code> function in the <code>seqtools</code> module.</p>
+
+
+<h2>List methods</h2>
+<span class="index" value="list method" />
+<span class="index" value="list methods" />
+
+<p>The dot operator can also be used to access built-in functionality of
+list objects:</p>
+
+<pre class='python-interpreter'>
+>>> mylist = []
+>>> mylist.append(5)
+>>> mylist.append(12)
+>>> mylist.append(27)
+>>> mylist
+[5, 12, 27]
+>>>
+</pre>
+
+<p><code>append</code> is a <b>list method</b> which adds the argument passed
+to it to the end of the list.</p>
 
 
 <h2>Reading and writing text files</h2>
@@ -481,8 +551,10 @@ for i in range(len(counts)):
 <span class="index" value="statement!import" />
 <span class="index" value="namespace" />
 <span class="index" value="naming collision" />
-<span class="index" value="command line" />
-<span class="index" value="command line arguments" />
+<span class="index" value="attribute" />
+<span class="index" value="dot operator" />
+<span class="index" value="operator!." />
+<span class="index" value="list method" />
 <span class="index" value="volitile memory" />
 <span class="index" value="non-volitile memory" />
 <span class="index" value="file" />
@@ -545,16 +617,17 @@ from string import *
 prevents naming collisions.
 </dd>
 
-<dt>command line:</dt>
-<dd>The sequence of characters read into the <em>command interpreter</em> in
-a <em>command line interface</em> (see the Wikipedia article on
-<a href="http://en.wikipedia.org/wiki/Command_line">command line interface</a>
-for more information).</dd>
-
-<dt>command line argument:</dt>
+<dt>attribute:</dt>
 <dd>
-A value passed to a program along with the program's invocation at the
-<em>command prompt</em> of a command line interface (CLI).</dd>
+</dd>
+
+<dt>dot operator:</dt>
+<dd>
+</dd>
+
+<dt>list method:</dt>
+<dd>
+</dd>
 
 <dt>file:</dt>
 <dd>A named entity, usually stored on a hard drive, floppy disk, or CD-ROM,

@@ -125,11 +125,6 @@ $
 <span class="index" value="command line arguments" />
 
 <dl>
-<dt>command prompt:</dt>
-<dd>A string displayed by a 
-<a href="http://en.wikipedia.org/wiki/Command_line">command line interface</a>
-indicating that commands can be entered.</dd>
-
 <dt>command line:</dt>
 <dd>The sequence of characters read into the <em>command interpreter</em> in
 a <em>command line interface</em> (see the Wikipedia article on
