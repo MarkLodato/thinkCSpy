@@ -86,8 +86,7 @@ keywords in Python:</p>
 </pre>
 
 <p>We encourage you to use <code>pydoc</code> to explore the extensive
-libraries that come with Python.  There are so many exciting things to
-discover!</p>
+libraries that come with Python.  There are so many treasures to discover!</p>
 
 
 <h2>Creating modules</h2>
@@ -221,6 +220,8 @@ having naming collisions.</p>
 <span class="index" value="attribute" />
 <span class="index" value="dot operator" />
 <span class="index" value="operator!." />
+<span class="index" value="string module" />
+<span class="index" value="module!string" />
 
 <p>Variables defined inside a module are called <b>attributes</b> of the
 module.  They are accessed by using the <b>dot operator</b> (<code>.</code>).
@@ -232,13 +233,59 @@ The <code>question</code> attribute of <code>module1</code> and
 used to access them in the same way. <code>seqtools.remove_at</code> refers to
 the <code>remove_at</code> function in the <code>seqtools</code> module.</p>
 
+<p>In Chapter 7 we introduced the <code>find</code> function from the
+<code>string</code> module.  The <code>string</code> module contains many
+other useful functions:</p>
 
-<h2>List methods</h2>
-<span class="index" value="list method" />
+<pre class='python-interpreter'>
+>>> import string
+>>> string.capitalize('maryland')
+'Maryland'
+>>> string.capwords("what's all this, then, amen?")
+"What's All This, Then, Amen?"
+>>> string.center('How to Center Text Using Python', 70)
+'                   How to Center Text Using Python                    '
+>>> string.upper('angola')
+'ANGOLA'
+>>> 
+</pre>
+
+<p>You should use pydoc to browse the other functions and attributes in the
+string module.</p>
+
+
+<h2>String and list methods</h2>
+<span class="index" value="string methods" />
+<span class="index" value="methods!string" />
 <span class="index" value="list methods" />
+<span class="index" value="methods!list" />
 
-<p>The dot operator can also be used to access built-in functionality of
-list objects:</p>
+<p>As the Python language developed, most of functions from the
+<code>string</code> module have also been added as <b>methods</b> of string
+objects.  A method acts much like a function, but the syntax for calling
+it is a bit different:</p>
+
+<pre class='python-interpreter'>
+>>> 'maryland'.capitalize()
+'Maryland'
+>>> "what's all this, then, amen?".title()
+"What'S All This, Then, Amen?"
+>>> 'How to Center Text Using Python'.center(70)
+'                   How to Center Text Using Python                    '
+>>> 'angola'.upper()
+'ANGOLA'
+>>>
+</pre>
+
+<p>String methods are built-in to string objects, and they are <em>invoked</em>
+(called) by following the object with the dot operator and the method name.</p>
+
+<p>We will be learning how to create our own objects with their own methods in
+later chapters.  For now we will only be using methods that come with Python's
+built-in objects.</p> 
+
+<p>The dot operator can also be used to access built-in methods of list
+objects:</p>
 
 <pre class='python-interpreter'>
 >>> mylist = []
