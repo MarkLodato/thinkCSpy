@@ -619,15 +619,23 @@ prevents naming collisions.
 
 <dt>attribute:</dt>
 <dd>
+A variable defined inside a module (or class or instance -- as we will see
+later).  Module attributes are accessed by using the <b>dot operator</b>
+(<code>.</code>).
 </dd>
 
 <dt>dot operator:</dt>
 <dd>
+The dot operator (<code>.</code>) permits access to attributes and functions
+of a module (or attributes and methods of a class or instance -- as we will 
+see later).
 </dd>
 
 <dt>list method:</dt>
-<dd>
-</dd>
+<dd><code>append</code>, <code>count</code>, <code>extend</code>,
+<code>index</code>, <code>insert</code>, <code>pop</code>, <code>remove</code>,
+<code>reverse</code>, <code>sort</code> are methods built into list objects
+that provide functionality to lists.</dd>
 
 <dt>file:</dt>
 <dd>A named entity, usually stored on a hard drive, floppy disk, or CD-ROM,
@@ -716,6 +724,22 @@ system.</p>
 Use <code>pydoc</code> to investigate the <code>copy</code> module.  What does
 <code>deepcopy</code> do?  In which exercises from last chapter would
 <code>deepcopy</code> have come in handy?
+</div></li>
+
+<li><div class="exercise">
+<p>
+Create a module named <code>mymodule1</code>.  Add attributes
+<code>myage</code> and <code>year</code> set to the current year.  Create
+another module named <code>mymodule2</code>.  Add attributes <code>myage</code> 
+set to your age at graduation, and <code>year</code> set to the year you will
+graduate.
+</p>
+<p>
+Now edit a file named <code>namespace_test.py</code>.  Import both of the
+modules above and write the following statement:</p>
+<pre class='python'>
+print (mymodule2.myage - mymodule1.myage) == (mymodule2.year - mymodule1.year)
+</pre>
 </div></li>
 
 <li><div class="exercise">
