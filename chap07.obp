@@ -465,6 +465,8 @@ well as an upper bound to accomodate this change.</p>
 <span class="index" value="string module" />
 <span class="index" value="dot notation" />
 <span class="index" value="type function" />
+<span class="index" value="dir function" />
+<span class="index" value="function!dir" />
 <span class="index" value="doc string" />
 
 <p>The <code>string</code> module contains useful functions that manipulate

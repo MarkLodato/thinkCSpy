@@ -212,7 +212,7 @@ printing n after calling g: 11
 <p>The three <code>n</code>'s here do not collide since they are each in a
 different namepace.</p>
 
-<p>Namespaces permit several programmers can work on the same project without
+<p>Namespaces permit several programmers to work on the same project without
 having naming collisions.</p>
 
 
@@ -283,22 +283,52 @@ it is a bit different:</p>
 <p>We will be learning how to create our own objects with their own methods in
 later chapters.  For now we will only be using methods that come with Python's
 built-in objects.</p> 
-
+[5, 12, 27, 3, 12]
 <p>The dot operator can also be used to access built-in methods of list
 objects:</p>
 
 <pre class='python-interpreter'>
 >>> mylist = []
 >>> mylist.append(5)
->>> mylist.append(12)
 >>> mylist.append(27)
+>>> mylist.append(3)
+>>> mylist.append(12)
 >>> mylist
-[5, 12, 27]
+[5, 27, 3, 12]
 >>>
 </pre>
 
-<p><code>append</code> is a <b>list method</b> which adds the argument passed
-to it to the end of the list.</p>
+<p><code>append</code> is a list method which adds the argument passed to it to 
+the end of the list.  Continuing with this example, we several other list
+methods:</p>
+
+<pre class='python-interpreter'>
+>>> mylist.insert(1, 12)
+>>> mylist
+[5, 12, 27, 3, 12]
+>>> mylist.count(12)
+2
+>>> mylist.extend([5, 9, 5, 11])
+>>> mylist
+[5, 12, 27, 3, 12, 5, 9, 5, 11])
+>>> mylist.index(9)
+6
+>>> mylist.count(5)
+3
+>>> mylist.reverse()
+>>> mylist
+[11, 5, 9, 5, 12, 3, 27, 12, 5]
+>>> mylist.sort()
+>>> mylist
+[3, 5, 5, 5, 9, 11, 12, 12, 27]
+>>> mylist.remove(12)
+>>> mylist
+[3, 5, 5, 5, 9, 11, 12, 27]
+>>>
+</pre>
+
+<p>Experiment with the list methods in this example until you feel confident
+that you understand how they work.</p>
 
 
 <h2>Reading and writing text files</h2>
@@ -776,17 +806,20 @@ Use <code>pydoc</code> to investigate the <code>copy</code> module.  What does
 <li><div class="exercise">
 <p>
 Create a module named <code>mymodule1</code>.  Add attributes
-<code>myage</code> and <code>year</code> set to the current year.  Create
-another module named <code>mymodule2</code>.  Add attributes <code>myage</code> 
-set to your age at graduation, and <code>year</code> set to the year you will
-graduate.
+<code>myage</code> set to your current age, and <code>year</code> set to the
+current year.  Create another module named <code>mymodule2</code>.  Add
+attributes <code>myage</code> set to 0, and <code>year</code> set to the year
+you were born.
 </p>
 <p>
-Now edit a file named <code>namespace_test.py</code>.  Import both of the
+Now create a file named <code>namespace_test.py</code>.  Import both of the
 modules above and write the following statement:</p>
 <pre class='python'>
 print (mymodule2.myage - mymodule1.myage) == (mymodule2.year - mymodule1.year)
 </pre>
+When you will run <code>namespace_test.py</code> you will see either 
+<code>True</code> or <code>False</code> as output depending on whether or not
+you've had a birthday between now and the beginning of the new year.
 </div></li>
 
 <li><div class="exercise">
@@ -795,6 +828,35 @@ In a Python shell try the following:
 >>> import this
 </pre>
 What does Tim Peter's have to say about namespaces?
+</div></li>
+
+<li><div class="exercise">
+Use <code>pydoc</code> to find and test three other functions from the
+<code>string</code> module.  Record your findings.
+</div></li>
+
+<li><div class="exercise">
+Rewrite <code>matrix_mult</code> from the last chapter using what you have
+learned about list methods.
+</div></li>
+
+<li><div class="exercise">
+<p>
+The <code>dir</code> function, which we first saw in Chapter 7, prints out
+a list of the <em>attributes</em> of an object passed to it as an argument.
+In other words, <code>dir</code> returns the contents of the <em>namespace</em>
+of its argument.
+</p>
+<p>
+Use <code>dir(str)</code> and <code>dir(list)</code> to find at least three
+string and list methods which have not been introduced in the examples in the
+chapter.  You should ignor anything that begins with double underscore (__)
+for the time being.
+</p>
+<p>
+Be sure to make detailed notes of your findings, including names of the new
+methods and examples of their use.
+</p>
 </div></li>
 
 </ol>
