@@ -708,11 +708,20 @@ of a module (or attributes and methods of a class or instance -- as we will
 see later).
 </dd>
 
-<dt>list method:</dt>
-<dd><code>append</code>, <code>count</code>, <code>extend</code>,
-<code>index</code>, <code>insert</code>, <code>pop</code>, <code>remove</code>,
-<code>reverse</code>, <code>sort</code> are methods built into list objects
-that provide functionality to lists.</dd>
+<dt>method:</dt>
+<dd>
+Function-like attribute of an object.  Methods are <em>invoked</em> (called)
+on an object using the dot operator.  For example:
+<pre class='python-interpreter'>
+>>> s = "this is a string."
+>>> s.upper()
+'THIS IS A STRING.'
+>>>
+</pre>
+We say that the method, <code>upper</code> is invoked on the string,
+<code>s</code>.  <code>s</code> is implicitely the first argument to
+<code>upper</code>.
+</dd>
 
 <dt>file:</dt>
 <dd>A named entity, usually stored on a hard drive, floppy disk, or CD-ROM,
@@ -789,6 +798,8 @@ system.</p>
 <ol style='list-style-type: lower-alpha;'>
   <li>How many functions are in the <code>math</code> module?</li>
   <li>What does <code>math.ceil</code> do?  What about <code>math.floor</code>?
+  (<em>hint:</em> both <code>floor</code> and <code>ceil</code> expect floating
+  point arguments.)
   </li>
   <li>Describe how we have been computing the same value as
   <code>math.sqrt</code> without using the <code>math</code> module.</li>
@@ -841,24 +852,26 @@ learned about list methods.
 </div></li>
 
 <li><div class="exercise">
-<p>
+<span class="index" value="dir" />
+<span class="index" value="function!dir" />
 The <code>dir</code> function, which we first saw in Chapter 7, prints out
 a list of the <em>attributes</em> of an object passed to it as an argument.
 In other words, <code>dir</code> returns the contents of the <em>namespace</em>
 of its argument.
-</p>
-<p>
+<br /><br />
 Use <code>dir(str)</code> and <code>dir(list)</code> to find at least three
 string and list methods which have not been introduced in the examples in the
 chapter.  You should ignor anything that begins with double underscore (__)
-for the time being.
-</p>
-<p>
-Be sure to make detailed notes of your findings, including names of the new
-methods and examples of their use.
-</p>
+for the time being.  Be sure to make detailed notes of your findings, including 
+names of the new methods and examples of their use.
+<br /><br />
+(<em>hint:</em>  Print the docstring of a function you want to explore.  For
+example, to find out how <code>string.join</code> works,
+<code>print string.join.__doc__</code>)
 </div></li>
 
+<li><div class="exercise">
+</div></li>
 </ol>
 
 

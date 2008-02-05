@@ -106,7 +106,7 @@ def scalar_mult(n, m):
     return prod
 
 
-def row_times_column(m1, row, m2, column):
+def row_times_column(m1, row, m2, col):
     """
       >>> row_times_column([[1, 2], [3, 4]], 0, [[5, 6], [7, 8]], 0)
       19
@@ -117,11 +117,11 @@ def row_times_column(m1, row, m2, column):
       >>> row_times_column([[1, 2], [3, 4]], 1, [[5, 6], [7, 8]], 1)
       50
     """
-    v1 = m1[row]
-    v2 = []
+    vector1 = m1[row]
+    vector2 = []
     for i in range(len(m1[0])):
-        v2 += [m2[i][column]]
-    return mult_lists(v1, v2)
+        vector2 += [m2[i][col]]
+    return mult_lists(vector1, vector2)
 
 
 def matrix_mult(m1, m2):
@@ -132,14 +132,17 @@ def matrix_mult(m1, m2):
       [[31, 19], [85, 55]]
       >>> matrix_mult([[7, 8], [9, 1], [2, 3]], [[1, 2, 3], [4, 5, 6]])
       [[39, 54, 69], [13, 23, 33], [14, 19, 24]]
+      >>> matrix_mult([[1, 2], [3, 4], [5, 6]], [[1, 0, 1, 2], [2, 2, 1, 0]])
+      [[5, 4, 3, 2], [11, 8, 7, 6], [17, 12, 11, 10]]
     """
-    m = []
-    for i in range(len(m1)):
-        v = []
-        for j in range(len(m2[0])):
-           v += [row_times_column(m1, i, m2, j)]
-        m += [v]
-    return m
+    prod = []
+    for row in range(len(m1)):
+        newrow = []
+        for col in range(len(m2[0])):
+           newrow += [row_times_column(m1, row, m2, col)]
+        prod += [newrow]
+    return prod
+
 
 if __name__ == '__main__':
     import doctest
