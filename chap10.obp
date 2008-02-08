@@ -9,7 +9,6 @@
 <h2>Modules</h2>
 <span class="index" value="module" />
 <span class="index" value="standard library" />
-<span class="index" value="import" />
 <span class="index" value="import statement" />
 <span class="index" value="statement!import" />
 
@@ -90,6 +89,7 @@ libraries that come with Python.  There are so many treasures to discover!</p>
 
 
 <h2>Creating modules</h2>
+<span class="index" value="import statement" />
 
 <p>All we need to create a module is a text file with a <code>.py</code>
 extension on the filename:</p>
@@ -102,7 +102,7 @@ def remove_at(pos, seq):
 </pre>
 
 <p>We can now use our module in both scripts and the Python shell.  To do so,
-we must first <b>import</b> the module.  There are two ways to do this:</p>
+we must first <em>import</em> the module.  There are two ways to do this:</p>
 
 <pre class="python-interpreter">
 >>> from seqtools import remove_at
@@ -277,13 +277,13 @@ it is a bit different:</p>
 >>>
 </pre>
 
-<p>String methods are built-in to string objects, and they are <em>invoked</em>
+<p>String methods are built into string objects, and they are <em>invoked</em>
 (called) by following the object with the dot operator and the method name.</p>
 
 <p>We will be learning how to create our own objects with their own methods in
 later chapters.  For now we will only be using methods that come with Python's
 built-in objects.</p> 
-[5, 12, 27, 3, 12]
+
 <p>The dot operator can also be used to access built-in methods of list
 objects:</p>
 
@@ -606,8 +606,8 @@ character:</p>
 >>>
 </pre>
 
-<p>We can see from this example why <code>'Appricot' &lt; 'axi'</code>
-evaluates to <code>True</code>.</p>
+<p>This example explains why <code>'Apple' &lt; 'apple'</code> evaluates to
+<code>True</code>.</p>
 
 <p>The <code>chr</code> function is the inverse of <code>ord</code>, it
 takes an integer as an argument and returns its character representation:</p>
@@ -630,6 +630,12 @@ the book
 <a href="resources/ch10/alice_in_wonderland.txt">Alice in Wonderland</a>:</p>
 
 <pre class='python'>
+def display(i):
+    if i == 10: return 'LF'
+    if i == 13: return 'CR' 
+    if i == 32: return 'SPACE' 
+    return chr(i)
+
 infile = open('alice_in_wonderland.txt', 'r')
 text = infile.read()
 infile.close()
@@ -639,27 +645,23 @@ counts = 128*[0]
 for letter in text:
     counts[ord(letter)] += 1
 
-print "%-12s%s" % ("Character", "Count")
-print "================="
-
-def display(i):
-    if i == 10: return 'LF'
-    if i == 13: return 'CR'
-    return chr(i)
-
+outfile = open('alice_counts.dat', 'w')
+outfile.write("%-12s%s\n" % ("Character", "Count"))
+outfile.write("=================\n")
 
 for i in range(len(counts)):
     if counts[i]:
-        print "%-12s%d" % (display(i), counts[i])
+        outfile.write("%-12s%d\n" % (display(i), counts[i]))
+
+outfile.close()
 </pre>
 
 
 <h2>Glossary</h2>
 <span class="index" value="module" />
 <span class="index" value="standard library" />
-<span class="index" value="command prompt" />
 <span class="index" value="pydoc" />
-<span class="index" value="import" />
+<span class="index" value="command prompt" />
 <span class="index" value="import statement" />
 <span class="index" value="statement!import" />
 <span class="index" value="namespace" />
@@ -670,8 +672,12 @@ for i in range(len(counts)):
 <span class="index" value="method" />
 <span class="index" value="volatile memory" />
 <span class="index" value="non-volatile memory" />
-<span class="index" value="mode (file object)" />
 <span class="index" value="file" />
+<span class="index" value="mode (file object)" />
+<span class="index" value="text file" />
+<span class="index" value="continue statement" />
+<span class="index" value="statement!continue" />
+<span class="index" value="file system" />
 <span class="index" value="directory" />
 <span class="index" value="path" />
 <span class="index" value="delimiter" />
@@ -688,15 +694,15 @@ of other software.  The standard library of a programming language is the set
 of such tools that are distributed with the core programming language.
 Python comes with an extensive standard library.</dd>
 
+<dt>pydoc:</dt>
+<dd>A documentation generator that comes with the Python standard library.</dd>
+
 <dt>command prompt:</dt>
 <dd>A string displayed by a 
 <a href="http://en.wikipedia.org/wiki/Command_line">command line interface</a>
 indicating that commands can be entered.</dd>
 
-<dt>pydoc:</dt>
-<dd>A documentation generator that comes with the Python standard library.</dd>
-
-<dt>import:</dt>
+<dt>import statement:</dt>
 <dd>A statement which makes the objects contained in a module available for
 use.  There are two forms for the import statement.  Using a hypothetical
 module named <code>mymod</code> containing functions <code>f1</code>
@@ -776,9 +782,6 @@ and rewritable compact disks (CD-RW) are each examples of non-volatile memory.
 <dd>A named entity, usually stored on a hard drive, floppy disk, or CD-ROM,
 that contains a stream of characters.</dd>
 
-<dt>directory:</dt>
-<dd>A named collection of files, also called a folder.</dd>
-
 <dt>mode:</dt>
 <dd>A distinct method of operation within a computer program.  Files in Python
 can be openned in one of three modes: read ('r'), write ('w'), and append ('a').
@@ -797,9 +800,27 @@ by newline characters.</dd>
 of execution goes to the top of the loop, evaluates the condition, and
 proceeds accordingly.</dd>
 
+<dt>file system:</dt>
+<dd>A method for naming, accessing, and organizing files and the data they
+contain.</dd>
+
+<dt>directory:</dt>
+<dd>A named collection of files, also called a folder. Directories can contain
+files and other directories, which are refered to as <em>subdirectories</em>
+of the directory that contains them.</dd>
+
+<dt>path:</dt>
+<dd>The name and location of a file within a file system.  For example:
+<pre class='shell'>
+/usr/share/dict/words
+</pre>
+indicates a file named <code>words</code> found in the <code>dict</code>
+subdirectory of the <code>share</code> subdirectory of the <code>usr</code>
+directory.</dd>
+
 <dt>delimiter:</dt>
-<dd>
-</dd>
+<dd>A sequence of one or more characters used to specify the boundary between
+seperate parts of text.</dd>
 </dl>
 
 
@@ -864,9 +885,9 @@ Use <code>pydoc</code> to investigate the <code>copy</code> module.  What does
 
 <li><div class="exercise">
 <p>
-Create a module named <code>mymodule1</code>.  Add attributes
+Create a module named <code>mymodule1.py</code>.  Add attributes
 <code>myage</code> set to your current age, and <code>year</code> set to the
-current year.  Create another module named <code>mymodule2</code>.  Add
+current year.  Create another module named <code>mymodule2.py</code>.  Add
 attributes <code>myage</code> set to 0, and <code>year</code> set to the year
 you were born.
 </p>
@@ -909,7 +930,7 @@ of its argument.
 <br /><br />
 Use <code>dir(str)</code> and <code>dir(list)</code> to find at least three
 string and list methods which have not been introduced in the examples in the
-chapter.  You should ignor anything that begins with double underscore (__)
+chapter.  You should ignore anything that begins with double underscore (__)
 for the time being.  Be sure to make detailed notes of your findings, including 
 names of the new methods and examples of their use.
 <br /><br />
@@ -923,7 +944,7 @@ Give the Python interpreter's response to each of the following from a
 continuous interpreter session:
 <ol style="list-style-type: lower-alpha;">
   <li><pre class='python-interpreter'>
-  >>> s = "If we took the bones out it wouldn't be cruncy would it?"
+  >>> s = "If we took the bones out it wouldn't be crunchy would it?"
   >>> s.split()
   </pre></li>
 
