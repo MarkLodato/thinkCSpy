@@ -245,7 +245,7 @@ called <b>parameters</b>.</p>
 503
 </pre>
 
-<p><code>max</code> can be sent any number of arguments, seperated by comas,
+<p><code>max</code> can be sent any number of arguments, separated by commas,
 and will return the maximum value sent.  The arguments can be either simple
 values or expressions.  In the last example, 503 is returned, since it is
 larger than 33, 125, and 1.</p>
@@ -433,11 +433,11 @@ Running this script will produce an error message like this:</p>
 
 <pre class="shell">
 Traceback (innermost last):
-  File "test.py", line 11, in &lt;module>
+  File "tryme2.py", line 11, in &lt;module>
     cat_twice(chant1, chant2)
-  File "test.py", line 7, in cat_twice
+  File "tryme2.py", line 7, in cat_twice
     print_twice(cat)
-  File "test.py", line 3, in print_twice
+  File "tryme2.py", line 3, in print_twice
     print cat
 NameError: global name 'cat' is not defined
 </pre>

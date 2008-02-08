@@ -116,18 +116,18 @@ it back into a tuple:</p>
 conventional assignment statements, we have to use a temporary variable.  For
 example, to swap <code>a</code> and <code>b</code>:</p>
 
-<pre class="python-interpreter">
->>> temp = a
->>> a = b
->>> b = temp
+<pre class="python">
+temp = a
+a = b
+b = temp
 </pre>
 
 <p>If we have to do this often, this approach becomes cumbersome.  Python
 provides a form of <b>tuple assignment</b> that solves this problem
 neatly:</p>
 
-<pre class="python-interpreter">
->>> a, b = b, a
+<pre class="python">
+a, b = b, a
 </pre>
 
 <p>The left side is a tuple of variables; the right side is a tuple of values.  
