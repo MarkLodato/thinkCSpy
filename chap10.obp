@@ -332,18 +332,18 @@ that you understand how they work.</p>
 
 
 <h2>Reading and writing text files</h2>
-<span class="index" value="volitile memory" />
-<span class="index" value="non-volitile memory" />
+<span class="index" value="volatile memory" />
+<span class="index" value="non-volatile memory" />
 <span class="index" value="file" />
 
 <p>While a program is running, its data is stored in
 <em>random access memory</em> (RAM).  RAM is fast and inexpensive, but it is
-also <b>volitile</b>, which means that when the program ends, or the computer
-shuts down, data in RAM disappears.  To store data permanently, you have to put 
-it in a <b>non-volitile</b> storage medium, such a hard drive, usb drive, or
-CD-RW.</p>
+also <b>volatile</b>, which means that when the program ends, or the computer
+shuts down, data in RAM disappears.  To make data available the next time you
+turn on your computer and start your program, you have to write it to a
+<b>non-volatile</b> storage medium, such a hard drive, usb drive, or CD-RW.</p>
 
-<p>Data on non-volitile storage media is stored in named locations on the
+<p>Data on non-volatile storage media is stored in named locations on the
 media called <b>files</b>.  By reading and writing files, programs can save
 information between program runs.</p>
 
@@ -357,11 +357,11 @@ in its natural order or you can skip around.</p>
 and indicate whether you want to read or write.</p>
 
 <p>Opening a file creates a file object.  In this example, the variable
-<code>f</code> refers to the new file object.</p>
+<code>myfile</code> refers to the new file object.</p>
 
 <pre class="python-interpreter">
->>> f = open('test.dat', 'w')
->>> print f
+>>> myfile = open('test.dat', 'w')
+>>> print myfile
 &lt;open file 'test.dat', mode 'w' at 0x2aaaaab80cd8&gt;
 </pre>
 
@@ -379,15 +379,15 @@ the location of the object.</p>
 object:</p>
 
 <pre class="python-interpreter">
->>> f.write("Now is the time")
->>> f.write("to close the file")
+>>> myfile.write("Now is the time")
+>>> myfile.write("to close the file")
 </pre>
 
 <p>Closing the file tells the system that we are done writing and makes the
 file available for reading:</p>
 
 <pre class="python-interpreter">
->>> f.close()
+>>> myfile.close()
 </pre>
 
 <p>Now we can open the file again, this time for reading, and read the contents 
@@ -395,7 +395,7 @@ into a string.  This time, the mode argument is <code>'r'</code> for reading:
 </p>
 
 <pre class="python-interpreter">
->>> f = open('test.dat', 'r')
+>>> myfile = open('test.dat', 'r')
 </pre>
 
 <p>If we try to open a file that doesn't exist, we get an error:</p>
@@ -403,7 +403,7 @@ into a string.  This time, the mode argument is <code>'r'</code> for reading:
 <span class="index" value="runtime error" />
 
 <pre class="python-interpreter">
->>> f = open('test.cat', 'r')
+>>> myfile = open('test.cat', 'r')
 IOError: [Errno 2] No such file or directory: 'test.cat'
 </pre>
 
@@ -412,7 +412,7 @@ With no arguments, it reads the entire contents of the file into a single
 string:</p>
 
 <pre class="python-interpreter">
->>> text = f.read()
+>>> text = myfile.read()
 >>> print text
 Now is the timeto close the file
 </pre>
@@ -424,8 +424,8 @@ a space between the strings.</p>
 characters to read:</p>
 
 <pre class="python-interpreter">
->>> f = open('test.dat', 'r')
->>> print f.read(5)
+>>> myfile = open('test.dat', 'r')
+>>> print myfile.read(5)
 Now i
 </pre>
 
@@ -434,9 +434,9 @@ remaining characters.  When we get to the end of the file, <code>read</code>
 returns the empty string:</p>
 
 <pre class="python-interpreter">
->>> print f.read(1000006)
+>>> print myfile.read(1000006)
 s the timeto close the file
->>> print f.read()
+>>> print myfile.read()
    
 >>>
 </pre>
@@ -446,28 +446,31 @@ characters at a time.  The first argument is the name of the original file; the
 second is the name of the new file:</p>
 
 <pre class="python">
-def copy_file(old_file, new_file):
-    f1 = open(old_file, 'r')
-    f2 = open(new_file, 'w')
+def copy_file(oldfile, newfile):
+    infile = open(oldfile, 'r')
+    outfile = open(newfile, 'w')
     while True:
-        text = f1.read(50)
+        text = infile.read(50)
         if text == "":
             break
-        f2.write(text)
-    f1.close()
-    f2.close()
+        outfile.write(text)
+    infile.close()
+    outfile.close()
     return
 </pre>
 
-<p>This functions continues looping, reading 50 characters from <code>f1</code>
-and writing the same 50 charaters to <code>f2</code> until the end of
-<code>f1</code> is reached, at which point <code>text</code> is empty and the
-<code>break</code> statement is executed.</p>
+<p>This functions continues looping, reading 50 characters from
+<code>infile</code> and writing the same 50 charaters to <code>outfile</code>
+until the end of <code>infile</code> is reached, at which point
+<code>text</code> is empty and the <code>break</code> statement is executed.
+</p>
 
 
 <h2>Text files</h2>
 <span class="index" value="text file" />
 <span class="index" value="file!text" />
+<span class="index" value="continue statement" />
+<span class="index" value="statement!continue" />
 
 <p>A <b>text file</b> is a file that contains printable characters and
 whitespace, organized into lines separated by newline characters.  Since Python 
@@ -478,17 +481,17 @@ the job easy.</p>
 by newlines:</p>
 
 <pre class="python-interpreter">
->>> f = open("test.dat","w")
->>> f.write("line one\nline two\nline three\n")
->>> f.close()
+>>> outfile = open("test.dat","w")
+>>> outfile.write("line one\nline two\nline three\n")
+>>> outfile.close()
 </pre>
 
 <p>The <code>readline</code> method reads all the characters up to and
 including the next newline character:</p>
 
 <pre class="python-interpreter">
->>> f = open("test.dat","r")
->>> print f.readline()
+>>> infile = open("test.dat","r")
+>>> print inf.readline()
 line one
    
 >>>
@@ -498,7 +501,7 @@ line one
 strings:</p>
 
 <pre class="python-interpreter">
->>> print f.readlines()
+>>> print infile.readlines()
 ['line two\012', 'line three\012']
 </pre>
 
@@ -510,38 +513,35 @@ sequence <code>\\012</code>.</p>
 and <code>readlines</code> returns the empty list:</p>
 
 <pre class="python-interpreter">
->>> print f.readline()
+>>> print infile.readline()
    
->>> print f.readlines()
+>>> print infile.readlines()
 []
 </pre>
 
 <p>The following is an example of a line-processing program.
-<code>filter</code> makes a copy of <code>old_file</code>, omitting any
+<code>filter</code> makes a copy of <code>oldfile</code>, omitting any
 lines that begin with <code>#</code>:</p>
 
 <pre class="python">
-def filter(old_file, new_file):
-    f1 = open(old_file, 'r')
-    f2 = open(new_file, 'w')
+def filter(oldfile, newfile):
+    infile = open(oldfile, 'r')
+    outfile = open(newfile, 'w')
     while True:
-        text = f1.readline()
+        text = infile.readline()
         if text == "":
            break
         if text[0] == '#':
            continue
-        f2.write(text)
-    f1.close()
-    f2.close()
+        outfile.write(text)
+    infile.close()
+    outfile.close()
     return
 </pre>
 
-<p>The <code>continue</code> statement ends the current iteration of the loop,
+<p>The <b>continue statement</b> ends the current iteration of the loop,
 but continues looping.  The flow of execution moves to the top of the loop,
 checks the condition, and proceeds accordingly.</p>
-
-<span class="index" value="continue statement" />
-<span class="index" value="statement!continue" />
 
 <p>Thus, if <code>text</code> is the empty string, the loop exits.  If the
 first character of <code>text</code> is a hash mark, the flow of execution goes 
@@ -552,8 +552,10 @@ to the top of the loop.  Only if both conditions fail do we copy
 <h2>Directories</h2>
 <span class="index" value="file system" />
 <span class="index" value="directory" />
+<span class="index" value="path" />
+<span class="index" value="delimiter" />
 
-<p>Files on non-volitile storage media are organized by a set of rules known
+<p>Files on non-volatile storage media are organized by a set of rules known
 as a <b>file system</b>.  File systems are made up of files and
 <b>directories</b>, which are containers for both files and other directories.
 </p>
@@ -564,32 +566,64 @@ when you open a file for reading, Python looks for it in the current directory.
 </p>
 
 <p>If you want to open a file somewhere else, you have to specify the
-<b>path</b> to the file, which is the name of the directory
-(or folder) where the file is located:</p>
+<b>path</b> to the file, which is the name of the directory (or folder) where
+the file is located:</p>
 
 <pre class="python-interpreter">
->>>   f = open('/usr/share/dict/words', 'r')
->>>   print f.readline()
-Aarhus
+>>> wordsfile = open('/usr/share/dict/words', 'r')
+>>> wordlist = wordsfile.readlines()
+>>> print wordlist[:5]
+['\n', 'A\n', "A's\n", 'AOL\n', "AOL's\n", 'Aachen\n']
 </pre>
 
 <p>This example opens a file named <code>words</code> that resides in a
 directory named <code>dict</code>, which resides in <code>share</code>, which
 resides in <code>usr</code>, which resides in the top-level directory of the
-system, called <code>/</code>.</p>
-
-<span class="index" value="path" />
-<span class="index" value="delimiter" />
+system, called <code>/</code>.  It then reads in each line into a list using
+<code>readlines</code>, and prints out the first 5 elements from that list.</p>
 
 <p>You cannot use <code>/</code> as part of a filename; it is reserved as a
-delimiter between directory and filenames.</p>
+<b>delimiter</b> between directory and filenames.</p>
 
-<p>The file <code>/usr/share/dict/words</code> contains a list of words
-in alphabetical order, of which the first is the name of a Danish university.
-</p>
+<p>The file <code>/usr/share/dict/words</code> should exist on unix based
+systems, and contains a list of words in alphabetical order.</p>
 
 
 <h2>Counting Letters</h2>
+<span class="index" value="ord function" />
+<span class="index" value="function!ord" />
+<span class="index" value="chr function" />
+<span class="index" value="function!chr" />
+
+<p>The <code>ord</code> function returns the integer representation of a
+character:</p>
+
+<pre class="python-interpreter">
+>>> ord('a')
+97
+>>> ord('A')
+65
+>>>
+</pre>
+
+<p>We can see from this example why <code>'Appricot' &lt; 'axi'</code>
+evaluates to <code>True</code>.</p>
+
+<p>The <code>chr</code> function is the inverse of <code>ord</code>, it
+takes an integer as an argument and returns its character representation:</p>
+
+<pre class="python-interpreter">
+>>> for i in range(65, 71):
+...     print chr(i)
+...
+A
+B
+C
+D
+E
+F
+>>>
+</pre>
 
 <p>The following program counts the number of times each character occurs in
 the book
@@ -598,6 +632,8 @@ the book
 <pre class='python'>
 infile = open('alice_in_wonderland.txt', 'r')
 text = infile.read()
+infile.close()
+
 counts = 128*[0]
 
 for letter in text:
@@ -631,14 +667,14 @@ for i in range(len(counts)):
 <span class="index" value="attribute" />
 <span class="index" value="dot operator" />
 <span class="index" value="operator!." />
-<span class="index" value="list method" />
-<span class="index" value="volitile memory" />
-<span class="index" value="non-volitile memory" />
+<span class="index" value="method" />
+<span class="index" value="volatile memory" />
+<span class="index" value="non-volatile memory" />
+<span class="index" value="mode (file object)" />
 <span class="index" value="file" />
 <span class="index" value="directory" />
 <span class="index" value="path" />
-<span class="index" value="math module" />
-<span class="index" value="module!math" />
+<span class="index" value="delimiter" />
 
 <dl>
 <dt>module:</dt>
@@ -723,6 +759,19 @@ We say that the method, <code>upper</code> is invoked on the string,
 <code>upper</code>.
 </dd>
 
+<dt>volatile memory:</dt>
+<dd>
+Memory which requires an electrical current to maintain state.  The
+<em>main memory</em> or RAM of a computer is volatile.  Information stored in
+RAM is lost when the computer is turned off.
+</dd>
+
+<dt>non-volatile memory:</dt>
+<dd>
+Memory that can maintain its state without power.  Hard drives, flash drives,
+and rewritable compact disks (CD-RW) are each examples of non-volatile memory.
+</dd>
+
 <dt>file:</dt>
 <dd>A named entity, usually stored on a hard drive, floppy disk, or CD-ROM,
 that contains a stream of characters.</dd>
@@ -748,10 +797,9 @@ by newline characters.</dd>
 of execution goes to the top of the loop, evaluates the condition, and
 proceeds accordingly.</dd>
 
-<dt>math module</dt>
-<dd>A collection of trigonometric, exponential, and logrithmic functions and
-constants.  Adding <code>import math</code> in a Python program enables access
-to the module.</dd>
+<dt>delimiter:</dt>
+<dd>
+</dd>
 </dl>
 
 
@@ -888,7 +936,7 @@ continuous interpreter session:
   </pre></li>
 
   <li><pre class='python-interpreter'>
-  >>> s.split('o')
+  >>> s.split('i')
   </pre></li>
 
   <li><pre class='python-interpreter'>
