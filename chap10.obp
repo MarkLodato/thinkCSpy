@@ -609,7 +609,7 @@ character:</p>
 <p>This example explains why <code>'Apple' &lt; 'apple'</code> evaluates to
 <code>True</code>.</p>
 
-<p>The <code>chr</code> function is the inverse of <code>ord</code>, it
+<p>The <code>chr</code> function is the inverse of <code>ord</code>.  It
 takes an integer as an argument and returns its character representation:</p>
 
 <pre class="python-interpreter">
@@ -625,11 +625,15 @@ F
 >>>
 </pre>
 
-<p>The following program counts the number of times each character occurs in
-the book
+<p>The following program, <code>countletters.py</code> counts the number of
+times each character occurs in the book
 <a href="resources/ch10/alice_in_wonderland.txt">Alice in Wonderland</a>:</p>
 
 <pre class='python'>
+#
+# countletters.py
+#
+
 def display(i):
     if i == 10: return 'LF'
     if i == 13: return 'CR' 
@@ -640,7 +644,7 @@ infile = open('alice_in_wonderland.txt', 'r')
 text = infile.read()
 infile.close()
 
-counts = 128*[0]
+counts = 128 * [0]
 
 for letter in text:
     counts[ord(letter)] += 1
@@ -655,6 +659,9 @@ for i in range(len(counts)):
 
 outfile.close()
 </pre>
+
+<p>Run this program and look at the output file it generates using a text
+editor.  You will be asked to analyze the program in the exercies below.</p>
 
 
 <h2>Glossary</h2>
@@ -979,6 +986,42 @@ def myreplace(old, new, s):
     """
 </pre>
 Your solution should pass all doctests.
+</div></li>
+
+<li><div class="exercise">
+<a href="resources/ch10/unsorted_fruits.txt">unsorted_fruits.txt</a>
+contains a list of 26 fruits, each one with a name that begins with a different 
+letter of the alphabet.
+<br /><br />
+Write a program named <code>sort_fruits.py</code> that reads in the fruits
+from <code>unsorted_fruits.txt</code> and writes them out in alphabetical order
+to a file named <code>sorted_fruits.txt</code>.
+</div></li>
+
+<li><div class="exercise">
+Answer the following questions about <code>countletters.py</code>:
+<ol style="list-style-type: lower-alpha;">
+  <li>Explain in detail what the three lines do:
+  <pre class='python'>
+infile = open('alice_in_wonderland.txt', 'r')
+text = infile.read()
+infile.close()
+  </pre>
+  What is would <code>type(text)</code> return after these lines have been
+  executed?</li>
+
+  <li>What does the expression <code>128 * [0]</code> evaluate to?  Read about
+  <a href="http://en.wikipedia.org/wiki/ASCII">ASCII</a> in Wikipedia and
+  explain why you think the variable, <code>counts</code> is assigned to
+  <code>128 * [0]</code> in light of what you read.</li>
+
+  <li>What does
+  <pre class='python'>
+for letter in text:
+    counts[ord(letter)] += 1
+  </pre>
+  do to <code>counts</code>?</li>
+</ol>
 </div></li>
 
 </ol>
