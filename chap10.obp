@@ -891,22 +891,37 @@ Use <code>pydoc</code> to investigate the <code>copy</code> module.  What does
 </div></li>
 
 <li><div class="exercise">
-<p>
 Create a module named <code>mymodule1.py</code>.  Add attributes
 <code>myage</code> set to your current age, and <code>year</code> set to the
 current year.  Create another module named <code>mymodule2.py</code>.  Add
 attributes <code>myage</code> set to 0, and <code>year</code> set to the year
 you were born.
-</p>
-<p>
+<br /><br />
 Now create a file named <code>namespace_test.py</code>.  Import both of the
-modules above and write the following statement:</p>
+modules above and write the following statement:
 <pre class='python'>
 print (mymodule2.myage - mymodule1.myage) == (mymodule2.year - mymodule1.year)
 </pre>
 When you will run <code>namespace_test.py</code> you will see either 
 <code>True</code> or <code>False</code> as output depending on whether or not
-you've had a birthday between now and the beginning of the new year.
+you've already had your birthday this year.
+</div></li>
+
+<li><div class="exercise">
+Add the following statement to <code>mymodule1.py</code>,
+<code>mymodule2.py</code>, and <code>namespace_test.py</code> from the previous
+exercise:
+<pre class='python'>
+print "My name is %s" % __name__
+</pre>
+Run <code>namespace_test.py</code>.  What happens?  Why?  Now add the following
+to the bottom of <code>mymodule1.py</code>:
+<pre class='python'>
+if __name__ == '__main__':
+    print "This won't run if I'm  imported."
+</pre>
+Run <code>mymodule1.py</code> and <code>namespace_test.py</code> again.  In
+which case do you see the new print statement? 
 </div></li>
 
 <li><div class="exercise">
@@ -989,6 +1004,44 @@ Your solution should pass all doctests.
 </div></li>
 
 <li><div class="exercise">
+Create a module named <code>wordtools.py</code> with the following at the
+bottom:
+<pre class='python'>
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+</pre> 
+Explain how this statement makes both using and testing this module convenient.
+What will be the value of <code>__name__</code> when <code>wordtools.py</code>
+is imported from another module?  What will it be when it is run as a main
+program?  In which case will the doctests run?
+<br /><br />
+Now add bodies to each of the following functions to make the doctests pass:
+<pre class='python'>
+def cleanword(word):
+    """
+      >>> cleanword('what?')
+      'what?'
+      >>> cleanword('"now!"')
+      'now'
+    """
+
+def has_dashdash(s):
+    """
+      >>> has_dashdash('distance--but')
+      True
+      >>> has_dashdash('several')
+      False
+      >>> has_dashdash('critters')
+      False
+      >>> has_dashdash('spoke--fancy')
+      True
+    """
+</pre>
+Save this module so you can use the tools it contains in your programs.
+</div></li>
+
+<li><div class="exercise">
 <a href="resources/ch10/unsorted_fruits.txt">unsorted_fruits.txt</a>
 contains a list of 26 fruits, each one with a name that begins with a different 
 letter of the alphabet.
@@ -1021,6 +1074,27 @@ for letter in text:
     counts[ord(letter)] += 1
   </pre>
   do to <code>counts</code>?</li>
+
+  <li>Explain the purpose of the <code>display</code> function.  Why does it
+  check for values <code>10</code>, <code>13</code>, and <code>32</code>?
+  What is special about those values?</li>
+
+  <li>Describe in detail what the lines
+  <pre class='python'>
+outfile = open('alice_counts.dat', 'w')
+outfile.write("%-12s%s\n" % ("Character", "Count"))
+outfile.write("=================\n")
+  </pre>
+  do.  What will be in <code>alice_counts.dat</code> when they finish
+  executing?</li>
+
+  <li>Finally, explain in detail what
+  <pre class='python'>
+for i in range(len(counts)):
+    if counts[i]:
+        outfile.write("%-12s%d\n" % (display(i), counts[i]))
+  </pre>
+  does.  What is the purpose of <code>if counts[i]</code>?</li>
 </ol>
 </div></li>
 
