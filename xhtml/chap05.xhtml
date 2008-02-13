@@ -1,0 +1,518 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head><title>How to Think Like a Computer Scientist: 5. Fruitful functions</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">5. Fruitful functions</h1><div class="toc"><ol><li><a href="#auto0">Return values</a></li><li><a href="#auto1">Program development</a></li><li><a href="#auto2">Composition</a></li><li><a href="#auto3">Boolean functions</a></li><li><a href="#auto4">The function type</a></li><li><a href="#auto5">Programming with style</a></li><li><a href="#auto6">Triple quoted strings</a></li><li><a href="#auto7">Unit testing with doctest</a></li><li><a href="#auto8">Glossary</a></li><li><a href="#auto9">Exercises</a></li></ol></div><div class="content"><span></span><h2>5.1 Return values<a name="auto0"></a></h2><a name="index01"></a><p>The built-in functions we have used, such as <code>abs</code>,
+<code>pow</code>, and <code>max</code>, have produced results.  Calling each of
+these functions generates a value, which we usually assign to a variable or 
+use as part of an expression.</p><pre class="python">
+<span class="py-src-variable">biggest</span> = <span class="py-src-variable">max</span>(<span class="py-src-number">3</span>, <span class="py-src-number">7</span>, <span class="py-src-number">2</span>, <span class="py-src-number">5</span>)
+<span class="py-src-variable">x</span> = <span class="py-src-variable">abs</span>(<span class="py-src-number">3</span> - <span class="py-src-number">11</span>) + <span class="py-src-number">10</span>
+</pre><p>But so far, none of the functions we have written has returned a value.</p><p>In this chapter, we are going to write functions that return values, which
+we will call <b>fruitful functions</b>, for want of a better name.
+The first example is <code>area</code>, which returns the area of a circle with 
+the given radius:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">area</span>(<span class="py-src-parameter">radius</span>):
+    <span class="py-src-variable">temp</span> = <span class="py-src-number">3.14159</span> * <span class="py-src-variable">radius</span>**<span class="py-src-number">2</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">temp</span>
+</pre><p>We have seen the <code>return</code> statement before, but in a fruitful
+function the <code>return</code> statement includes a
+<b>return value</b>.  This statement means: <q>Return immediately
+from this function and use the following expression as a return value.</q>
+The expression provided can be arbitrarily complicated, so we could have
+written this function more concisely:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">area</span>(<span class="py-src-parameter">radius</span>):
+    <span class="py-src-keyword">return</span> <span class="py-src-number">3.14159</span> * <span class="py-src-variable">radius</span>**<span class="py-src-number">2</span>
+</pre><p>On the other hand, <b>temporary variables</b> like
+<code>temp</code> often make debugging easier.</p><a name="index02"></a><a name="index03"></a><p>Sometimes it is useful to have multiple return statements, one in each
+branch of a conditional.  We have already seen the built-in <code>abs</code>,
+now we see how to write our own:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">absolute_value</span>(<span class="py-src-parameter">x</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> &lt; <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">return</span> -<span class="py-src-variable">x</span>
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">x</span>
+</pre><p>Since these <code>return</code> statements are in an alternative
+conditional, only one will be executed.  As soon as one is executed, the
+function terminates without executing any subsequent statements.</p><p>Another way to write the above function is to leave out the
+<code>else</code> and just follow the <code>if</code> condition by the
+second <code>return</code> statement.</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">absolute_value</span>(<span class="py-src-parameter">x</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> &lt; <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">return</span> -<span class="py-src-variable">x</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">x</span>
+</pre><p>Think about this version and convince yourself it works the same as
+the first one.</p><p>Code that appears after a <code>return</code> statement, or any other place
+the flow of execution can never reach, is called <b>dead code</b>.
+</p><a name="index04"></a><p>In a fruitful function, it is a good idea to ensure that every possible path 
+through the program hits a <code>return</code> statement.  The following
+version of <code>absolute_value</code> fails to do this:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">absolute_value</span>(<span class="py-src-parameter">x</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> &lt; <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">return</span> -<span class="py-src-variable">x</span>
+    <span class="py-src-keyword">elif</span> <span class="py-src-variable">x</span> &gt; <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">x</span>
+</pre><p>This version is not correct because if <code>x</code> happens to be 0,
+neither condition is true, and the function ends without hitting a
+<code>return</code> statement.  In this case, the return value is a special
+value called <b><code>None</code></b>:</p><a name="index05"></a><a name="index06"></a><a name="index07"></a><a name="index08"></a><pre class="python-interpreter">
+&gt;&gt;&gt; print absolute_value(0)
+None
+</pre><p><code>None</code> is the unique value of a type called the
+<code>NoneType</code>:
+</p><pre class="python-interpreter">
+&gt;&gt;&gt; type(None)
+&lt;type 'NoneType'&gt;
+</pre><p>All Python functions return <code>None</code> whenever they do not return
+another value.</p><h2>5.2 Program development<a name="auto1"></a></h2><a name="program development"></a><a name="index09"></a><p>At this point, you should be able to look at complete functions and tell
+what they do.  Also, if you have been doing the exercises, you have written
+some small functions.  As you write larger functions, you might start to have
+more difficulty, especially with runtime and semantic errors.</p><p>To deal with increasingly complex programs, we are going to suggest a
+technique called <b>incremental development</b>.  The goal of
+incremental development is to avoid long debugging sessions by adding and
+testing only a small amount of code at a time.</p><a name="index10"></a><a name="index11"></a><p>As an example, suppose you want to find the distance between two points,
+given by the coordinates (x<sub>1</sub>, y<sub>1</sub>) and
+(x<sub>2</sub>, y<sub>2</sub>).  By the Pythagorean theorem, the distance
+is:</p><p><img src="illustrations/distance_formula.png" /></p><p>The first step is to consider what a <code>distance</code> function should
+look like in Python. In other words, what are the inputs (parameters) and what
+is the output (return value)?</p><p>In this case, the two points are the inputs, which we can represent using
+four parameters.  The return value is the distance, which is a floating-point
+value.</p><p>Already we can write an outline of the function:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">distance</span>(<span class="py-src-parameter">x1</span>, <span class="py-src-parameter">y1</span>, <span class="py-src-parameter">x2</span>, <span class="py-src-parameter">y2</span>):
+    <span class="py-src-keyword">return</span> <span class="py-src-number">0.0</span>
+</pre><p>Obviously, this version of the function doesn't compute distances; it
+always returns zero.  But it is syntactically correct, and it will run, which
+means that we can test it before we make it more complicated.</p><p>To test the new function, we call it with sample values:</p><pre class="python-interpreter">
+&gt;&gt;&gt; distance(1, 2, 4, 6)
+0.0
+</pre><p>We chose these values so that the horizontal distance equals 3 and the
+vertical distance equals 4; that way, the result is 5
+(the hypotenuse of a 3-4-5 triangle). When testing a function, it is useful to
+know the right answer.</p><p>At this point we have confirmed that the function is syntactically
+correct, and we can start adding lines of code.  After each incremental change, 
+we test the function again.  If an error occurs at any point, we know where it
+must be---in the last line we added.</p><p>A logical first step in the computation is to find the differences
+x<sub>2</sub> - x<sub>1</sub> and y<sub>2</sub> - y<sub>1</sub>.  We will
+store those values in temporary variables named <code>dx</code> and
+<code>dy</code> and print them.</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">distance</span>(<span class="py-src-parameter">x1</span>, <span class="py-src-parameter">y1</span>, <span class="py-src-parameter">x2</span>, <span class="py-src-parameter">y2</span>):
+    <span class="py-src-variable">dx</span> = <span class="py-src-variable">x2</span> - <span class="py-src-variable">x1</span>
+    <span class="py-src-variable">dy</span> = <span class="py-src-variable">y2</span> - <span class="py-src-variable">y1</span>
+    <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;dx is&quot;</span>, <span class="py-src-variable">dx</span>
+    <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;dy is&quot;</span>, <span class="py-src-variable">dy</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-number">0.0</span>
+</pre><p>If the function is working, the outputs should be 3 and 4.  If so, we know
+that the function is getting the right parameters and performing the first
+computation correctly.  If not, there are only a few lines to check.</p><p>Next we compute the sum of squares of <code>dx</code> and
+<code>dy</code>:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">distance</span>(<span class="py-src-parameter">x1</span>, <span class="py-src-parameter">y1</span>, <span class="py-src-parameter">x2</span>, <span class="py-src-parameter">y2</span>):
+    <span class="py-src-variable">dx</span> = <span class="py-src-variable">x2</span> - <span class="py-src-variable">x1</span>
+    <span class="py-src-variable">dy</span> = <span class="py-src-variable">y2</span> - <span class="py-src-variable">y1</span>
+    <span class="py-src-variable">dsquared</span> = <span class="py-src-variable">dx</span>**<span class="py-src-number">2</span> + <span class="py-src-variable">dy</span>**<span class="py-src-number">2</span>
+    <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;dsquared is: &quot;</span>, <span class="py-src-variable">dsquared</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-number">0.0</span>
+</pre><p>Notice that we removed the <code>print</code> statements we wrote in the
+previous step.  Code like that is called <b>scaffolding</b> because
+it is helpful for building the program but is not part of the final product.
+</p><p>Again, we would run the program at this stage and check the output
+(which should be 25).</p><p>Finally, using the fractional exponent <code>0.5</code> to find the
+square root, we compute and return the result:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">distance</span>(<span class="py-src-parameter">x1</span>, <span class="py-src-parameter">y1</span>, <span class="py-src-parameter">x2</span>, <span class="py-src-parameter">y2</span>):
+    <span class="py-src-variable">dx</span> = <span class="py-src-variable">x2</span> - <span class="py-src-variable">x1</span>
+    <span class="py-src-variable">dy</span> = <span class="py-src-variable">y2</span> - <span class="py-src-variable">y1</span>
+    <span class="py-src-variable">dsquared</span> = <span class="py-src-variable">dx</span>**<span class="py-src-number">2</span> + <span class="py-src-variable">dy</span>**<span class="py-src-number">2</span>
+    <span class="py-src-variable">result</span> = <span class="py-src-variable">dsquared</span>**<span class="py-src-number">0.5</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">result</span>
+</pre><p>If that works correctly, you are done.  Otherwise, you might want to print
+the value of <code>result</code> before the return statement.</p><p>When you start out, you should add only a line or two of code at a time.  As
+you gain more experience, you might find yourself writing and debugging bigger
+chunks.  Either way, the incremental development process can save you a lot of
+debugging time.</p><p>The key aspects of the process are:</p><ol><li>Start with a working program and make small incremental changes.  At any
+point, if there is an error, you will know exactly where it is.</li><li>Use temporary variables to hold intermediate values so you can output and
+check them.</li><li>Once the program is working, you might want to remove some of the
+scaffolding or consolidate multiple statements into compound expressions, but
+only if it does not make the program difficult to read.</li></ol><h2>5.3 Composition<a name="auto2"></a></h2><a name="index12"></a><a name="index13"></a><p>As you should expect by now, you can call one function from within another.  
+This ability is called <b>composition</b>.</p><p>As an example, we'll write a function that takes two points, the center of
+the circle and a point on the perimeter, and computes the area of the circle.
+</p><p>Assume that the center point is stored in the variables <code>xc</code> and
+<code>yc</code>, and the perimeter point is in <code>xp</code> and
+<code>yp</code>. The first step is to find the radius of the circle, which is
+the distance between the two points.  Fortunately, we've just written a
+function, <code>distance</code>, that does just that, so now all we have to do
+is use it:</p><pre class="python">
+<span class="py-src-variable">radius</span> = <span class="py-src-variable">distance</span>(<span class="py-src-variable">xc</span>, <span class="py-src-variable">yc</span>, <span class="py-src-variable">xp</span>, <span class="py-src-variable">yp</span>)
+</pre><p>The second step is to find the area of a circle with that radius and return
+it.  Again we will use one of our earlier functions:</p><pre class="python">
+<span class="py-src-variable">result</span> = <span class="py-src-variable">area</span>(<span class="py-src-variable">radius</span>)
+<span class="py-src-keyword">return</span> <span class="py-src-variable">result</span>
+</pre><p>Wrapping that up in a function, we get:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">area2</span>(<span class="py-src-parameter">xc</span>, <span class="py-src-parameter">yc</span>, <span class="py-src-parameter">xp</span>, <span class="py-src-parameter">yp</span>):
+    <span class="py-src-variable">radius</span> = <span class="py-src-variable">distance</span>(<span class="py-src-variable">xc</span>, <span class="py-src-variable">yc</span>, <span class="py-src-variable">xp</span>, <span class="py-src-variable">yp</span>)
+    <span class="py-src-variable">result</span> = <span class="py-src-variable">area</span>(<span class="py-src-variable">radius</span>)
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">result</span>
+</pre><p>We called this function <code>area2</code> to distinguish it from the
+<code>area</code> function defined earlier.  There can only be one function
+with a given name within a given module.</p><p>The temporary variables <code>radius</code> and <code>result</code> are
+useful for development and debugging, but once the program is working, we can
+make it more concise by composing the function calls:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">area2</span>(<span class="py-src-parameter">xc</span>, <span class="py-src-parameter">yc</span>, <span class="py-src-parameter">xp</span>, <span class="py-src-parameter">yp</span>):
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">area</span>(<span class="py-src-variable">distance</span>(<span class="py-src-variable">xc</span>, <span class="py-src-variable">yc</span>, <span class="py-src-variable">xp</span>, <span class="py-src-variable">yp</span>))
+</pre><h2>5.4 Boolean functions<a name="auto3"></a></h2><a name="boolean"></a><a name="index14"></a><a name="index15"></a><p>Functions can return boolean values, which is often convenient for hiding
+complicated tests inside functions.  For example:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">is_divisible</span>(<span class="py-src-parameter">x</span>, <span class="py-src-parameter">y</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">x</span> % <span class="py-src-variable">y</span> == <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">True</span> 
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">False</span>
+</pre><p>The name of this function is <code>is_divisible</code>.  It is common to
+give <b>boolean functions</b> names that sound like yes/no questions.
+<code>is_divisible</code> returns either <code>True</code> or
+<code>False</code> to indicate whether the <code>x</code> is or is not
+divisible by <code>y</code>.</p><p>We can make the function more concise by taking advantage of the fact that
+the condition of the <code>if</code> statement is itself a boolean expression.  
+We can return it directly, avoiding the <code>if</code> statement altogether:
+</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">is_divisible</span>(<span class="py-src-parameter">x</span>, <span class="py-src-parameter">y</span>):
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">x</span> % <span class="py-src-variable">y</span> == <span class="py-src-number">0</span>
+</pre><p>This session shows the new function in action:</p><pre class="python-interpreter">
+&gt;&gt;&gt; is_divisible(6, 4)
+False
+&gt;&gt;&gt; is_divisible(6, 3)
+True
+</pre><p>Boolean functions are often used in conditional statements:</p><pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-variable">is_divisible</span>(<span class="py-src-variable">x</span>, <span class="py-src-variable">y</span>):
+    <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;x is divisible by y&quot;</span>
+<span class="py-src-keyword">else</span>:
+    <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;x is not divisible by y&quot;</span>
+</pre><p>It might be tempting to write something like:</p><pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-variable">is_divisible</span>(<span class="py-src-variable">x</span>, <span class="py-src-variable">y</span>) == <span class="py-src-variable">True</span>:
+</pre><p>But the extra comparison is unnecessary.</p><h2>5.5 The <code>function</code> type<a name="auto4"></a></h2><p>A function is another type in Python, joining <code>int</code>,
+<code>float</code>, <code>str</code>,  <code>bool</code>, and
+<code>NoneType</code>.</p><pre class="python-interpreter">
+&gt;&gt;&gt; def func():
+...    return &quot;function func was called...&quot;
+...
+&gt;&gt;&gt; type(func)
+&lt;type 'function'&gt;
+&gt;&gt;&gt;
+</pre><p>Just like the other types, functions can be passed as arguments to other
+functions:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">f</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-keyword">return</span> <span class="py-src-number">3</span>*<span class="py-src-variable">n</span> - <span class="py-src-number">6</span>
+
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">g</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-keyword">return</span> <span class="py-src-number">5</span>*<span class="py-src-variable">n</span> + <span class="py-src-number">2</span>
+
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">h</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-keyword">return</span> -<span class="py-src-number">2</span>*<span class="py-src-variable">n</span> + <span class="py-src-number">17</span>
+
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">doto</span>(<span class="py-src-parameter">value</span>, <span class="py-src-parameter">func</span>):
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">func</span>(<span class="py-src-variable">value</span>)
+    
+<span class="py-src-keyword">print</span> <span class="py-src-variable">doto</span>(<span class="py-src-number">7</span>, <span class="py-src-variable">f</span>)
+<span class="py-src-keyword">print</span> <span class="py-src-variable">doto</span>(<span class="py-src-number">7</span>, <span class="py-src-variable">g</span>)
+<span class="py-src-keyword">print</span> <span class="py-src-variable">doto</span>(<span class="py-src-number">7</span>, <span class="py-src-variable">h</span>)
+</pre><p><code>doto</code> is called three times.  7 is the argument for value
+each time, and the functions <code>f</code>, <code>g</code>, and
+<code>h</code> are passed in for <code>func</code> in turn.
+The output of this script is:</p><pre class="shell">
+15
+37
+3
+</pre><p>This example is a bit contrived, but we will see situations later where
+it is quite useful to pass a function to a function.</p><h2>5.6 Programming with style<a name="auto5"></a></h2><p>Readability is very important to programmers, since in practice programs
+are read and modified far more often then they are written.  All the code
+examples in this book will be consistent with the
+<em>Python Enhancement Proposal 8</em>
+(<a href="http://www.python.org/dev/peps/pep-0008/">PEP 8</a>),  a style
+guide developed by the Python community.</p><p>We'll have more to say about style as our programs become more complex, but
+a few pointers will be helpful already:</p><ul><li>use 4 spaces for indentation</li><li>imports should go at the top of the file</li><li>separate function definitions with two blank lines</li><li>keep function definitions together</li><li>keep top level statements, including function calls, together at the
+    botton of the program</li></ul><h2>5.7 Triple quoted strings<a name="auto6"></a></h2><a name="index16"></a><a name="index17"></a><p>In addition to the single and double quoted strings we first saw in
+Chapter 2, Python also has <em>triple quoted strings</em>:</p><pre class="python-interpreter">
+&gt;&gt;&gt; type(&quot;&quot;&quot;This is a triple quoted string using 3 double quotes.&quot;&quot;&quot;)
+&lt;type 'str'&gt;
+&gt;&gt;&gt; type('''This triple quoted strings uses 3 single quotes.''')
+&lt;type 'str'&gt;
+&gt;&gt;&gt;
+</pre><p>Triple quoted strings can contain both single and double quotes inside
+them:</p><pre class="python-interpreter">
+&gt;&gt;&gt; print '''&quot;Oh no&quot;, she exclaimed, &quot;Ben's bike is broken!&quot;'''
+&quot;Oh no&quot;, she exclaimed, &quot;Ben's bike is broken!&quot;
+&gt;&gt;&gt;
+</pre><p>Finally, triple quoted strings can span multiple lines:</p><pre class="python-interpreter">
+&gt;&gt;&gt; message = &quot;&quot;&quot;This message will
+... span several
+... lines.&quot;&quot;&quot;
+&gt;&gt;&gt; print message
+This message will
+span several
+lines.
+&gt;&gt;&gt;
+</pre><h2>5.8 Unit testing with <code>doctest</code><a name="auto7"></a></h2><p>It is a common best practice in software development these days to
+include automatic <b>unit testing</b> of source code.  Unit testing provides
+a way to automatically verify that individual pieces of code, such as
+functions, are working properly.   This makes it possible to change the
+implimentation of a function at a later time and quickly test that it still
+does what it was intended to do.</p><p>Python has a built-in <code>doctest</code> module for easy unit testing.
+Doctests can be written within a triple quoted string on the <em>first line</em>
+of the body of a function or script.  They consist of sample interpreter
+sessions with a series of inputs to a Python prompt followed by the expected
+output from the Python interpreter.</p><p>The <code>doctest</code> module automatically runs any statement begining 
+with <code>&gt;&gt;&gt;</code> and compares the following line with the output
+from the interpreter.</p><p>To see how this works, put the following in a script named
+<code>myfunctions.py</code>:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">is_divisible_by_2_or_5</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; is_divisible_by_2_or_5(8)
+      True
+    &quot;&quot;&quot;</span>
+
+
+<span class="py-src-keyword">if</span> <span class="py-src-variable">__name__</span> == <span class="py-src-string">'__main__'</span>:
+    <span class="py-src-keyword">import</span> <span class="py-src-variable">doctest</span>
+    <span class="py-src-variable">doctest</span>.<span class="py-src-variable">testmod</span>()
+</pre><p>The last three lines are what make <code>doctest</code> run.  Put them
+at the bottom of any file that includes doctests.  We will explain how they
+work in Chapter 10 when we discuss modules.</p><p>Running the script will produce the following output:</p><pre class="shell">
+$ python myfunctions.py 
+**********************************************************************
+File &quot;myfunctions.py&quot;, line 3, in __main__.is_divisible_by_2_or_5
+Failed example:
+    is_divisible_by_2_or_5(8)
+Expected:
+    True
+Got nothing
+**********************************************************************
+1 items had failures:
+   1 of   1 in __main__.is_divisible_by_2_or_5
+***Test Failed*** 1 failures.
+$
+</pre><p>This is an example of a <em>failing test</em>.  The test says: if you
+call <code>is_divisible_by_2_or_5(8)</code> the result should be
+<code>True</code>.  Since <code>is_divisible_by_2_or_5</code> as written
+doesn't return anything at all, the test fails, and doctest tells us that
+it expected <code>True</code> but got nothing.</p><p>We can make this test pass by returning <code>True</code>:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">is_divisible_by_2_or_5</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; is_divisible_by_2_or_5(8)
+      True
+    &quot;&quot;&quot;</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">True</span>
+
+
+<span class="py-src-keyword">if</span> <span class="py-src-variable">__name__</span> == <span class="py-src-string">'__main__'</span>:
+    <span class="py-src-keyword">import</span> <span class="py-src-variable">doctest</span>
+    <span class="py-src-variable">doctest</span>.<span class="py-src-variable">testmod</span>()
+</pre><p>If we run it now, there will be no output, which indicates that the
+test passed.  Note again that the doctest string must be placed immediately
+after the function definition header in order to run.</p><p>To see more detailed out put, call the script with the
+<code>-v</code> command line option:</p><pre class="shell">
+$ python myfunctions.py -v
+Trying:
+    is_divisible_by_2_or_5(8)
+Expecting:
+    True
+ok
+1 items had no tests:
+    __main__
+1 items passed all tests:
+   1 tests in __main__.is_divisible_by_2_or_5
+1 tests in 2 items.
+1 passed and 0 failed.
+Test passed.
+$
+</pre><p>While the test passed, our test suite is clearly inadequete, since
+<code>is_divisible_by_2_or_5</code> will now return <code>True</code> no
+matter what argument is passed to it.  Here is a completed version
+with a more complete test suite and code that makes the tests pass:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">is_divisible_by_2_or_5</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; is_divisible_by_2_or_5(8)
+      True
+      &gt;&gt;&gt; is_divisible_by_2_or_5(7)
+      False
+      &gt;&gt;&gt; is_divisible_by_2_or_5(5)
+      True
+      &gt;&gt;&gt; is_divisible_by_2_or_5(9)
+      False
+    &quot;&quot;&quot;</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">n</span> % <span class="py-src-number">2</span> == <span class="py-src-number">0</span> <span class="py-src-keyword">or</span> <span class="py-src-variable">n</span> % <span class="py-src-number">5</span> == <span class="py-src-number">0</span> 
+
+
+<span class="py-src-keyword">if</span> <span class="py-src-variable">__name__</span> == <span class="py-src-string">'__main__'</span>:
+    <span class="py-src-keyword">import</span> <span class="py-src-variable">doctest</span>
+    <span class="py-src-variable">doctest</span>.<span class="py-src-variable">testmod</span>()
+</pre><p>Run this script now with the <code>-v</code> command line option and see
+what you get.</p><h2>5.9 Glossary<a name="auto8"></a></h2><a name="index18"></a><a name="index19"></a><a name="index20"></a><a name="index21"></a><a name="index22"></a><a name="index23"></a><a name="index24"></a><a name="index25"></a><a name="index26"></a><a name="index27"></a><a name="index28"></a><a name="index29"></a><a name="index30"></a><a name="index31"></a><a name="index32"></a><a name="index33"></a><dl><dt>fruitful function:</dt><dd>A function that yields a return value.</dd><dt>return value:</dt><dd>The value provided as the result of a function call.</dd><dt>temporary variable:</dt><dd>A variable used to store an intermediate value in a complex calculation.
+</dd><dt>dead code:</dt><dd>Part of a program that can never be executed, often because it appears
+after a <code>return</code> statement.</dd><dt><code>None</code>:</dt><dd>A special Python value returned by functions that have no return statement, 
+or a return statement without an argument. <code>None</code> is the only
+value of the type, <code>NoneType</code>.</dd><dt>incremental development:</dt><dd>A program development plan intended to avoid debugging by adding and
+testing only a small amount of code at a time.</dd><dt>scaffolding:</dt><dd>Code that is used during program development but is not part of the final
+version.</dd><dt>boolean function:</dt><dd>A function that returns a boolean value.</dd><dt>composition (of functions):</dt><dd>Calling one function from within the body of another, or using the
+return value of one function as an argument to the call of another.</dd><dt>unit testing:</dt><dd>An automatic procedure used to validate that individual units of code
+are working properly.  Python has <code>doctest</code> built in for this
+purpose.</dd></dl><h2>5.10 Exercises<a name="auto9"></a></h2><p>
+All of the exercises below should be added to a file named
+<code>ch05.py</code> that contains the following at the bottom:
+</p><pre class="python">
+<span class="py-src-keyword">if</span> <span class="py-src-variable">__name__</span> == <span class="py-src-string">'__main__'</span>:
+    <span class="py-src-keyword">import</span> <span class="py-src-variable">doctest</span>
+    <span class="py-src-variable">doctest</span>.<span class="py-src-variable">testmod</span>()
+</pre><p>
+After completing each exercise in turn, run the program to confirm that
+the doctests for your new function pass.
+</p><ol><li><div class="exercise">
+Write a <code>compare</code> function that returns <code>1</code> if
+<code>a &gt; b</code>, <code>0</code> if <code>a == b</code>,
+and <code>-1</code> if <code>a &lt; b</code>.
+<pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">compare</span>(<span class="py-src-parameter">a</span>, <span class="py-src-parameter">b</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; compare(5, 4)
+      1
+      &gt;&gt;&gt; compare(7, 7)
+      0
+      &gt;&gt;&gt; compare(2, 3)
+      -1
+      &gt;&gt;&gt; compare(42, 1)
+      1
+    &quot;&quot;&quot;</span>
+    <span class="py-src-comment">#  Your function body should begin here.
+</span></pre>
+Fill in the body of the function so the doctests pass.
+</div></li><li><div class="exercise">
+Use incremental development to write a function called <code>hypotenuse</code>
+that returns the length of the hypotenuse of a right triangle given the lengths 
+of the two legs as parameters.  Record each stage of the incremental
+development process as you go.
+<pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">hypotenuse</span>(<span class="py-src-parameter">a</span>, <span class="py-src-parameter">b</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; hypotenuse(3, 4)
+      5.0
+      &gt;&gt;&gt; hypotenuse(12, 5)
+      13.0
+      &gt;&gt;&gt; hypotenuse(7, 24)
+      25.0
+      &gt;&gt;&gt; hypotenuse(9, 12)
+      15.0
+    &quot;&quot;&quot;</span>
+</pre>
+When you are finished add your completed function with the doctests to
+<code>ch05.py</code> and confirm that the doctests pass.
+</div></li><li><div class="exercise">
+Write a function <code>slope(x1, y1, x2, y2)</code> that returns the slope of
+the line through the points (x1, y1) and (x2, y2).  Be sure your implimentation 
+of <code>slope</code> can pass the following doctests:
+<pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">slope</span>(<span class="py-src-parameter">x1</span>, <span class="py-src-parameter">y1</span>, <span class="py-src-parameter">x2</span>, <span class="py-src-parameter">y2</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; slope(5, 3, 4, 2)
+      1.0
+      &gt;&gt;&gt; slope(1, 2, 3, 2)
+      0.0
+      &gt;&gt;&gt; slope(1, 2, 3, 3)
+      0.5
+      &gt;&gt;&gt; slope(2, 4, 1, 2)
+      2.0
+    &quot;&quot;&quot;</span>
+</pre>
+Then a call to <code>slope</code> in a new function named
+<code>intercept(x1, y1, x2, y2)</code> that returns the y-intercept of the line 
+through the points <code>(x1, y1)</code> and <code>(x2, y2)</code>.
+<pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">intercept</span>(<span class="py-src-parameter">x1</span>, <span class="py-src-parameter">y1</span>, <span class="py-src-parameter">x2</span>, <span class="py-src-parameter">y2</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; intercept(1, 6, 3, 12)
+      3.0
+      &gt;&gt;&gt; intercept(6, 1, 1, 6)
+      7.0
+      &gt;&gt;&gt; intercept(4, 6, 12, 8)
+      5.0
+    &quot;&quot;&quot;</span>
+</pre><code>intercept</code> should pass the doctests above. 
+</div></li><li><div class="exercise">
+Write a function called <code>is_even(n)</code> that takes an integer as an
+argument and returns <code>True</code> if the argument is an <b>even number</b>
+and <code>False</code> if it is <b>odd</b>.  Add your own doctests to this
+function.
+</div></li><li><div class="exercise">
+Now write the function <code>is_odd(n)</code> that returns <code>True</code>
+when <code>n</code> is odd and <code>False</code> otherwise. Include doctests
+for this function as you write it.  Finally, modify it so that it uses a call
+to <code>is_even</code> to determine if its argument is an odd integer.
+</div></li><li><div class="exercise"><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">is_factor</span>(<span class="py-src-parameter">f</span>, <span class="py-src-parameter">n</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; is_factor(3, 12)
+      True
+      &gt;&gt;&gt; is_factor(5, 12)
+      False
+      &gt;&gt;&gt; is_factor(7, 14)
+      True
+      &gt;&gt;&gt; is_factor(2, 14)
+      True
+      &gt;&gt;&gt; is_factor(7, 15)
+      False
+    &quot;&quot;&quot;</span>
+</pre>
+Add a body to <code>is_factor</code> to make the doctests pass.
+</div></li><li><div class="exercise"><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">is_multiple</span>(<span class="py-src-parameter">m</span>, <span class="py-src-parameter">n</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; is_multiple(12, 3)
+      True
+      &gt;&gt;&gt; is_multiple(12, 4)
+      True
+      &gt;&gt;&gt; is_multiple(12, 5)
+      False
+      &gt;&gt;&gt; is_multiple(12, 6)
+      True
+      &gt;&gt;&gt; is_multiple(12, 7)
+      False
+    &quot;&quot;&quot;</span>
+</pre>
+Add a body to <code>is_multiple</code> to make the doctests pass.  Can you
+find a way to use <code>is_factor</code> in your definition of
+<code>is_multiple</code>?
+</div></li><li><div class="exercise"><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">f2c</span>(<span class="py-src-parameter">t</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; f2c(212)
+      100
+      &gt;&gt;&gt; f2c(32)
+      0
+      &gt;&gt;&gt; f2c(-40)
+      -40
+      &gt;&gt;&gt; f2c(36)
+      2
+      &gt;&gt;&gt; f2c(37)
+      3
+      &gt;&gt;&gt; f2c(38)
+      3
+      &gt;&gt;&gt; f2c(39)
+      4
+    &quot;&quot;&quot;</span>
+</pre>
+Write a body for the function definition of <code>f2c</code> designed to return
+the integer value of the nearest degree Celsius for given tempurature in
+Fahrenheit. (<em>hint:</em> you may want to make use of the built-in function,
+<code>round</code>.  Try printing <code>round.__doc__</code> in a Python shell
+and experimenting with round until you are comfortable with how it works.)
+</div></li><li><div class="exercise"><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">c2f</span>(<span class="py-src-parameter">t</span>):
+    <span class="py-src-string">&quot;&quot;&quot;
+      &gt;&gt;&gt; c2f(0)
+      32
+      &gt;&gt;&gt; c2f(100)
+      212
+      &gt;&gt;&gt; c2f(-40)
+      -40
+      &gt;&gt;&gt; c2f(12)
+      54
+      &gt;&gt;&gt; c2f(18)
+      64
+      &gt;&gt;&gt; c2f(-48)
+      -54
+    &quot;&quot;&quot;</span>
+</pre>
+Add a function body for <code>c2f</code> to convert from Celsius to Fahrenheit.
+</div></li></ol></div><p><a href="index.xhtml">Table of Contents</a> |
+    <a href="dex.xhtml">Index</a></p></body></html>

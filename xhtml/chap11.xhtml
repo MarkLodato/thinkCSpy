@@ -1,0 +1,273 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head><title>How to Think Like a Computer Scientist: 11. Tuples and recursion</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">11. Tuples and recursion</h1><div class="toc"><ol><li><a href="#auto0">Mutability and tuples</a></li><li><a href="#auto1">Tuple assignment</a></li><li><a href="#auto2">Tuples as return values</a></li><li><a href="#auto3">Recursion</a></li><li><a href="#auto4">Recursive list traversal</a></li><li><a href="#auto5">Comparing values of different types</a></li><li><a href="#auto6">A recursive max function</a></li><li><a href="#auto7">Pure functions and modifiers</a></li><li><a href="#auto8">Which is better?</a></li><li><a href="#auto9">Glossary</a></li><li><a href="#auto10">Exercises</a></li></ol></div><div class="content"><span></span><a name="tuplechap"></a><a name="index01"></a><h2>11.1 Mutability and tuples<a name="auto0"></a></h2><a name="index02"></a><a name="index03"></a><a name="index04"></a><a name="index05"></a><a name="index06"></a><p>So far, you have seen two compound types: strings, which are made up of
+characters; and lists, which are made up of elements of any type.  One of the
+differences we noted is that the elements of a list can be modified, but the
+characters in a string cannot.  In other words, strings are
+<b>immutable</b> and lists are <b>mutable</b>.</p><a name="index07"></a><a name="index08"></a><p>There is another type in Python called a <b>tuple</b> that is
+similar to a list except that it is immutable.  Syntactically, a tuple is a
+comma-separated list of values:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tup = 2, 4, 6, 8, 10
+</pre><p>Although it is not necessary, it is conventional to enclose tuples in
+parentheses:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tup = (2, 4, 6, 8, 10)
+</pre><p>To create a tuple with a single element, we have to include the final
+comma:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tup = (5,)
+&gt;&gt;&gt; type(tup)
+&lt;type 'tuple'&gt;
+</pre><p>Without the comma, Python treats <code>(5)</code> as an integer in
+parentheses:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tup = (5)
+&gt;&gt;&gt; type(tup)
+&lt;type 'int'&gt;
+</pre><p>Syntax issues aside, tuples support the same sequence operations as 
+strings and lists.  The index operator selects an element from a tuple.</p><pre class="python-interpreter">
+&gt;&gt;&gt; tup = ('a', 'b', 'c', 'd', 'e')
+&gt;&gt;&gt; tup[0]
+'a'
+</pre><p>And the slice operator selects a range of elements.</p><pre class="python-interpreter">
+&gt;&gt;&gt; tup[1:3]
+('b', 'c')
+</pre><p>But if we try to use item assignment to modify one of the elements of the
+tuple, we get a error:
+</p><a name="index09"></a><pre class="python-interpreter">
+&gt;&gt;&gt; tup[0] = 'X'
+TypeError: 'tuple' object does not support item assignment
+</pre><p>Of course, even if we can't modify the elements of a tuple, we can replace
+it with a different tuple:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tup = ('X',) + tup[1:]
+&gt;&gt;&gt; tup
+('X', 'b', 'c', 'd', 'e')
+</pre><p>Alternatively, we could first convert it to a list, modify it, and convert
+it back into a tuple:</p><pre class="python-interpreter">
+&gt;&gt;&gt; tup = ('X', 'b', 'c', 'd', 'e')
+&gt;&gt;&gt; tup = list(tup)
+&gt;&gt;&gt; tup
+['X', 'b', 'c', 'd', 'e']
+&gt;&gt;&gt; tup[0] = 'a'
+&gt;&gt;&gt; tup = tuple(tup)
+&gt;&gt;&gt; tup
+('a', 'b', 'c', 'd', 'e')
+</pre><h2>11.2 Tuple assignment<a name="auto1"></a></h2><a name="tuple assignment"></a><a name="index10"></a><a name="index11"></a><p>Once in a while, it is useful to swap the values of two variables.  With
+conventional assignment statements, we have to use a temporary variable.  For
+example, to swap <code>a</code> and <code>b</code>:</p><pre class="python">
+<span class="py-src-variable">temp</span> = <span class="py-src-variable">a</span>
+<span class="py-src-variable">a</span> = <span class="py-src-variable">b</span>
+<span class="py-src-variable">b</span> = <span class="py-src-variable">temp</span>
+</pre><p>If we have to do this often, this approach becomes cumbersome.  Python
+provides a form of <b>tuple assignment</b> that solves this problem
+neatly:</p><pre class="python">
+<span class="py-src-variable">a</span>, <span class="py-src-variable">b</span> = <span class="py-src-variable">b</span>, <span class="py-src-variable">a</span>
+</pre><p>The left side is a tuple of variables; the right side is a tuple of values.  
+Each value is assigned to its respective variable.  All the expressions on the
+right side are evaluated before any of the assignments.  This feature makes
+tuple assignment quite versatile.</p><p>Naturally, the number of variables on the left and the number of values on
+the right have to be the same:</p><pre class="python-interpreter">
+&gt;&gt;&gt; a, b, c, d = 1, 2, 3
+ValueError: need more than 3 values to unpack 
+</pre><h2>11.3 Tuples as return values<a name="auto2"></a></h2><a name="index12"></a><a name="index13"></a><a name="index14"></a><a name="index15"></a><p>Functions can return tuples as return values.  For example, we could write a 
+function that swaps two parameters:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">swap</span>(<span class="py-src-parameter">x</span>, <span class="py-src-parameter">y</span>):
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">y</span>, <span class="py-src-variable">x</span>
+</pre><p>Then we can assign the return value to a tuple with two variables:</p><pre class="python">
+<span class="py-src-variable">a</span>, <span class="py-src-variable">b</span> = <span class="py-src-variable">swap</span>(<span class="py-src-variable">a</span>, <span class="py-src-variable">b</span>)
+</pre><p>In this case, there is no great advantage in making <code>swap</code> a
+function.  In fact, there is a danger in trying to encapsulate
+<code>swap</code>, which is the following tempting mistake:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">swap</span>(<span class="py-src-parameter">x</span>, <span class="py-src-parameter">y</span>):      <span class="py-src-comment"># incorrect version</span>
+     <span class="py-src-variable">x</span>, <span class="py-src-variable">y</span> = <span class="py-src-variable">y</span>, <span class="py-src-variable">x</span>
+</pre><p>If we call this function like this:</p><pre class="python">
+<span class="py-src-variable">swap</span>(<span class="py-src-variable">a</span>, <span class="py-src-variable">b</span>)
+</pre><p>then <code>a</code> and <code>x</code> are aliases for the same value.
+Changing <code>x</code> inside <code>swap</code> makes <code>x</code> refer to
+a different value, but it has no effect on <code>a</code> in
+<code>__main__</code>.  Similarly, changing <code>y</code> has no effect on
+<code>b</code>.</p><p>This function runs without producing an error message, but it doesn't do
+what we intended.  This is an example of a semantic error.</p><a name="index16"></a><h2>11.4 Recursion<a name="auto3"></a></h2><a name="recursion"></a><a name="index17"></a><p>You have seen and written several functions which call other functions.
+It is also legal for a function to call itself.  It may not be obvious why that 
+is a good thing, but it turns out to be one of the most magical and interesting 
+things a program can do.  For example, look at the following function:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">countdown</span>(<span class="py-src-parameter">n</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">n</span> == <span class="py-src-number">0</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-string">&quot;Blastoff!&quot;</span>
+    <span class="py-src-keyword">else</span>:
+        <span class="py-src-keyword">print</span> <span class="py-src-variable">n</span>
+        <span class="py-src-variable">countdown</span>(<span class="py-src-variable">n</span>-<span class="py-src-number">1</span>)
+</pre><h2>11.5 Recursive list traversal<a name="auto4"></a></h2><a name="index18"></a><a name="index19"></a><p>Python has a built-in function which finds the sum of a sequence of numbers:
+</p><pre class="python-interpreter">
+&gt;&gt;&gt; sum([1, 2, 8])
+11
+</pre><p>Suppose we have what we'll call a <em>nested number list</em>, a list whose
+elements are either numbers or nested number lists themselves. If we want to
+sum all the numbers in such a list, no matter how deeply nested, the built-in
+<code>sum</code> function will not work for us:</p><pre class="python-interpreter">
+&gt;&gt;&gt; nested_number_list = [1, 2, [3, 4, [5, 6], 7], 8, [1, [1, [1, 2], 2], 8], 5]
+&gt;&gt;&gt; sum(nested_number_list)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+TypeError: unsupported operand type(s) for +: 'int' and 'list'
+</pre><p>To solve this problem, we first notice that our nested number list has a
+<b>recursive definition</b>---it is defined in terms of itself.  To sum all the 
+numbers in our list we need to traverse it, visiting each of the elements
+within its nested structure, adding any numeric elements to our sum, and
+<em>repeating this process</em> with any elements which are lists.  Thanks to
+recursion, the Python code needed to do this is surprisingly short:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">recursive_sum</span>(<span class="py-src-parameter">nested_list</span>):
+    <span class="py-src-variable">sum</span> = <span class="py-src-number">0</span>
+    <span class="py-src-keyword">for</span> <span class="py-src-variable">element</span> <span class="py-src-keyword">in</span> <span class="py-src-variable">nested_list</span>:
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">type</span>(<span class="py-src-variable">element</span>) == <span class="py-src-variable">type</span>([]):
+            <span class="py-src-variable">sum</span> = <span class="py-src-variable">sum</span> + <span class="py-src-variable">recursive_sum</span>(<span class="py-src-variable">element</span>)
+        <span class="py-src-keyword">else</span>:
+            <span class="py-src-variable">sum</span> = <span class="py-src-variable">sum</span> + <span class="py-src-variable">element</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">sum</span>
+</pre><p>Recursion is truly one of the most beautiful things in computer science.</p><h2>11.6 Comparing values of different types<a name="auto5"></a></h2><p>Python has a built-in function, <code>max</code>, that finds the maximum
+value of a sequence:</p><pre class="python-interpreter">
+&gt;&gt;&gt; max([3, 9, 17, 5])
+17
+&gt;&gt;&gt; max(['banana', 'orange', 'apricot', 'fig'])
+'orange'
+</pre><p>If we want to find the maximum value in a nested number list,
+<code>max</code> does not work the way we would like it to, but instead gives
+us a curious result:</p><pre class="python-interpreter">
+&gt;&gt;&gt; max([3, 9, [1, 17], [7, 2], 5])
+[7, 2]
+</pre><p>To understand this result, we need to understand how Python compares
+values of different types.  Python permits values of any type to be compared,
+and always returns a result, though the results are sometimes a bit arbitrary:
+</p><pre class="python-interpreter">
+&gt;&gt;&gt; [1, 2] &gt; (1, 2)
+False
+&gt;&gt;&gt; [1, 2] &lt; (1, 2)
+True
+&gt;&gt;&gt; '12' &gt; [1, 2]
+True
+&gt;&gt;&gt; '12' &gt; (1, 2)
+False
+&gt;&gt;&gt; [1, 2] &gt; 5 
+True
+</pre><p>So it appears that tuples are greater than strings; strings are greater than
+lists, and lists are greater than integers.  A simple experiment confirms this:
+</p><pre class="python-interpreter">
+&gt;&gt;&gt; (7, ) &gt; '7' &gt; [7] &gt; 7
+True
+</pre><p>When comparing like types, the first elements are compared.  If they match,
+the second elements are compared, and so forth:</p><pre class="python-interpreter">
+&gt;&gt;&gt; [3, 7] &gt; [4, 5]
+False
+&gt;&gt;&gt; [3, 7] &gt; [3, 6, 8]
+True
+</pre><p>In the first example, the two items being compared are both lists, so their
+first elements are compared.  Since <code>3</code> is not greater than
+<code>4</code>, <code>[3, 7]</code> is not greater than <code>[4, 5]</code>.
+The second example returns <code>True</code> because <code>7</code> is greater
+than <code>6</code>.</p><p>result of <code>max([3, 9, [1, 17], [7, 2], 5])</code> makes sense.
+</p><h2>11.7 A recursive <code>max</code> function<a name="auto6"></a></h2><a name="index20"></a><a name="index21"></a><p>If we want to find the maximum number in a nested number list, we can
+write a recursive function much like the <code>recursive_sum</code> function
+we wrote in the previous chapter.  To illustrate the use of modules to avoid
+namespace clashes, let's name our function <code>max</code> and put it
+in the <code>seqtools</code> module:</p><pre class="python">
+<span class="py-src-comment"># seqtools.py
+</span><span class="py-src-comment">#
+</span><span class="py-src-keyword">def</span> <span class="py-src-identifier">max</span>(<span class="py-src-parameter">nested_list</span>):
+    <span class="py-src-variable">the_max</span> = <span class="py-src-variable">nested_list</span>[<span class="py-src-number">0</span>]
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">type</span>(<span class="py-src-variable">the_max</span>) == <span class="py-src-variable">type</span>([]):
+        <span class="py-src-variable">the_max</span> = <span class="py-src-variable">max</span>(<span class="py-src-variable">the_max</span>)
+    <span class="py-src-keyword">for</span> <span class="py-src-variable">item</span> <span class="py-src-keyword">in</span> <span class="py-src-variable">nested_list</span>[<span class="py-src-number">1</span>:]:
+        <span class="py-src-keyword">if</span> <span class="py-src-variable">type</span>(<span class="py-src-variable">item</span>) == <span class="py-src-variable">type</span>([]):
+            <span class="py-src-variable">its_max</span> = <span class="py-src-variable">max</span>(<span class="py-src-variable">item</span>)
+            <span class="py-src-keyword">if</span> <span class="py-src-variable">its_max</span> &gt; <span class="py-src-variable">the_max</span>: <span class="py-src-variable">the_max</span> = <span class="py-src-variable">its_max</span>
+        <span class="py-src-keyword">else</span>:
+            <span class="py-src-keyword">if</span> <span class="py-src-variable">item</span> &gt; <span class="py-src-variable">the_max</span>: <span class="py-src-variable">the_max</span> = <span class="py-src-variable">item</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">the_max</span>
+</pre><p>We can now use both our version and the built-in version of max:</p><pre class="python-interpreter">
+&gt;&gt;&gt; import seqtools
+&gt;&gt;&gt; max([3, 9, [1, 17], [7, 2], 5])
+[7, 2]
+&gt;&gt;&gt; seqtools.max([3, 9, [1, 17], [7, 2], 5])
+17
+</pre><h2>11.8 Pure functions and modifiers<a name="auto7"></a></h2><a name="index22"></a><a name="index23"></a><p>Since lists are mutable, it is possible to write functions which take lists
+as arguments and change them during execution.  We saw this in the previous
+chapter with the <code>delete_head</code> function.  Functions like these are
+called <b>modifiers</b> and the changes they make are called
+<b>side effects</b>.</p><p>Lets look at another example of a modifier:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">insert_in_middle</span>(<span class="py-src-parameter">val</span>, <span class="py-src-parameter">lst</span>):
+    <span class="py-src-variable">middle</span> = <span class="py-src-variable">len</span>(<span class="py-src-variable">lst</span>)/<span class="py-src-number">2</span>
+    <span class="py-src-variable">lst</span>[<span class="py-src-variable">middle</span>:<span class="py-src-variable">middle</span>] = [<span class="py-src-variable">val</span>]
+</pre><p>We can use this to place new values in the middle of a list:</p><pre class="python-interpreter">
+&gt;&gt;&gt; my_list = ['a', 'b', 'd', 'e']
+&gt;&gt;&gt; insert_in_middle('c', my_lst)
+&gt;&gt;&gt; my_list
+['a', 'b', 'c', 'd', 'e']
+</pre><p>If we try to use it with a tuple,however, we get an error:</p><pre class="python-interpreter">
+&gt;&gt;&gt; my_tuple = ('a', 'b', 'd', 'e')
+&gt;&gt;&gt; insert_in_middle('c', my_tuple)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  File &quot;&lt;stdin&gt;&quot;, line 3, in insert_in_middle
+TypeError: object doesn't support slice assignment
+</pre><p>The problem is that tuples are immutable, and don't support slice
+assignment.  A simple solution to this problem is to make
+<code>insert_in_middle</code> a pure function:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">insert_in_middle</span>(<span class="py-src-parameter">val</span>, <span class="py-src-parameter">tup</span>):
+    <span class="py-src-variable">middle</span> = <span class="py-src-variable">len</span>(<span class="py-src-variable">tup</span>)/<span class="py-src-number">2</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">tup</span>[:<span class="py-src-variable">middle</span>] + (<span class="py-src-variable">val</span>,) + <span class="py-src-variable">tup</span>[<span class="py-src-variable">middle</span>:]
+</pre><p>This version now works for tuples, but not for lists or strings.  If we
+want a version that works for all sequence types, we need a way to encapsulate
+our value into the correct sequence type.  A small helper function does the
+trick:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">encapsulate</span>(<span class="py-src-parameter">val</span>, <span class="py-src-parameter">seq</span>):
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">type</span>(<span class="py-src-variable">seq</span>) == <span class="py-src-variable">type</span>(<span class="py-src-string">&quot;&quot;</span>):
+        <span class="py-src-keyword">return</span> <span class="py-src-variable">str</span>(<span class="py-src-variable">val</span>)
+    <span class="py-src-keyword">if</span> <span class="py-src-variable">type</span>(<span class="py-src-variable">seq</span>) == <span class="py-src-variable">type</span>([]):
+        <span class="py-src-keyword">return</span> [<span class="py-src-variable">val</span>]
+    <span class="py-src-keyword">return</span> (<span class="py-src-variable">val</span>,)
+</pre><p>Now we can write <code>insert_in_middle</code> to work with each of the
+built-in sequence types:</p><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">insert_in_middle</span>(<span class="py-src-parameter">val</span>, <span class="py-src-parameter">seq</span>):
+    <span class="py-src-variable">middle</span> = <span class="py-src-variable">len</span>(<span class="py-src-variable">seq</span>)/<span class="py-src-number">2</span>
+    <span class="py-src-keyword">return</span> <span class="py-src-variable">seq</span>[:<span class="py-src-variable">middle</span>] + <span class="py-src-variable">encapsulate</span>(<span class="py-src-variable">val</span>, <span class="py-src-variable">seq</span>) + <span class="py-src-variable">seq</span>[<span class="py-src-variable">middle</span>:]
+</pre><p>The last to versions of <code>insert_in_middle</code> are pure functions,
+and they don't have any side effects:</p><pre class="python-interpreter">
+&gt;&gt;&gt; my_string = 'abde'
+&gt;&gt;&gt; insert_in_middle('c', my_string)
+'abcde'
+&gt;&gt;&gt; my_string
+'abde'
+</pre><p>If we want to use <code>insert_in_middle</code> to change the value of
+<code>my_string</code>, we have to assign the value returned by the
+function call back to the variable:</p><pre class="python-interpreter">
+&gt;&gt;&gt; my_string = insert_in_middle('c', my_string)
+&gt;&gt;&gt; my_string
+'abcde' 
+</pre><h2>11.9 Which is better?<a name="auto8"></a></h2><a name="index24"></a><p>Anything that can be done with modifiers can also be done with pure
+functions.  In fact, some programming languages only allow pure functions.
+There is some evidence that programs that use pure functions are faster to
+develop and less error-prone than programs that use modifiers.  Nevertheless,
+modifiers are convenient at times, and in some cases, functional programs are
+less efficient.</p><p>In general, we recommend that you write pure functions whenever it is
+reasonable to do so and resort to modifiers only if there is a compelling
+advantage.  This approach might be called a
+<b>functional programming style</b>.</p><h2>11.10 Glossary<a name="auto9"></a></h2><a name="index25"></a><a name="index26"></a><a name="index27"></a><a name="index28"></a><a name="index29"></a><a name="index30"></a><a name="index31"></a><a name="index32"></a><a name="index33"></a><a name="index34"></a><a name="index35"></a><a name="index36"></a><a name="index37"></a><dl><dt>immutable type:</dt><dd>A type in which the elements cannot be modified.  Assignments to elements
+or slices of immutable types cause an error.</dd><dt>mutable type:</dt><dd>A data type in which the elements can be modified.  All mutable types are
+compound types.  Lists and dictionaries (see next chapter) are mutable data
+types; strings and tuples are not.</dd><dt>tuple:</dt><dd>A sequence type that is similar to a list except that it is immutable.
+Tuples can be used wherever an immutable type is required, such as a key in a
+dictionary.</dd><dt>tuple assignment:</dt><dd>An assignment to all of the elements in a tuple using a single assignment
+statement. Tuple assignment occurs in parallel rather than in sequence, making
+it useful for swapping values.</dd><dt>module:</dt><dd>A file containing definitions and statements intended to be
+<em>imported</em> by other programs.  File names for Python modules must end in 
+a <code>.py</code> file extention, and the module name is the filename without
+the extention.</dd><dt>recursive definition:</dt><dd>A definition which defines something in terms of itself. To be useful it
+must include <em>base cases</em> which are not recursive.  In this way it
+differs from a <em>circular definition</em>.  Recursive definitions often
+provide an elegant way to express complex data structures.</dd><dt>recursion:</dt><dd>The process of calling the function that is currently executing.</dd><dt>recursive call:</dt><dd>The statement in a recursive function with is a call to itself.</dd><dt>base case:</dt><dd>A branch of the conditional statement in a recursive function that does not
+result in a recursive call.</dd><dt>infinite recursion:</dt><dd>A function that calls itself recursively without ever reaching the base
+case.  Eventually, an infinite recursion causes a runtime error.</dd><dt>tail recursion:</dt><dd>A recursive call that occurs as the last statement (at the tail) of a
+recursive function.  Tail recursion is considered bad practice in Python
+programs since a logically equivalent function can be written using
+<em>iteration</em> which is more efficient.</dd></dl><h2>11.11 Exercises<a name="auto10"></a></h2><ol><li><div class="exercise"><pre class="python">
+<span class="py-src-keyword">def</span> <span class="py-src-identifier">swap</span>(<span class="py-src-parameter">x</span>, <span class="py-src-parameter">y</span>):      <span class="py-src-comment"># incorrect version</span>
+     <span class="py-src-variable">x</span>, <span class="py-src-variable">y</span> = <span class="py-src-variable">y</span>, <span class="py-src-variable">x</span>
+</pre>
+Draw a state diagram for this function so that you can see why it doesn't work.
+</div></li></ol></div><p><a href="index.xhtml">Table of Contents</a> |
+    <a href="dex.xhtml">Index</a></p></body></html>
