@@ -966,7 +966,7 @@ Give the Python interpreter's response to each of the following from a
 continuous interpreter session:
 <ol style="list-style-type: lower-alpha;">
   <li><pre class='python-interpreter'>
-  >>> s = "If we took the bones out it wouldn't be crunchy would it?"
+  >>> s = "If we took the bones out, it wouldn't be crunchy, would it?"
   >>> s.split()
   </pre></li>
 
@@ -1021,9 +1021,11 @@ Now add bodies to each of the following functions to make the doctests pass:
 def cleanword(word):
     """
       >>> cleanword('what?')
-      'what?'
+      'what'
       >>> cleanword('"now!"')
       'now'
+      >>> cleanword('?+="word!,@$()"')
+      'word'
     """
 
 def has_dashdash(s):
@@ -1036,6 +1038,46 @@ def has_dashdash(s):
       False
       >>> has_dashdash('spoke--fancy')
       True
+    """
+
+def extract_words(s):
+    """
+      >>> extract_words('Now is the time!  "Now", is the time? Yes, now.')
+      ['now', 'is', 'the', 'time', 'now', 'is', 'the', 'time', 'yes', 'now']
+      >>> extract_words('she tried to curtsey as she spoke--fancy')
+      ['she', 'tried', 'to', 'curtsey', 'as', 'she', 'spoke', 'fancy']
+    """
+
+def wordcount(word, wordlist):
+    """
+      >>> wordcount('now', ['now', 'is', 'time', 'is', 'now', 'is', 'is'])
+      ['now', 2]
+      >>> wordcount('is', ['now', 'is', 'time', 'is', 'now', 'is', 'the', 'is'])
+      ['is', 4]
+      >>> wordcount('time', ['now', 'is', 'time', 'is', 'now', 'is', 'is'])
+      ['time', 1]
+      >>> wordcount('frog', ['now', 'is', 'time', 'is', 'now', 'is', 'is'])
+      ['frog', 0]
+    """
+
+def wordset(wordlist):
+    """
+      >>> wordset(['now', 'is', 'time', 'is', 'now', 'is', 'is'])
+      ['is', 'now', 'time']
+      >>> wordset(['I', 'a', 'a', 'is', 'a', 'is', 'I', 'am'])
+      ['I', 'a', 'am', 'is']
+      >>> wordset(['or', 'a', 'am', 'is', 'are', 'be', 'but', 'am'])
+      ['a', 'am', 'are', 'be', 'but', 'is', 'or']
+    """
+
+def longestword(wordset):
+    """
+      >>> longestword(['a', 'apple', 'pear', 'grape'])
+      5
+      >>> longestword(['a', 'am', 'I', 'be'])
+      2
+      >>> longestword(['this', 'that', 'supercalifragilisticexpialidocious'])
+      34
     """
 </pre>
 Save this module so you can use the tools it contains in your programs.
@@ -1098,8 +1140,33 @@ for i in range(len(counts)):
 </ol>
 </div></li>
 
-</ol>
+<li><div class="exercise">
+Write a program called <code>alice_words.py</code> that creates a text
+file named <code>alice_words.txt</code> containing an alphabetical listing
+of all the words found in <code>alice_in_wonderland.txt</code> together with
+the number of times each word occurs.  The first 10 lines of your output file
+should look something like this:
+<pre class='shell'>
+Word              Count
+=======================
+a                 631
+a-piece           1
+abide             1
+able              1
+about             94
+above             3
+absence           1
+absurd            2
+</pre>
+How many times does the word, <code>alice</code>, occur in the book?
+</div></li>
 
+<li><div class="exercise">
+What is the longest word in <q>Alice in Wonderland</q>?  How many charactes
+does it have?
+</div></li>
+
+</ol>
 
 </body>
 </html>
