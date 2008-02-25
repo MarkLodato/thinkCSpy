@@ -74,7 +74,7 @@ strings and lists.  The index operator selects an element from a tuple.</p>
 </pre>
 
 <p>But if we try to use item assignment to modify one of the elements of the
-tuple, we get a error:
+tuple, we get an error:
 </p>
 <span class="index" value="runtime error" />
 
@@ -190,7 +190,7 @@ what we intended.  This is an example of a semantic error.</p>
 <span class="index" value="semantic error" />
 
 
-<h2>Pure functions and modifiers revisted</h2>
+<h2>Pure functions and modifiers revisited</h2>
 <span class="index" value="modifier" />
 <span class="index" value="function type!modifier" />
 <span class="index" value="side effect" />
@@ -278,19 +278,19 @@ module, we can test it:</p>
 >>> from seqtools import *
 >>> my_string = 'abde'
 >>> my_list = ['a', 'b', 'd', 'e']
->>> my_tupple = ('a', 'b', 'd', 'e')
+>>> my_tuple = ('a', 'b', 'd', 'e')
 >>> insert_in_middle('c', my_string)
 'abcde'
 >>> insert_in_middle('c', my_list)
 ['a', 'b', 'c', 'd', 'e']
->>> insert_in_middle('c', my_tupple)
+>>> insert_in_middle('c', my_tuple)
 ('a', 'b', 'c', 'd', 'e')
 >>> my_string
 'abde'
 </pre>
 
 <p>The values of <code>my_string</code>, <code>my_list</code>, and
-<code>my_tupple</code> are not changed.  If we want to use
+<code>my_tuple</code> are not changed.  If we want to use
 <code>insert_in_middle</code> to change them, we have to assign the value
 returned by the function call back to the variable:</p>
 
@@ -338,17 +338,13 @@ elements.</p>
 in a nested number list.  Python has a built-in function which finds the sum of 
 a sequence of numbers:</p>
 
-
-
 <pre class="python-interpreter">
 >>> sum([1, 2, 8])
 11
 </pre>
 
-<p>Suppose we have what we'll call a <em>nested number list</em>, a list whose
-elements are either numbers or nested number lists themselves. If we want to
-sum all the numbers in such a list, no matter how deeply nested, the built-in
-<code>sum</code> function will not work for us:</p>
+<p>For our <em>nested number list</em>, however, <code>sum</code> will not
+work:</p> 
 
 <pre class="python-interpreter">
 >>> sum([1, 2, [11, 13], 8, [4, 5], 17])
@@ -358,12 +354,21 @@ TypeError: unsupported operand type(s) for +: 'int' and 'list'
 >>> 
 </pre>
 
-<p>To solve this problem, we first notice that our nested number list has a
-<b>recursive definition</b>---it is defined in terms of itself.  To sum all the 
-numbers in our list we need to traverse it, visiting each of the elements
-within its nested structure, adding any numeric elements to our sum, and
-<em>repeating this process</em> with any elements which are lists.  Thanks to
-recursion, the Python code needed to do this is surprisingly short:</p>
+
+<h2>Recursion</h2>
+<span class="index" value="recursion" />
+<span class="index" value="recursive function" />
+<span class="index" value="function!recursive" />
+
+<p>To sum all the numbers in our recursive nested number list we need to
+traverse the list, visiting each of the elements within its nested structure,
+adding any numeric elements to our sum, and <em>repeating this process</em>
+with any elements which are lists.</p>
+
+<p>Modern programming languages generally support <b>recursion</b>, which
+means that functions can <em>call themselves</em> within their definitions.
+Thanks to recursion, the Python code needed to sum the values of a nested
+number list is surprisingly short:</p>
 
 <pre class="python">
 def recursive_sum(nested_list):
@@ -378,47 +383,6 @@ def recursive_sum(nested_list):
 
 <p>Recursion is truly one of the most beautiful things in computer science.</p>
 
-<h2>Recursion</h2>
-<span class="index" value="recursion" />
-<span class="index" value="recursive function" />
-<span class="index" value="function!recursive" />
-
-
-<h2>A recursive <code>max</code> function</h2>
-<span class="index" value="recursion" />
-<span class="index" value="recursive function" />
-
-<p>If we want to find the maximum number in a nested number list, we can
-write a recursive function much like the <code>recursive_sum</code> function
-we wrote in the previous chapter.  To illustrate the use of modules to avoid
-namespace clashes, let's name our function <code>max</code> and put it
-in the <code>seqtools</code> module:</p>
-
-<pre class="python">
-# seqtools.py
-#
-def max(nested_list):
-    the_max = nested_list[0]
-    if type(the_max) == type([]):
-        the_max = max(the_max)
-    for item in nested_list[1:]:
-        if type(item) == type([]):
-            its_max = max(item)
-            if its_max > the_max: the_max = its_max
-        else:
-            if item > the_max: the_max = item
-    return the_max
-</pre>
-
-<p>We can now use both our version and the built-in version of max:</p>
-
-<pre class="python-interpreter">
->>> import seqtools
->>> max([3, 9, [1, 17], [7, 2], 5])
-[7, 2]
->>> seqtools.max([3, 9, [1, 17], [7, 2], 5])
-17
-</pre>
 
 <h2>Glossary</h2>
 <span class="index" value="mutable type" />
@@ -495,14 +459,30 @@ programs since a logically equivalent function can be written using
 <li><div class="exercise">
 <pre class="python">
 def swap(x, y):      # incorrect version
+     print  "before swap statement: id(x):", id(x), "id(y):", id(y)
      x, y = y, x
+     print  "after swap statement: id(x):", id(x), "id(y):", id(y)
+
+a, b = 0, 1
+print  "before swap function call: id(a):", id(a), "id(b):", id(b)
+swap(a, b)
+print  "after swap function call: id(a):", id(a), "id(b):", id(b)
 </pre>
-Draw a state diagram for this function so that you can see why it doesn't work.
+Run this program and describe the results.  Use the results to explain why
+this version of <code>swap</code> does not work as intended.  What will be
+the values of <code>a</code> and <code>b</code> after the call to
+<code>swap</code>?
 </div></li>
 
 <li><div class="exercise">
-Create a module named <code>seqtools.py</code> that contains the following
-functions which are designed to work with all three sequence types:
+Create a module named <code>seqtools.py</code>.   Add the functions
+<code>encapsulate</code> and <code>insert_in_middle</code> from the chapter.
+Add doctests which test that these two functions work as intended with all
+three sequence types.
+</div></li>
+
+<li><div class="exercise">
+Add each of the following functions to <code>seqtools.py</code>:
 <pre class="python">
 def make_empty(seq):
     """
@@ -512,16 +492,6 @@ def make_empty(seq):
       ()
       >>> make_empty("No, not me!")
       ''
-    """
-
-def encapsulate(val, seq):
-    """
-      >>> encapsulate(5, [])
-      [5]
-      >>> encapsulate(5, ())
-      (5,)
-      >>> encapsulate(5, "")
-      '5'
     """
 
 def insert_at_end(val, seq):
