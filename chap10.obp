@@ -996,7 +996,7 @@ def myreplace(old, new, s):
 
        >>> myreplace(',', ';', 'this, that, and, some, other, thing')
        'this; that; and; some; other; thing'
-       >>> myreplace(' ', '**', 'Words will now be seperated by stars.')
+       >>> myreplace(' ', '**', 'Words will now be separated by stars.')
        'Words**will**now**be**seperated**by**stars.'
     """
 </pre>
@@ -1038,6 +1038,8 @@ def has_dashdash(s):
       False
       >>> has_dashdash('spoke--fancy')
       True
+      >>> has_dashdash('yo-yo')
+      False
     """
 
 def extract_words(s):

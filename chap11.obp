@@ -187,35 +187,158 @@ a different value, but it has no effect on <code>a</code> in
 
 <p>This function runs without producing an error message, but it doesn't do
 what we intended.  This is an example of a semantic error.</p>
-
 <span class="index" value="semantic error" />
 
 
-<h2>Recursion</h2>
-<a name="recursion" />
-<span class="index" value="recursion" />
+<h2>Pure functions and modifiers revisted</h2>
+<span class="index" value="modifier" />
+<span class="index" value="function type!modifier" />
+<span class="index" value="side effect" />
+<span class="index" value="pure function" />
+<span class="index" value="function type!pure" />
 
-<p>You have seen and written several functions which call other functions.
-It is also legal for a function to call itself.  It may not be obvious why that 
-is a good thing, but it turns out to be one of the most magical and interesting 
-things a program can do.  For example, look at the following function:</p>
+<p>In chapter 9 we discussed <em>pure functions</em> and <em>modifiers</em>
+as related to lists.  Since tuples are immutable we can not write modifiers
+on them.</p>
+
+<p>Here is a modifier that inserts a new value into the middle of a list:</p>
 
 <pre class="python">
-def countdown(n):
-    if n == 0:
-        print "Blastoff!"
-    else:
-        print n
-        countdown(n-1)
+#
+# seqtools.py
+#
+
+def insert_in_middle(val, lst):
+    middle = len(lst)/2
+    lst[middle:middle] = [val]
+</pre>
+
+<p>We can run it to see that it works:</p>
+
+<pre class="python-interpreter">
+>>> from seqtools import *
+>>> my_list = ['a', 'b', 'd', 'e']
+>>> insert_in_middle('c', my_list)
+>>> my_list
+['a', 'b', 'c', 'd', 'e']
+</pre>
+
+<p>If we try to use it with a tuple, however, we get an error:</p>
+
+<pre class="python-interpreter">
+>>> my_tuple = ('a', 'b', 'd', 'e')
+>>> insert_in_middle('c', my_tuple)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File "seqtools.py", line 7, in insert_in_middle
+    lst[middle:middle] = [val]
+TypeError: 'tuple' object does not support item assignment
+>>> 
+</pre>
+
+<p>The problem is that tuples are immutable, and don't support slice
+assignment.  A simple solution to this problem is to make
+<code>insert_in_middle</code> a pure function:</p>
+
+<pre class="python">
+def insert_in_middle(val, tup):
+    middle = len(tup)/2
+    return tup[:middle] + (val,) + tup[middle:]
+</pre>
+
+<p>This version now works for tuples, but not for lists or strings.  If we
+want a version that works for all sequence types, we need a way to encapsulate
+our value into the correct sequence type.  A small helper function does the
+trick:</p>
+
+<pre class="python">
+def encapsulate(val, seq):
+    if type(seq) == type(""):
+        return str(val)
+    if type(seq) == type([]):
+        return [val]
+    return (val,) 
+</pre>
+
+<p>Now we can write <code>insert_in_middle</code> to work with each of the
+built-in sequence types:</p>
+
+<pre class="python">
+def insert_in_middle(val, seq):
+    middle = len(seq)/2
+    return seq[:middle] + encapsulate(val, seq) + seq[middle:]
+</pre>
+
+<p>The last two versions of <code>insert_in_middle</code> are pure functions.
+They don't have any side effects.  Adding <code>encapsulate</code> and the
+last version of <code>insert_in_middle</code> to the <code>seqtools.py</code>
+module, we can test it:</p>
+
+<pre class="python-interpreter">
+>>> from seqtools import *
+>>> my_string = 'abde'
+>>> my_list = ['a', 'b', 'd', 'e']
+>>> my_tupple = ('a', 'b', 'd', 'e')
+>>> insert_in_middle('c', my_string)
+'abcde'
+>>> insert_in_middle('c', my_list)
+['a', 'b', 'c', 'd', 'e']
+>>> insert_in_middle('c', my_tupple)
+('a', 'b', 'c', 'd', 'e')
+>>> my_string
+'abde'
+</pre>
+
+<p>The values of <code>my_string</code>, <code>my_list</code>, and
+<code>my_tupple</code> are not changed.  If we want to use
+<code>insert_in_middle</code> to change them, we have to assign the value
+returned by the function call back to the variable:</p>
+
+<pre class="python-interpreter">
+>>> my_string = insert_in_middle('c', my_string)
+>>> my_string
+'abcde' 
 </pre>
 
 
-<h2>Recursive list traversal</h2>
+<h2>Recursive data structures</h2>
+<a name="recursion" />
+<span class="index" value="data structure" />
 <span class="index" value="recursive definition" />
 <span class="index" value="definition!recursive" />
+<span class="index" value="recursive data structure" />
+<span class="index" value="data structure!recursive" />
 
-<p>Python has a built-in function which finds the sum of a sequence of numbers:
-</p>
+<p>All of the Python data types we have seen can be grouped inside lists and
+tuples in a variety of ways.  Lists and tuples can also be nested, providing
+myriad possibilities for organizing data.  The organization of data for the
+purpose of making it easier to use is called a <b>data structure</b>.</p>
+
+<p>It's election time and we are helping to compute the votes as they come in.
+Votes arriving from individual wards, precincts, municipalities, counties,
+and states are sometimes reported as a sum total of votes and sometimes as a
+list of subtotals of votes.  After considering how best to store the tallies,
+we decide to use a <em>nested number list</em>, which we define as follows:</p>
+
+<ul>
+  <li>An empty list is a nested number list.</li>
+  <li>Each element in a nested number list is either a number or a
+  nested number list.</li>
+</ul>
+
+<p>Notice that the term, <q>nested number list</q> is used in its own
+definition.  <b>Recursive definitions</b> like this are quite common in
+mathematics and computer science.  They provide a concise and powerful way to
+describe <b>recursive data structures</b> that are partially composed of
+smaller and simpler instances of themselves.  The definition is not circular,
+since at some point we will reach a list that does not have any lists as
+elements.</p>
+
+<p>Now suppose our job is to write a function that will sum all of the values
+in a nested number list.  Python has a built-in function which finds the sum of 
+a sequence of numbers:</p>
+
+
 
 <pre class="python-interpreter">
 >>> sum([1, 2, 8])
@@ -228,11 +351,11 @@ sum all the numbers in such a list, no matter how deeply nested, the built-in
 <code>sum</code> function will not work for us:</p>
 
 <pre class="python-interpreter">
->>> nested_number_list = [1, 2, [3, 4, [5, 6], 7], 8, [1, [1, [1, 2], 2], 8], 5]
->>> sum(nested_number_list)
+>>> sum([1, 2, [11, 13], 8, [4, 5], 17])
 Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in ?
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 TypeError: unsupported operand type(s) for +: 'int' and 'list'
+>>> 
 </pre>
 
 <p>To solve this problem, we first notice that our nested number list has a
@@ -255,73 +378,10 @@ def recursive_sum(nested_list):
 
 <p>Recursion is truly one of the most beautiful things in computer science.</p>
 
-
-<h2>Comparing values of different types</h2>
-
-<p>Python has a built-in function, <code>max</code>, that finds the maximum
-value of a sequence:</p>
-
-<pre class="python-interpreter">
->>> max([3, 9, 17, 5])
-17
->>> max(['banana', 'orange', 'apricot', 'fig'])
-'orange'
-</pre>
-
-<p>If we want to find the maximum value in a nested number list,
-<code>max</code> does not work the way we would like it to, but instead gives
-us a curious result:</p>
-
-<pre class="python-interpreter">
->>> max([3, 9, [1, 17], [7, 2], 5])
-[7, 2]
-</pre>
-
-<p>To understand this result, we need to understand how Python compares
-values of different types.  Python permits values of any type to be compared,
-and always returns a result, though the results are sometimes a bit arbitrary:
-</p>
-
-<pre class="python-interpreter">
->>> [1, 2] &gt; (1, 2)
-False
->>> [1, 2] &lt; (1, 2)
-True
->>> '12' &gt; [1, 2]
-True
->>> '12' &gt; (1, 2)
-False
->>> [1, 2] &gt; 5 
-True
-</pre>
-
-<p>So it appears that tuples are greater than strings; strings are greater than
-lists, and lists are greater than integers.  A simple experiment confirms this:
-</p>
-
-<pre class="python-interpreter">
->>> (7, ) &gt; '7' &gt; [7] &gt; 7
-True
-</pre>
-
-<p>When comparing like types, the first elements are compared.  If they match,
-the second elements are compared, and so forth:</p>
-
-<pre class="python-interpreter">
->>> [3, 7] &gt; [4, 5]
-False
->>> [3, 7] &gt; [3, 6, 8]
-True
-</pre>
-
-<p>In the first example, the two items being compared are both lists, so their
-first elements are compared.  Since <code>3</code> is not greater than
-<code>4</code>, <code>[3, 7]</code> is not greater than <code>[4, 5]</code>.
-The second example returns <code>True</code> because <code>7</code> is greater
-than <code>6</code>.</p>
-
-<p>result of <code>max([3, 9, [1, 17], [7, 2], 5])</code> makes sense.
-</p>
+<h2>Recursion</h2>
+<span class="index" value="recursion" />
+<span class="index" value="recursive function" />
+<span class="index" value="function!recursive" />
 
 
 <h2>A recursive <code>max</code> function</h2>
@@ -359,116 +419,6 @@ def max(nested_list):
 >>> seqtools.max([3, 9, [1, 17], [7, 2], 5])
 17
 </pre>
-
-
-<h2>Pure functions and modifiers</h2>
-<span class="index" value="pure function" />
-<span class="index" value="function type!pure" />
-
-<p>Since lists are mutable, it is possible to write functions which take lists
-as arguments and change them during execution.  We saw this in the previous
-chapter with the <code>delete_head</code> function.  Functions like these are
-called <b>modifiers</b> and the changes they make are called
-<b>side effects</b>.</p>
-
-<p>Lets look at another example of a modifier:</p>
-
-<pre class="python">
-def insert_in_middle(val, lst):
-    middle = len(lst)/2
-    lst[middle:middle] = [val]
-</pre>
-
-<p>We can use this to place new values in the middle of a list:</p>
-
-<pre class="python-interpreter">
->>> my_list = ['a', 'b', 'd', 'e']
->>> insert_in_middle('c', my_lst)
->>> my_list
-['a', 'b', 'c', 'd', 'e']
-</pre>
-
-<p>If we try to use it with a tuple,however, we get an error:</p>
-
-<pre class="python-interpreter">
->>> my_tuple = ('a', 'b', 'd', 'e')
->>> insert_in_middle('c', my_tuple)
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in ?
-  File "&lt;stdin&gt;", line 3, in insert_in_middle
-TypeError: object doesn't support slice assignment
-</pre>
-
-<p>The problem is that tuples are immutable, and don't support slice
-assignment.  A simple solution to this problem is to make
-<code>insert_in_middle</code> a pure function:</p>
-
-<pre class="python">
-def insert_in_middle(val, tup):
-    middle = len(tup)/2
-    return tup[:middle] + (val,) + tup[middle:]
-</pre>
-
-<p>This version now works for tuples, but not for lists or strings.  If we
-want a version that works for all sequence types, we need a way to encapsulate
-our value into the correct sequence type.  A small helper function does the
-trick:</p>
-
-<pre class="python">
-def encapsulate(val, seq):
-    if type(seq) == type(""):
-        return str(val)
-    if type(seq) == type([]):
-        return [val]
-    return (val,) 
-</pre>
-
-<p>Now we can write <code>insert_in_middle</code> to work with each of the
-built-in sequence types:</p>
-
-<pre class="python">
-def insert_in_middle(val, seq):
-    middle = len(seq)/2
-    return seq[:middle] + encapsulate(val, seq) + seq[middle:]
-</pre>
-
-<p>The last to versions of <code>insert_in_middle</code> are pure functions,
-and they don't have any side effects:</p>
-
-<pre class="python-interpreter">
->>> my_string = 'abde'
->>> insert_in_middle('c', my_string)
-'abcde'
->>> my_string
-'abde'
-</pre>
-
-<p>If we want to use <code>insert_in_middle</code> to change the value of
-<code>my_string</code>, we have to assign the value returned by the
-function call back to the variable:</p>
-
-<pre class="python-interpreter">
->>> my_string = insert_in_middle('c', my_string)
->>> my_string
-'abcde' 
-</pre>
-
-
-<h2>Which is better?</h2>
-<span class="index" value="functional programming style" />
-
-<p>Anything that can be done with modifiers can also be done with pure
-functions.  In fact, some programming languages only allow pure functions.
-There is some evidence that programs that use pure functions are faster to
-develop and less error-prone than programs that use modifiers.  Nevertheless,
-modifiers are convenient at times, and in some cases, functional programs are
-less efficient.</p>
-
-<p>In general, we recommend that you write pure functions whenever it is
-reasonable to do so and resort to modifiers only if there is a compelling
-advantage.  This approach might be called a
-<b>functional programming style</b>.</p>
-
 
 <h2>Glossary</h2>
 <span class="index" value="mutable type" />
@@ -548,6 +498,130 @@ def swap(x, y):      # incorrect version
      x, y = y, x
 </pre>
 Draw a state diagram for this function so that you can see why it doesn't work.
+</div></li>
+
+<li><div class="exercise">
+Create a module named <code>seqtools.py</code> that contains the following
+functions which are designed to work with all three sequence types:
+<pre class="python">
+def make_empty(seq):
+    """
+      >>> make_empty([1, 2, 3, 4])
+      []
+      >>> make_empty(('a', 'b', 'c'))
+      ()
+      >>> make_empty("No, not me!")
+      ''
+    """
+
+def encapsulate(val, seq):
+    """
+      >>> encapsulate(5, [])
+      [5]
+      >>> encapsulate(5, ())
+      (5,)
+      >>> encapsulate(5, "")
+      '5'
+    """
+
+def insert_at_end(val, seq):
+    """
+      >>> insert_at_end(5, [1, 3, 4, 6])
+      [1, 3, 4, 6, 5]
+      >>> insert_at_end('x', 'abc')
+      'abcx'
+      >>> insert_at_end(5, (1, 3, 4, 6))
+      (1, 3, 4, 6, 5)
+    """
+
+def insert_in_front(val, seq):
+    """
+      >>> insert_in_front(5, [1, 3, 4, 6])
+      [5, 1, 3, 4, 6]
+      >>> insert_in_front(5, (1, 3, 4, 6))
+      (5, 1, 3, 4, 6)
+      >>> insert_in_front('x', 'abc')
+      'xabc'
+    """
+
+def index_of(val, seq):
+    """
+      >>> index_of(9, [1, 7, 11, 9, 10])
+      3
+      >>> index_of(10, [1, 2, 4, 5, 6, 10, 5, 5])
+      5
+      >>> index_of(2, [3, 7, 5, 2, 10, 5, 5])
+      3
+      >>> index_of('a', ['b', 'c', 'a', 'd'])
+      2
+      >>> index_of(5, [2, 3, 4])
+      -1
+    """
+
+def remove_at(index, seq):
+    """
+      >>> remove_at(3, [1, 7, 11, 9, 10])
+      [1, 7, 11, 10]
+      >>> remove_at(5, (1, 4, 6, 7, 0, 9, 3, 5))
+      (1, 4, 6, 7, 0, 3, 5)
+      >>> remove_at(2, "Yomrktown")
+      'Yorktown'
+    """
+
+def remove_val(val, seq):
+    """
+      >>> remove_val(11, [1, 7, 11, 9, 10])
+      [1, 7, 9, 10]
+      >>> remove_val(15, (1, 15, 11, 4, 9))
+      (1, 11, 4, 9)
+      >>> remove_val('what', ('who', 'what', 'when', 'where', 'why', 'how'))
+      ('who', 'when', 'where', 'why', 'how')
+    """
+
+def remove_all(val, seq):
+    """
+      >>> remove_all(11, [1, 7, 11, 9, 11, 10, 2, 11])
+      [1, 7, 9, 10, 2]
+      >>> remove_all('i', 'Mississippi')
+      'Msssspp'
+    """
+
+def count(val, seq):
+    """
+      >>> count(5, (1, 5, 3, 7, 5, 8, 5))
+      3
+      >>> count('s', 'Mississippi')
+      4
+      >>> count((1, 2), [1, 5, (1, 2), 7, (1, 2), 8, 5])
+      2
+    """
+
+def reverse(seq):
+    """
+      >>> reverse([1, 2, 3, 4, 5])
+      [5, 4, 3, 2, 1]
+      >>> reverse(('shoe', 'my', 'buckle', 2, 1))
+      (1, 2, 'buckle', 'my', 'shoe')
+      >>> reverse('Python')
+      'nohtyP'
+    """
+
+def sort_sequence(seq):
+    """
+      >>> sort_sequence([3, 4, 6, 7, 8, 2])
+      [2, 3, 4, 6, 7, 8]
+      >>> sort_sequence((3, 4, 6, 7, 8, 2))
+      (2, 3, 4, 6, 7, 8)
+      >>> sort_sequence("nothappy")
+      'ahnoppty'
+    """
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+</pre>
+As usual, work on each of these one at a time until they pass all of the
+doctests.
 </div></li>
 
 </ol>
