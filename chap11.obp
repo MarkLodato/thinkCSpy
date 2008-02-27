@@ -320,11 +320,11 @@ and states are sometimes reported as a sum total of votes and sometimes as a
 list of subtotals of votes.  After considering how best to store the tallies,
 we decide to use a <em>nested number list</em>, which we define as follows:</p>
 
-<ul>
-  <li>An empty list is a nested number list.</li>
-  <li>Each element in a nested number list is either a number or a
-  nested number list.</li>
-</ul>
+<p>A <em>nested number list</em> is a list whose elements are either:</p>
+<ol style="list-style-type: lower-alpha">
+  <li>numbers</li>
+  <li>nested number lists</li>
+</ol>
 
 <p>Notice that the term, <q>nested number list</q> is used in its own
 definition.  <b>Recursive definitions</b> like this are quite common in
@@ -381,7 +381,16 @@ def recursive_sum(nested_list):
     return sum
 </pre>
 
-<p>Recursion is truly one of the most beautiful things in computer science.</p>
+<p>The body of <code>recursive_sum</code> consists mainly of a <code>for</code>
+that traverses <code>nest_list</code> adding numerical values to the variable,
+<code>sum</code>, which <em>accumulates</em> the total.  If
+<code>element</code> is a numerical value (the <code>else</code> branch), it
+is simply added to <code>sum</code>.  If <code>element</code> is a list, then
+<code>recursive_sum</code> is called again, with the element as an argument.
+</p>
+
+<p>Recursion is truly one of the most beautiful and elegant tools in computer
+science.</p>
 
 
 <h2>Glossary</h2>
@@ -397,7 +406,6 @@ def recursive_sum(nested_list):
 <span class="index" value="base case" />
 <span class="index" value="infinite recursion" />
 <span class="index" value="tail recursion" />
-<span class="index" value="standard library" />
 
 <dl>
 <dt>immutable type:</dt>
@@ -592,6 +600,46 @@ if __name__ == "__main__":
 </pre>
 As usual, work on each of these one at a time until they pass all of the
 doctests.
+</div></li>
+
+<li><div class="exercise">
+Python has a built-in function, <code>max</code>, which returns the largest
+element in a sequence:
+<pre class="python-interpreter">
+>>> max([2, 9, -3, 11, 4, 8])
+11
+>>> max(('this', 'that', 'xylophone', 'aardvark'))
+'xylophone'
+>>> max('intrepid')
+'t'
+>>>
+</pre>
+We can't use it with our nested number lists, however, since Python considers
+lists to be <q>greater than</q> integers:
+<pre class="python-interpreter">
+>>> max([2, 11, [8, 19, 3], 75])
+[8, 19, 3]
+>>> [4] &gt; 42
+True
+>>>
+</pre>
+Write a function, <code>recursive_max</code>, that returns the largest value
+in a nested number list:
+<pre class="python">
+def recursive_max(nested_num_list):
+    """
+      >>> recursive_max([2, 9, [1, 13], 8, 6])
+      13
+      >>> recursive_max([2, [[100, 7], 90], [1, 13], 8, 6])
+      100
+    """
+</pre>
+Your function should pass the doctests.
+</div></li>
+
+<li><div class="exercise">
+Write a function <code>recursive_min</code> that returns the smallest value
+in a nested number list.
 </div></li>
 
 </ol>
