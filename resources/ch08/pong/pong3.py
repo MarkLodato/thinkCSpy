@@ -56,7 +56,7 @@ def play_round():
         if hit(bx, by, 10, p1x, p1y, 100) or hit(bx, by, 10, p2x+10, p2y, 100):
             dx *= -1
 
-        sleep(0.005)
+        wait()
 
 
 def play_game():
@@ -66,7 +66,7 @@ def play_game():
     while True:
         pmsg = Text("%d" % p1_score, (20, 570), size=24)
         cmsg = Text("%d" % p2_score, (760, 570), size=24)
-        sleep(3)
+        wait(event='elapsed_time', duration=3)
         remove_from_screen(pmsg)
         remove_from_screen(cmsg)
 
@@ -85,15 +85,16 @@ def play_game():
             return PLAYER2_WINS 
 
 
-begin_graphics(800, 600, title="Catch", background=color.yellow)
+begin_graphics(800, 600, title="Catch", background=color.YELLOW)
+set_speed(40)
 
 result = play_game()
 
 if result == PLAYER1_WINS:
     Text("Player 1 Wins!", (340, 290), size=32)
-    sleep(4)
+    wait(event='elapsed_time', duration=4)
 elif result == PLAYER2_WINS:
     Text("Player 2 Wins!", (340, 290), size=32)
-    sleep(4)
+    wait(event='elapsed_time', duration=4)
 
 end_graphics()

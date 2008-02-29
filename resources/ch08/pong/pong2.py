@@ -47,7 +47,7 @@ def play_round():
         if hit(ball_x, ball_y, 10, paddle_x, paddle_y, 100):
             dx *= -1
 
-        sleep(0.005)
+        wait()
 
 
 def play_game():
@@ -57,7 +57,7 @@ def play_game():
     while True:
         pmsg = Text("Player: %d Points" % player_score, (10, 570), size=24)
         cmsg = Text("Computer: %d Points" % comp_score, (640, 570), size=24)
-        sleep(3)
+        wait(event='elapsed_time', duration=4)
         remove_from_screen(pmsg)
         remove_from_screen(cmsg)
 
@@ -76,15 +76,15 @@ def play_game():
             return COMPUTER_WINS 
 
 
-begin_graphics(800, 600, title="Catch", background=color.yellow)
+begin_graphics(800, 600, title="Catch", background=color.YELLOW)
 
 result = play_game()
 
 if result == PLAYER_WINS:
     Text("Player Wins!", (340, 290), size=32)
-    sleep(4)
+    wait(event='elapsed_time', duration=4)
 elif result == COMPUTER_WINS:
     Text("Computer Wins!", (340, 290), size=32)
-    sleep(4)
+    wait(event='elapsed_time', duration=4)
 
 end_graphics()

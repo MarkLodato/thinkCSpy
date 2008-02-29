@@ -1,6 +1,7 @@
 from gasp import *
 
-begin_graphics(800, 600, title="Catch", background=color.yellow)
+begin_graphics(800, 600, title="Catch", background=color.YELLOW)
+set_speed(40)
 
 x = 10
 y = 300
@@ -12,6 +13,6 @@ while x < 810:
     x += dx
     y += dy
     move_to(ball, (x, y))
-    sleep(0.01)
+    wait()
 
 end_graphics()

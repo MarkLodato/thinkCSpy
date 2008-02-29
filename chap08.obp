@@ -24,7 +24,8 @@ motion to a program.  The following program moves a black ball across an
 <pre class='python'>
 from gasp import *
 
-begin_graphics(800, 600, title="Catch", background=color.yellow)
+begin_graphics(800, 600, title="Catch", background=YELLOW)
+set_speed(40)
 
 ball_x = 10
 ball_y = 300
@@ -36,7 +37,7 @@ while ball_x &lt; 810:
     ball_x += dx
     ball_y += dy
     move_to(ball, (ball_x, ball_y))
-    sleep(0.01)
+    wait()
 
 end_graphics()
 </pre>
@@ -55,6 +56,8 @@ happening to the variables <code>x</code> and <code>y</code>.</p>
   <li><code>begin_graphics</code> can take arguments for width, height,
   title, and background color of the graphics canvas.</li>
 
+  <li><code>set_speed</code> can takes a frame rate in frames per second.</li>
+
   <li>Adding <code>filled=True</code> to <code>Circle(...)</code> makes
   the resulting circle solid.</li>
 
@@ -66,11 +69,10 @@ happening to the variables <code>x</code> and <code>y</code>.</p>
   pass in a shape (the ball in this case) and a location, and moves the
   shape to that location.</li>
 
-  <li>The <code>sleep</code> function takes a time value in seconds as
-  an argument and pauses execution of the program for that length of time.
-  In general computers do things much to fast to allow you to interact with
-  them.  We can slow things down by making the computer sleep a bit at the
-  right place.</li>
+  <li>The <code>wait</code> function is used to delay the action in a gasp
+  program util a specified event occurs.  By default it waits until the
+  next frame, for an amount determined by the frame rate set with
+  <code>set_speed</code>.</li>
 </ul>
 
 
@@ -210,6 +212,7 @@ mitt up and down, respectively.  Add this to a file named
 from gasp import *
 
 begin_graphics(800, 600, title="Catch", background=color.yellow)
+set_speed(40)
 
 mitt_x = 780
 mitt_y = 300
@@ -225,7 +228,7 @@ while True:
         break
 
     move_to(mitt, (mitt_x, mitt_y))
-    sleep(0.01)
+    wait()
 
 end_graphics()
 </pre>
@@ -247,6 +250,7 @@ def distance(x1, y1, x2, y2):
     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
 begin_graphics(800, 600, title="Catch", background=color.yellow)
+set_speed(40)
 
 ball1_x = 10
 ball1_y = 300
@@ -267,9 +271,9 @@ while ball1_x &lt; 810:
         remove_from_screen(ball1)
         remove_from_screen(ball2)
         break
-    sleep(0.01)
+    wait()
 
-sleep(1)
+wait(event=ELAPSED_TIME, delay=1)
 end_graphics()
 </pre>
 
@@ -289,6 +293,7 @@ def distance(x1, y1, x2, y2):
     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
 begin_graphics(800, 600, title="Catch", background=color.yellow)
+set_speed(40)
 
 ball_x = 10
 ball_y = 300
@@ -325,7 +330,7 @@ while True:
         remove_from_screen(ball)
         break
 
-    sleep(0.01)
+    wait()
 
 end_graphics()
 </pre>
@@ -345,6 +350,7 @@ not.  It then updates the display on the screen.</p>
 from gasp import *
 
 begin_graphics(800, 600, title="Catch", background=color.yellow)
+set_speed(40)
 
 player_score = 0
 comp_score = 0
@@ -353,7 +359,7 @@ player = Text("Player: %d Points" % player_score, (10, 570), size=24)
 computer = Text("Computer: %d Points" % comp_score, (640, 570), size=24)
 
 while player_score &lt; 5 and comp_score &lt; 5:
-    sleep(1)
+    wait(event=ELAPSED_TIME, delay=1)
     winner = random_between(0, 1)
     if winner:
         player_score += 1
@@ -369,7 +375,7 @@ if player_score == 5:
 else:
     Text("Computer Wins!", (340, 290), size=32)
 
-sleep(4)
+wait(event=ELAPSED_TIME, delay=4)
 
 end_graphics()
 </pre>
@@ -381,7 +387,7 @@ after the <code>if ball_x &gt; 810:</code> conditional, add the following:</p>
 
 <pre class='python'>
 Text("Computer Wins!", (340, 290), size=32)
-sleep(2)
+wait(event=ELAPSED_TIME, delay=2)
 </pre>
 
 <p>It is left as an excercise to display when the player wins.</p>
@@ -462,7 +468,7 @@ def play_round():
             remove_from_screen(mitt)
             return PLAYER_WINS
 
-        sleep(0.005)
+        wait()
 
 
 def play_game():
@@ -472,7 +478,7 @@ def play_game():
     while True:
         pmsg = Text("Player: %d Points" % player_score, (10, 570), size=24)
         cmsg = Text("Computer: %d Points" % comp_score, (640, 570), size=24)
-        sleep(3)
+        wait(event=ELAPSED_TIME, delay=3)
         remove_from_screen(pmsg)
         remove_from_screen(cmsg)
 
@@ -492,15 +498,15 @@ def play_game():
 
 
 begin_graphics(800, 600, title="Catch", background=color.yellow)
+set_speed(40)
 
 result = play_game()
 
 if result == PLAYER_WINS:
     Text("Player Wins!", (340, 290), size=32)
-    sleep(4)
 elif result == COMPUTER_WINS:
     Text("Computer Wins!", (340, 290), size=32)
-    sleep(4)
+wait(event=ELAPSED_TIME, delay=4)
 
 end_graphics()
 </pre>
@@ -639,7 +645,7 @@ to produce the desired behavior in the program.
 Where can you add the lines
 <pre class='python'>
 Text("Player Wins!", (340, 290), size=32)
-sleep(2)
+wait(event=ELAPSED_TIME, delay=2)
 </pre>
 to the version of <code>catch.py</code> in section 8.8 so that the program
 displays this message when the ball is <q>caught</q>?

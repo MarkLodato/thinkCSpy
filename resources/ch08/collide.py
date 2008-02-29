@@ -3,7 +3,8 @@ from gasp import *
 def distance((x1, y1), (x2, y2)):
     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
-begin_graphics(800, 600, title="Catch", background=color.yellow)
+begin_graphics(800, 600, title="Catch", background=color.YELLOW)
+set_speed(40)
 
 ball1_x = 10
 ball1_y = 300
@@ -24,6 +25,6 @@ while ball1_x < 810:
         remove_from_screen(ball1)
         remove_from_screen(ball2)
         break
-    sleep(0.01)
+    wait()
 
 end_graphics()
