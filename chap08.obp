@@ -211,7 +211,7 @@ mitt up and down, respectively.  Add this to a file named
 <pre class='python'>
 from gasp import *
 
-begin_graphics(800, 600, title="Catch", background=color.yellow)
+begin_graphics(800, 600, title="Catch", background=color.YELLOW)
 set_speed(40)
 
 mitt_x = 780
@@ -249,7 +249,7 @@ from gasp import *
 def distance(x1, y1, x2, y2):
     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
-begin_graphics(800, 600, title="Catch", background=color.yellow)
+begin_graphics(800, 600, title="Catch", background=color.YELLOW)
 set_speed(40)
 
 ball1_x = 10
@@ -292,7 +292,7 @@ from gasp import *
 def distance(x1, y1, x2, y2):
     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
-begin_graphics(800, 600, title="Catch", background=color.yellow)
+begin_graphics(800, 600, title="Catch", background=color.YELLOW)
 set_speed(40)
 
 ball_x = 10
@@ -349,7 +349,7 @@ not.  It then updates the display on the screen.</p>
 <pre class='python'>
 from gasp import *
 
-begin_graphics(800, 600, title="Catch", background=color.yellow)
+begin_graphics(800, 600, title="Catch", background=color.YELLOW)
 set_speed(40)
 
 player_score = 0
@@ -497,7 +497,7 @@ def play_game():
             return COMPUTER_WINS 
 
 
-begin_graphics(800, 600, title="Catch", background=color.yellow)
+begin_graphics(800, 600, title="Catch", background=color.YELLOW)
 set_speed(40)
 
 result = play_game()

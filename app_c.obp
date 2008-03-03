@@ -48,13 +48,13 @@ class Fraction:
 </pre>
 
 <p>To test what we have so far, we put it in a file named
-<code>Fraction.py</code> and import it into the Python interpreter.  Then we
-create a fraction object and print it.</p>
+<code>fraction.py</code> and import it into the Python interpreter.  Then we
+create a Fraction object and print it.</p>
 
 <pre class="python-interpreter">
->>> from Fraction import fraction
->>> spam = Fraction(5,6)
->>> print "The fraction is", spam
+>>> from fraction import Fraction
+>>> f = Fraction(5, 6)
+>>> print "The fraction is", f
 The fraction is 5/6
 </pre>
 
@@ -91,7 +91,7 @@ class Fraction:
 <p>We can test this method by computing the product of two fractions:</p>
 
 <pre class="python-interpreter">
->>> print Fraction(5,6) * Fraction(3,4)
+>>> print Fraction(5, 6) * Fraction(3, 4)
 15/24
 </pre>
 
@@ -143,7 +143,7 @@ Python invokes <code>__rmul__</code> on the <code>Fraction</code> object and
 passes 4 as a parameter:</p>
 
 <pre class="python-interpreter">
->>> print 4 * Fraction(5,6)
+>>> print 4 * Fraction(5, 6)
 20/6
 </pre>
 
@@ -178,11 +178,11 @@ class Fraction:
 <p>We can test these methods with <code>Fraction</code>s and integers.</p>
 
 <pre class="python-interpreter">
->>> print Fraction(5,6) + Fraction(5,6)
+>>> print Fraction(5, 6) + Fraction(5, 6)
 60/36
->>> print Fraction(5,6) + 3
+>>> print Fraction(5, 6) + 3
 23/6
->>> print 2 + Fraction(5,6)
+>>> print 2 + Fraction(5, 6)
 17/6
 </pre>
 
@@ -246,7 +246,7 @@ class Fraction:
 simplest form:</p>
 
 <pre class="python-interpreter">
->>> Fraction(100,-36)
+>>> Fraction(100, -36)
 -25/9
 </pre>
 
