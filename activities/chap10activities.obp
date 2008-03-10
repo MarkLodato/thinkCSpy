@@ -6,49 +6,6 @@
 
 <h1>Activities to accompany <q>Modules and files</q> chapter</h1>
 
-
-<h2>The <code>sys</code> module and <code>argv</code></h2>
-<span class="index" value="sys module" />
-<span class="index" value="module!sys" />
-<span class="index" value="argv" />
-<span class="index" value="command line" />
-<span class="index" value="command line arguments" />
-
-<p>The <code>sys</code> module contains a variable named <code>argv</code>,
-which holds a list of strings read in from the <b>command line</b> when
-a Python script is run.  These <b>command line arguments</b> can be used to
-pass information into a program at the same time it is invoked.</p>
-
-<pre class="python">
-#
-# demo_argv.py
-#
-from sys import argv
-
-print argv 
-</pre>
-
-<p>Running this program from the unix command prompt demonstrates how
-<code>sys.argv</code> works:</p>
-
-<pre class="shell">
-$ python demo_argv.py this and that 1 2 3
-['demo_argv.py', 'this', 'and', 'that', '1', '2', '3']
-$ 
-</pre>
-
-<p><code>argv</code> is a list of strings.  Notice that the first element is
-the name of the program.  Arguments are seperated by white space, and separated
-into a list in the same way that <code>string.split</code> operates.  If you
-want an argument with white space in it, use quotes:</p>
-
-<pre class="shell">
-$ python demo_argv.py "this and" that "1 2" 3
-['demo_argv.py', 'this and', 'that', '1 2', '3']
-$ 
-</pre>
-
-
 <h2>The <code>eval</code> function</h2>
 <span class="index" value="eval" />
 <span class="index" value="funtion!eval" />
@@ -118,33 +75,6 @@ $
 
 <p>Note that the boolean expression needs to be enclosed in quotation marks.
 </p>
-
-
-<h2>Glossary</h2>
-<span class="index" value="command line" />
-<span class="index" value="command line arguments" />
-
-<dl>
-<dt>command line:</dt>
-<dd>The sequence of characters read into the <em>command interpreter</em> in
-a <em>command line interface</em> (see the Wikipedia article on
-<a href="http://en.wikipedia.org/wiki/Command_line">command line interface</a>
-for more information).</dd>
-
-<dt>command line argument:</dt>
-<dd>
-A value passed to a program along with the program's invocation at the
-<em>command prompt</em> of a command line interface (CLI).</dd>
-</dl>
-
-
-<h2>Exercises</h2>
-<ol>
-
-<li><div class="exercise">
-</div></li>
-
-</ol>
 
 </body>
 </html>
