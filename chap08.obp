@@ -37,7 +37,7 @@ while ball_x &lt; 810:
     ball_x += dx
     ball_y += dy
     move_to(ball, (ball_x, ball_y))
-    wait()
+    wait_for('next_tick')
 
 end_graphics()
 </pre>
@@ -69,10 +69,10 @@ happening to the variables <code>x</code> and <code>y</code>.</p>
   pass in a shape (the ball in this case) and a location, and moves the
   shape to that location.</li>
 
-  <li>The <code>wait</code> function is used to delay the action in a gasp
-  program util a specified event occurs.  By default it waits until the
-  next frame, for an amount determined by the frame rate set with
-  <code>set_speed</code>.</li>
+  <li>The <code>wait_for</code> function is used to delay the action in a gasp
+  program util a specified event occurs.  The event <code>'next_tick'</code>
+  waits until the next frame, for an amount of time determined by the frame
+  rate set with <code>set_speed</code>.</li>
 </ul>
 
 
@@ -271,9 +271,9 @@ while ball1_x &lt; 810:
         remove_from_screen(ball1)
         remove_from_screen(ball2)
         break
-    wait()
+    wait_for('next_tick')
 
-wait(event=ELAPSED_TIME, delay=1)
+sleep(1)
 end_graphics()
 </pre>
 
@@ -330,7 +330,7 @@ while True:
         remove_from_screen(ball)
         break
 
-    wait()
+    wait_for('next_tick')
 
 end_graphics()
 </pre>
@@ -359,7 +359,7 @@ player = Text("Player: %d Points" % player_score, (10, 570), size=24)
 computer = Text("Computer: %d Points" % comp_score, (640, 570), size=24)
 
 while player_score &lt; 5 and comp_score &lt; 5:
-    wait(event=ELAPSED_TIME, delay=1)
+    sleep(1)
     winner = random_between(0, 1)
     if winner:
         player_score += 1
@@ -375,7 +375,7 @@ if player_score == 5:
 else:
     Text("Computer Wins!", (340, 290), size=32)
 
-wait(event=ELAPSED_TIME, delay=4)
+sleep(4)
 
 end_graphics()
 </pre>
@@ -387,7 +387,7 @@ after the <code>if ball_x &gt; 810:</code> conditional, add the following:</p>
 
 <pre class='python'>
 Text("Computer Wins!", (340, 290), size=32)
-wait(event=ELAPSED_TIME, delay=2)
+sleep(2)
 </pre>
 
 <p>It is left as an excercise to display when the player wins.</p>
@@ -468,7 +468,7 @@ def play_round():
             remove_from_screen(mitt)
             return PLAYER_WINS
 
-        wait()
+        wait_for('next_tick')
 
 
 def play_game():
@@ -506,7 +506,7 @@ if result == PLAYER_WINS:
     Text("Player Wins!", (340, 290), size=32)
 elif result == COMPUTER_WINS:
     Text("Computer Wins!", (340, 290), size=32)
-wait(event=ELAPSED_TIME, delay=4)
+sleep(4)
 
 end_graphics()
 </pre>

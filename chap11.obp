@@ -438,7 +438,7 @@ Without a base case, you have <b>infinite recursion</b>, and your program will
 not work.  Python stops after reaching a maximum recursion depth and
 returns a runtime error.</p>
 
-<p>Write the following in a file named <code>infinit_recursion.py</code>:</p>
+<p>Write the following in a file named <code>infinite_recursion.py</code>:</p>
 
 <pre class='python'>
 def recursion_depth(number):
@@ -883,7 +883,7 @@ def recursive_count(target, nested_num_list):
     """
       >>> recursive_count(2, [2, 9, [2, 1, 13, 2], 8, [2, 6]])
       4
-      >>> recursive_count(7, [[9, [7, 1, 13, 2], 8], [2, 6]])
+      >>> recursive_count(7, [[9, [7, 1, 13, 2], 8], [7, 6]])
       2
       >>> recursive_count(15, [[9, [7, 1, 13, 2], 8], [2, 6]])
       0
@@ -892,6 +892,25 @@ def recursive_count(target, nested_num_list):
     """
 </pre>
 As usual, your function should pass the doctests.
+</div></li>
+
+<li><div class="exercise">
+Write a function <code>flatten</code> that returns a simple list of numbers
+containing all the values in a <code>nested_number_list</code>: 
+<pre class="python">
+def flatten(nested_num_list):
+    """
+      >>> flatten(2, [2, 9, [2, 1, 13, 2], 8, [2, 6]])
+      [2, 2, 9, 2, 1, 13, 2, 8, 2, 6] 
+      >>> flatten(7, [[9, [7, 1, 13, 2], 8], [7, 6]])
+      [7, 9, 7, 1, 13, 2, 8, 7, 6]
+      >>> flatten(15, [[9, [7, 1, 13, 2], 8], [2, 6]])
+      [15, 9, 7, 1, 13, 2, 8, 2, 6]
+      >>> flatten(5, [[5, [5, [1, 5], 5], 5], [5, 6]])
+      [5, 5, 5, 1, 5, 5, 5, 5, 6]
+    """
+</pre>
+Run your function to confirm that the doctests pass.
 </div></li>
 
 </ol>
