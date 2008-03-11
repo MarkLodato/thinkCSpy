@@ -4,7 +4,7 @@ chapter('preface2ver.obp', '')#Preface to Version 2
 chapter('preface.obp', '')#Preface
 chapter('contrib.obp', '')#Contributors
 for n in range(1, 13):
-    chapter('chap%02d.obp' % n, '%d' % n)
+    chapter('ch%02d.obp' % n, '%d' % n)
 chapter('app_a.obp', 'A')
 chapter('app_b.obp', 'B')
 chapter('app_c.obp', 'C')

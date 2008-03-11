@@ -495,7 +495,13 @@ to be created from other lists using a compact, mathematical syntax:</p>
 >>> [x**2 for x in numbers]
 [1, 4, 9, 16]
 >>> [x**2 for x in numbers if x**2 &gt; 8]
->>> [9, 16] 
+[9, 16] 
+>>> [(x, x**2, x**3) for x in numbers]
+[(1, 1, 1), (2, 4, 8), (3, 9, 27), (4, 16, 64)]
+>>> files = ['bin', 'Data', 'Desktop', '.bashrc', '.ssh', '.vimrc']
+>>> [name for name in files if name[0] != '.']
+['bin', 'Data', 'Desktop']
+>>>
 </pre>
 
 
@@ -626,11 +632,9 @@ if __name__ == '__main__':
 <span class="index" value="infinite recursion" />
 <span class="index" value="tail recursion" />
 <span class="index" value="list comprehension" />
-<span class="index" value="sys module" />
-<span class="index" value="module!sys" />
-<span class="index" value="argv" />
 <span class="index" value="command line" />
 <span class="index" value="command line arguments" />
+<span class="index" value="argv" />
 
 <dl>
 <dt>immutable type:</dt>
@@ -691,14 +695,6 @@ lists using a syntax analogous to the mathematical
 notation</a>.
 </dd>
 
-<dt><code>sys</code> module:</dt>
-<dd>
-</dd>
-
-<dt><code>argv</code>:</dt>
-<dd>
-</dd>
-
 <dt>command line:</dt>
 <dd>The sequence of characters read into the <em>command interpreter</em> in
 a <em>command line interface</em> (see the Wikipedia article on
@@ -709,6 +705,13 @@ for more information).</dd>
 <dd>
 A value passed to a program along with the program's invocation at the
 <em>command prompt</em> of a command line interface (CLI).</dd>
+
+<dt><code>argv</code>:</dt>
+<dd>
+<code>argv</code> is short for <em>argument vector</em> and is a variable
+in the <code>sys</code> module which stores a list of command line arguments
+passed to a program at run time.
+</dd>
 </dl>
 
 
@@ -900,14 +903,14 @@ containing all the values in a <code>nested_number_list</code>:
 <pre class="python">
 def flatten(nested_num_list):
     """
-      >>> flatten(2, [2, 9, [2, 1, 13, 2], 8, [2, 6]])
-      [2, 2, 9, 2, 1, 13, 2, 8, 2, 6] 
-      >>> flatten(7, [[9, [7, 1, 13, 2], 8], [7, 6]])
-      [7, 9, 7, 1, 13, 2, 8, 7, 6]
-      >>> flatten(15, [[9, [7, 1, 13, 2], 8], [2, 6]])
-      [15, 9, 7, 1, 13, 2, 8, 2, 6]
-      >>> flatten(5, [[5, [5, [1, 5], 5], 5], [5, 6]])
-      [5, 5, 5, 1, 5, 5, 5, 5, 6]
+      >>> flatten([2, 9, [2, 1, 13, 2], 8, [2, 6]])
+      [2, 9, 2, 1, 13, 2, 8, 2, 6]
+      >>> flatten([[9, [7, 1, 13, 2], 8], [7, 6]])
+      [9, 7, 1, 13, 2, 8, 7, 6]
+      >>> flatten([[9, [7, 1, 13, 2], 8], [2, 6]])
+      [9, 7, 1, 13, 2, 8, 2, 6]
+      >>> flatten([[5, [5, [1, 5], 5], 5], [5, 6]])
+      [5, 5, 1, 5, 5, 5, 5, 6]
     """
 </pre>
 Run your function to confirm that the doctests pass.
