@@ -581,8 +581,9 @@ the sum of a series of numbers:</p>
 #
 import sys
 
-nums = sys[1:]
-for index, value in nums:
+nums = sys.argv[1:]
+
+for index, value in enumerate(nums):
     nums[index] = float(value)
 
 print sum(nums)
