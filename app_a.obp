@@ -1,10 +1,37 @@
 <html>
 <head>
-  <title>Setting Up Your Python Development Environment</title>
+  <title>Configuring Ubuntu for Python Development</title>
 </head>
 
 <body>
-<h1>Setting Up Your Python Development Environment</h1>
+<h1>Configuring Ubuntu for Python Development</h1>
+
+<p>What follows are instructions for setting up an Ubuntu 8.04 ("Hardy Heron")
+home environment for use with this book.  I use Ubuntu GNU/Linux for both
+development and testing of the book (and just about everything else I do with
+computers, for that matter), so naturally the book is easiest to use with
+that system.</p>
+
+<p>In the spirit of software freedom and open collaboration, please contact
+me if you would like to maintain a similar appendix for your own favorite
+system.  I'd be more than happy to link to it or put it on the Open Book
+Project site, provided you agree to answer user feedback concerning it.</p>
+
+<p>Thanks!</p>
+
+<p><a href="mailto:jeff@elkner.net">Jeffrey Elkner</a><br />
+Arlington Public Schools<br />
+Arlington, Virginia</p>
+
+<h2>Package Installation</h2>
+
+<pre class='shell'>
+deb http://ppa.launchpad.net/mattva01/ubuntu hardy main restricted universe multiverse
+</pre>
+
+<pre class='shell'>
+sudo apt-get install vim-gnome gasp
+</pre>
 
 <h2>bash</h2>
 

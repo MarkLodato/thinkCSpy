@@ -6,3 +6,4 @@ chapter('contrib.obp', '')#Contributors
 for n in range(1, 13):
     chapter('ch%02d.obp' % n, '%d' % n)
 chapter('app_a.obp', 'A')
+chapter('app_b.obp', 'B')
