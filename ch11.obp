@@ -1009,9 +1009,29 @@ might look like this:
 $ python mean.py 3 4
 3.5
 $ python mean.py 3 4 5
-4
+4.0
+$ python mean.py 11 15 94.5 22
+35.625
 </pre>
 Include doctests for any functions you write for this program.
+</div></li>
+
+<li><div class="exercise">
+Write a program named <code>median.py</code> that takes a sequence of numbers
+on the command line and returns the median of their values.  A sample session
+might look like this:
+<pre class='shell'>
+$ python mean.py 3 7 11
+7
+$ python mean.py 19 85 121
+85
+$ python mean.py 11 15 16 22
+15.5
+</pre>
+Include doctests for any functions you write in the development of this program.
+</div></li>
+
+<li><div class="exercise">
 </div></li>
 </ol>
 
