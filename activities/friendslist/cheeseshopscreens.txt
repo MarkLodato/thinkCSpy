@@ -1,0 +1,17 @@
+       Welcome to the Cheese Shope 
+
+       press <enter> to continue
++++
+
+      [L]ist Cheeses
+      [A]dd a Cheese
+      [D]elete a Cheese
+      [S]ave
+      [Q]uit  
+
+Please enter your selection:
++++
+
+"%s" is not a valid choice, please try again...
+
+press <enter> to continue...
