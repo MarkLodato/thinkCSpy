@@ -468,9 +468,10 @@ python infinite_recursion.py &gt; output.txt 2&gt; errors.txt
 their contents.</p>
 
 <p>One final note on recursion.  When a recursive call occurs as the last
-line of a recursive funtion definition, it is called <b>tail recursion</b>,
-and is a bad practice in Python, since the same computation could be achieved
-far more efficiently using iteration instead of recursion.</p>
+line of a function definition, it is refered to as <b>tail recursion</b>.</p>
+
+<p>Here is a version of the <code>countdown</code> function from chapter 6
+written using tail recursion:</p>
 
 <pre class="python">
 def countdown(n):
@@ -481,8 +482,12 @@ def countdown(n):
         countdown(n-1)
 </pre> 
 
-<p>The recursive version of <code>countdown</code> above is inferior to the
-earlier iterative version in chapter 6 because it uses tail recursion.</p>
+<p>Any computation that can be made using iteration can also be made using
+recursion.</p>
+
+<p>Tail recursion is considered a bad practice in languages like Python,
+however, since it uses more system resources than the equivalent iterative
+solution.</p>
 
 
 <h2>List comprehensions</h2>
@@ -527,76 +532,6 @@ for <em>item1</em> in <em>seq1</em>:
 </pre>
 
 <p>As you can see, the list comprehension is much more compact.</p>
-
-
-
-<h2>The <code>sys</code> module and <code>argv</code></h2>
-<span class="index" value="sys module" />
-<span class="index" value="module!sys" />
-<span class="index" value="argv" />
-<span class="index" value="command line" />
-<span class="index" value="command line arguments" />
-
-<p>The <code>sys</code> module contains a variable named <code>argv</code>,
-which holds a list of strings read in from the <b>command line</b> when
-a Python script is run.  These <b>command line arguments</b> can be used to
-pass information into a program at the same time it is invoked.</p>
-
-<pre class="python">
-#
-# demo_argv.py
-#
-from sys import argv
-
-print argv 
-</pre>
-
-<p>Running this program from the unix command prompt demonstrates how
-<code>sys.argv</code> works:</p>
-
-<pre class="shell">
-$ python demo_argv.py this and that 1 2 3
-['demo_argv.py', 'this', 'and', 'that', '1', '2', '3']
-$ 
-</pre>
-
-<p><code>argv</code> is a list of strings.  Notice that the first element is
-the name of the program.  Arguments are seperated by white space, and separated
-into a list in the same way that <code>string.split</code> operates.  If you
-want an argument with white space in it, use quotes:</p>
-
-<pre class="shell">
-$ python demo_argv.py "this and" that "1 2" 3
-['demo_argv.py', 'this and', 'that', '1 2', '3']
-$ 
-</pre>
-
-<p>With <code>argv</code> we can write useful programs that take their input
-directly from the command line.  For example, here is a program that finds
-the sum of a series of numbers:</p>
-
-<pre class="python">
-#
-# sum.py
-#
-import sys
-
-nums = sys.argv[1:]
-
-for index, value in enumerate(nums):
-    nums[index] = float(value)
-
-print sum(nums)
-</pre>
-
-<p>We can now run this program from the command prompt like this:</p>
-
-<pre class="shell">
-$ python sum.py 3 4 5 11
-23
-$ python sum.py 3.5 5 11 100
-119.5
-</pre>
 
 
 <h2>Mini case study: tree</h2>
@@ -690,9 +625,6 @@ below.</p>
 <span class="index" value="infinite recursion" />
 <span class="index" value="tail recursion" />
 <span class="index" value="list comprehension" />
-<span class="index" value="command line" />
-<span class="index" value="command line arguments" />
-<span class="index" value="argv" />
 
 <dl>
 <dt>immutable type:</dt>
@@ -742,33 +674,18 @@ case.  Eventually, an infinite recursion causes a runtime error.</dd>
 
 <dt>tail recursion:</dt>
 <dd>A recursive call that occurs as the last statement (at the tail) of a
-recursive function.  Tail recursion is considered bad practice in Python
+function definition.  Tail recursion is considered bad practice in Python
 programs since a logically equivalent function can be written using
-<em>iteration</em> which is more efficient.</dd>
+<em>iteration</em> which is more efficient (see the Wikipedia article on
+<a href="http://en.wikipedia.org/wiki/Tail_recursion">tail recursion</a>
+for more information).
+</dd>
 
 <dt>list comprehension:</dt>
 <dd>A syntactic construct which enables lists to be generated from other
 lists using a syntax analogous to the mathematical
 <a href="http://en.wikipedia.org/wiki/Set-builder_notation">set-builder
 notation</a>.
-</dd>
-
-<dt>command line:</dt>
-<dd>The sequence of characters read into the <em>command interpreter</em> in
-a <em>command line interface</em> (see the Wikipedia article on
-<a href="http://en.wikipedia.org/wiki/Command_line">command line interface</a>
-for more information).</dd>
-
-<dt>command line argument:</dt>
-<dd>
-A value passed to a program along with the program's invocation at the
-<em>command prompt</em> of a command line interface (CLI).</dd>
-
-<dt><code>argv</code>:</dt>
-<dd>
-<code>argv</code> is short for <em>argument vector</em> and is a variable
-in the <code>sys</code> module which stores a list of command line arguments
-passed to a program at run time.
 </dd>
 </dl>
 
@@ -999,36 +916,6 @@ Give the Python interpreter's response to each of the following:
 </ol>
 You should anticipate the results <em>before</em> you try them in the
 interpreter.
-</div></li>
-
-<li><div class="exercise">
-Write a program named <code>mean.py</code> that takes a sequence of numbers
-on the command line and returns the mean of their values.  A sample session
-might look like this:
-<pre class='shell'>
-$ python mean.py 3 4
-3.5
-$ python mean.py 3 4 5
-4.0
-$ python mean.py 11 15 94.5 22
-35.625
-</pre>
-Include doctests for any functions you write for this program.
-</div></li>
-
-<li><div class="exercise">
-Write a program named <code>median.py</code> that takes a sequence of numbers
-on the command line and returns the median of their values.  A sample session
-might look like this:
-<pre class='shell'>
-$ python median.py 3 7 11
-7
-$ python median.py 19 85 121
-85
-$ python median.py 11 15 16 22
-15.5
-</pre>
-Include doctests for any functions you write in the development of this program.
 </div></li>
 
 </ol>
