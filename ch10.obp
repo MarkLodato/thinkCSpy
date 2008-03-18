@@ -667,22 +667,64 @@ editor.  You will be asked to analyze the program in the exercies below.</p>
 <h2>The <code>sys</code> module and <code>argv</code></h2>
 <span class="index" value="sys module" />
 <span class="index" value="module!sys" />
+<span class="index" value="Jython" />
 <span class="index" value="argv" />
 <span class="index" value="command line" />
 <span class="index" value="command line arguments" />
 
-<p>The <code>sys</code> module contains a variable named <code>argv</code>,
-which holds a list of strings read in from the <b>command line</b> when
-a Python script is run.  These <b>command line arguments</b> can be used to
-pass information into a program at the same time it is invoked.</p>
+<p>The <code>sys</code> module contains functions and variables which provide
+access to the <em><a href="">environment</a></em> in which the python
+interpreter runs.</p>
+
+<p>The following example shows the values of a few of these variables on one of 
+our systems:</p>
+
+<pre class='python-interpreter'>
+>>> import sys
+>>> sys.platform
+'linux2'
+>>> sys.path
+['', '/home/jelkner/lib/python', '/usr/lib/python25.zip', '/usr/lib/python2.5',
+'/usr/lib/python2.5/plat-linux2', '/usr/lib/python2.5/lib-tk',
+'/usr/lib/python2.5/lib-dynload', '/usr/local/lib/python2.5/site-packages',
+'/usr/lib/python2.5/site-packages', '/usr/lib/python2.5/site-packages/Numeric', 
+'/usr/lib/python2.5/site-packages/gst-0.10',
+'/var/lib/python-support/python2.5', '/usr/lib/python2.5/site-packages/gtk-2.0',
+'/var/lib/python-support/python2.5/gtk-2.0']
+>>> sys.version
+'2.5.1 (r251:54863, Mar  7 2008, 04:10:12) \n[GCC 4.1.3 20070929 (prerelease)
+(Ubuntu 4.1.2-16ubuntu2)]'
+>>> 
+</pre>
+
+<p>Starting <b>Jython</b> on the same machine produces different values for the
+same variables:</p>
+
+<pre class='python-interpreter'>
+>>> import sys
+>>> sys.platform
+'java1.6.0_03'
+>>> sys.path
+['', '/home/jelkner/.', '/usr/share/jython/Lib', '/usr/share/jython/Lib-cpython']
+>>> sys.version
+'2.1'
+>>> 
+</pre>
+
+<p>The results will be different on your machine of course.</p>
+
+<p>The <code>argv</code> variable holds a list of strings read in from the
+<b>command line</b> when a Python script is run.  These
+<b>command line arguments</b> can be used to pass information into a program at 
+the same time it is invoked.</p>
 
 <pre class="python">
 #
 # demo_argv.py
 #
-from sys import argv
+import sys
 
-print argv 
+print sys.argv 
 </pre>
 
 <p>Running this program from the unix command prompt demonstrates how
@@ -713,9 +755,9 @@ the sum of a series of numbers:</p>
 #
 # sum.py
 #
-import sys
+from sys import argv
 
-nums = sys.argv[1:]
+nums = argv[1:]
 
 for index, value in enumerate(nums):
     nums[index] = float(value)
@@ -723,7 +765,11 @@ for index, value in enumerate(nums):
 print sum(nums)
 </pre>
 
-<p>We can now run this program from the command prompt like this:</p>
+<p>In this program we use the
+<code>from &lt;module&gt; import &lt;attribute&gt;</code> style of importing,
+so <code>argv</code> is brought into the module's main namespace.</p> 
+
+<p>We can now run the program from the command prompt like this:</p>
 
 <pre class="shell">
 $ python sum.py 3 4 5 11
@@ -731,6 +777,8 @@ $ python sum.py 3 4 5 11
 $ python sum.py 3.5 5 11 100
 119.5
 </pre>
+
+<p>You are asked to write similar programs as exercises.</p>
 
 
 <h2>Glossary</h2>
@@ -759,6 +807,7 @@ $ python sum.py 3.5 5 11 100
 <span class="index" value="delimiter" />
 <span class="index" value="command line" />
 <span class="index" value="command line arguments" />
+<span class="index" value="Jython" />
 <span class="index" value="argv" />
 
 <dl>
@@ -911,6 +960,13 @@ for more information).</dd>
 <dd>
 A value passed to a program along with the program's invocation at the
 <em>command prompt</em> of a command line interface (CLI).</dd>
+
+<dt>Jython:</dt>
+<dd>
+An implementation of the Python programming language written in Java.
+(see the Jython home page at
+<a href="http://www.jython.org">http://www.jython.org</a> for more information.)
+</dd>
 
 <dt><code>argv</code>:</dt>
 <dd>
@@ -1260,8 +1316,7 @@ does it have?
 
 <li><div class="exercise">
 Write a program named <code>mean.py</code> that takes a sequence of numbers
-on the command line and returns the mean of their values.  A sample session
-might look like this:
+on the command line and returns the mean of their values.
 <pre class='shell'>
 $ python mean.py 3 4
 3.5
@@ -1270,13 +1325,13 @@ $ python mean.py 3 4 5
 $ python mean.py 11 15 94.5 22
 35.625
 </pre>
-Include doctests for any functions you write for this program.
+A session of your program running on the same input should produce the same
+output as the sample session above.
 </div></li>
 
 <li><div class="exercise">
 Write a program named <code>median.py</code> that takes a sequence of numbers
-on the command line and returns the median of their values.  A sample session
-might look like this:
+on the command line and returns the median of their values.
 <pre class='shell'>
 $ python median.py 3 7 11
 7
@@ -1285,9 +1340,15 @@ $ python median.py 19 85 121
 $ python median.py 11 15 16 22
 15.5
 </pre>
-Include doctests for any functions you write in the development of this program.
+A session of your program running on the same input should produce the same
+output as the sample session above.
 </div></li>
 
+<li><div class="exercise">
+Modify the <code>countletters.py</code> program so that it takes the file
+to open as a command line argument.  How will you handle the naming of the
+output file?
+</div></li>
 </ol>
 
 </body>

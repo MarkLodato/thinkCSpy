@@ -1,17 +1,17 @@
 <html>
 <head>
-  <title>Tuples and recursion</title>
+  <title>Recursion and exceptions</title>
 </head>
 <body>
 
-<h1>Tuples and recursion</h1>
-<a name="tuplechap" />
-<span class="index" value="tuple" />
+<h1>Recursion and exceptions</h1>
+<a name="recursionchap" />
 
 
-<h2>Mutability and tuples</h2>
+<h2>Tuples and mutability</h2>
 <span class="index" value="tuple" />
 <span class="index" value="immutable" />
+<span class="index" value="mutable" />
 <span class="index" value="data type!tuple" />
 <span class="index" value="data type!immutable" />
 <span class="index" value="sequence!immutable" />
@@ -22,12 +22,10 @@ differences we noted is that the elements of a list can be modified, but the
 characters in a string cannot.  In other words, strings are
 <b>immutable</b> and lists are <b>mutable</b>.</p>
 
-<span class="index" value="mutable" />
-<span class="index" value="immutable" />
+<p>A <b>tuple</b> is a type in Python that like a list is a sequence of items
+of any type.  Unlike lists, however, tuples are immutable.</p>
 
-<p>There is another type in Python called a <b>tuple</b> that is
-similar to a list except that it is immutable.  Syntactically, a tuple is a
-comma-separated list of values:</p>
+<p>Syntactically, a tuple is a comma-separated sequence of values:</p>
 
 <pre class="python-interpreter">
 >>> tup = 2, 4, 6, 8, 10
@@ -342,18 +340,26 @@ a sequence of numbers:</p>
 <pre class="python-interpreter">
 >>> sum([1, 2, 8])
 11
+>>> sum((3, 5, 8.5))
+16.5
+>>>
 </pre>
 
 <p>For our <em>nested number list</em>, however, <code>sum</code> will not
 work:</p> 
 
 <pre class="python-interpreter">
->>> sum([1, 2, [11, 13], 8, [4, 5], 17])
+>>> sum([1, 2, [11, 13], 8])
 Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 TypeError: unsupported operand type(s) for +: 'int' and 'list'
 >>> 
 </pre>
+
+<p>The problem is that the third element of this list, <code>[11, 13]</code>,
+is itself a list, which can not be added to <code>1</code>, <code>2</code>,
+and <code>8</code>.
+</p>
 
 
 <h2>Recursion</h2>
@@ -383,10 +389,9 @@ def recursive_sum(nested_num_list):
 </pre>
 
 <p>The body of <code>recursive_sum</code> consists mainly of a <code>for</code>
-that traverses <code>nest_list</code> adding numerical values to the variable,
-<code>sum</code>, which <em>accumulates</em> the total.  If
-<code>element</code> is a numerical value (the <code>else</code> branch), it
-is simply added to <code>sum</code>.  If <code>element</code> is a list, then
+loop that traverses <code>nested_num_list</code>.  If <code>element</code> is a 
+numerical value (the <code>else</code> branch), it is simply added to
+<code>sum</code>.  If <code>element</code> is a list, then
 <code>recursive_sum</code> is called again, with the element as an argument.
 </p>
 
@@ -456,19 +461,140 @@ program, type the following:</p>
 python infinite_recursion.py
 </pre>
 
-<p>After watching the messages flash by, run it again using the following
-unix redirection commands to save the output and error messages to a file:
-</p>
+<p>After watching the messages flash by, you will be presented with the end
+of a long traceback that ends in with the following:</p>
 
-<pre class="shell">
-python infinite_recursion.py &gt; output.txt 2&gt; errors.txt
+<pre class='shell'>
+  ...
+  File "infinite_recursion.py", line 3, in recursion_depth
+    recursion_depth(number + 1)
+RuntimeError: maximum recursion depth exceeded
 </pre>
 
-<p>Open <code>output.txt</code> and <code>errors.txt</code> and describe
-their contents.</p>
+<p>We would certainly never want something like this to happen to a user of
+one of our programs, so before finishing our discussion of recursion, let's 
+take a detour to discuss how errors like this are handled in Python.</p>
 
-<p>One final note on recursion.  When a recursive call occurs as the last
-line of a function definition, it is refered to as <b>tail recursion</b>.</p>
+
+<h2>Exceptions</h2>
+<span class="index" value="exception" />
+<span class="index" value="traceback" />
+<span class="index" value="handle an exception" />
+<span class="index" value="exception handling" />
+<span class="index" value="try statement" />
+<span class="index" value="statement!try" />
+<span class="index" value="except statement" />
+<span class="index" value="statement!except" />
+<span class="index" value="raise exception" />
+
+<p>Whenever a runtime error occurs, it creates an <b>exception</b>.  The
+program stops running at this point and Python prints out the traceback,
+which ends with the exception which occured.</p>
+
+<p>For example, dividing by zero creates an exception:</p>
+
+<pre class="python-interpreter">
+>>> print 55/0
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ZeroDivisionError: integer division or modulo by zero
+>>>
+</pre>
+
+<p>So does accessing a nonexistent list item:</p>
+
+<pre class="python-interpreter">
+>>> a = []
+>>> print a[5]
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+IndexError: list index out of range
+>>>
+</pre>
+
+<p>Or trying to make an item assignment on a tuple:</p>
+
+<pre class="python">
+>>> tup = ('a', 'b', 'd', 'd')
+>>> tup[2] = 'c' 
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: 'tuple' object does not support item assignment
+>>>
+</pre>
+
+<p>In each case, the error message on the last line has two parts: the type of
+error before the colon, and specifics about the error after the colon.</p>
+
+<p>Sometimes we want to execute an operation that might cause an exception, but 
+we don't want the program to stop.  We can <b>handle the exception</b> using
+the <code>try</code> and <code>except</code> statements.</p>
+
+<p>For example, we might prompt the user for the name of a file and then try to 
+open it.  If the file doesn't exist, we don't want the program to crash; we
+want to handle the exception:</p>
+
+<pre class="python">
+filename = raw_input('Enter a file name: ')
+try:
+    f = open (filename, "r")
+except:
+    print 'There is no file named', filename
+</pre>
+
+<p>The <code>try</code> statement executes the statements in the first block.
+If no exceptions occur, it ignores the <code>except</code> statement.  If any
+exception occurs, it executes the statements in the <code>except</code> branch
+and then continues.</p>
+
+<p>We can encapsulate this capability in a function: <code>exists</code> takes
+a filename and returns true if the file exists, false if it doesn't:</p>
+
+<pre class="python">
+def exists(filename):
+    try:
+        f = open(filename)
+        f.close()
+        return 1
+    except:
+        return 0
+</pre>
+
+<p>You can use multiple <code>except</code> blocks to handle different kinds of
+exceptions.  The <em>Python Reference Manual</em> has the details.</p>
+
+<p>If your program detects an error condition, you can make it
+<b>raise</b> an exception.  Here is an example that gets input from
+the user and checks for the value 17.  Assuming that 17 is not valid input for
+some reason, we raise an exception.</p>
+
+<pre class="python">
+def inputNumber():
+    x = input('Pick a number: ')
+    if x == 17:
+        raise 'BadNumberError', '17 is a bad number'
+    return x
+</pre>
+
+<p>The <code>raise</code> statement takes two arguments: the exception type and 
+specific information about the error.  <code>BadNumberError</code> is a new
+kind of exception we invented for this application.</p>
+
+<p>If the function that called <code>inputNumber</code> handles the error, then 
+the program can continue; otherwise, Python prints the error message and exits:
+</p>
+
+<pre class="python-interpreter">
+>>> inputNumber()
+Pick a number: 17
+BadNumberError: 17 is a bad number
+</pre>
+
+<p>The error message includes the exception type and the additional information 
+you provided.</p>
+
+<p>When a recursive call occurs as the last line of a function definition, it
+is refered to as <b>tail recursion</b>.</p>
 
 <p>Here is a version of the <code>countdown</code> function from chapter 6
 written using tail recursion:</p>
@@ -623,6 +749,11 @@ below.</p>
 <span class="index" value="recursion" />
 <span class="index" value="base case" />
 <span class="index" value="infinite recursion" />
+<span class="index" value="exception" />
+<span class="index" value="try statement" />
+<span class="index" value="raise exception" />
+<span class="index" value="handle exception" />
+<span class="index" value="except statement" />
 <span class="index" value="tail recursion" />
 <span class="index" value="list comprehension" />
 
@@ -671,6 +802,16 @@ result in a recursive call.</dd>
 <dt>infinite recursion:</dt>
 <dd>A function that calls itself recursively without ever reaching the base
 case.  Eventually, an infinite recursion causes a runtime error.</dd>
+
+<dt>exception:</dt>
+<dd>An error that occurs at runtime.</dd>
+
+<dt>handle:</dt>
+<dd>To prevent an exception from terminating a program using the
+<code>try</code> and <code>except</code> statements.</dd>
+
+<dt>raise:</dt>
+<dd>To signal an exception using the <code>raise</code> statement.</dd>
 
 <dt>tail recursion:</dt>
 <dd>A recursive call that occurs as the last statement (at the tail) of a
@@ -889,6 +1030,11 @@ def flatten(nested_num_list):
     """
 </pre>
 Run your function to confirm that the doctests pass.
+</div></li>
+
+<li><div class="exercise">
+Write a function that uses <code>input_number</code> to input a number from the 
+keyboard and that handles the <code>BadNumberError</code> exception.
 </div></li>
 
 <li><div class="exercise">

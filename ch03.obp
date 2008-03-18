@@ -380,6 +380,9 @@ try to use it, Python will complain.</p>
 <span class="index" value="stack diagram" />
 <span class="index" value="function frame" />
 <span class="index" value="frame" />
+<span class="index" value="traceback" />
+<span class="index" value="stack trace" />
+<span class="index" value="trace!stack" />
 
 <p>To keep track of which variables can be used where, it is sometimes useful
 to draw a <b>stack diagram</b>.  Like state diagrams, stack diagrams
@@ -442,15 +445,14 @@ Traceback (innermost last):
 NameError: global name 'cat' is not defined
 </pre>
 
-<p>This list of functions is called a <b>traceback</b>.  It tells
-you what program file the error occurred in, and what line, and what functions
-were executing at the time.  It also shows the line of code that caused the
-error.</p>
-
-<span class="index" value="traceback" />
+<p>This list of functions is called a <b>traceback</b>.  It tells you what
+program file the error occurred in, and what line, and what functions were
+executing at the time.  It also shows the line of code that caused the error.
+</p>
 
 <p>Notice the similarity between the traceback and the stack diagram.  It's
-not a coincidence.</p>
+not a coincidence. In fact, another common name for a traceback is a
+<em>stack trace</em>.</p>
 
 
 <h2>Glossary</h2>
@@ -472,6 +474,7 @@ not a coincidence.</p>
 <span class="index" value="frame" />
 <span class="index" value="function frame" />
 <span class="index" value="traceback" />
+<span class="index" value="stack trace" />
 
 <dl>
 <dt>function:</dt>
@@ -594,7 +597,9 @@ local variables and parameters of the function.</dd>
 
 <dt>traceback:</dt>
 <dd>A list of the functions that are executing, printed when a runtime error
-occurs.</dd>
+occurs.  A traceback is also commonly refered to as a <em>stack trace</em>,
+since it lists the functions in the order in which they are stored in the
+<a href="http://en.wikipedia.org/wiki/Runtime_stack">runtime stack</a>.</dd>
 </dl>
 
 
