@@ -122,11 +122,15 @@ that is, if <code>x</code> is less than or equal to <code>y</code>.</p>
 <a name="conditional execution" />
 <span class="index" value="conditional branching" />
 <span class="index" value="conditional execution" />
+<span class="index" value="if" />
+<span class="index" value="elif" />
+<span class="index" value="else" />
+<span class="index" value="statement!if" />
 
 <p>In order to write useful programs, we almost always need the ability to
 check conditions and change the behavior of the program accordingly.
 <b>Conditional statements</b> give us this ability.  The simplest
-form is the <code>if</code> statement:</p>
+form is the <b><code>if</code> statement</b>:</p>
 
 <pre class="python">
 if x &gt; 0:
@@ -584,9 +588,11 @@ values: <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>,
 <dd>One of the operators that combines boolean expressions: <code>and</code>,
 <code>or</code>, and <code>not</code>.</dd>
 
+
 <dt>conditional statement:</dt>
 <dd>A statement that controls the flow of execution depending on some
-condition.</dd>
+condition. In Python the keywords <code>if</code>, <code>elif</code>,
+and <code>else</code> are used for conditional statements.</dd>
 
 <dt>condition:</dt>
 <dd>The boolean expression in a conditional statement that determines which

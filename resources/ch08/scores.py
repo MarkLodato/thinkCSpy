@@ -9,7 +9,7 @@ player = Text("Player: %d Points" % player_score, (10, 570), size=24)
 computer = Text("Computer: %d Points" % comp_score, (640, 570), size=24)
 
 while player_score < 5 and comp_score < 5:
-    wait(event='elapsed_time', duration=1)
+    sleep(1)
     winner = random_between(0, 1)
     if winner:
         player_score += 1
@@ -25,6 +25,6 @@ if player_score == 5:
 else:
     Text("Computer Wins!", (340, 290), size=32)
 
-wait(event='elapsed_time', duration=4)
+sleep(4)
 
 end_graphics()

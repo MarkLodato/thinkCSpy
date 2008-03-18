@@ -44,7 +44,7 @@ def play_round():
             remove_from_screen(mitt)
             return PLAYER_WINS
 
-        wait()
+        update_when('next_tick')
 
 
 def play_game():
@@ -54,7 +54,7 @@ def play_game():
     while True:
         pmsg = Text("Player: %d Points" % player_score, (10, 570), size=24)
         cmsg = Text("Computer: %d Points" % comp_score, (640, 570), size=24)
-        wait(event='elapsed_time', duration=3)
+        sleep(3)
         remove_from_screen(pmsg)
         remove_from_screen(cmsg)
 
@@ -74,15 +74,15 @@ def play_game():
 
 
 begin_graphics(800, 600, title="Catch", background=color.YELLOW)
-set_speed(40)
+set_speed(120)
 
 result = play_game()
 
 if result == PLAYER_WINS:
     Text("Player Wins!", (340, 290), size=32)
-    wait(event='elapsed_time', duration=4)
 elif result == COMPUTER_WINS:
     Text("Computer Wins!", (340, 290), size=32)
-    wait(event='elapsed_time', duration=4)
+
+sleep(4)
 
 end_graphics()

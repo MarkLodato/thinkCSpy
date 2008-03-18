@@ -25,7 +25,7 @@ motion to a program.  The following program moves a black ball across an
 from gasp import *
 
 begin_graphics(800, 600, title="Catch", background=YELLOW)
-set_speed(40)
+set_speed(120)
 
 ball_x = 10
 ball_y = 300
@@ -37,7 +37,7 @@ while ball_x &lt; 810:
     ball_x += dx
     ball_y += dy
     move_to(ball, (ball_x, ball_y))
-    wait_for('next_tick')
+    update_when('next_tick')
 
 end_graphics()
 </pre>
@@ -69,10 +69,12 @@ happening to the variables <code>x</code> and <code>y</code>.</p>
   pass in a shape (the ball in this case) and a location, and moves the
   shape to that location.</li>
 
-  <li>The <code>wait_for</code> function is used to delay the action in a gasp
-  program util a specified event occurs.  The event <code>'next_tick'</code>
-  waits until the next frame, for an amount of time determined by the frame
-  rate set with <code>set_speed</code>.</li>
+  <li>The <code>update_when</code> function is used to delay the action in a
+  gasp program util a specified event occurs.  The event
+  <code>'next_tick'</code> waits until the next frame, for an amount of time
+  determined by the frame rate set with <code>set_speed</code>.  Other
+  valid arguments for <code>update_when</code> are <code>'key_pressed'</code>
+  and <code>'mouse_clicked'</code>.</li>
 </ul>
 
 
@@ -212,7 +214,7 @@ mitt up and down, respectively.  Add this to a file named
 from gasp import *
 
 begin_graphics(800, 600, title="Catch", background=color.YELLOW)
-set_speed(40)
+set_speed(120)
 
 mitt_x = 780
 mitt_y = 300
@@ -228,7 +230,7 @@ while True:
         break
 
     move_to(mitt, (mitt_x, mitt_y))
-    wait_for('next_tick')
+    update_when('next_tick')
 
 end_graphics()
 </pre>
@@ -250,7 +252,7 @@ def distance(x1, y1, x2, y2):
     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
 begin_graphics(800, 600, title="Catch", background=color.YELLOW)
-set_speed(40)
+set_speed(120)
 
 ball1_x = 10
 ball1_y = 300
@@ -271,7 +273,7 @@ while ball1_x &lt; 810:
         remove_from_screen(ball1)
         remove_from_screen(ball2)
         break
-    wait_for('next_tick')
+    update_when('next_tick')
 
 sleep(1)
 end_graphics()
@@ -293,7 +295,7 @@ def distance(x1, y1, x2, y2):
     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
 begin_graphics(800, 600, title="Catch", background=color.YELLOW)
-set_speed(40)
+set_speed(120)
 
 ball_x = 10
 ball_y = 300
@@ -330,7 +332,7 @@ while True:
         remove_from_screen(ball)
         break
 
-    wait_for('next_tick')
+    update_when('next_tick')
 
 end_graphics()
 </pre>
@@ -350,7 +352,7 @@ not.  It then updates the display on the screen.</p>
 from gasp import *
 
 begin_graphics(800, 600, title="Catch", background=color.YELLOW)
-set_speed(40)
+set_speed(120)
 
 player_score = 0
 comp_score = 0
@@ -468,7 +470,7 @@ def play_round():
             remove_from_screen(mitt)
             return PLAYER_WINS
 
-        wait_for('next_tick')
+        update_when('next_tick')
 
 
 def play_game():
@@ -498,7 +500,7 @@ def play_game():
 
 
 begin_graphics(800, 600, title="Catch", background=color.YELLOW)
-set_speed(40)
+set_speed(120)
 
 result = play_game()
 
@@ -506,6 +508,7 @@ if result == PLAYER_WINS:
     Text("Player Wins!", (340, 290), size=32)
 elif result == COMPUTER_WINS:
     Text("Computer Wins!", (340, 290), size=32)
+
 sleep(4)
 
 end_graphics()

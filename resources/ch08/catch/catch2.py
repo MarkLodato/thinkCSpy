@@ -4,7 +4,7 @@ def distance((x1, y1), (x2, y2)):
         return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
 begin_graphics(800, 600, title="Catch", background=color.YELLOW)
-set_speed(40)
+set_speed(120)
 
 ball_x = 10
 ball_y = 300
@@ -23,7 +23,7 @@ while True:
     ball_y += dy
     if ball_x >= 810:
         Text("Computer Wins!", (340, 290), size=32)
-        wait(event='elapsed_time', duration=2)
+        sleep(2)
         break
     move_to(ball, (ball_x, ball_y))
 
@@ -38,9 +38,9 @@ while True:
     if distance((ball_x, ball_y), (mitt_x, mitt_y)) <= 30:
         remove_from_screen(ball)
         Text("Player Wins!", (340, 290), size=32)
-        wait(event='elapsed_time', duration=2)
+        sleep(2)
         break
 
-    wait()
+    update_when('next_tick')
 
 end_graphics()

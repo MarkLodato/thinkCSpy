@@ -4,7 +4,7 @@ def distance((x1, y1), (x2, y2)):
     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
 begin_graphics(800, 600, title="Catch", background=color.YELLOW)
-set_speed(40)
+set_speed(120)
 
 ball1_x = 10
 ball1_y = 300
@@ -21,10 +21,10 @@ while ball1_x < 810:
     ball2_x += ball2_dx
     move_to(ball1, (ball1_x, ball1_y))
     move_to(ball2, (ball2_x, ball2_y))
-    if distance((ball1_x, ball1_y), (ball2_x, ball2_y)) <= 20:
+    if distance((ball1_x, ball1_y), (ball2_x, ball2_y)) < 20:
         remove_from_screen(ball1)
         remove_from_screen(ball2)
         break
-    wait()
+    update_when('next_tick')
 
 end_graphics()

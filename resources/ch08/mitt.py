@@ -1,7 +1,7 @@
 from gasp import *
 
 begin_graphics(800, 600, title="Catch", background=color.YELLOW)
-set_speed(40)
+set_speed(120)
 
 mitt_x = 780
 mitt_y = 300
@@ -15,6 +15,6 @@ while True:
     elif key_pressed('escape'):
         break
     move_to(mitt, (mitt_x, mitt_y))
-    wait()
+    update_when('next_tick')
 
 end_graphics()
