@@ -1,0 +1,119 @@
+<html>
+<head>
+  <title>Configuring Ubuntu for Python Development</title>
+</head>
+
+<body>
+<h1>Configuring Ubuntu for Python Development</h1>
+
+<p>What follows are instructions for setting up an Ubuntu 8.04 ("Hardy Heron")
+home environment for use with this book.  I use Ubuntu GNU/Linux for both
+development and testing of the book (and just about everything else I do with
+computers, for that matter), so naturally the book is easiest to use with
+that system.</p>
+
+<p>In the spirit of software freedom and open collaboration, please contact
+me if you would like to maintain a similar appendix for your own favorite
+system.  I'd be more than happy to link to it or put it on the Open Book
+Project site, provided you agree to answer user feedback concerning it.</p>
+
+<p>Thanks!</p>
+
+<p><a href="mailto:jeff@elkner.net">Jeffrey Elkner</a><br />
+Arlington Public Schools<br />
+Arlington, Virginia</p>
+
+
+<h2>Vim</h2>
+
+<p><a href="http://www.vim.org">Vim</a> can be very effectively for Python
+development, but Ubuntu only comes with the <code>vim-tiny</code> package
+installed by default, so it doesn't support color syntax highlighting or
+auto-indenting.</p>
+
+<p>To use Vim, do the following:</p>
+<ol>
+<li>
+From the unix command prompt, run:
+<pre class='shell'>sudo apt-get install vim-gnome</pre>
+</li>
+<li>
+Create a file in your home directory named <code>.vimrc</code> that
+contains the following:
+<pre class='boxed'>
+syntax enable
+filetype indent on
+set et
+set sw=4
+set smarttab
+map &lt;f2&gt; :w\|!python %&lt;cr&gt;
+</pre>
+</li>
+</ol>
+
+
+<h2>GASP</h2>
+
+<p>Several of the case studies use GASP (Graphics API for Students for Python),
+which is the only additional library needed to use this book.</p>
+
+<p>To install GASP, do the following:</p>
+<ol>
+<li>
+Add Mathew Gallagher's personal package archive to your apt sources:
+<ul>
+<li>click <code>System -> Administration -> Software Sources</code></li>
+<li>select the <code>Third-Party Software</code> tab</li>
+<li>click the <code>+ Add</code> button</li>
+<li>paste the following into the <code>APT line:</code> text entry box:
+<pre class='boxed'>
+deb http://ppa.launchpad.net/mattva01/ubuntu hardy main restricted universe multiverse
+</pre>
+</li>
+<li>click the <code>Close</code> button</li>
+<li>click the <code>Reload</code> button in <code>The information about
+available software is out-of-date</code> dialog box</li>
+<li>click the <code>Close</code> button of the <code>Software Sources</code>
+window</li>
+</ul>
+</li>
+<li>
+Install GASP by typing the following at a command prompt:
+<pre class='shell'>
+sudo apt-get install python-gasp
+</pre>
+</li>
+</ol>
+
+
+<h2><code>$HOME</code> environment</h2>
+
+<p>The following creates a useful environment in your home directory for adding
+your own Python libraries and executable scripts:</p>
+
+<ol>
+<li>From the command prompt in your home directory, create <code>bin</code>
+and <code>lib/python</code> subdirectories by running the following commands:
+<pre class='shell'>
+mkdir bin lib
+mkdir lib/python
+</pre>
+</li>
+<li>
+Add the following lines to the bottom of your <code>.bashrc</code> in your
+home directory:
+<pre class='boxed'>
+PATH=$HOME/bin:$PATH
+PYTHONPATH=$HOME/lib/python
+EDITOR=vi
+
+export PATH PYTHONPATH EDITOR
+</pre>
+This will set your prefered editor to Vim, add your own <code>lib/python</code>
+subdirectory for your Python libraries to your Python path, and add your own
+<code>bin</code> directory as a place to put executable scripts.
+</li>
+</ol>
+
+</body>
+</html>
