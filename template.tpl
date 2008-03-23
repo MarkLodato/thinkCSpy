@@ -3,16 +3,17 @@
 <head>
 <title>How to Think Like a Computer Scientist: </title>
 <link type="text/css" rel="stylesheet" href="stylesheet.css" />
-  </head>
+</head>
 
-  <body bgcolor="white">
-    <h1 class="title"></h1>
-    <div class="toc"></div>
-    <div class="body">
+<body>
+<h1 class="title"></h1>
+<div class="toc"></div>
+<div class="body">
 	
-    </div>
+</div>
 
-    <p><a href="index.xhtml">Table of Contents</a> |
-    <a href="dex.xhtml">Index</a></p>
-  </body>
+<p style="text-align: center;"><a href="index.xhtml">Table of Contents</a> |
+<a href="dex.xhtml">Index</a></p>
+
+</body>
 </html>

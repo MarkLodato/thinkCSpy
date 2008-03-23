@@ -3,8 +3,12 @@
 #  How to Think Like a Computer Scientist: Learning with Python  2nd Edition
 #
 #  make - creates xhtml book version.
+#
 #  make book - xhtml book version only.
-#              No other versions are currently supported by this book's input files.
+#              No other versions are currently supported by this book's
+#              input files.
+#
+#  make clean - removes xhtml directory
 #
 #-------------------------------------------------------------------------------
 
@@ -12,8 +16,12 @@ build:	book
 
 book:
 	mkdir -p xhtml/
-	lore --config template=template.tpl --config ext='.xhtml' -pN -b thinkCSpy.book
+	lore --config template=template.tpl --config ext=".xhtml" -pN -b thinkCSpy.book
 	mv *.xhtml xhtml
+	# Next two lines are only there until a better solution is added to lore
+	cat dex_top.inc dex.html dex_bottom.inc > xhtml/dex.xhtml
+	rm dex.html
+	# end of Index creation. 
 	cp -r illustrations xhtml/
 	cp -r resources xhtml/
 	cp -r files2copy/* xhtml/
@@ -24,14 +32,6 @@ book:
 	mv ../thinkCSpy2.tgz xhtml/
 	mv ../.bzr .
 	mv ../.bzrignore .
-
-# Don't run this unless you are Jeff Elkner copying the output to ibiblio ;-)
-export:
-	rsync -avz -e ssh --delete xhtml/ login.ibiblio.org:obp/thinkCS/python/english2e/
-
-# Don't run this unless you are Jeff Elkner pushing the changes to launchpad ;-)
-push:
-	bzr push bzr+ssh://jelkner@bazaar.launchpad.net/~jelkner/thinkcspy/english2e
 
 clean:
 	rm -rf xhtml
