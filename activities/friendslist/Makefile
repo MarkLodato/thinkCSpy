@@ -11,7 +11,7 @@
 #-------------------------------------------------------------------------------
 
 build:
-	lore --config template=template.tpl --config ext=".xhtml" friendslist.lore 
+	lore --config template=template.tpl --config ext=".xhtml" index.lore 
 
 clean:
 	rm  *.xhtml

@@ -24,6 +24,7 @@ book:
 	# end of Index creation. 
 	cp -r illustrations xhtml/
 	cp -r resources xhtml/
+	cp -r activities xhtml/
 	cp -r files2copy/* xhtml/
 	mv .bzr ../
 	mv .bzrignore ../
