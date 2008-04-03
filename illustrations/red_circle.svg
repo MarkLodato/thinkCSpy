@@ -1,0 +1,8 @@
+<svg:svg xmlns:svg="http://www.w3.org/2000/svg" viewBox="0 0 500 1000" width="15cm" height="15cm" version="1.1">
+
+    <svg:title>circle</svg:title>
+ <svg:defs id="defs4"/>
+  <svg:g id="layer1">
+    <svg:path d="M228.67,461.728 A122.857,127.143 0 1,1 229.357,471.001" transform="translate(40, 28.5714)" style="fill: rgb(212, 0, 0); fill-opacity: 1; stroke: none; stroke-width: 0pt; stroke-linecap: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-opacity: 1;" id="path2160"/>
+  </svg:g>
+</svg:svg>

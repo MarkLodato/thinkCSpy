@@ -1,0 +1,20 @@
+<html>
+<head>
+  <title>Python String Formatting</title>
+</head>
+<body>
+<p>
+Python permits you to format a string using the following syntax:
+</p>
+<pre class="python">
+print "%10s%5s%10s%15s%20s" % ("this", "is", "a", "formated", "string")
+</pre>
+<p>
+which will produce the following output:
+</p>
+<pre class="shell">
+      this   is         a       formated              string
+</pre>
+
+</body>
+</html>

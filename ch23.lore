@@ -1,0 +1,36 @@
+<html>
+<head>
+  <title>Searching and sorting</title>
+</head>
+<body>
+
+<h1>Searching and sorting</h1>
+<span class="index" value="search" />
+<span class="index" value="searching" />
+<span class="index" value="sort" />
+<span class="index" value="sorting" />
+
+
+<h2>Glossary</h2>
+<span class="index" value="search" />
+
+<dl>
+<dt>search:</dt>
+<dd>.</dd>
+
+
+<h2>Exercises</h2>
+<ol>
+<li><div class="exercise">
+</div></li>
+
+<li><div class="exercise">
+</div></li>
+
+<li><div class="exercise">
+</div></li>
+
+</ol>
+
+</body>
+</html>
