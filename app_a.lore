@@ -8,9 +8,8 @@
 
 <p>What follows are instructions for setting up an Ubuntu 8.04 ("Hardy Heron")
 home environment for use with this book.  I use Ubuntu GNU/Linux for both
-development and testing of the book (and just about everything else I do with
-computers, for that matter), so naturally the book is easiest to use with
-that system.</p>
+development and testing of the book, so it is the only system about which I
+can personally answer setup and configuration questions.</p>
 
 <p>In the spirit of software freedom and open collaboration, please contact
 me if you would like to maintain a similar appendix for your own favorite
@@ -26,7 +25,7 @@ Arlington, Virginia</p>
 
 <h2>Vim</h2>
 
-<p><a href="http://www.vim.org">Vim</a> can be very effectively for Python
+<p><a href="http://www.vim.org">Vim</a> can be used very effectively for Python
 development, but Ubuntu only comes with the <code>vim-tiny</code> package
 installed by default, so it doesn't support color syntax highlighting or
 auto-indenting.</p>
@@ -50,6 +49,17 @@ map &lt;f2&gt; :w\|!python %&lt;cr&gt;
 </pre>
 </li>
 </ol>
+
+<p>When you edit a file with a <code>.py</code> extension, you should now
+have color systax highlighting and auto indenting.  Pressing the &lt;F2&gt;
+key should run your program, and bring you back to the editor when the
+program completes.</p>
+
+<p>To learn to use vim, run the following command at a unix command prompt:</p>
+
+<pre class="shell">
+vimtutor
+</pre>
 
 
 <h2>GASP</h2>
@@ -114,6 +124,30 @@ subdirectory for your Python libraries to your Python path, and add your own
 <code>bin</code> directory as a place to put executable scripts.
 </li>
 </ol>
+
+
+<h2>Making a python script executable and runnable from anywhere</h2>
+
+<p>On unix systems, Python scripts can be made <em>executable</em> using the
+following process:</p>
+<ol>
+<li>Add this line as the first line in the script:
+<pre class="python">
+#!/usr/bin/env python
+</pre>
+</li>
+<li>At the unix command prompt, type the following to make
+<code>myscript.py</code> executable:
+<pre class="shell">
+chmod +x myscript.py
+</pre>
+</li>
+<li>
+Move <code>myscript.py</code> into your <code>bin</code> directory, and it
+will be runnable from anywhere.
+</li>
+</ol>
+
 
 </body>
 </html>

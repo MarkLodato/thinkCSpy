@@ -1191,6 +1191,16 @@ recursion.  Call your new function with 1000 as an argument and make note
 of how fast it returns a value.
 </div></li>
 
+<li><div class="exercise">
+Write a program named <code>litter.py</code> that creates an empty file named
+<code>trash.txt</code> in each subdirectory of a directory tree given the
+root of the tree as an argument (or the current directory as a default).
+Now write a program named <code>cleanup.py</code> that removes all these files.
+<br /><br />
+<em>Hint:</em>  Use the <code>tree</code> program from the mini case study
+as a basis for these two recursive programs.
+</div></li>
+
 </ol>
 
 </body>
