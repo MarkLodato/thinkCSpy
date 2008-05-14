@@ -824,11 +824,11 @@ the function call.</dd>
 <dd>The value given to an optional parameter if no argument for it is provided
 in the function call.</dd>
 
-<dt>dot notation</dt>
+<dt>dot notation:</dt>
 <dd>Use of the <b>dot operator</b>, <code>.</code>, to access functions inside
 a module.</dd>
 
-<dt>docstring</dt>
+<dt>docstring:</dt>
 <dd>A string constant on the first line of a function or module definition
 (and as we will see later, in class and method definitions as well).
 Docstrings provide a convinient way to associate documentation with code.

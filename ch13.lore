@@ -31,7 +31,7 @@ forced into a corner and loose every time.
 
 <p>
 Let's start with a program that places the player on the screen and has a
-function to move him around in response to keys pressed:
+function to move her around in response to keys pressed:
 </p>
 
 <pre class="python">
@@ -97,12 +97,33 @@ if __name__ == '__main__':
     play_game()
 </pre>
 
+<p>Programs like this one that involve interacting with the user through
+<b>events</b> such as key presses and mouse clicks are called
+<b>event-driven programs</b>.</p>
+
+<p>The main <b>event loop</b> at this stage is simply:</p>
+
+<pre class="python">
+    while not finished:
+        finished = move_player(player)
+</pre>
+
 
 <h2>Glossary</h2>
+<span class="index" value="event" />
+<span class="index" value="event-driven program" />
+<span class="index" value="event loop" />
 
 <dl>
-<dt>:</dt>
-<dd>.</dd>
+<dt>event:</dt>
+<dd>A signal such as a keyboard press, mouse click, or message from another
+program.</dd>
+
+<dt>event-driven program:</dt>
+<dd></dd>
+
+<dt>event loop:</dt>
+<dd>A programming construct that waits for events and processes them.</dd>
 </dl>
 
 
