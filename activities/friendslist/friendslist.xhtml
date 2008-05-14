@@ -1,0 +1,63 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head><title>How to Think Like a Computer Scientist: Friends List</title><link href="stylesheet.css" type="text/css" rel="stylesheet" /></head><body bgcolor="white"><h1 class="title">Friends List</h1><div class="toc"><ol><li><a href="#auto0">Estimated Class Time:</a></li><li><a href="#auto1">Description:</a></li><li><a href="#auto2">Activity 1 - Getting Started</a></li><li><a href="#auto3">Activity 2 - Building the UI (User Interface)</a></li><li><a href="#auto4">Activity 3 - Making the Menus Work (Control Flow)</a></li><li><a href="#auto5">Activity 4 - Putting It All Together</a></li><li><a href="#auto6">Activity 5 - A Little Help From My Friends</a></li></ol></div><div class="content"><span></span><h2>Estimated Class Time:<a name="auto0"></a></h2><ul><li>Activity 1: 45 minutes</li><li>Activity 2: 45 minutes</li><li>Activity 3: 135 minutes</li><li>Activity 4: 135 minutes</li><li>Activity 5: 135 minutes</li></ul><h2>Description:<a name="auto1"></a></h2><p>This project has the following goals:</p><ol><li>To review and reinforce Python data types.</li><li>To use <b>persistent data</b> by reading and writing from files.</li><li>To introduce the concept of <b>menu driven interface</b> and write
+  a program using this <b>UI</b>.</li><li>To gain experience working with a large program.</li><li>To create something useful and to have Fun!</li></ol><h2>Activity 1 - Getting Started<a name="auto2"></a></h2><p>This is a larger sized project, so to be successful attention to detail
+will be important.</p><ol><li>Create a <code>Projects</code> folder in your home directory.
+  Create a subfolder named <code>Friends</code> that will hold all the files 
+  for this project.</li><li>Create a program which prompts the user for details about a friend
+  they would like to store in the program.  It should definitely store
+  <em>first name</em> and <em>last name</em>.  Other examples of things you
+  may wish to store include: <em>email</em>, <em>phone number</em>, and
+  <em>birthday</em>.</li><li>You will need to decide on a <b>data structure</b> in which to store
+  the friend.  Possibilities include <em>lists</em>, <em>tuples</em>, and
+  <em>dictionaries</em>.</li></ol><h2>Activity 2 - Building the UI (<em>User Interface</em>)<a name="auto3"></a></h2><p>An essential part of designing a computer program intended for use by
+non-programmers is creating the <b>user interface</b> (UI), which enables
+the user to get data into and out of the program.</p><p>For this project we will be using a <b>menu driven interface</b> which
+offers the users a <em>menu</em> of choices and then reads in their requests 
+as keyboard input.</p><ol><li>Download <a href="showscreens.py">showscreens.py</a> and
+  <a href="screens.txt">screens.txt</a> into your
+  <code>Friends</code> directory.</li><li>The a unix command prompt in the <code>Friends</code> directory, run:
+  <code>python showscreens.py</code> .</li><li>Discuss with your partner what happens.  What does the program do?
+  How do you think it works?</li><li>Study the contents of each file, discussing the python code with your
+  partner.  Do you think you can figure out what it is doing?  Which parts
+  of the program make sense to you?  Which parts do you have questions
+  about?</li><li>Make changes to the <code>screens.txt</code> file and run the program
+  again.  Did it do what you thought it would do?</li><li>Begin to incorporate the ideas you learned from this activity into
+  your <code>friends.py</code> program.  Upload what you accomplish by the
+  end of the period.</li></ol><h2>Activity 3 - Making the Menus Work (<em>Control Flow</em>)<a name="auto4"></a></h2><p>With a UI worked out, we now need to hook user input into program
+control flow.</p><ol><li>Download <a href="cheeseshop.py">cheeseshop.py</a> and
+  <a href="cheeseshopscreens.txt">cheeseshopscreens.txt</a> into
+  your <code>Friends</code> directory.</li><li>The a unix command prompt in the <code>Friends</code> directory, run:
+  <code>python cheeseshop.py</code> .</li><li>Discuss with your partner what happens.  What does the program do?
+  How do you think it works?</li><li>Study the contents of each file, discussing the python code with your
+  partner.  Do you think you can figure out what it is doing?  Which parts
+  of the program make sense to you?  Which parts do you have questions
+  about?</li><li>Which functions are completed and work as intended?  Which functions
+  are <em>stubs</em> that do not yet do what we want them to do?</li><li>Complete the missing functions so that <code>cheeseshop.py</code>
+  works as intended.</li><li>Begin to incorporate the ideas you learned from this activity into
+  your <code>friends.py</code> program.</li></ol><h2>Activity 4 - Putting It All Together<a name="auto5"></a></h2><p>Now we are ready to combine everything we have learned to complete the
+project.</p><ol><li>Download <a href="cheeseshop2.py">cheeseshop.py</a> and
+  <a href="cheeseshopscreens.txt">cheeseshopscreens.txt</a> into
+  your <code>Friends</code> directory.  This version almost works, but it
+  contains one bug.  Find the bug and <em>squash it</em>!</li><li>Download <a href="friendslist.dat">friendslist.dat</a>.
+  Using what you learned in <code>CheeseShop</code>, complete
+  <code>friends.py</code> so that it uses the data from
+  <code>friendslist.dat</code>.  Some things you will need to do:
+  <ul><li>Choose a <em>data structure</em> that will fit with the data in the
+    data file.</li><li>Modify the <code>load</code> function so that it can read in
+    friends from the data file.</li><li>Modify the <code>save</code> function so that is can write data
+    back in the same format found in the data file.</li><li>Modify the <code>add</code> and <code>remove</code> functions to
+    work with friends.</li><li>Add an <code>edit</code> function to change information within a
+    <code>friend</code>.</li></ul></li></ol><h2>Activity 5 - A Little Help From My Friends<a name="auto6"></a></h2><p></p><ol><li>Download <a href="friends.py">friends.py</a>,
+  <a href="friendlist.dat">friendlist.dat</a>, and
+  <a href="fscreens.txt">fscreens.txt</a> into your
+  <code>Friends</code> directory.  This version almost works, but the
+  <code>edit_friend</code> function is not completed. <em>Finish it</em>!
+  </li><li>Download <a href="friendslist.dat">friendslist.dat</a>.
+  Using what you learned in <code>CheeseShop</code>, complete
+  <code>friends.py</code> so that it uses the data from
+  <code>friendslist.dat</code>.  Some things you will need to do:
+  <ul><li>Choose a <em>data structure</em> that will fit with the data in the
+    data file.</li><li>Modify the <code>load</code> function so that it can read in friends 
+    from the data file.</li><li>Modify the <code>save</code> function so that is can write data back 
+    in the same format found in the data file.</li><li>Modify the <code>add</code> and <code>remove</code> functions to
+    work with friends.</li><li>Add an <code>edit</code> function to change
+    information within a <code>friend</code>.</li></ul></li></ol></div></body></html>

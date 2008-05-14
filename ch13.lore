@@ -6,9 +6,96 @@
 
 <h1>Case Study: Robots</h1>
 
+<h2>The game</h2>
+
 <p>In this case study we will write a version of the classic console based
 game, <a href="http://en.wikipedia.org/wiki/Robots_(computer_game)">robots</a>.
 </p>
+<p>
+Robots is a turn-based game in which the protagonist, you, are trying to stay
+alive while being chased by stupid, but relentless robots.  Each robot moves
+one square toward you each time you move.  If they catch you, you are dead,
+but if they collide they die, leaving a pile of dead robot junk in their wake.
+If other robots collide with the piles of junk, they die.
+</p>
+<p>
+The basic strategy is to position yourself so that the robots collide with each 
+other and with piles of junk as they move toward you.  To make the game
+playable, you also are given the ability to teleport to another location on the 
+screen -- 3 times safely and randomly thereafter, so that you don't just get
+forced into a corner and loose every time.
+</p>
+
+
+<h2>Setting up the world and the main loop</h2>
+
+<p>
+Let's start with a program that places the player on the screen and has a
+function to move him around in response to keys pressed:
+</p>
+
+<pre class="python">
+#
+# robots.py
+#
+from gasp import *
+
+SCREEN_WIDTH = 640
+SCREEN_HEIGHT = 480
+GRID_WIDTH = SCREEN_WIDTH/10 - 1
+GRID_HEIGHT = SCREEN_HEIGHT/10 - 1
+
+
+def place_player():
+    x = random.randint(0, GRID_WIDTH)
+    y = random.randint(0, GRID_HEIGHT)
+    return {'shape': Circle((10*x+5, 10*y+5), 5, filled=True), 'x': x, 'y': y}
+
+
+def move_player(player):
+    update_when('key_pressed')
+    if key_pressed('escape'):
+        return True
+    elif key_pressed('4'):
+        if player['x'] &gt; 0: player['x'] -= 1
+    elif key_pressed('7'):
+        if player['x'] &gt; 0: player['x'] -= 1
+        if player['y'] &lt; GRID_HEIGHT: player['y'] += 1
+    elif key_pressed('8'):
+        if player['y'] &lt; GRID_HEIGHT: player['y'] += 1
+    elif key_pressed('9'):
+        if player['x'] &lt; GRID_WIDTH: player['x'] += 1
+        if player['y'] &lt; GRID_HEIGHT: player['y'] += 1
+    elif key_pressed('6'):
+        if player['x'] &lt; GRID_WIDTH: player['x'] += 1
+    elif key_pressed('3'):
+        if player['x'] &lt; GRID_WIDTH: player['x'] += 1
+        if player['y'] &gt; 0: player['y'] -= 1
+    elif key_pressed('2'):
+        if player['y'] &gt; 0: player['y'] -= 1
+    elif key_pressed('1'):
+        if player['x'] &gt; 0: player['x'] -= 1
+        if player['y'] &gt; 0: player['y'] -= 1
+    else:
+        return False
+
+    move_to(player['shape'], (10*player['x']+5, 10*player['y']+5))
+
+    return False
+
+
+def play_game():
+    begin_graphics(SCREEN_WIDTH, SCREEN_HEIGHT)
+    player = place_player()
+    finished = False
+    while not finished:
+        finished = move_player(player)
+    end_graphics()
+
+
+if __name__ == '__main__':
+    play_game()
+</pre>
 
 
 <h2>Glossary</h2>
