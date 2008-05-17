@@ -439,7 +439,7 @@ a few pointers will be helpful already:</p>
     <li>separate function definitions with two blank lines</li>
     <li>keep function definitions together</li>
     <li>keep top level statements, including function calls, together at the
-    botton of the program</li>
+    bottom of the program</li>
 </ul>
 
 

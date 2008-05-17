@@ -24,19 +24,19 @@ motion to a program.  The following program moves a black ball across an
 <pre class='python'>
 from gasp import *
 
-begin_graphics(800, 600, title="Catch", background=YELLOW)
+begin_graphics(800, 600, title="Catch", background=color.YELLOW)
 set_speed(120)
 
-ball_x = 10
-ball_y = 300
-ball = Circle((ball_x, ball_y), 10, filled=True)
+x = 10
+y = 300
+ball = Circle((x, y), 10, filled=True)
 dx = 4
 dy = 1
 
 while ball_x &lt; 810:
     ball_x += dx
     ball_y += dy
-    move_to(ball, (ball_x, ball_y))
+    move_to(ball, (x, y))
     update_when('next_tick')
 
 end_graphics()
@@ -142,7 +142,7 @@ ball back in the opposite verticle direction.</p>
 <code>pitch.py</code>:</p>
 
 <pre class='python'>
-if ball_y &gt;= 590 or ball_y &lt;= 10:
+if y &gt;= 590 or y &lt;= 10:
     dy *= -1
 </pre>
 
