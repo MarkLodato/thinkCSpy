@@ -737,7 +737,7 @@ $
 </pre>
 
 <p><code>argv</code> is a list of strings.  Notice that the first element is
-the name of the program.  Arguments are seperated by white space, and separated
+the name of the program.  Arguments are separated by white space, and separated
 into a list in the same way that <code>string.split</code> operates.  If you
 want an argument with white space in it, use quotes:</p>
 
@@ -948,7 +948,7 @@ directory.</dd>
 
 <dt>delimiter:</dt>
 <dd>A sequence of one or more characters used to specify the boundary between
-seperate parts of text.</dd>
+separate parts of text.</dd>
 
 <dt>command line:</dt>
 <dd>The sequence of characters read into the <em>command interpreter</em> in
@@ -1143,7 +1143,7 @@ def myreplace(old, new, s):
        >>> myreplace(',', ';', 'this, that, and, some, other, thing')
        'this; that; and; some; other; thing'
        >>> myreplace(' ', '**', 'Words will now be separated by stars.')
-       'Words**will**now**be**seperated**by**stars.'
+       'Words**will**now**be**separated**by**stars.'
     """
 </pre>
 Your solution should pass all doctests.
@@ -1286,32 +1286,6 @@ for i in range(len(counts)):
   </pre>
   does.  What is the purpose of <code>if counts[i]</code>?</li>
 </ol>
-</div></li>
-
-<li><div class="exercise">
-Write a program called <code>alice_words.py</code> that creates a text
-file named <code>alice_words.txt</code> containing an alphabetical listing
-of all the words found in <code>alice_in_wonderland.txt</code> together with
-the number of times each word occurs.  The first 10 lines of your output file
-should look something like this:
-<pre class='shell'>
-Word              Count
-=======================
-a                 631
-a-piece           1
-abide             1
-able              1
-about             94
-above             3
-absence           1
-absurd            2
-</pre>
-How many times does the word, <code>alice</code>, occur in the book?
-</div></li>
-
-<li><div class="exercise">
-What is the longest word in <q>Alice in Wonderland</q>?  How many charactes
-does it have?
 </div></li>
 
 <li><div class="exercise">

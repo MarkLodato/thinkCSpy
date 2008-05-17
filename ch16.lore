@@ -1,693 +1,514 @@
 <html>
 <head>
-  <title>Classes and methods</title>
+  <title>Sets of objects</title>
 </head>
-
 <body>
-<h1>Classes and methods</h1>
 
-<h2>Object-oriented features</h2>
-<span class="index" value="object-oriented programming language" />
-<span class="index" value="object-oriented programming" />
+<h1>Sets of objects</h1>
 
-<p>
-Python is an <b>object-oriented programming language</b>, which
-means that it provides features that support
-<b>object-oriented programming</b>.
+<h2>Composition</h2>
+<span class="index" value="composition" />
+<span class="index" value="nested structure" />
+
+<p>By now, you have seen several examples of composition.  One of the first
+examples was using a method invocation as part of an expression.  Another
+example is the nested structure of statements; you can put an <code>if</code>
+statement within a <code>while</code> loop, within another <code>if</code>
+statement, and so on.</p>
+
+<p>Having seen this pattern, and having learned about lists and objects, you
+should not be surprised to learn that you can create lists of objects.  You can 
+also create objects that contain lists (as attributes); you can create lists
+that contain lists; you can create objects that contain objects; and so on.</p>
+
+<p>In this chapter and the next, we will look at some examples of these
+combinations, using <code>Card</code> objects as an example.</p>
+
+
+<h2><code>Card</code> objects</h2>
+<span class="index" value="Card" />
+<span class="index" value="class!Card" />
+
+<p>If you are not familiar with common playing cards, now would be a good time
+to get a deck, or else this chapter might not make much sense.  There are
+fifty-two cards in a deck, each of which belongs to one of four suits and one
+of thirteen ranks.  The suits are Spades, Hearts, Diamonds, and Clubs (in
+descending order in bridge).  The ranks are Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+Jack, Queen, and King.  Depending on the game that you are playing, the rank of 
+Ace may be higher than King or lower than 2.</p>
+
+<span class="index" value="rank" />
+<span class="index" value="suit" />
+
+<p>If we want to define a new object to represent a playing card, it is obvious 
+what the attributes should be: <code>rank</code> and <code>suit</code>.  It is
+not as obvious what type the attributes should be.  One possibility is to use
+strings containing words like <code>"Spade"</code> for suits and
+<code>"Queen"</code> for ranks.  One problem with this implementation is that
+it would not be easy to compare cards to see which had a higher rank or suit.
 </p>
 
-<p>
-It is not easy to define object-oriented programming, but we have already
-seen some of its characteristics:
+<span class="index" value="encode" />
+<span class="index" value="encrypt" />
+<span class="index" value="map to" />
+
+<p>An alternative is to use integers to <b>encode</b> the ranks and
+suits.  By <q>encode,</q> we do not mean what some people think, which is to
+encrypt or translate into a secret code.  What a computer scientist means by
+<q>encode</q> is <q>to define a mapping between a sequence of numbers and the
+items I want to represent.</q> For example:</p>
+
+<pre>
+Spades   --&gt;  3
+Hearts   --&gt;  2
+Diamonds --&gt;  1
+Clubs    --&gt;  0
+</pre>
+
+<p>An obvious feature of this mapping is that the suits map to integers in
+order, so we can compare suits by comparing integers.  The mapping for ranks is 
+fairly obvious; each of the numerical ranks maps to the corresponding integer,
+and for face cards:</p>
+
+<pre>
+Jack   --&gt;  11
+Queen  --&gt;  12
+King   --&gt;  13
+</pre>
+
+<p>The reason we are using mathematical notation for these mappings is that
+they are not part of the Python program.  They are part of the program design,
+but they never appear explicitly in the code.  The class definition for the
+<code>Card</code> type looks like this:</p>
+
+<pre class="python">
+class Card:
+    def __init__(self, suit=0, rank=0):
+        self.suit = suit
+        self.rank = rank
+</pre>
+
+<p>As usual, we provide an initialization method that takes an optional
+parameter for each attribute.</p>
+
+<span class="index" value="constructor" />
+
+<p>To create an object that represents the 3 of Clubs, use this command:</p>
+
+<pre class="python">
+three_of_clubs = Card(0, 3)
+</pre>
+
+<p>The first argument, <code>0</code>, represents the suit Clubs.</p>
+
+
+<h2>Class attributes and the <code>__str__</code> method</h2>
+<span class="index" value="class attribute" />
+<span class="index" value="attribute!class" />
+
+<p>In order to print <code>Card</code> objects in a way that people can easily
+read, we want to map the integer codes onto words.  A natural way to do that is 
+with lists of strings.  We assign these lists to
+<b>class attributes</b> at the top of the class definition:</p>
+
+<pre class="python">
+class Card:
+    suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
+    ranks = ["narf", "Ace", "2", "3", "4", "5", "6", "7",
+                "8", "9", "10", "Jack", "Queen", "King"]
+   
+    def __str__(self):
+        return (self.ranks[self.rank] + " of " +
+                self.suits[self.suit])
+</pre>
+
+<p>A class attribute is defined outside of any method, and it can be accessed
+from any of the methods in the class.</p>
+
+<p>Inside <code>__str__</code>, we can use <code>suits</code> and
+<code>ranks</code> to map the numerical values of <code>suit</code> and
+<code>rank</code> to strings.  For example, the expression
+<code>self.suits[self.suit]</code> means <q>use the attribute
+<code>suit</code> from the object <code>self</code> as an index into the class
+attribute named <code>suits</code>, and select the appropriate string.</q>
 </p>
 
-<ol>
-  <li>Programs are made up of object definitions and function definitions, and
-  most of the computation is expressed in terms of operations on objects.</li>
+<p>The reason for the <code>"narf"</code> in the first element in
+<code>ranks</code> is to act as a place keeper for the zero-eth element of
+the list, which will never be used.  The only valid ranks are 1 to 13.  This
+wasted item is not entirely necessary.  We could have started at 0, as usual,
+but it is less confusing to encode 2 as 2, 3 as 3, and so on.</p>
 
-  <li>Each object definition corresponds to some object or concept in the real
-  world, and the functions that operate on that object correspond to the ways
-  real-world objects interact.</li>
-</ol>
+<p>With the methods we have so far, we can create and print cards:</p>
 
-<p>For example, the <code>Time</code> class defined in the last chapter
-corresponds to the way people record the time of day, and the functions we
-defined correspond to the kinds of things people do with times.  Similarly, the 
-<code>Point</code> and <code>Rectangle</code> classes correspond to the
-mathematical concepts of a point and a rectangle.
-</p>
+<pre class="python-interpreter">
+>>> card1 = Card(1, 11)
+>>> print card1
+Jack of Diamonds
+</pre>
 
-<p>So far, we have not taken advantage of the features Python provides to
-support object-oriented programming.  Strictly speaking, these features are not 
-necessary.  For the most part, they provide an alternative syntax for things we 
-have already done, but in many cases, the alternative is more concise and more
-accurately conveys the structure of the program.</p>
+<p>Class attributes like <code>suits</code> are shared by all <code>Card</code> 
+objects.  The advantage of this is that we can use any <code>Card</code> object 
+to access the class attributes:</p>
 
-<p>For example, in the <code>Time</code> program, there is no obvious
-connection between the class definition and the function definitions that
-follow.  With some examination, it is apparent that every function takes at
-least one <code>Time</code> object as a parameter.</p>
+<pre class="python-interpreter">
+>>> card2 = Card(1, 3)
+>>> print card2
+3 of Diamonds
+>>> print card2.suits[1]
+Diamonds
+</pre>
 
-<p>This observation is the motivation for <b>methods</b>.  We have
-already seen some methods, such as <code>keys</code> and <code>values</code>,
-which were invoked on dictionaries.  Each method is associated with a class and 
-is intended to be invoked on instances of that class.</p>
+<p>The disadvantage is that if we modify a class attribute, it affects every
+instance of the class.  For example, if we decide that <q>Jack of Diamonds</q>
+should really be called <q>Jack of Swirly Whales,</q> we could do this:</p>
 
-<span class="index" value="method" />
-<span class="index" value="function" />
 <span class="index" value="instance!object" />
 <span class="index" value="object instance" />
 
-<p>Methods are just like functions, with two differences:</p>
-
-<ol>
-<li>Methods are defined inside a class definition in order to make the
-relationship between the class and the method explicit.</li>
-
-<li>The syntax for invoking a method is different fromp the syntax for calling
-a function.</li>
-</ol>
-
-<p>In the next few sections, we will take the functions from the previous
-two chapters and transform them into methods.  This transformation is purely
-mechanical; you can do it simply by following a sequence of steps.  If you are
-comfortable converting from one form to another, you will be able to choose the 
-best form for whatever you are doing.</p>
-
-
-<h2><code>print_time</code></h2>
-<a name="print_time" />
-<span class="index" value="printing!object" />
-
-<p>In the last chapter, we defined a class named <code>Time</code> and you
-wrote a function named <code>print_time</code>, which should have looked
-something like this:</p>
-
-<pre class="python">
-class Time:
-    pass
-   
-def print_time(time):
-    print (str(time.hours) + ":" +
-           str(time.minutes) + ":" +
-           str(time.seconds))
+<pre class="python-interpreter">
+>>> card1.suits[1] = "Swirly Whales"
+>>> print card1
+Jack of Swirly Whales
 </pre>
 
-<p>To call this function, we passed a <code>Time</code> object as a parameter:
+<p>The problem is that <em>all</em> of the Diamonds just became Swirly Whales:
 </p>
 
 <pre class="python-interpreter">
->>> current_time = Time()
->>> current_time.hours = 9
->>> current_time.minutes = 14
->>> current_time.seconds = 30
->>> print_time(current_time)
+>>> print card2
+3 of Swirly Whales
 </pre>
 
-<p>To make <code>print_time</code> a method, all we have to do is move the
-function definition inside the class definition.  Notice the change in
-indentation.</p>
+<p>It is usually not a good idea to modify class attributes.</p>
 
-<pre class="python">
-class Time:
-    def print_time(time):
-        print (str(time.hours) + ":" +
-               str(time.minutes) + ":" +
-               str(time.seconds))
-</pre>
 
-<p>Now we can invoke <code>print_time</code> using dot notation.</p>
+<h2>Comparing cards</h2>
+<a name="comparecard" />
+<span class="index" value="operator!conditional" />
+<span class="index" value="conditional operator" />
 
-<span class="index" value="dot notation" />
+<p>For primitive types, there are conditional operators
+(<code>&lt;</code>, <code>&gt;</code>, <code>==</code>, etc.)
+that compare values and determine when one is greater than, less than, or
+equal to another.  For user-defined types, we can override the behavior of
+the built-in operators by providing a method named <code>__cmp__</code>.  By
+convention, <code>__cmp__</code> takes two parameters, <code>self</code> and
+<code>other</code>, and returns 1 if the first object is greater, -1 if the
+second object is greater, and 0 if they are equal to each other.</p>
+
+<span class="index" value="override" />
+<span class="index" value="operator overloading" />
+<span class="index" value="ordering" />
+<span class="index" value="complete ordering" />
+<span class="index" value="partial ordering" />
+
+<p>Some types are completely ordered, which means that you can compare any two
+elements and tell which is bigger.  For example, the integers and the
+floating-point numbers are completely ordered.  Some sets are unordered, which
+means that there is no meaningful way to say that one element is bigger than
+another.  For example, the fruits are unordered, which is why you cannot
+compare apples and oranges.</p>
+
+<p>The set of playing cards is partially ordered, which means that sometimes
+you can compare cards and sometimes not.  For example, you know that the 3 of
+Clubs is higher than the 2 of Clubs, and the 3 of Diamonds is higher than the 3 
+of Clubs.  But which is better, the 3 of Clubs or the 2 of Diamonds?  One has a 
+higher rank, but the other has a higher suit.</p>
+
+<span class="index" value="comparable" />
+
+<p>In order to make cards comparable, you have to decide which is more
+important, rank or suit.  To be honest, the choice is arbitrary.  For the sake
+of choosing, we will say that suit is more important, because a new deck of
+cards comes sorted with all the Clubs together, followed by all the Diamonds,
+and so on.</p>
+
+<p>With that decided, we can write <code>__cmp__</code>:</p>
 
 <pre class="python-interpreter">
->>> current_time.print_time()
+def __cmp__(self, other):
+    # check the suits
+    if self.suit &gt; other.suit: return 1
+    if self.suit &lt; other.suit: return -1
+    # suits are the same... check ranks
+    if self.rank &gt; other.rank: return 1
+    if self.rank &lt; other.rank: return -1
+    # ranks are the same... it's a tie
+    return 0
 </pre>
 
-<p>As usual, the object on which the method is invoked appears before the dot
-and the name of the method appears after the dot.</p>
-
-<p>The object on which the method is invoked is assigned to the first
-parameter, so in this case <code>current_time</code> is assigned to the
-parameter <code>time</code>.</p>
-
-<p>By convention, the first parameter of a method is called <code>self</code>.  
-The reason for this is a little convoluted, but it is based on a useful
-metaphor.</p>
-
-<p>The syntax for a function call, <code>print_time(current_time)</code>,
-suggests that the function is the active agent.  It says something like,
-<q>Hey <code>print_time</code>!  Here's an object for you to print.</q></p>
-
-<p>In object-oriented programming, the objects are the active agents.  An
-invocation like <code>current_time.print_time()</code> says
-<q>Hey <code>current_time</code>!  Please print yourself!</q></p>
-
-<p>This change in perspective might be more polite, but it is not obvious that
-it is useful.  In the examples we have seen so far, it may not be.  But
-sometimes shifting responsibility from the functions onto the objects makes it
-possible to write more versatile functions, and makes it easier to maintain and 
-reuse code.</p>
+<p>In this ordering, Aces appear lower than Deuces (2s).</p>
 
 
-<h2>Another example</h2>
+<h2>Decks</h2>
+<span class="index" value="list!of objects" />
+<span class="index" value="object!list of" />
+<span class="index" value="deck" />
 
-<p>Let's convert <code>increment</code> to a method.  To save space, we will
-leave out previously defined methods, but you should keep them in your
-version:</p>
+<p>Now that we have objects to represent <code>Card</code>s, the next logical
+step is to define a class to represent a <code>Deck</code>.  Of course, a deck
+is made up of cards, so each <code>Deck</code> object will contain a list of
+cards as an attribute.</p>
 
-<pre class="python">
-class Time:
-    #previous method definitions here...
-   
-    def increment(self, seconds):
-        self.seconds = seconds + self.seconds
-   
-        while self.seconds &gt;= 60:
-            self.seconds = self.seconds - 60
-            self.minutes = self.minutes + 1
-   
-        while self.minutes &gt;= 60:
-            self.minutes = self.minutes - 60
-            self.hours = self.hours + 1
-</pre>
-
-<p>The transformation is purely mechanical - we move the method definition into 
-the class definition and change the name of the first parameter.</p>
-
-<p>Now we can invoke <code>increment</code> as a method.</p>
-
-<pre class="python">
-current_time.increment(500)
-</pre>
-
-<p>Again, the object on which the method is invoked gets assigned to the first
-parameter, <code>self</code>.  The second parameter, <code>seconds</code> gets
-the value <code>500</code>.</p>
-
-
-<h2>A more complicated example</h2>
-
-<p>The <code>after</code> function is slightly more complicated because it
-operates on two <code>Time</code> objects, not just one.  We can only convert
-one of the parameters to <code>self</code>; the other stays the same:</p>
-
-<pre class="python">
-class Time:
-    #previous method definitions here...
-   
-    def after(self, time2):
-        if self.hour &gt; time2.hour:
-            return True 
-        if self.hour &lt; time2.hour:
-            return False 
-   
-        if self.minute &gt; time2.minute:
-            return True 
-        if self.minute &lt; time2.minute:
-            return False 
-   
-        if self.second &gt; time2.second:
-            return True
-        return False 
-</pre>
-
-<p>We invoke this method on one object and pass the other as an argument:</p>
-
-<pre class="python">
-if doneTime.after(current_time):
-    print "The bread will be done after it starts."
-</pre>
-
-<p>You can almost read the invocation like English: <q>If the done-time is
-after the current-time, then...</q></p>
-
-
-<h2>Optional arguments</h2>
-
-<p>We have seen built-in functions that take a variable number of arguments.
-For example, <code>string.find</code> can take two, three, or four arguments.
-</p>
-
-<p>It is possible to write user-defined functions with optional argument lists. 
-For example, we can upgrade our own version of <code>find</code> to do the same 
-thing as <code>string.find</code>.</p>
-
-<p>This is the original version:</p>
-
-<pre class="python">
-def find(str, ch):
-    index = 0
-    while index &lt; len(str):
-        if str[index] == ch:
-            return index
-        index = index + 1
-    return -1
-</pre>
-
-<p>This is the new and improved version:</p>
-
-<pre class="python">
-def find(str, ch, start=0):
-    index = start
-    while index &lt; len(str):
-        if str[index] == ch:
-            return index
-        index = index + 1
-    return -1
-</pre>
-
-<p>The third parameter, <code>start</code>, is optional because a default
-value, <code>0</code>, is provided.  If we invoke <code>find</code> with
-only two arguments, we use the default value and start from the beginning of
-the string:</p>
-
-<pre class="python-interpreter">
->>> find("apple", "p")
-1
-</pre>
-
-<p>If we provide a third parameter, it <b>overrides</b> the default:
-</p>
-
-<pre class="python-interpreter">
->>> find("apple", "p", 2)
-2
->>> find("apple", "p", 3)
--1
-</pre>
-
-
-<h2>The initialization method</h2>
 <span class="index" value="initialization method" />
 <span class="index" value="method!initialization" />
 
-<p>The <b>initialization method</b> is a special method that is
-invoked when an object is created.  The name of this method is
-<code>__init__</code> (two underscore characters, followed by
-<code>init</code>, and then two more underscores).  An initialization method
-for the <code>Time</code> class looks like this:</p>
+<p>The following is a class definition for the <code>Deck</code> class.  The
+initialization method creates the attribute <code>cards</code> and generates
+the standard set of fifty-two cards:</p>
+
+<span class="index" value="composition" />
+<span class="index" value="loop!nested" />
 
 <pre class="python">
-class Time:
-    def __init__(self, hours=0, minutes=0, seconds=0):
-        self.hours = hours
-        self.minutes = minutes
-        self.seconds = seconds
+class Deck:
+    def __init__(self):
+        self.cards = []
+        for suit in range(4):
+            for rank in range(1, 14):
+                self.cards.append(Card(suit, rank))
 </pre>
 
-<p>There is no conflict between the attribute <code>self.hours</code> and the
-parameter <code>hours</code>.  Dot notation specifies which variable we are
-referring to.</p>
+<p>The easiest way to populate the deck is with a nested loop.  The outer loop
+enumerates the suits from 0 to 3.  The inner loop enumerates the ranks from 1
+to 13.  Since the outer loop iterates four times, and the inner loop iterates
+thirteen times, the total number of times the body is executed is fifty-two
+(thirteen times four).  Each iteration creates a new instance of
+<code>Card</code> with the current suit and rank, and appends that card to the
+<code>cards</code> list.</p>
 
-<span class="index" value="dot notation" />
+<p>The <code>append</code> method works on lists but not, of course, tuples.
+</p>
 
-<p>When we invoke the <code>Time</code> constructor, the arguments we provide
-are passed along to <code>init</code>:</p>
-
-<pre class="python-interpreter">
->>> current_time = Time(9, 14, 30)
->>> current_time.print_time()
->>> 9:14:30
-</pre>
-
-<p>Because the parameters are optional, we can omit them:</p>
-
-<pre class="python-interpreter">
->>> current_time = Time()
->>> current_time.print_time()
->>> 0:0:0
-</pre>
-
-<p>Or provide only the first parameter:</p>
-
-<pre class="python-interpreter">
->>> current_time = Time (9)
->>> current_time.print_time()
->>> 9:0:0
-</pre>
-
-<p>Or the first two parameters:</p>
-
-<pre class="python-interpreter">
->>> current_time = Time (9, 14)
->>> current_time.print_time()
->>> 9:14:0
-</pre>
-
-<p>Finally, we can provide a subset of the parameters by naming them
-explicitly:</p>
-
-<pre class="python-interpreter">
->>> current_time = Time(seconds = 30, hours = 9)
->>> current_time.print_time()
->>> 9:0:30
-</pre>
+<span class="index" value="append method" />
+<span class="index" value="list method" />
+<span class="index" value="method!list" />
 
 
-<h2>Points revisited</h2>
-<span class="index" value="Point class" />
-<span class="index" value="class!Point" />
+<h2>Printing the deck</h2>
+<a name="printdeck" />
+<span class="index" value="printing!deck object" />
 
-<p>Let's rewrite the <code>Point</code> class from chapter 12 in a more
-object-oriented style:</p>
+<p>As usual, when we define a new type of object we want a method that prints
+the contents of an object.  To print a <code>Deck</code>, we traverse the list
+and print each <code>Card</code>:</p>
 
 <pre class="python">
-class Point:
-    def __init__(self, x=0, y=0):
-        self.x = x
-        self.y = y
-   
+class Deck:
+    ...
+    def print_deck(self):
+        for card in self.cards:
+            print card
+</pre>
+
+<p>Here, and from now on, the ellipsis (<code>...</code>) indicates that we
+have omitted the other methods in the class.</p>
+
+<p>As an alternative to <code>print_deck</code>, we could write a
+<code>__str__</code> method for the <code>Deck</code> class.  The advantage of
+<code>__str__</code> is that it is more flexible.  Rather than just printing
+the contents of the object, it generates a string representation that other
+parts of the program can manipulate before printing, or store for later use.
+</p>
+
+<p>Here is a version of <code>__str__</code> that returns a string
+representation of a <code>Deck</code>.  To add a bit of pizzazz, it arranges
+the cards in a cascade where each card is indented one space more than the
+previous card:</p>
+
+<pre class="python">
+class Deck:
+    ...
     def __str__(self):
-        return '(' + str(self.x) + ', ' + str(self.y) + ')'
+        s = ""
+        for i in range(len(self.cards)):
+            s = s + " "*i + str(self.cards[i]) + "\n"
+        return s
 </pre>
 
-<p>The initialization method takes <code>x</code> and <code>y</code> values as
-optional parameters; the default for either parameter is 0.</p>
+<p>This example demonstrates several features.  First, instead of traversing
+<code>self.cards</code> and assigning each card to a variable, we are using
+<code>i</code> as a loop variable and an index into the list of cards.</p>
 
-<p>The next method, <code>__str__</code>, returns a string representation
-of a <code>Point</code> object.  If a class provides a method named
-<code>__str__</code>, it overrides the default behavior of the Python built-in
-<code>str</code> function.</p>
+<p>Second, we are using the string multiplication operator to indent each card
+by one more space than the last.  The expression <code>" "*i</code> yields a
+number of spaces equal to the current value of <code>i</code>.</p>
+
+<p>Third, instead of using the <code>print</code> command to print the cards,
+we use the <code>str</code> function.  Passing an object as an argument to
+<code>str</code> is equivalent to invoking the <code>__str__</code> method on
+the object.</p>
+
+<span class="index" value="accumulator" />
+
+<p>Finally, we are using the variable <code>s</code> as an
+<b>accumulator</b>.  Initially, <code>s</code> is the empty string.
+Each time through the loop, a new string is generated and concatenated with the 
+old value of <code>s</code> to get the new value.  When the loop ends,
+<code>s</code> contains the complete string representation of the
+<code>Deck</code>, which looks like this:</p>
 
 <pre class="python-interpreter">
->>> p = Point(3, 4)
->>> str(p)
-'(3, 4)'
+>>> deck = Deck()
+>>> print deck
+Ace of Clubs
+ 2 of Clubs
+  3 of Clubs
+   4 of Clubs
+     5 of Clubs
+       6 of Clubs
+        7 of Clubs
+         8 of Clubs
+          9 of Clubs
+           10 of Clubs
+            Jack of Clubs
+             Queen of Clubs
+              King of Clubs
+               Ace of Diamonds
 </pre>
 
-<p>Printing a <code>Point</code> object implicitly invokes <code>__str__</code> 
-on the object, so defining <code>__str__</code> also changes the behavior of
-<code>print</code>:</p>
-
-<pre class="python-interpreter">
->>> p = Point(3, 4)
->>> print p
-(3, 4)
-</pre>
-
-<p>When we write a new class, we almost always start by writing
-<code>__init__</code>, which makes it easier to instantiate objects, and
-<code>__str__</code>, which is almost always useful for debugging.</p>
+<p>And so on.  Even though the result appears on 52 lines, it is one long
+string that contains newlines.</p>
 
 
-<h2>Operator overloading</h2>
-<a name="operator overloading" />
-<span class="index" value="operator overloading" />
-<span class="index" value="operator!overloading" />
-<span class="index" value="dot product" />
-<span class="index" value="scalar multiplication" />
+<h2>Shuffling the deck</h2>
+<span class="index" value="shuffle" />
 
-<p>Some languages make it possible to change the definition of the built-in
-operators when they are applied to user-defined types.  This feature is called
-<b>operator overloading</b>.  It is especially useful when defining
-new mathematical types.</p>
+<p>If a deck is perfectly shuffled, then any card is equally likely to appear
+anywhere in the deck, and any location in the deck is equally likely to contain 
+any card.</p>
 
-<p>For example, to override the addition operator <code>+</code>, we provide a
-method named <code>__add__</code>:</p>
+<span class="index" value="random" />
+<span class="index" value="randrange" />
+
+<p>To shuffle the deck, we will use the <code>randrange</code> function from
+the <code>random</code> module.  With two integer arguments, <code>a</code> and 
+<code>b</code>, <code>randrange</code> chooses a random integer in the range
+<code>a &lt;= x &lt; b</code>.  Since the upper bound is strictly less than
+<code>b</code>, we can use the length of a list as the second parameter, and we 
+are guaranteed to get a legal index.  For example, this expression chooses the
+index of a random card in a deck:</p>
 
 <pre class="python">
-class Point:
-    # previously defined methods here...
-   
-    def __add__(self, other):
-        return Point(self.x + other.x, self.y + other.y)
+random.randrange(0, len(self.cards))
 </pre>
 
-<p>As usual, the first parameter is the object on which the method is invoked.  
-The second parameter is conveniently named <code>other</code> to distinguish it 
-from <code>self</code>.  To add two <code>Point</code>s, we create and return a 
-new <code>Point</code> that contains  the sum of the <code>x</code> coordinates 
-and the sum of the <code>y</code> coordinates.</p>
-
-<p>Now, when we apply the <code>+</code> operator to <code>Point</code> objects,
-Python invokes <code>__add__</code>:</p>
-
-<pre class="python-interpreter">
->>>  p1 = Point(3, 4)
->>>  p2 = Point(5, 7)
->>>  p3 = p1 + p2
->>>  print p3
-(8, 11)
-</pre>
-
-<p>The expression <code>p1 + p2</code> is equivalent to
-<code>p1.__add__(p2)</code>, but obviously more elegant.</p>
-
-<div class="exercise">
-As an exercise, add a method <code>__sub__(self, other)</code> that overloads
-the subtraction operator, and try it out.
-</div>
-
-<p>There are several ways to override the behavior of the multiplication
-operator: by defining a method named <code>__mul__</code>, or
-<code>__rmul__</code>, or both.</p>
-
-<p>If the left operand of <code>*</code> is a <code>Point</code>, Python
-invokes <code>__mul__</code>, which assumes that the other operand is also
-a <code>Point</code>.  It computes the <b>dot product</b> of the two
-points, defined according to the rules of linear algebra:</p>
+<p>An easy way to shuffle the deck is by traversing the cards and swapping each 
+card with a randomly chosen one.  It is possible that the card will be swapped
+with itself, but that is fine.  In fact, if we precluded that possibility, the
+order of the cards would be less than entirely random:</p>
 
 <pre class="python">
-def __mul__(self, other):
-    return self.x * other.x + self.y * other.y
+class Deck:
+    ...
+    def shuffle(self):
+        import random
+        num_cards = len(self.cards)
+        for i in range(num_cards):
+            j = random.randrange(i, num_cards)
+            self.cards[i], self.cards[j] = self.cards[j], self.cards[i]
 </pre>
 
-<p>If the left operand of <code>*</code> is a primitive type and the right
-operand is a <code>Point</code>, Python invokes <code>__rmul__</code>, which
-performs <b>scalar multiplication</b>:</p>
+<p>Rather than assume that there are fifty-two cards in the deck, we get the
+actual length of the list and store it in <code>num_cards</code>.</p>
+
+<span class="index" value="swap" />
+<span class="index" value="tuple assignment" />
+<span class="index" value="assignment!tuple" />
+
+<p>For each card in the deck, we choose a random card from among the cards that 
+haven't been shuffled yet.  Then we swap the current card (<code>i</code>) with 
+the selected card (<code>j</code>).  To swap the cards we use a tuple
+assignment:</p>
 
 <pre class="python">
-def __rmul__(self, other):
-    return Point(other * self.x,  other * self.y)
+self.cards[i], self.cards[j] = self.cards[j], self.cards[i]
 </pre>
 
-<p>The result is a new <code>Point</code> whose coordinates are a multiple
-of the original coordinates.  If <code>other</code> is a type that cannot be
-multiplied by a floating-point number, then <code>__rmul__</code> will yield an 
-error.</p>
 
-<p>This example demonstrates both kinds of multiplication:</p>
+<h2>Removing and dealing cards</h2>
+<span class="index" value="removing cards" />
 
-<pre class="python-interpreter">
->>> p1 = Point(3, 4)
->>> p2 = Point(5, 7)
->>> print p1 * p2
-43
->>> print 2 * p2
-(10, 14)
-</pre>
-
-<p>What happens if we try to evaluate <code>p2 * 2</code>?  Since the first
-parameter is a <code>Point</code>, Python invokes <code>__mul__</code> with
-<code>2</code> as the second argument.  Inside <code>__mul__</code>, the
-program tries to access the <code>x</code> coordinate of <code>other</code>,
-which fails because an integer has no attributes:</p>
-
-<pre class="python-interpreter">
->>> print p2 * 2
-AttributeError: 'int' object has no attribute 'x'
-</pre>
-
-<p>Unfortunately, the error message is a bit opaque.  This example demonstrates 
-some of the difficulties of object-oriented programming.  Sometimes it is hard
-enough just to figure out what code is running.</p> 
-
-<p>For a more complete example of operator overloading, see
-Appendix (reference overloading).</p>
-
-
-<h2>Polymorphism</h2>
-<span class="index" value="polymorphism" />
-
-<p>Most of the methods we have written only work for a specific type.  When you 
-create a new object, you write methods that operate on that type.</p>
-
-<p>But there are certain operations that you will want to apply to many types,
-such as the arithmetic operations in the previous sections.  If many types
-support the same set of operations, you can write functions that work on any of 
-those types.</p>
-
-<p>For example, the <code>multadd</code> operation (which is common in linear
-algebra) takes three parameters; it multiplies the first two and then adds the
-third.  We can write it in Python like this:</p>
+<p>Another method that would be useful for the <code>Deck</code> class is
+<code>remove</code>, which takes a card as a parameter, removes it, and
+returns <code>True</code> if the card was in the deck and <code>False</code>
+otherwise:</p>
 
 <pre class="python">
-def multadd (x, y, z):
-    return x * y + z
+class Deck:
+    ...
+    def remove(self, card):
+        if card in self.cards:
+            self.cards.remove(card)
+            return True 
+        else:
+            return False 
 </pre>
 
-<p>This method will work for any values of <code>x</code> and <code>y</code>
-that can be multiplied and for any value of <code>z</code> that can be added to 
-the product.</p>
+<p>The <code>in</code> operator returns <code>True</code> if the first operand
+is in the second, which must be a list or a tuple.  If the first operand is an
+object, Python uses the object's <code>__cmp__</code> method to determine
+equality with items in the list.  Since the <code>__cmp__</code> in the
+<code>Card</code> class checks for deep equality, the <code>remove</code>
+method checks for deep equality.</p>
 
-<p>We can invoke it with numeric values:</p>
+<span class="index" value="in operator" />
+<span class="index" value="operator!in" />
 
-<pre class="python-interpreter">
->>> multadd (3, 2, 1)
-7
-</pre>
-
-<p>Or with <code>Point</code>s:</p>
-
-<pre class="python-interpreter">
->>> p1 = Point(3, 4)
->>> p2 = Point(5, 7)
->>> print multadd (2, p1, p2)
-(11, 15)
->>> print multadd (p1, p2, 1)
-44
-</pre>
-
-<p>In the first case, the <code>Point</code> is multiplied by a scalar and then 
-added to another <code>Point</code>.  In the second case, the dot product
-yields a numeric value, so the third parameter also has to be a numeric value.
-</p>
-
-<p>A function like this that can take parameters with different types is called 
-<b>polymorphic</b>.</p>
-
-<p>As another example, consider the method <code>front_and_back</code>, which
-prints a list twice, forward and backward:</p>
+<p>To deal cards, we want to remove and return the top card.  The list method
+<code>pop</code> provides a convenient way to do that:</p>
 
 <pre class="python">
-def front_and_back(front):
-    import copy
-    back = copy.copy(front)
-    back.reverse()
-    print str(front) + str(back)
+class Deck:
+    ...
+    def pop(self):
+        return self.cards.pop()
 </pre>
 
-<p>Because the <code>reverse</code> method is a modifier, we make a copy of the 
-list before reversing it.  That way, this method doesn't modify the list it
-gets as a parameter.</p>
+<p>Actually, <code>pop</code> removes the <em>last</em> card in the list, so we 
+are in effect dealing from the bottom of the deck.</p>
 
-<p>Here's an example that applies <code>front_and_back</code> to a list:</p>
+<span class="index" value="boolean function" />
+<span class="index" value="function!boolean" />
 
-<pre class="python-interpreter">
->>>   myList = [1, 2, 3, 4]
->>>   front_and_back(myList)
-[1, 2, 3, 4][4, 3, 2, 1]
-</pre>
-
-<p>Of course, we intended to apply this function to lists, so it is not
-surprising that it works.  What would be surprising is if we could apply it to
-a <code>Point</code>.</p>
-
-<p>To determine whether a function can be applied to a new type, we apply the
-fundamental rule of polymorphism:</p>
-
-<blockquote>
-<em>If all of the operations inside the function can be applied to the
-type, the function can be applied to the type.</em>
-</blockquote>
-
-<p>The operations in the method include <code>copy</code>,
-<code>reverse</code>, and <code>print</code>.</p>
-
-<p><code>copy</code> works on any object, and we have already written a
-<code>__str__</code> method for <code>Point</code>s, so all we need is a
-<code>reverse</code> method in the <code>Point</code> class:</p>
+<p>One more operation that we are likely to want is the boolean function
+<code>is_empty</code>, which returns true if the deck contains no cards:</p>
 
 <pre class="python">
-def reverse(self):
-    self.x , self.y = self.y, self.x
+class Deck:
+    ...
+    def is_empty(self):
+        return (len(self.cards) == 0)
 </pre>
-
-<p>Then we can pass <code>Point</code>s to <code>front_and_back</code>:</p>
-
-<pre class="python-interpreter">
->>>   p = Point(3, 4)
->>>   front_and_back(p)
-(3, 4)(4, 3)
-</pre>
-
-<p>
-The best kind of polymorphism is the unintentional kind, where you discover
-that a function you have already written can be applied to a type for which you 
-never planned.
-</p>
 
 
 <h2>Glossary</h2>
-<span class="index" value="object-oriented programming language" />
-<span class="index" value="method" />
-<span class="index" value="initialization method" />
-<span class="index" value="override" />
-<span class="index" value="overloading" />
-<span class="index" value="operator overloading" />
-<span class="index" value="dot product" />
-<span class="index" value="scalar multiplication" />
-<span class="index" value="polymorphic" />
+<span class="index" value="encode" />
+<span class="index" value="class attribute" />
+<span class="index" value="attribute!class" />
+<span class="index" value="accumulator" />
 
 <dl>
-<dt>object-oriented language:</dt>
-<dd>A language that provides features, such as user-defined classes and
-inheritance, that facilitate object-oriented programming.</dd>
+<dt>encode:</dt>
+<dd>To represent one set of values using another set of values by constructing
+a mapping between them.</dd>
 
-<dt>object-oriented programming:</dt>
-<dd>A style of programming in which data and the operations that manipulate it
-are organized into classes and methods.</dd>
+<dt>class attribute:</dt>
+<dd>A variable that is defined inside a class definition but outside any method.
+Class attributes are accessible from any method in the class and are shared by
+all instances of the class.</dd>
 
-<dt>method:</dt>
-<dd>A function that is defined inside a class definition and is invoked on
-instances of that class.</dd>
-
-<dt>override:</dt>
-<dd>To replace a default.  Examples include replacing a default parameter with
-a particular argument and replacing a default method by providing a new method
-with the same name.</dd>
-
-<dt>initialization method:</dt>
-<dd>A special method that is invoked automatically when a new object is created 
-and that initializes the object's attributes.</dd>
-
-<dt>operator overloading:</dt>
-<dd>Extending built-in operators (<code>+</code>, <code>-</code>,
-<code>*</code>, <code>&gt;</code>, <code>&lt;</code>, etc.) so that they work
-with user-defined types.</dd>
-
-<dt>dot product:</dt>
-<dd>An operation defined in linear algebra that multiplies two
-<code>Point</code>s and yields a numeric value.</dd>
-
-<dt>scalar multiplication:</dt>
-<dd>An operation defined in linear algebra that multiplies each of the
-coordinates of a <code>Point</code> by a numeric value.</dd>
-
-<dt>polymorphic:</dt>
-<dd>A function that can operate on more than one type.  If all the operations
-in a function can be applied to a type, then the function can be applied to a
-type.</dd>
+<dt>accumulator:</dt>
+<dd>A variable used in a loop to accumulate a series of values, such as by
+concatenating them onto a string or adding them to a running sum.</dd>
 </dl>
 
 
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
-Convert the function<code>convertToSeconds</code>:
-<pre class="python">
-def convertToSeconds(t):
-    minutes = t.hours * 60 + t.minutes
-    seconds = minutes * 60 + t.seconds
-    return seconds
-</pre>
-to a method in the <code>Time</code> class.
-</div></li>
-
-<li><div class="exercise">
-Add a fourth parameter, <code>end</code>, to the <code>find</code> function
-that specifies where to stop looking.
-<br /><br />
-Warning: This exercise is a bit tricky.  The default value of <code>end</code>
-should be <code>len(str)</code>, but that doesn't work.  The default values are 
-evaluated when the function is defined, not when it is called.  When
-<code>find</code> is defined, <code>str</code> doesn't exist yet, so you can't
-find its length.
-</div></li>
-
-<li><div class="exercise">
- &nbsp;
+Modify <code>__cmp__</code> so that Aces are ranked higher than Kings.
 </div></li>
 </ol>
 

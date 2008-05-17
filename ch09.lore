@@ -824,7 +824,7 @@ which arrives at a desired feature through a series of small, iterative steps
 motivated by automated tests which are <em>written first</em> that express
 increasing refinements of the desired feature.</p>
 
-<p>Doctest enables us to easily demontrate TDD.  Let's say we want a
+<p>Doctest enables us to easily demonstrate TDD.  Let's say we want a
 function which creates a <code>rows</code> by <code>columns</code> matrix
 given arguments for <code>rows</code> and <code>columns</code>.</p>
 
@@ -1272,7 +1272,7 @@ Provide a <em>detailed</em> explaination of the results.
 </div></li>
 
 <li><div class="exercise">
-Open a file named <code>ch09e06.py</code> and use the same proceedure as
+Open a file named <code>ch09e06.py</code> and use the same procedure as
 in exercise 2 to make the following doctests pass: 
 <ol style="list-style-type: lower-alpha">
 <li><pre class="python">

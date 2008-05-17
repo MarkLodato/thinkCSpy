@@ -1,555 +1,393 @@
 <html>
 <head>
-  <title>Linked lists</title>
+  <title>Stacks</title>
 </head>
 <body>
 
-<h1>Linked lists</h1>
-<a name="list" />
-<span class="index" value="list" />
+<h1>Stacks</h1>
 
-<h2>Embedded references</h2>
-<span class="index" value="reference" />
-<span class="index" value="embedded reference" />
-<span class="index" value="reference!embedded" />
-<span class="index" value="linked list" />
-<span class="index" value="list!linked" />
-<span class="index" value="node" />
-<span class="index" value="cargo" />
 
-<p>We have seen examples of attributes that refer to other objects, which we
-called <b>embedded references</b>.  A common data structure, the
-<b>linked list</b>, takes advantage of this feature.</p>
+<h2>Abstract data types</h2>
+<span class="index" value="abstract data type" />
+<span class="index" value="ADT" />
+<span class="index" value="encapsulation" />
 
-<p>Linked lists are made up of <b>nodes</b>, where each node contains 
-a reference to the next node in the list.  In addition, each node contains a
-unit of data called the <b>cargo</b>.</p>
+<p>The data types you have seen so far are all concrete, in the sense that we
+have completely specified how they are implemented.  For example, the
+<code>Card</code> class represents a card using two integers.  As we discussed
+at the time, that is not the only way to represent a card; there are many
+alternative implementations.</p>
 
-<p>A linked list is considered a <b>recursive data structure</b>
-because it has a recursive definition.</p>
+<p>An <b>abstract data type</b>, or ADT, specifies a set of
+operations (or methods) and the semantics of the operations (what they do), but 
+it does not not specify the implementation of the operations.  That's what
+makes it abstract.</p>
 
-<p>A linked list is either:</p>
+<p>Why is that useful?</p>
 
 <ol>
-<li>the empty list, represented by <code>None</code>, or</li>
+<li>It simplifies the task of specifying an algorithm if you can denote the
+operations you need without having to think at the same time about how the
+operations are performed.</li>
 
-<li>a node that contains a cargo object and a reference to a linked list.</li>
+<li>Since there are usually many ways to implement an ADT, it might be useful
+to write an algorithm that can be used with any of the possible
+implementations.</li>
+
+<li>Well-known ADTs, such as the Stack ADT in this chapter, are often
+implemented in standard libraries so they can be written once and used by many
+programmers.</li>
+
+<li>The operations on ADTs provide a common high-level language for specifying
+and talking about algorithms.</li>
 </ol>
-<span class="index" value="recursive data structure" />
-<span class="index" value="data structure!recursive" />
 
-<p>Recursive data structures lend themselves to recursive methods.</p>
+<p>When we talk about ADTs, we often distinguish the code that uses the ADT,
+called the <b>client</b> code, from the code that implements the ADT, 
+called the <b>provider</b> code.</p>
 
-
-<h2>The <code>Node</code> class</h2>
-<span class="index" value="Node class" />
-<span class="index" value="class!Node" />
-
-<p>As usual when writing a new class, we'll start with the initialization and
-<code>__str__</code> methods so that we can test the basic mechanism of
-creating and displaying the new type:</p>
-
-<pre class="python">
-class Node:
-    def __init__(self, cargo=None, next=None):
-        self.cargo = cargo
-        self.next  = next
-   
-    def __str__(self):
-        return str(self.cargo)
-</pre>
-
-<p>As usual, the parameters for the initialization method are optional. By
-default, both the cargo and the link, <code>next</code>, are set to
-<code>None</code>.</p>
-
-<p>The string representation of a node is just the string representation of the 
-cargo.  Since any value can be passed to the <code>str</code> function, we can
-store any value in a list.</p>
-
-<p>To test the implementation so far, we can create a <code>Node</code> and
-print it:</p>
-
-<pre class="python-interpreter">
->>> node = Node("test")
->>> print node
-test
-</pre>
-
-<p>To make it interesting, we need a list with more than one node:</p>
-
-<pre class="python-interpreter">
->>> node1 = Node(1)
->>> node2 = Node(2)
->>> node3 = Node(3)
-</pre>
-
-<p>This code creates three nodes, but we don't have a list yet because the
-nodes are not <b>linked</b>.  The state diagram looks like this:</p>
-
-<img src="illustrations/link1.png" />
-
-<p>To link the nodes, we have to make the first node refer to the second and
-the second node refer to the third:</p>
-
-<pre class="python-interpreter">
->>> node1.next = node2
->>> node2.next = node3
-</pre>
-
-<p>The reference of the third node is <code>None</code>, which indicates that
-it is the end of the list.  Now the state diagram looks like this:</p>
-
-<img src="illustrations/link2.png" />
-
-<p>Now you know how to create nodes and link them into lists.  What might be
-less clear at this point is why.</p>
+<span class="index" value="client" />
+<span class="index" value="provider" />
 
 
-<h2>Lists as collections</h2>
+<h2>The Stack ADT</h2>
+<span class="index" value="stack" />
 <span class="index" value="collection" />
+<span class="index" value="ADT!Stack" />
 
-<p>Lists are useful because they provide a way to assemble multiple objects
-into a single entity, sometimes called a <b>collection</b>.  In the
-example, the first node of the list serves as a reference to the entire list.
-</p>
+<p>In this chapter, we will look at one common ADT, the <b>stack</b>. 
+A stack is a collection, meaning that it is a data structure that contains
+multiple elements.  Other collections we have seen include dictionaries and
+lists.</p>
 
-<span class="index" value="list!printing" />
-<span class="index" value="list!as parameter" />
+<span class="index" value="interface" />
 
-<p>To pass the list as a parameter, we only have to pass a reference to the
-first node.  For example, the function <code>printList</code> takes a single
-node as an argument.  Starting with the head of the list, it prints each node
-until it gets to the end:</p>
+<p>An ADT is defined by the operations that can be performed on it, which is
+called an <b>interface</b>.  The interface for a stack consists of
+these operations:</p>
+
+<dl>
+<dt><code>__init__</code>:</dt>
+<dd>Initialize a new empty stack.</dd>
+
+<dt><code>push</code>:</dt>
+<dd>Add a new item to the stack.</dd>
+
+<dt><code>pop</code>:</dt>
+<dd>Remove and return an item from the stack.  The item that is returned is
+always the last one that was added.</dd>
+
+<dt><code>isEmpty</code>:</dt>
+<dd>Check whether the stack is empty.</dd>
+</dl>
+
+<p>A stack is sometimes called a <q>last in, first out</q> or LIFO data
+structure, because the last item added is the first to be removed.</p>
+
+
+<h2>Implementing stacks with Python lists</h2>
+<span class="index" value="Stack" />
+<span class="index" value="class!Stack" />
+<span class="index" value="generic data structure" />
+<span class="index" value="data structure!generic" />
+
+<p>The list operations that Python provides are similar to the operations that
+define a stack.  The interface isn't exactly what it is supposed to be, but we
+can write code to translate from the Stack ADT to the built-in operations.</p>
+
+<p>This code is called an <b>implementation</b> of the Stack ADT.
+In general, an implementation is a set of methods that satisfy the syntactic
+and semantic requirements of an interface.</p>
+
+<p>Here is an implementation of the Stack ADT that uses a Python list:</p>
 
 <pre class="python">
-def printList(node):
-    while node:
-        print node,
-        node = node.next
-    print
+class Stack :
+    def __init__(self):
+        self.items = []
+   
+    def push(self, item):
+        self.items.append(item)
+   
+    def pop(self):
+        return self.items.pop()
+   
+    def isEmpty(self):
+        return (self.items == [])
 </pre>
 
-<p>To invoke this method, we pass a reference to the first node:</p>
+<p>A <code>Stack</code> object contains an attribute named <code>items</code>
+that is a list of items in the stack.  The initialization method sets
+<code>items</code> to the empty list.</p>
+
+<p>To push a new item onto the stack, <code>push</code> appends it onto
+<code>items</code>.  To pop an item off the stack, <code>pop</code> uses the
+homonymous (<em>same-named</em>) list method to remove and return the last item 
+on the list.</p>
+
+<p>Finally, to check if the stack is empty, <code>isEmpty</code> compares
+<code>items</code> to the empty list.</p>
+
+<span class="index" value="veneer" />
+
+<p>An implementation like this, in which the methods consist of simple
+invocations of existing methods, is called a <b>veneer</b>.  In real
+life, veneer is a thin coating of good quality wood used in furniture-making to 
+hide lower quality wood underneath.  Computer scientists use this metaphor to
+describe a small piece of code that hides the details of an implementation and
+provides a simpler, or more standard, interface.</p>
+
+
+<h2>Pushing and popping</h2>
+<span class="index" value="push" />
+<span class="index" value="pop" />
+<span class="index" value="generic data structure" />
+<span class="index" value="data structure!generic" />
+
+<p>A stack is a <b>generic data structure</b>, which means that we
+can add any type of item to it.  The following example pushes two integers and
+a string onto the stack:</p>
 
 <pre class="python-interpreter">
->>> printList(node1)
-1 2 3
+>>> s = Stack()
+>>> s.push(54)
+>>> s.push(45)
+>>> s.push("+")
 </pre>
 
-<p>Inside <code>printList</code> we have a reference to the first node of the
-list, but there is no variable that refers to the other nodes.  We have to use
-the <code>next</code> value from each node to get to the next node.</p>
+<p>We can use <code>isEmpty</code> and <code>pop</code> to remove and print
+all of the items on the stack:</p>
 
-<p>To traverse a linked list, it is common to use a loop variable like
-<code>node</code> to refer to each of the nodes in succession.</p>
+<pre class="python">
+while not s.isEmpty():
+    print s.pop(),
+</pre>
 
-<span class="index" value="loop variable" />
-<span class="index" value="list!traversal" />
-<span class="index" value="traverse" />
+<p>The output is <code>+ 45 54</code>.  In other words, we just used a stack
+to print the items backward!  Granted, it's not the standard format for
+printing a list, but by using a stack, it was remarkably easy to do.</p>
 
-<p>This diagram shows the value of <code>list</code> and the values that
-<code>node</code> takes on:</p>
+<p>You should compare this bit of code to the implementation of
+<code>printBackward</code> in the last chapter.  There is a natural parallel
+between the recursive version of <code>printBackward</code> and the stack
+algorithm here.  The difference is that <code>printBackward</code> uses the
+runtime stack to keep track of the nodes while it traverses the list, and then
+prints them on the way back from the recursion.  The stack algorithm does the
+same thing, except that is use a <code>Stack</code> object instead of the
+runtime stack.</p>
 
-<img src="illustrations/link3.png" />
 
+<h2>Using a stack to evaluate postfix</h2>
+<span class="index" value="postfix" />
+<span class="index" value="infix" />
+<span class="index" value="expression" />
 
-<h2>Lists and recursion</h2>
-<a name="listrecursion" />
-<span class="index" value="list!traverse recursively" />
-<span class="index" value="traverse" />
+<p>In most programming languages, mathematical expressions are written with the 
+operator between the two operands, as in <code>1+2</code>.  This format is
+called <b>infix</b>.  An alternative used by some calculators is
+called <b>postfix</b>.  In postfix, the operator follows the operands,
+as in <code>1 2 +</code>.</p>
 
-<p>It is natural to express many list operations using recursive methods.  For
-example, the following is a recursive algorithm for printing a list backwards:
-</p>
+<p>The reason postfix is sometimes useful is that there is a natural way to
+evaluate a postfix expression using a stack:</p>
 
 <ol>
-<li>Separate the list into two pieces: the first node (called the head); and
-the rest (called the tail).</li>
+<li>Starting at the beginning of the expression, get one term (operator or
+operand) at a time.
+  <ol>
+  <li>If the term is an operand, push it on the stack.</li>
 
-<li>Print the tail backward.</li>
+  <li>If the term is an operator, pop two operands off the stack, perform the
+  operation on them, and push the result back on the stack.</li>
+  </ol>
+</li>
 
-<li>Print the head.</li>
+<li>When you get to the end of the expression, there should be exactly one
+operand left on the stack.  That operand is the result.</li>
 </ol>
 
-<p>Of course, Step 2, the recursive call, assumes that we have a way of
-printing a list backward.  But if we assume that the recursive call works---
-the leap of faith---then we can convince ourselves that this algorithm works.
-</p>
 
-<span class="index" value="leap of faith" />
-<span class="index" value="list!printing backwards" />
+<h2>Parsing</h2>
+<span class="index" value="parse" />
+<span class="index" value="token" />
+<span class="index" value="delimiter" />
+<span class="index" value="regular expression" />
 
-<p>All we need are a base case and a way of proving that for any list, we will
-eventually get to the base case.  Given the recursive definition of a list, a
-natural base case is the empty list, represented by <code>None</code>:</p>
+<p>To implement the previous algorithm, we need to be able to traverse a string 
+and break it into operands and operators.  This process is an example of
+<b>parsing</b>, and the results---the individual chunks of the
+string---are called <b>tokens</b>.  You might remember these words
+from Chapter 1.</p>
 
-<pre class="python">
-def printBackward(list):
-    if list == None: return
-    head = list
-    tail = list.next
-    printBackward(tail)
-    print head,
-</pre>
-
-<p>The first line handles the base case by doing nothing.  The next two lines
-split the list into <code>head</code> and <code>tail</code>.  The last two
-lines print the list.  The comma at the end of the last line keeps Python from
-printing a newline after each node.</p>
-
-<p>We invoke this method as we invoked <code>printList</code>:</p>
+<p>Python provides a <code>split</code> method in both the <code>string</code>
+and <code>re</code> (regular expression) modules. The function
+<code>string.split</code> splits a string into a list using a single character
+as a <b>delimiter</b>.  For example:</p>
 
 <pre class="python-interpreter">
->>> printBackward(node1)
-3 2 1
+>>> import string
+>>> string.split("Now is the time"," ")
+['Now', 'is', 'the', 'time']
 </pre>
 
-<p>The result is a backward list.</p>
+<p>In this case, the delimiter is the space character, so the string is split
+at each space.</p>
 
-<p>You might wonder why <code>printList</code> and <code>printBackward</code>
-are functions and not methods in the <code>Node</code> class.  The reason is
-that we want to use <code>None</code> to represent the empty list and it is not
-legal to invoke a method on <code>None</code>.  This limitation makes it
-awkward to write list-manipulating code in a clean object-oriented style.</p>
-
-<p>Can we prove that <code>printBackward</code> will always terminate?  In
-other words, will it always reach the base case?  In fact, the answer is no.
-Some lists will make this method crash.</p>
-
-
-<h2>Infinite lists</h2>
-<span class="index" value="infinite list" />
-<span class="index" value="list!infinite" />
-<span class="index" value="loop!in list" />
-<span class="index" value="list!loop" />
-
-<p>There is nothing to prevent a node from referring back to an earlier node in 
-the list, including itself.  For example, this figure shows a list with two
-nodes, one of which refers to itself:</p>
-
-<img src="illustrations/link4.png" />
-
-<p>If we invoke <code>printList</code> on this list, it will loop forever.  If
-we invoke <code>printBackward</code>, it will recurse infinitely.  This sort of 
-behavior makes infinite lists difficult to work with.</p>
-
-<p>Nevertheless, they are occasionally useful.  For example, we might
-represent a number as a list of digits and use an infinite list to represent a
-repeating fraction.</p>
-
-<p>Regardless, it is problematic that we cannot prove that
-<code>printList</code> and <code>printBackward</code> terminate.  The best we
-can do is the hypothetical statement, <q>If the list contains no loops, then
-these methods will terminate.</q>  This sort of claim is called a
-<b>precondition</b>.  It imposes a constraint on one of the
-parameters and describes the behavior of the method if the constraint is
-satisfied.  You will see more examples soon.</p>
-
-<span class="index" value="precondition" />
-
-
-<h2>The fundamental ambiguity theorem</h2>
-<span class="index" value="ambiguity!fundamental theorem" />
-<span class="index" value="theorem!fundamental ambiguity" />
-
-<p>One part of <code>printBackward</code> might have raised an eyebrow:</p>
-
-<pre class="python">
-head = list
-tail = list.next
-</pre>
-
-<p>After the first assignment, <code>head</code> and <code>list</code> have the 
-same type and the same value.  So why did we create a new variable?</p>
-
-<p>The reason is that the two variables play different roles.  We think of
-<code>head</code> as a reference to a single node, and we think of
-<code>list</code> as a reference to the first node of a list.  These
-<q>roles</q> are not part of the program; they are in the mind of the
-programmer.</p>
-
-<span class="index" value="variable!roles" />
-<span class="index" value="role!variable" />
-
-<p>In general we can't tell by looking at a program what role a variable plays.
-This ambiguity can be useful, but it can also make programs difficult to read.  
-We often use variable names like <code>node</code> and <code>list</code> to
-document how we intend to use a variable and sometimes create additional
-variables to disambiguate.</p>
-
-<p>We could have written <code>printBackward</code> without <code>head</code>
-and <code>tail</code>, which makes it more concise but possibly less clear:</p>
-
-<pre class="python">
-def printBackward(list) :
-    if list == None : return
-    printBackward(list.next)
-    print list,
-</pre>
-
-<p>Looking at the two function calls, we have to remember that
-<code>printBackward</code> treats its argument as a collection and
-<code>print</code> treats its argument as a single object.</p>
-
-<p>The <b>fundamental ambiguity theorem</b> describes the ambiguity
-that is inherent in a reference to a node:</p>
-
-<blockquote>
-<em>A variable that refers to a node might treat the node as a single object or 
-as the first in a list of nodes.</em>
-</blockquote>
-
-
-<h2>Modifying lists</h2>
-<span class="index" value="list!modifying" />
-<span class="index" value="modifying lists" />
-
-<p>There are two ways to modify a linked list.  Obviously, we can change the
-cargo of one of the nodes, but the more interesting operations are the ones
-that add, remove, or reorder the nodes.</p>
-
-<p>As an example, let's write a method that removes the second node in the list 
-and returns a reference to the removed node:</p>
-
-<pre class="python">
-def removeSecond(list):
-    if list == None: return
-    first = list
-    second = list.next
-    # make the first node refer to the third
-    first.next = second.next
-    # separate the second node from the rest of the list
-    second.next = None
-    return second
-</pre>
-
-<p>Again, we are using temporary variables to make the code more readable.
-Here is how to use this method:</p>
+<p>The function <code>re.split</code> is more powerful, allowing us to provide
+a regular expression instead of a delimiter.  A regular expression is a way of
+specifying a set of strings.  For example, <code>[A-z]</code> is the set of all 
+letters and <code>[0-9]</code> is the set of all numbers.  The
+<code>^</code> operator negates a set, so <code>[^0-9]</code> is the set of
+everything that is not a number, which is exactly the set we want to use to
+split up postfix expressions:</p>
 
 <pre class="python-interpreter">
->>> printList(node1)
-1 2 3
->>> removed = removeSecond(node1)
->>> printList(removed)
-2
->>> printList(node1)
-1 3
+>>> import re
+>>> re.split("([^0-9])", "123+456*/")
+['123', '+', '456', '*', '', '/', '']
 </pre>
 
-<p>This state diagram shows the effect of the operation:</p>
+<p>Notice that the order of the arguments is different from
+<code>string.split</code>; the delimiter comes before the string.</p>
 
-<img src="illustrations/link5.png" />
-
-<p>What happens if you invoke this method and pass a list with only one element 
-(a <b>singleton</b>)?  What happens if you pass the empty list as an
-argument?  Is there a precondition for this method?  If so, fix the method to
-handle a violation of the precondition in a reasonable way.</p>
-
-<span class="index" value="singleton" />
+<p>The resulting list includes the operands <code>123</code> and
+<code>456</code> and the operators <code>*</code> and <code>/</code>.  It also
+includes two empty strings that are inserted after the operands.</p>
 
 
-<h2>Wrappers and helpers</h2>
-<span class="index" value="wrapper method" />
-<span class="index" value="method!wrapper" />
-<span class="index" value="helper method" />
-<span class="index" value="method!helper" />
+<h2>Evaluating postfix</h2>
 
-<p>It is often useful to divide a list operation into two methods.  For example,
-to print a list backward in the conventional list format <code>[3, 2, 1]</code> 
-we can use the <code>printBackward</code> method to print <code>3, 2,</code>
-but we need a separate method to print the brackets and the first node.  Let's
-call it <code>printBackwardNicely</code>:</p>
+<p>To evaluate a postfix expression, we will use the parser from the previous
+section and the algorithm from the section before that.  To keep things simple, 
+we'll start with an evaluator that only implements the operators <code>+</code> 
+and <code>*</code>:</p>
 
 <pre class="python">
-def printBackwardNicely(list) :
-    print "[",
-    if list != None :
-        head = list
-        tail = list.next
-        printBackward(tail)
-        print head,
-    print "]",
+def evalPostfix(expr):
+    import re
+    tokenList = re.split("([^0-9])", expr)
+    stack = Stack()
+    for token in tokenList:
+        if  token == '' or token == ' ':
+            continue
+        if  token == '+':
+            sum = stack.pop() + stack.pop()
+            stack.push(sum)
+        elif token == '*':
+            product = stack.pop() * stack.pop()
+            stack.push(product)
+        else:
+            stack.push(int(token))
+    return stack.pop()
 </pre>
 
-<p>Again, it is a good idea to check methods like this to see if they work with 
-special cases like an empty list or a singleton.</p>
+<p>The first condition takes care of spaces and empty strings.  The next two
+conditions handle operators. We assume, for now, that anything else must be an
+operand.  Of course, it would be better to check for erroneous input and report 
+an error message, but we'll get to that later.</p>
 
-<span class="index" value="singleton" />
+<p>Let's test it by evaluating the postfix form of <code>(56+47)*2</code>:</p>
 
-<p>When we use this method elsewhere in the program, we invoke
-<code>printBackwardNicely</code> directly, and it invokes
-<code>printBackward</code> on our behalf.  In that sense,
-<code>printBackwardNicely</code> acts as a <b>wrapper</b>, and it
-uses <code>printBackward</code> as a <b>helper</b>.</p>
-
-
-<h2>The <code>LinkedList</code> class</h2>
-<span class="index" value="LinkedList" />
-<span class="index" value="class!LinkedList" />
-
-<p>There are some subtle problems with the way we have been implementing lists. 
-In a reversal of cause and effect, we'll propose an alternative implementation
-first and then explain what problems it solves.</p>
-
-<p>First, we'll create a new class called <code>LinkedList</code>.  Its
-attributes are an integer that contains the length of the list and a reference
-to the first node.  <code>LinkedList</code> objects serve as handles for
-manipulating lists of <code>Node</code> objects:</p>
-
-<pre class="python">
-class LinkedList:
-    def __init__(self):
-        self.length = 0
-        self.head   = None
+<pre class="python-interpreter">
+>>> print evalPostfix ("56 47 + 2 *")
+206
 </pre>
 
-<p>One nice thing about the <code>LinkedList</code> class is that it provides
-a natural place to put wrapper functions like <code>printBackwardNicely</code>, 
-which we can make a method of the <code>LinkedList</code> class:</p>
-
-<pre class="python">
-class LinkedList:
-    ...
-    def printBackward(self):
-        print "[",
-        if self.head != None:
-            self.head.printBackward()
-        print "]",
-   
-class Node:
-    ...
-    def printBackward(self):
-    if self.next != None:
-        tail = self.next
-        tail.printBackward()
-    print self.cargo,
-</pre>
-
-<p>Just to make things confusing, we renamed <code>printBackwardNicely</code>.
-Now there are two methods named <code>printBackward</code>: one in the
-<code>Node</code> class (the helper); and one in the <code>LinkedList</code>
-class (the wrapper).  When the wrapper invokes 
-<code>self.head.printBackward</code>, it is invoking the helper, because 
-<code>self.head</code> is a <code>Node</code> object.</p>
-
-<p>Another benefit of the <code>LinkedList</code> class is that it makes it
-easier to add or remove the first element of a list.  For example,
-<code>addFirst</code> is a method for <code>LinkedList</code>s; it takes an
-item of cargo as an argument and puts it at the beginning of the list:</p>
-
-<pre class="python">
-class LinkedList:
-    ...
-    def addFirst(self, cargo):
-        node = Node(cargo)
-        node.next = self.head
-        self.head = node
-        self.length = self.length + 1
-</pre>
-
-<p>As usual, you should check code like this to see if it handles the special
-cases.  For example, what happens if the list is initially empty?</p>
+<p>That's close enough.</p>
 
 
-<h2>Invariants</h2>
-<span class="index" value="invariant" />
-<span class="index" value="object invariant" />
-<span class="index" value="list!well-formed" />
+<h2>Clients and providers</h2>
+<span class="index" value="encapsulation" />
+<span class="index" value="ADT" />
 
-<p>Some lists are <q>well formed</q>; others are not.  For example, if a list
-contains a loop, it will cause many of our methods to crash, so we might want
-to require that lists contain no loops.  Another requirement is that the
-<code>length</code> value in the <code>LinkedList</code> object should be equal 
-to the actual number of nodes in the list.</p>
+<p>One of the fundamental goals of an ADT is to separate the interests of the
+provider, who writes the code that implements the ADT, and the client, who uses 
+the ADT.  The provider only has to worry about whether the implementation is
+correct---in accord with the specification of the ADT---and not how it will be
+used.</p>
 
-<p>Requirements like these are called <b>invariants</b> because,
-ideally, they should be true of every object all the time.  Specifying
-invariants for objects is a useful programming practice because it makes it
-easier to prove the correctness of code, check the integrity of data structures,
-and detect errors.</p>
+<p>Conversely, the client <em>assumes</em> that the implementation of the ADT
+is correct and doesn't worry about the details.  When you are using one of
+Python's built-in types, you have the luxury of thinking exclusively as a
+client.</p>
 
-<p>One thing that is sometimes confusing about invariants is that there are
-times when they are violated.  For example, in the middle of
-<code>addFirst</code>, after we have added the node but before we have
-incremented <code>length</code>, the invariant is violated.  This kind of
-violation is acceptable; in fact, it is often impossible to modify an object
-without violating an invariant for at least a little while.  Normally, we
-require that every method that violates an invariant must restore the
-invariant.</p>
-
-<p>If there is any significant stretch of code in which the invariant is
-violated, it is important for the comments to make that clear, so that no
-operations are performed that depend on the invariant.</p>
-
-<span class="index" value="documentation" />
+<p>Of course, when you implement an ADT, you also have to write client code to
+test it.  In that case, you play both roles, which can be confusing.  You
+should make some effort to keep track of which role you are playing at any
+moment.</p>
 
 
 <h2>Glossary</h2>
-<span class="index" value="embedded reference" />
-<span class="index" value="reference!embedded" />
-<span class="index" value="recursive data structure" />
-<span class="index" value="data structure!recursive" />
-<span class="index" value="linked list" />
-<span class="index" value="list!linked" />
-<span class="index" value="node" />
-<span class="index" value="cargo" />
-<span class="index" value="link" />
-<span class="index" value="precondition" />
-<span class="index" value="invariant" />
-<span class="index" value="wrapper" />
-<span class="index" value="helper method" />
-<span class="index" value="fundamental ambiguity theorem" />
-<span class="index" value="singleton" />
+<span class="index" value="ADT" />
+<span class="index" value="client" />
+<span class="index" value="provider" />
+<span class="index" value="infix" />
+<span class="index" value="postfix" />
+<span class="index" value="parse" />
+<span class="index" value="token" />
+<span class="index" value="delimiter" />
 
 <dl>
-<dt>embedded reference:</dt>
-<dd>A reference stored in an attribute of an object.</dd>
+<dt>abstract data type (ADT):</dt>
+<dd>A data type (usually a collection of objects) that is defined by a set of
+operations but that can be implemented in a variety of ways.</dd>
 
-<dt>linked list:</dt>
-<dd>A data structure that implements a collection using a sequence of linked
-nodes.</dd>
+<dt>interface:</dt>
+<dd>The set of operations that define an ADT.</dd>
 
-<dt>node:</dt>
-<dd>An element of a list, usually implemented as an object that contains a
-reference to another object of the same type.</dd>
+<dt>implementation:</dt>
+<dd>Code that satisfies the syntactic and semantic requirements of an
+interface.</dd>
 
-<dt>cargo:</dt>
-<dd>An item of data contained in a node.</dd>
+<dt>client:</dt>
+<dd>A program (or the person who wrote it) that uses an ADT.</dd>
 
-<dt>link:</dt>
-<dd>An embedded reference used to link one object to another.</dd>
+<dt>provider:</dt>
+<dd>The code (or the person who wrote it) that implements an ADT.</dd>
 
-<dt>precondition:</dt>
-<dd>An assertion that must be true in order for a method to work correctly.</dd>
+<dt>veneer:</dt>
+<dd>A class definition that implements an ADT with method definitions that are
+invocations of other methods, sometimes with simple transformations.  The
+veneer does no significant work, but it improves or standardizes the interface
+seen by the client.</dd>
 
-<dt>fundamental ambiguity theorem:</dt>
-<dd>A reference to a list node can be treated as a single object or as the
-first in a list of nodes.</dd>
+<dt>generic data structure:</dt>
+<dd>A kind of data structure that can contain data of any type.</dd>
 
-<dt>singleton:</dt>
-<dd>A linked list with a single node.</dd>
+<dt>infix:</dt>
+<dd>A way of writing mathematical expressions with the operators between the
+operands.</dd>
 
-<dt>wrapper:</dt>
-<dd>A method that acts as a middleman between a caller and a helper method,
-often making the method easier or less error-prone to invoke.</dd>
+<dt>postfix:</dt>
+<dd>A way of writing mathematical expressions with the operators after the
+operands.</dd>
 
-<dt>helper:</dt>
-<dd>A method that is not invoked directly by a caller but is used by another
-method to perform part of an operation.</dd>
+<dt>parse:</dt>
+<dd>To read a string of characters or tokens and analyze its grammatical
+structure.</dd>
 
-<dt>invariant:</dt>
-<dd>An assertion that should be true of an object at all times (except perhaps
-while the object is being modified).</dd>
+<dt>token:</dt>
+<dd>A set of characters that are treated as a unit for purposes of parsing,
+such as the words in a natural language.</dd>
+
+<dt>delimiter:</dt>
+<dd>A character that is used to separate tokens, such as punctuation in a
+natural language.</dd>
 </dl>
 
 
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
-By convention, lists are often printed in brackets with commas between the
-elements, as in <code>[1, 2, 3]</code>.  Modify <code>printList</code> so that
-it generates output in this format.
+<p>Apply the postfix algorithm to the expression <code>1 2 + 3 *</code>.</p>
+
+<p>This example demonstrates one of the advantages of postfix---there is no
+need to use parentheses to control the order of operations.  To get the same
+result in infix, we would have to write <code>(1 + 2) * 3</code>.</p>
+</div></li>
+
+<li><div class="exercise">
+Write a postfix expression that is equivalent to <code>1 + 2 * 3</code>.
 </div></li>
 </ol>
 

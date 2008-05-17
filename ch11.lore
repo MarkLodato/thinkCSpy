@@ -573,9 +573,9 @@ lesson from Python creator Guido van Rossum's
 complete discussion of exceptions).</p>
 
 <p>If your program detects an error condition, you can make it <b>raise</b> an
-exception.  Here is an example that gets input from the user and checks for the 
-that the number is non-negative.nput for some reason, we raise an
-exception.</p>
+exception.  Here is an example that gets input from the user and checks that
+the number is non-negative.
+</p>
 
 <pre class="python">
 #

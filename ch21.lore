@@ -1,452 +1,731 @@
 <html>
 <head>
-  <title>Queues</title>
+  <title>Trees</title>
 </head>
 <body>
 
-<h1>Queues</h1>
-<a name="queue" />
-<span class="index" value="queue" />
-<span class="index" value="ADT!Queue" />
-<span class="index" value="priority queue" />
-<span class="index" value="ADT!Priority Queue" />
-<span class="index" value="FIFO" />
-<span class="index" value="queueing policy" />
-<span class="index" value="priority queueing" />
+<h1>Trees</h1>
+<span class="index" value="tree" />
+<span class="index" value="node" />
+<span class="index" value="tree node" />
+<span class="index" value="cargo" />
+<span class="index" value="embedded reference" />
+<span class="index" value="binary tree" />
 
-<p>This chapter presents two ADTs: the Queue and the Priority Queue.  In real
-life, a <b>queue</b> is a line of customers waiting for service of
-some kind.  In most cases, the first customer in line is the next customer to
-be served.  There are exceptions, though.  At airports, customers whose flights 
-are leaving soon are sometimes taken from the middle of the queue.  At
-supermarkets, a polite customer might let someone with only a few items go
-first.</p>
+<p>Like linked lists, trees are made up of nodes.  A common kind of tree is a
+<b>binary tree</b>, in which each node contains a reference to two
+other nodes (possibly <code>None</code>).  These references are referred to as
+the left and right subtrees.  Like list nodes, tree nodes also contain cargo.
+A state diagram for a tree looks like this:</p>
 
-<p>The rule that determines who goes next is called the
-<b>queueing policy</b>.  The simplest queueing policy is called
-<b>FIFO</b>, for <q>first-in-first-out.</q>  The most general
-queueing policy is <b>priority queueing</b>, in which each customer
-is assigned a priority and the customer with the highest priority goes first,
-regardless of the order of arrival.  We say this is the most general policy
-because the priority can be based on anything: what time a flight leaves; how
-many groceries the customer has; or how important the customer is.  Of course,
-not all queueing policies are <q>fair,</q> but fairness is in the eye of the
-beholder.</p>
+<a name="tree" />
+<img src="illustrations/tree1.png" />
 
-<p>The Queue ADT and the Priority Queue ADT have the same set of operations.
-The difference is in the semantics of the operations: a queue uses the FIFO
-policy; and a priority queue (as the name suggests) uses the priority queueing
-policy.</p>
-
-
-<h2>The Queue ADT</h2>
-<span class="index" value="ADT!Queue" />
-<span class="index" value="Queue ADT" />
-<span class="index" value="implementation!Queue" />
-<span class="index" value="queue!List implementation" />
-
-<p>The Queue ADT is defined by the following operations:</p>
-
-<dl>
-<dt><code>__init__</code>:</dt>
-<dd>Initialize a new empty queue.</dd>
-
-<dt><code>insert</code>:</dt>
-<dd>Add a new item to the queue.</dd>
-
-<dt><code>remove</code>:</dt>
-<dd>Remove and return an item from the queue.  The item that is returned is the 
-first one that was added.</dd>
-
-<dt><code>isEmpty</code>:</dt>
-<dd>Check whether the queue is empty.</dd>
-</dl>
-
-
-<h2>Linked Queue</h2>
-<span class="index" value="linked queue" />
-<span class="index" value="queue!linked implementation" />
-
-<p>The first implementation of the Queue ADT we will look at is called a
-<b>linked queue</b> because it is made up of linked <code>Node</code> 
-objects.  Here is the class definition:</p>
-
-<pre class="python">
-class Queue:
-    def __init__(self):
-        self.length = 0
-        self.head = None
- 
-    def isEmpty(self):
-        return (self.length == 0)
- 
-    def insert(self, cargo):
-        node = Node(cargo)
-        node.next = None
-        if self.head == None:
-            # if list is empty the new node goes first
-            self.head = node
-        else:
-            # find the last node in the list
-            last = self.head
-            while last.next: last = last.next
-            # append the new node
-            last.next = node
-        self.length = self.length + 1
- 
-    def remove(self):
-        cargo = self.head.cargo
-        self.head = self.head.next
-        self.length = self.length - 1
-        return cargo
-</pre>
-
-<p>The methods <code>isEmpty</code> and <code>remove</code> are identical to
-the <code>LinkedList</code> methods <code>isEmpty</code> and
-<code>removeFirst</code>.  The <code>insert</code> method is new and a bit
-more complicated.</p>
-
-<p>We want to insert new items at the end of the list.  If the queue is empty,
-we just set <code>head</code> to refer to the new node.</p>
-
-<p>Otherwise, we traverse the list to the last node and tack the new node on
-the end.  We can identify the last node because its <code>next</code> attribute 
-is <code>None</code>.</p>
-
-<p>There are two invariants for a properly formed <code>Queue</code> object.
-The value of <code>length</code> should be the number of nodes in the queue,
-and the last node should have <code>next</code> equal to <code>None</code>.
-Convince yourself that this method preserves both invariants.</p>
-
-
-<h2>Performance characteristics</h2>
-<span class="index" value="performance" />
-
-<p>Normally when we invoke a method, we are not concerned with the details of
-its implementation.  But there is one <q>detail</q> we might want to know---the 
-performance characteristics of the method.  How long does it take, and how does 
-the run time change as the number of items in the collection increases?</p>
-
-<p>First look at <code>remove</code>.  There are no loops or function calls
-here, suggesting that the runtime of this method is the same every time.  Such
-a method is called a <b>constant-time</b> operation.  In reality, the 
-method might be slightly faster when the list is empty since it skips the body
-of the conditional, but that difference is not significant.</p>
-
-<span class="index" value="constant time" />
-
-<p>The performance of <code>insert</code> is very different.  In the general
-case, we have to traverse the list to find the last element.</p>
-
-<p>This traversal takes time proportional to the length of the list.  Since the 
-runtime is a linear function of the length, this method is called
-<b>linear time</b>.  Compared to constant time, that's very bad.</p>
-
-<span class="index" value="linear time" />
-
-
-<h2>Improved Linked Queue</h2>
-<span class="index" value="queue!improved implementation" />
-<span class="index" value="improved queue" />
-
-<p>We would like an implementation of the Queue ADT that can perform all
-operations in constant time.  One way to do that is to modify the Queue class
-so that it maintains a reference to both the first and the last node, as shown
-in the figure:</p>
-
-<img src="illustrations/queue1.png" />
-
-<p>The <code>ImprovedQueue</code> implementation looks like this:</p>
-
-<pre class="python">
-class ImprovedQueue:
-    def __init__(self):
-        self.length = 0
-        self.head   = None
-        self.last   = None
- 
-    def isEmpty(self):
-        return (self.length == 0)
-</pre>
-
-<p>So far, the only change is the attribute <code>last</code>. It is used in
-<code>insert</code> and <code>remove</code> methods:</p>
-
-<pre class="python">
-class ImprovedQueue:
-    ...
-    def insert(self, cargo):
-        node = Node(cargo)
-        node.next = None
-        if self.length == 0:
-            # if list is empty, the new node is head and last
-            self.head = self.last = node
-        else:
-            # find the last node
-            last = self.last
-            # append the new node
-            last.next = node
-            self.last = node
-        self.length = self.length + 1
-</pre>
-
-<p>Since <code>last</code> keeps track of the last node, we don't have to
-search for it.  As a result, this method is constant time.</p>
-
-<p>There is a price to pay for that speed.  We have to add a special case to
-<code>remove</code> to set <code>last</code> to <code>None</code> when the last 
-node is removed:</p>
-
-<pre class="python">
-class ImprovedQueue:
-    ...
-    def remove(self):
-        cargo     = self.head.cargo
-        self.head = self.head.next
-        self.length = self.length - 1
-        if self.length == 0:
-            self.last = None
-        return cargo
-</pre>
-
-<p>This implementation is more complicated than the Linked Queue implementation,
-and it is more difficult to demonstrate that it is correct.  The advantage is
-that we have achieved the goal---both <code>insert</code> and
-<code>remove</code> are constant-time operations.</p>
-
-
-<h2>Priority queue</h2>
-<span class="index" value="priority queue!ADT" />
-<span class="index" value="ADT!Priority Queue" />
-
-<p>The Priority Queue ADT has the same interface as the Queue ADT, but
-different semantics.  Again, the interface is:</p>
-
-<dl>
-<dt><code>__init__</code>:</dt>
-<dd>Initialize a new empty queue.</dd>
-
-<dt><code>insert</code>:</dt>
-<dd>Add a new item to the queue.</dd>
-
-<dt><code>remove</code>:</dt>
-<dd>Remove and return an item from the queue.  The item that is returned is the 
-one with the highest priority.</dd>
-
-<dt><code>isEmpty</code>:</dt>
-<dd>Check whether the queue is empty.</dd>
-</dl>
-
-<p>The semantic difference is that the item that is removed from the queue is
-not necessarily the first one that was added.  Rather, it is the item in the
-queue that has the highest priority.  What the priorities are and how they
-compare to each other are not specified by the Priority Queue implementation.
-It depends on which items are in the queue.</p>
-
-<p>For example, if the items in the queue have names, we might choose them in
-alphabetical order.  If they are bowling scores, we might go from highest to
-lowest, but if they are golf scores, we would go from lowest to highest.  As
-long as we can compare the items in the queue, we can find and remove the one
-with the highest priority.</p>
-
-<p>This implementation of Priority Queue has as an attribute a Python list that
-contains the items in the queue.</p>
-
-<pre class="python">
-class PriorityQueue:
-    def __init__(self):
-        self.items = []
- 
-    def isEmpty(self):
-        return self.items == []
- 
-    def insert(self, item):
-        self.items.append(item)
-</pre>
-
-<p>The initialization method, <code>isEmpty</code>, and <code>insert</code> are 
-all veneers on list operations.  The only interesting method is
-<code>remove</code>:</p>
-
-<pre class="python">
-class PriorityQueue:
-    ...
-    def remove(self):
-        maxi = 0
-        for i in range(1, len(self.items)):
-            if self.items[i] &gt; self.items[maxi]: maxi = i
-        item = self.items[maxi]
-        self.items[maxi:maxi+1] = []
-        return item
-</pre>
-
-<p>At the beginning of each iteration, <code>maxi</code> holds the index of the
-biggest item (highest priority) we have seen <em>so far</em>.  Each time
-through the loop, the program compares the <code>i</code>-eth item to the
-champion.  If the new item is bigger, the value of <code>maxi</code> if set to
-<code>i</code>.</p>
-
-<span class="index" value="traverse" />
-
-<p>When the <code>for</code> statement completes, <code>maxi</code> is the
-index of the biggest item.  This item is removed from the list and returned.
+<p>To avoid cluttering up the picture, we often omit the <code>None</code>s.
 </p>
 
-<p>Let's test the implementation:</p>
+<p>The top of the tree (the node <code>tree</code> refers to) is called the
+<b>root</b>.  In keeping with the tree metaphor, the other nodes are
+called branches and the nodes at the tips with null references are called
+<b>leaves</b>.  It may seem odd that we draw the picture with the
+root at the top and the leaves at the bottom, but that is not the strangest
+thing.</p>
 
-<pre class="python-interpreter">
->>> q = PriorityQueue()
->>> q.insert(11)
->>> q.insert(12)
->>> q.insert(14)
->>> q.insert(13)
->>> while not q.isEmpty(): print q.remove()
-14
-13
-12
-11
-</pre>
+<span class="index" value="root node" />
+<span class="index" value="leaf node" />
+<span class="index" value="parent node" />
+<span class="index" value="child node" />
+<span class="index" value="level" />
 
-<p>If the queue contains simple numbers or strings, they are removed in
-numerical or alphabetical order, from highest to lowest.  Python can find the
-biggest integer or string because it can compare them using the built-in
-comparison operators.</p>
+<p>To make things worse, computer scientists mix in another metaphor---the
+family tree.  The top node is sometimes called a <b>parent</b> and
+the nodes it refers to are its <b>children</b>.  Nodes with the same
+parent are called <b>siblings</b>.</p>
 
-<p>If the queue contains an object type, it has to provide a
-<code>__cmp__</code> method.  When <code>remove</code> uses the
-<code>&gt;</code> operator to compare items, it invokes the <code>__cmp__</code>
-for one of the items and passes the other as a parameter.  As long as the
-<code>__cmp__</code> method works correctly, the Priority Queue will work.</p>
+<p>Finally, there is a geometric vocabulary for talking about trees.  We
+already mentioned left and right, but there is also <q>up</q> (toward the
+parent/root) and <q>down</q> (toward the children/leaves).  Also, all of the
+nodes that are the same distance from the root comprise a
+<b>level</b> of the tree.</p>
+
+<p>We probably don't need three metaphors for talking about trees, but there
+they are.</p>
+
+<p>Like linked lists, trees are recursive data structures because they are
+defined recursively.</p>
+
+<span class="index" value="recursive data structure" />
+<span class="index" value="data structure!recursive" />
+
+<blockquote>
+A tree is either:<br />
+<ol>
+<li>the empty tree, represented by <code>None</code>, or</li>
+
+<li>a node that contains an object reference (cargo) and two tree references.
+</li>
+</ol>
+</blockquote>
+
+<span class="index" value="tree!empty" />
 
 
-<h2>The <code>Golfer</code> class</h2>
-<span class="index" value="Golfer" />
-<span class="index" value="class!Golfer" />
-<span class="index" value="priority" />
-<span class="index" value="operator overloading" />
-<span class="index" value="overloading!operator" />
+<h2>Building trees</h2>
 
-<p>As an example of an object with an unusual definition of priority, let's
-implement a class called <code>Golfer</code> that keeps track of the names and
-scores of golfers.  As usual, we start by defining <code>__init__</code> and
-<code>__str__</code>:</p>
+<p>The process of assembling a tree is similar to the process of assembling a
+linked list.  Each constructor invocation builds a single node.</p>
 
 <pre class="python">
-class Golfer:
-    def __init__(self, name, score):
-        self.name = name
-        self.score= score
+class Tree:
+    def __init__(self, cargo, left=None, right=None):
+        self.cargo = cargo
+        self.left  = left
+        self.right = right
  
     def __str__(self):
-        return "%-16s: %d" % (self.name, self.score)
+        return str(self.cargo)
 </pre>
 
-<p><code>__str__</code> uses the format operator to put the names and scores in 
-neat columns.</p>
+<p>The <code>cargo</code> can be any type, but the <code>left</code> and
+<code>right</code> parameters should be tree nodes.  <code>left</code> and
+<code>right</code> are optional; the default value is <code>None</code>.</p>
 
-<span class="index" value="format operator" />
-<span class="index" value="operator!format" />
+<p>To print a node, we just print the cargo.</p>
 
-<p>Next we define a version of <code>__cmp__</code> where the lowest score gets 
-highest priority.  As always, <code>__cmp__</code> returns 1 if
-<code>self</code> is <q>greater than</q> <code>other</code>, -1 if
-<code>self</code> is <q>less than</q> other, and 0 if they are equal.</p>
+<p>One way to build a tree is from the bottom up.  Allocate the child nodes
+first:</p>
 
 <pre class="python">
-class Golfer:
-    ...
-    def __cmp__(self, other):
-        if self.score &lt; other.score: return  1   # less is more
-        if self.score &gt; other.score: return -1
-        return 0
+left = Tree(2)
+right = Tree(3)
 </pre>
 
-<p>Now we are ready to test the priority queue with the <code>Golfer</code>
-class:</p>
+<p>Then create the parent node and link it to the children:</p>
+
+<pre class="python">
+tree = Tree(1, left, right);
+</pre>
+
+<p>We can write this code more concisely by nesting constructor invocations:
+</p>
 
 <pre class="python-interpreter">
->>> tiger = Golfer("Tiger Woods",    61)
->>> phil  = Golfer("Phil Mickelson", 72)
->>> hal   = Golfer("Hal Sutton",     69)
->>>
->>> pq = PriorityQueue()
->>> pq.insert(tiger)
->>> pq.insert(phil)
->>> pq.insert(hal)
->>> while not pq.isEmpty(): print pq.remove()
-   Tiger Woods    : 61
-   Hal Sutton     : 69
-   Phil Mickelson : 72
+>>> tree = Tree(1, Tree(2), Tree(3))
 </pre>
+
+<p>Either way, the result is the tree at the beginning of the chapter.</p>
+
+
+<h2>Traversing trees</h2>
+<span class="index" value="tree!traversal" />
+<span class="index" value="traverse" />
+<span class="index" value="recursion" />
+
+<p>Any time you see a new data structure, your first question should be,
+<q>How do I traverse it?</q>  The most natural way to traverse a tree is
+recursively.  For example, if the tree contains integers as cargo, this
+function returns their sum:</p>
+
+<pre class="python">
+def total(tree):
+    if tree == None: return 0
+    return total(tree.left) + total(tree.right) + tree.cargo
+</pre>
+
+<p>The base case is the empty tree, which contains no cargo, so the sum is 0.
+The recursive step makes two recursive calls to find the sum of the child
+trees.  When the recursive calls complete, we add the cargo of the parent and
+return the total.</p>
+
+
+<h2>Expression trees</h2>
+<span class="index" value="tree!expression" />
+<span class="index" value="expression tree" />
+<span class="index" value="postfix" />
+<span class="index" value="infix" />
+<span class="index" value="binary operator" />
+<span class="index" value="operator!binary" />
+
+<p>A tree is a natural way to represent the structure of an expression.  Unlike 
+other notations, it can represent the computation unambiguously.  For example,
+the infix expression <code>1 + 2 * 3</code> is ambiguous unless we know that
+the multiplication happens before the addition.</p>
+
+<p>This expression tree represents the same computation:</p>
+
+<img src="illustrations/tree2.png" />
+
+<p>The nodes of an expression tree can be operands like <code>1</code> and
+<code>2</code> or operators like <code>+</code> and <code>*</code>.  Operands
+are leaf nodes; operator nodes contain references to their operands.  (All of
+these operators are <b>binary</b>, meaning they have exactly two
+operands.)</p>
+
+<p>We can build this tree like this:</p>
+
+<pre class="python-interpreter">
+>>> tree = Tree('+', Tree(1), Tree('*', Tree(2), Tree(3)))
+</pre>
+
+<p>Looking at the figure, there is no question what the order of operations is; 
+the multiplication happens first in order to compute the second operand of the
+addition.</p>
+
+<p>Expression trees have many uses.  The example in this chapter uses trees to
+translate expressions to postfix, prefix, and infix.  Similar trees are used
+inside compilers to parse, optimize, and translate programs.</p>
+
+
+<h2>Tree traversal</h2>
+<span class="index" value="tree!traversal" />
+<span class="index" value="traverse" />
+<span class="index" value="recursion" />
+<span class="index" value="preorder" />
+<span class="index" value="postorder" />
+<span class="index" value="inorder" />
+
+<p>We can traverse an expression tree and print the contents like this:</p>
+
+<pre class="python">
+def printTree(tree):
+    if tree == None: return
+    print tree.cargo,
+    printTree(tree.left)
+    printTree(tree.right)
+</pre>
+
+<span class="index" value="preorder" />
+<span class="index" value="prefix" />
+
+<p>In other words, to print a tree, first print the contents of the root, then
+print the entire left subtree, and then print the entire right subtree.  This
+way of traversing a tree is called a <b>preorder</b>, because the
+contents of the root appear <em>before</em> the contents of the children.
+For the previous example, the output is:</p>
+
+<pre class="python">
+>>> tree = Tree('+', Tree(1), Tree('*', Tree(2), Tree(3)))
+>>> printTree(tree)
++ 1 * 2 3
+</pre>
+
+<p>This format is different from both postfix and infix; it is another notation 
+called <b>prefix</b>, in which the operators appear before their
+operands.</p>
+
+<p>You might suspect that if you traverse the tree in a different order, you
+will get the expression in a different notation.  For example, if you print the 
+subtrees first and then the root node, you get:</p>
+
+<pre class="python">
+def printTreePostorder(tree):
+    if tree == None: return
+    printTreePostorder(tree.left)
+    printTreePostorder(tree.right)
+    print tree.cargo,
+</pre>
+
+<span class="index" value="postorder" />
+<span class="index" value="inorder" />
+
+<p>The result, <code>1 2 3 * +</code>, is in postfix!  This order of traversal
+is called <b>postorder</b>.</p>
+
+<p>Finally, to traverse a tree <b>inorder</b>, you print the left
+tree, then the root, and then the right tree:</p>
+
+<pre class="python">
+def printTreeInorder(tree):
+    if tree == None: return
+    printTreeInorder(tree.left)
+    print tree.cargo,
+    printTreeInorder(tree.right)
+</pre>
+
+<p>The result is <code>1 + 2 * 3</code>, which is the expression in infix.</p>
+
+<p>To be fair, we should point out that we have omitted an important
+complication.  Sometimes when we write an expression in infix, we have to use
+parentheses to preserve the order of operations.  So an inorder traversal is
+not quite sufficient to generate an infix expression.</p>
+
+<p>Nevertheless, with a few improvements, the expression tree and the three
+recursive traversals provide a general way to translate expressions from one
+format to another.</p>
+
+<p>If we do an inorder traversal and keep track of what level in the tree we
+are on, we can generate a graphical representation of a tree:</p>
+
+<pre class="python">
+def printTreeIndented(tree, level=0):
+    if tree == None: return
+    printTreeIndented(tree.right, level+1)
+    print '  '*level + str(tree.cargo)
+    printTreeIndented(tree.left, level+1)
+</pre>
+
+<p>The parameter <code>level</code> keeps track of where we are in the tree. By 
+default, it is initially 0.  Each time we make a recursive call, we pass
+<code>level+1</code> because the child's level is always one greater than the
+parent's.  Each item is indented by two spaces per level.  The result for the
+example tree is:</p>
+
+<pre class="python-interpreter">
+>>> printTreeIndented(tree)
+    3
+  *
+    2
++
+  1
+</pre>
+
+<p>If you look at the output sideways, you see a simplified version of the
+original figure.</p>
+
+
+<h2>Building an expression tree</h2>
+<span class="index" value="expression tree" />
+<span class="index" value="tree!expression" />
+<span class="index" value="parse" />
+<span class="index" value="token" />
+
+<p>In this section, we parse infix expressions and build the corresponding
+expression trees.  For example, the expression <code>(3+7)*9</code> yields the
+following tree:</p>
+
+<img src="illustrations/tree3.png" />
+
+<p>Notice that we have simplified the diagram by leaving out the names of the
+attributes.</p>
+
+<p>The parser we will write handles expressions that include numbers,
+parentheses, and the operators <code>+</code> and <code>*</code>.  We assume
+that the input string has already been tokenized into a Python list (producing
+this list is left as an exercise).  The token list for
+<code>(3+7)*9</code> is:</p>
+
+<pre class="python">
+['(', 3, '+', 7, ')', '*', 9, 'end']
+</pre>
+
+<p>The <code>end</code> token is useful for preventing the parser from reading
+past the end of the list.</p>
+
+<p>The first function we'll write is <code>getToken</code>, which takes a token
+list and an expected token as parameters.  It compares the expected token to the
+first token on the list: if they match, it removes the token from the list and
+returns <code>True</code>; otherwise, it returns <code>False</code>:</p>
+
+<pre class="python">
+def getToken(tokenList, expected):
+    if tokenList[0] == expected:
+        del tokenList[0]
+        return True
+    else:
+        return False
+</pre>
+
+<p>Since <code>tokenList</code> refers to a mutable object, the changes made
+here are visible to any other variable that refers to the same object.</p>
+
+<p>The next function, <code>getNumber</code>, handles operands.  If the next
+token in <code>tokenList</code> is a number, <code>getNumber</code> removes it
+and returns a leaf node containing the number; otherwise, it returns
+<code>None</code>.</p>
+
+<pre class="python">
+def getNumber(tokenList):
+    x = tokenList[0]
+    if type(x) != type(0): return None
+    del tokenList[0]
+    return Tree (x, None, None)
+</pre>
+
+<p>Before continuing, we should test <code>getNumber</code> in isolation.  We
+assign a list of numbers to <code>tokenList</code>, extract the first, print
+the result, and print what remains of the token list:</p>
+
+<pre class="python-interpreter">
+>>> tokenList = [9, 11, 'end']
+>>> x = getNumber(tokenList)
+>>> printTreePostorder(x)
+9
+>>> print tokenList
+[11, 'end']
+</pre>
+
+<p>The next method we need is <code>getProduct</code>, which builds an
+expression tree for products.  A simple product has two numbers as operands,
+like <code>3 * 7</code>.</p>
+
+<p>Here is a version of <code>getProduct</code> that handles simple products.
+</p>
+
+<pre class="python">
+def getProduct(tokenList):
+    a = getNumber(tokenList)
+    if getToken(tokenList, '*'):
+        b = getNumber(tokenList)
+        return Tree ('*', a, b)
+    else:
+        return a
+</pre>
+
+<p>Assuming that <code>getNumber</code> succeeds and returns a singleton tree,
+we assign the first operand to <code>a</code>.  If the next character is
+<code>*</code>, we get the second number and build an expression tree with
+<code>a</code>, <code>b</code>, and the operator.</p>
+
+<p>If the next character is anything else, then we just return the leaf node
+with <code>a</code>.  Here are two examples:</p>
+
+<pre class="python-interpreter">
+>>> tokenList = [9, '*', 11, 'end']
+>>> tree = getProduct(tokenList)
+>>> printTreePostorder(tree)
+9 11 *
+</pre>
+
+<pre class="python-interpreter">
+>>> tokenList = [9, '+', 11, 'end']
+>>> tree = getProduct(tokenList)
+>>> printTreePostorder(tree)
+9
+</pre>
+
+<p>The second example implies that we consider a single operand to be a kind of 
+product.  This definition of <q>product</q> is counterintuitive, but it turns
+out to be useful.</p>
+
+<p>Now we have to deal with compound products, like like
+<code>3 * 5 * 13</code>.  We treat this expression as a product of products,
+namely <code>3 * (5 * 13)</code>.  The resulting tree is:</p>
+
+<img src="illustrations/tree4.png" />
+
+<p>With a small change in <code>getProduct</code>, we can handle an arbitrarily 
+long product:</p>
+
+<pre class="python">
+def getProduct(tokenList):
+    a = getNumber(tokenList)
+    if getToken(tokenList, '*'):
+        b = getProduct(tokenList)       # this line changed
+        return Tree ('*', a, b)
+    else:
+        return a
+</pre>
+
+<p>In other words, a product can be either a singleton or a tree with
+<code>*</code> at the root, a number on the left, and a product on the right.
+This kind of recursive definition should be starting to feel familiar.</p>
+
+<span class="index" value="product" />
+<span class="index" value="definition!recursive" />
+<span class="index" value="recursive definition" />
+
+<p>Let's test the new version with a compound product:</p>
+
+<pre class="python-interpreter">
+>>> tokenList = [2, '*', 3, '*', 5 , '*', 7, 'end']
+>>> tree = getProduct(tokenList)
+>>> printTreePostorder(tree)
+2 3 5 7 * * *
+</pre>
+
+<p>Next we will add the ability to parse sums.  Again, we use a slightly
+counterintuitive definition of <q>sum.</q> For us, a sum can be a tree with
+<code>+</code> at the root, a product on the left, and a sum on the right.
+Or, a sum can be just a product.</p>
+
+<span class="index" value="sum" />
+
+<p>If you are willing to play along with this definition, it has a nice
+property: we can represent any expression (without parentheses) as a sum of
+products.  This property is the basis of our parsing algorithm.</p>
+
+<p><code>getSum</code> tries to build a tree with a product on the left and a
+sum on the right.  But if it doesn't find a <code>+</code>, it just builds a
+product.</p>
+
+<pre class="python">
+def getSum(tokenList):
+    a = getProduct(tokenList)
+    if getToken(tokenList, '+'):
+        b = getSum(tokenList)
+        return Tree ('+', a, b)
+    else:
+        return a
+</pre>
+
+<p>Let's test it with <code>9 * 11 + 5 * 7</code>:</p>
+
+<pre class="python-interpreter">
+>>> tokenList = [9, '*', 11, '+', 5, '*', 7, 'end']
+>>> tree = getSum(tokenList)
+>>> printTreePostorder(tree)
+9 11 * 5 7 * +
+</pre>
+
+<p>We are almost done, but we still have to handle parentheses.  Anywhere in an 
+expression where there can be a number, there can also be an entire sum
+enclosed in parentheses.  We just need to modify <code>getNumber</code> to
+handle <b>subexpressions</b>:</p>
+
+<span class="index" value="subexpression" />
+
+<pre class="python">
+def getNumber(tokenList):
+    if getToken(tokenList, '('):
+        x = getSum(tokenList)         # get the subexpression
+        getToken(tokenList, ')')      # remove the closing parenthesis
+        return x
+    else:
+        x = tokenList[0]
+        if type(x) != type(0): return None
+        tokenList[0:1] = []
+        return Tree (x, None, None)
+</pre>
+
+<p>Let's test this code with <code>9 * (11 + 5) * 7</code>:</p>
+
+<pre class="python-interpreter">
+>>> tokenList = [9, '*', '(', 11, '+', 5, ')', '*', 7, 'end']
+>>> tree = getSum(tokenList)
+>>> printTreePostorder(tree)
+9 11 5 + 7 * *
+</pre>
+
+<p>The parser handled the parentheses correctly; the addition happens
+before the multiplication.</p>
+
+<p>In the final version of the program, it would be a good idea to give
+<code>getNumber</code> a name more descriptive of its new role.</p>
+
+
+<h2>Handling errors</h2>
+<span class="index" value="handling errors" />
+<span class="index" value="error handling" />
+
+<p>Throughout the parser, we've been assuming that expressions are well-formed. 
+For example, when we reach the end of a subexpression, we assume that the next
+character is a close parenthesis.  If there is an error and the next character
+is something else, we should deal with it.</p>
+
+<pre class="python">
+def getNumber(tokenList):
+    if getToken(tokenList, '('):
+        x = getSum(tokenList)
+        if not getToken(tokenList, ')'):
+            raise 'BadExpressionError', 'missing parenthesis'
+        return x
+    else:
+        # the rest of the function omitted
+</pre>
+
+<p>The <code>raise</code> statement creates an exception; in this case we
+create a new kind of exception, called a <code>BadExpressionError</code>.  If
+the function that called <code>getNumber</code>, or one of the other functions
+in the traceback, handles the exception, then the program can continue.
+Otherwise, Python will print an error message and quit.</p>
+
+
+<h2>The animal tree</h2>
+<span class="index" value="animal game" />
+<span class="index" value="game!animal" />
+<span class="index" value="knowledge base" />
+
+<p>In this section, we develop a small program that uses a tree to represent a
+knowledge base.</p>
+
+<p>The program interacts with the user to create a tree of questions and
+animal names.  Here is a sample run:</p>
+
+<pre class="shell">
+Are you thinking of an animal? y
+Is it a bird? n
+What is the animals name? dog
+What question would distinguish a dog from a bird? Can it fly
+If the animal were dog the answer would be? n
+   
+Are you thinking of an animal? y
+Can it fly? n
+Is it a dog? n
+What is the animals name? cat
+What question would distinguish a cat from a dog? Does it bark
+If the animal were cat the answer would be? n
+   
+Are you thinking of an animal? y
+Can it fly? n
+Does it bark? y
+Is it a dog? y
+I rule!
+   
+Are you thinking of an animal? n
+</pre>
+
+<p>Here is the tree this dialog builds:</p>
+
+<img src="illustrations/tree5.png" />
+
+<p>At the beginning of each round, the program starts at the top of the tree
+and asks the first question.  Depending on the answer, it moves to the left or
+right child and continues until it gets to a leaf node.  At that point, it
+makes a guess.  If the guess is not correct, it asks the user for the name of
+the new animal and a question that distinguishes the (bad) guess from the new
+animal.  Then it adds a node to the tree with the new question and the new
+animal.</p>
+
+<p>Here is the code:</p>
+
+<pre class="python">
+def yes(ques):
+    ans = raw_input(ques).lower()
+    return ans[0] == 'y'
+
+def animal():
+    # start with a singleton
+    root = Tree("bird")
+ 
+    # loop until the user quits
+    while True:
+        print
+        if not yes("Are you thinking of an animal? "): break
+ 
+        # walk the tree
+        tree = root
+        while tree.left != None:
+            prompt = tree.cargo + "? "
+            if yes(prompt):
+                tree = tree.right
+            else:
+                tree = tree.left
+ 
+        # make a guess
+        guess = tree.cargo
+        prompt = "Is it a " + guess + "? "
+        if yes(prompt):
+            print "I rule!"
+            continue
+ 
+        # get new information
+        prompt  = "What is the animal's name? "
+        animal  = raw_input(prompt)
+        prompt  = "What question would distinguish a %s from a %s? "
+        question = raw_input(prompt % (animal, guess))
+ 
+        # add new information to the tree
+        tree.cargo = question
+        prompt = "If the animal were %s the answer would be? "
+        if yes(prompt % animal):
+            tree.left = Tree(guess)
+            tree.right = Tree(animal)
+        else:
+            tree.left = Tree(animal)
+            tree.right = Tree(guess)
+</pre>
+
+<p>The function <code>yes</code> is a helper; it prints a prompt and then
+takes input from the user.  If the response begins with <em>y</em> or
+<em>Y</em>, the function returns <code>True</code>.</p>
+
+<p>The condition of the outer loop of <code>animal</code> is <code>True</code>, 
+which means it will continue until the <code>break</code> statement executes,
+if the user is not thinking of an animal.</p>
+
+<p>The inner <code>while</code> loop walks the tree from top to bottom, guided
+by the user's responses.</p>
+
+<p>When a new node is added to the tree, the new question replaces the cargo,
+and the two children are the new animal and the original cargo.</p>
+
+<p>One shortcoming of the program is that when it exits, it forgets everything
+you carefully taught it! Fixing this problem is left as an exercise.</p>
 
 
 <h2>Glossary</h2>
-<span class="index" value="queue" />
-<span class="index" value="queueing policy" />
-<span class="index" value="FIFO" />
-<span class="index" value="priority queue" />
-<span class="index" value="veneer" />
-<span class="index" value="constant time" />
-<span class="index" value="linear time" />
-<span class="index" value="performance hazard" />
-<span class="index" value="linked queue" />
-<span class="index" value="circular buffer" />
-<span class="index" value="abstract class" />
-<span class="index" value="interface" />
+<span class="index" value="binary tree" />
+<span class="index" value="node" />
+<span class="index" value="root node" />
+<span class="index" value="leaf node" />
+<span class="index" value="parent node" />
+<span class="index" value="child node" />
+<span class="index" value="sibling node" />
+<span class="index" value="level" />
+<span class="index" value="prefix" />
+<span class="index" value="preorder" />
+<span class="index" value="postorder" />
+<span class="index" value="inorder" />
+<span class="index" value="binary operator" />
+<span class="index" value="operator!binary" />
 
 <dl>
-<dt>queue:</dt>
-<dd>An ordered set of objects waiting for a service of some kind.</dd>
+<dt>binary tree:</dt>
+<dd>A tree in which each node refers to zero, one, or two dependent nodes.</dd>
 
-<dt>Queue:</dt>
-<dd>An ADT that performs the operations one might perform on a queue.</dd>
+<dt>root:</dt>
+<dd>The topmost node in a tree, with no parent.</dd>
 
-<dt>queueing policy:</dt>
-<dd>The rules that determine which member of a queue is removed next.</dd>
+<dt>leaf:</dt>
+<dd>A bottom-most node in a tree, with no children.</dd>
 
-<dt>FIFO:</dt>
-<dd><q>First In, First Out,</q> a queueing policy in which the first member to
-arrive is the first to be removed.</dd>
+<dt>parent:</dt>
+<dd>The node that refers to a given node.</dd>
 
-<dt>priority queue:</dt>
-<dd>A queueing policy in which each member has a priority determined by
-external factors.  The member with the highest priority is the first to be
-removed.</dd>
+<dt>child:</dt>
+<dd>One of the nodes referred to by a node.</dd>
 
-<dt>Priority Queue:</dt>
-<dd>An ADT that defines the operations one might perform on a priority queue.
-</dd>
+<dt>siblings:</dt>
+<dd>Nodes that share a common parent.</dd>
 
-<dt>linked queue:</dt>
-<dd>An implementation of a queue using a linked list.</dd>
+<dt>level:</dt>
+<dd>The set of nodes equidistant from the root.</dd>
 
-<dt>constant time:</dt>
-<dd>An operation whose runtime does not depend on the size of the data
-structure.</dd>
+<dt>binary operator:</dt>
+<dd>An operator that takes two operands.</dd>
 
-<dt>linear time:</dt>
-<dd>An operation whose runtime is a linear function of the size of the data
-structure.</dd>
+<dt>subexpression:</dt>
+<dd>An expression in parentheses that acts as a single operand in a larger
+expression.</dd>
+
+<dt>preorder:</dt>
+<dd>A way to traverse a tree, visiting each node before its children.</dd>
+
+<dt>prefix notation:</dt>
+<dd>A way of writing a mathematical expression with each operator appearing
+before its operands.</dd>
+
+<dt>postorder:</dt>
+<dd>A way to traverse a tree, visiting the children of each node before the
+node itself.</dd>
+
+<dt>inorder:</dt>
+<dd>A way to traverse a tree, visiting the left subtree, then the root, and
+then the right subtree.</dd>
 </dl>
 
 
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
-Write an implementation of the Queue ADT using a Python list.  Compare the
-performance of this implementation to the <code>ImprovedQueue</code> for a
-range of queue lengths.
+Modify <code>printTreeInorder</code> so that it puts parentheses around every
+operator and pair of operands.  Is the output correct and unambiguous?  Are the 
+parentheses always necessary?
 </div></li>
 
 <li><div class="exercise">
-Write an implementation of the Priority Queue ADT using a linked list.  You
-should keep the list sorted so that removal is a constant time operation.
-Compare the performance of this implementation with the Python list
-implementation.
+Write a function that takes an expression string and returns a token list.
 </div></li>
 
 <li><div class="exercise">
- &nbsp;
+Find other places in the expression tree functions where errors can occur and 
+add appropriate <code>raise</code> statements.  Test your code with improperly
+formed expressions.
+</div></li>
+
+<li><div class="exercise">
+Think of various ways you might save the animal knowledge tree in a file.
+Implement the one you think is easiest.
 </div></li>
 </ol>
 

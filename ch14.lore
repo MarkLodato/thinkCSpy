@@ -1,536 +1,359 @@
 <html>
 <head>
-  <title>Classes and objects</title>
+  <title>Classes and functions</title>
 </head>
 <body>
 
-<h1>Classes and objects</h1>
-<span class="index" value="class" />
-<span class="index" value="object" />
+<h1>Classes and functions</h1>
+<a name="time" />
+<span class="index" value="function" />
+<span class="index" value="method" />
 
 
-<h2>Object-oriented programming</h2>
-<span class="index" value="object-oriented programming language" />
-<span class="index" value="object-oriented programming" />
+<h2>Time</h2>
 
-<p>
-Python is an <b>object-oriented programming language</b>, which means that
-it provides features that support <b>object-oriented programming</b>
-(<b>OOP</b>).
-</p>
-
-<p>
-Object-oriented programming has its roots in the 1960s, but it wasn't until
-the mid 1980s that it became the main <b>programming paradigm</b> used in the
-creation of new software.  It was developed as a way to handle the rapidly
-increasing size and complexity of software systems, and to make it easier to
-modify these large and complex systems over time.
-</p>
-
-<p>
-Up to this point we have been writing programs using a <b>procedural
-programming</b> paradigm.  In procedural programming the focus is on writing
-functions or <em>procedures</em> which operate on data.   In object-oriented
-programming the focus is on the creation of <b>objects</b> which contain
-both data and functionality together.
-</p>
-
-
-<h2>User-defined compound types</h2>
-<a name="point" />
-<span class="index" value="compound data type" />
-<span class="index" value="data type!compound" />
-<span class="index" value="user-defined data type" />
-<span class="index" value="data type!user-defined" />
-
-<p>A class in essence defines a new <b>data type</b>.  We have been using
-several of Python's built-in types throughout this book, we are now ready to
-create our own user-defined type: the <code>Point</code>.</p>
-
-<p>Consider the concept of a mathematical point.  In two dimensions, a point is 
-two numbers (coordinates) that are treated collectively as a single object.  In 
-mathematical notation, points are often written in parentheses with a comma
-separating the coordinates. For example, <code>(0, 0)</code> represents the
-origin, and <code>(x, y)</code> represents the point <code>x</code> units to
-the right and <code>y</code> units up from the origin.</p>
-
-<p>A natural way to represent a point in Python is with two numeric values.
-The question, then, is how to group these two values into a compound object.
-The quick and dirty solution is to use a list or tuple, and for some
-applications that might be the best choice.</p>
-
-<p>An alternative is to define a new user-defined compound type, also called a
-<b>class</b>.  This approach involves a bit more effort, but it has
-advantages that will be apparent soon.</p>
-
-<p>A class definition looks like this:</p>
-
-<pre class="python">
-class Point:
-    pass
-</pre>
-
-<p>Class definitions can appear anywhere in a program, but they are usually
-near the beginning (after the <code>import</code> statements).  The syntax
-rules for a class definition are the same as for other compound statements.
-There is a header which begins with the keyword, <code>class</code>, followed
-by the name of the class, and ending with a colon.
-</p>
-
-<p>This definition creates a new class called <code>Point</code>.  The
-<b>pass</b> statement has no effect; it is only necessary because a
-compound statement must have something in its body.</p>
-
-<p>By creating the <code>Point</code> class, we created a new type, also called 
-<code>Point</code>.  The members of this type are called <b>instances</b> of
-the type or <b>objects</b>.  Creating a new instance is called
-<b>instantiation</b>.  To instantiate a <code>Point</code> object, we call a
-function named (you guessed it) <code>Point</code>:</p>
-
-<span class="index" value="instance!object" />
-<span class="index" value="object instance" />
-<span class="index" value="instantiation" />
-
-<pre class="python-interpreter">
->>> type(Point)
-&lt;type 'classobj'>
->>> p = Point()
->>> type(p)
-&lt;type 'instance'>
-</pre>
-
-<p>The variable <code>p</code> is assigned a reference to a new
-<code>Point</code> object.  A function like <code>Point</code> that creates
-new objects is called a <b>constructor</b>.</p>
-
-
-<h2>Attributes</h2>
-<span class="index" value="attribute" />
-
-<p>Like real world objects, object instances have both form and function.
-The form consists of data elements contained within the instance.</p> 
-
-<p>We can add new data elements to an instance using dot notation:</p>
-
-<pre class="python-interpreter">
->>> p.x = 3
->>> p.y = 4
-</pre>
-
-<p>This syntax is similar to the syntax for selecting a variable from a module, 
-such as <code>math.pi</code> or <code>string.uppercase</code>.  Both modules
-and instances create their own namespaces, and the syntax for accessing names
-contained in each, called <b>attributes</b>, is the same.  In this case the
-attribute we are selecting is a data item from an instance.</p>
-
-<p>The following state diagram shows the result of these assignments:</p>
-
-<img src="illustrations/point.png" />
-
-<p>The variable <code>p</code> refers to a Point object, which contains two 
-attributes.  Each attribute refers to a number.</p>
-
-<p>We can read the value of an attribute using the same syntax:</p>
-
-<pre class="python-interpreter">
->>> print p.y
-4
->>> x = p.x
->>> print x
-3
-</pre>
-
-<p>The expression <code>p.x</code> means, <q>Go to the object <code>p</code>
-refers to and get the value of <code>x</code>.</q> In this case, we assign that 
-value to a variable named <code>x</code>.  There is no conflict between the
-variable <code>x</code> and the attribute <code>x</code>.  The purpose of dot
-notation is to identify which variable you are referring to unambiguously.</p>
-
-<p>You can use dot notation as part of any expression, so the following
-statements are legal:</p>
-
-<pre class="python">
-print '(%d, %d)' % (p.x, p.y)
-distanceSquared = p.x * p.x + p.y * p.y
-</pre>
-
-<p>The first line outputs <code>(3, 4)</code>; the second line calculates
-the value 25.</p>
-
-
-<h2>The <b>initialization method</b> and <code>self</code></h2>
-<span class="index" value="initialization method" />
-<span class="index" value="instance!initialization" />
-<span class="index" value="__init__" />
-
-<p>Since our <code>Point</code> class is intended to represent two dimensional 
-mathematical points, <em>all</em> point instances ought to have <code>x</code>
-and <code>y</code> attributes, but that is not yet so with our
-<code>Point</code> objects.</p>
-
-<pre class="python-interpreter">
->>> p2 = Point()
->>> p2.x
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in ?
-AttributeError: Point instance has no attribute 'x'
->>>
-</pre>
-
-<p>To solve this problem we add an <b>initialization method</b> to our class.
-</p>
-
-<pre class="python">
-class Point:
-    def __init__(self, x=0, y=0):
-        self.x = x
-        self.y = y 
-</pre>
-
-
-<span class="index" value="printing!object" />
-
-<h2>Instances as parameters</h2>
-<span class="index" value="instance" />
-<span class="index" value="parameter" />
-
-<p>You can pass an instance as a parameter in the usual way.  For example:</p>
-
-<pre class="python">
-def print_point(p):
-    print '(%s, %s)' % (str(p.x), str(p.y))
-</pre>
-
-<p><code>print_point</code> takes a point as an argument and displays it in
-the standard format.  If you call <code>print_point(blank)</code>, the
-output is <code>(3, 4)</code>.</p>
-
-
-<h2>Sameness</h2>
-<span class="index" value="sameness" />
-
-<p>The meaning of the word <q>same</q> seems perfectly clear until you give
-it some thought, and then you realize there is more to it than you expected.
-</p>
-
-<span class="index" value="ambiguity" />
-<span class="index" value="natural language" />
-<span class="index" value="language!" />
-
-<p>For example, if you say, <q>Chris and I have the same car,</q> you mean
-that his car and yours are the same make and model, but that they are two
-different cars.  If you say, <q>Chris and I have the same mother,</q>
-you mean that his mother and yours are the same person.
-</p>
-
-<p>When you talk about objects, there is a similar ambiguity.  For example, if
-two <code>Point</code>s are the same, does that mean they contain the same data 
-(coordinates) or that they are actually the same object?</p>
-
-<p>To find out if two references refer to the same object, use the
-<code>==</code> operator.  For example:</p> 
-
-<pre class="python-interpreter">
->>> p1 = Point()
->>> p1.x = 3
->>> p1.y = 4
->>> p2 = Point()
->>> p2.x = 3
->>> p2.y = 4
->>> p1 == p2
-False
-</pre>
-
-<p>Even though <code>p1</code> and <code>p2</code> contain the same coordinates,
-they are not the same object.  If we assign <code>p1</code> to <code>p2</code>, 
-then the two variables are aliases of the same object:</p>
-
-<pre class="python-interpreter">
->>> p2 = p1
->>> p1 == p2
-True
-</pre>
-
-<p>This type of equality is called <b>shallow equality</b> because
-it compares only the references, not the contents of the objects.</p>
-
-<span class="index" value="equality" />
-<span class="index" value="identity" />
-<span class="index" value="shallow equality" />
-<span class="index" value="deep equality" />
-
-<p>To compare the contents of the objects---<b>deep equality</b>---we
-can write a function called <code>same_point</code>:</p>
-
-<pre class="python">
-def same_point(p1, p2):
-    return (p1.x == p2.x) and (p1.y == p2.y)
-</pre>
-
-<p>Now if we create two different objects that contain the same data, we can
-use <code>same_point</code> to find out if they represent the same point.</p>
-
-<pre class="python-interpreter">
->>> p1 = Point()
->>> p1.x = 3
->>> p1.y = 4
->>> p2 = Point()
->>> p2.x = 3
->>> p2.y = 4
->>> same_point(p1, p2)
-True
-</pre>
-
-<p>Of course, if the two variables refer to the same object, they have both
-shallow and deep equality.</p>
-
-
-<h2>Rectangles</h2>
-<span class="index" value="rectangle" />
-
-<p>Let's say that we want a class to represent a rectangle.  The question
-is, what information do we have to provide in order to specify a rectangle? To
-keep things simple, assume that the rectangle is oriented either vertically or
-horizontally, never at an angle.</p>
-
-<p>There are a few possibilities: we could specify the center of the rectangle
-(two coordinates) and its size (width and height); or we could specify one of
-the corners and the size; or we could specify two opposing corners.  A
-conventional choice is to specify the upper-left corner of the rectangle and
-the size.</p>
-
-<p>Again, we'll define a new class:</p>
-
-<pre class="python">
-class Rectangle:
-    pass
-</pre>
-
-<p>And instantiate it:</p>
-
-<pre class="python">
-box = Rectangle()
-box.width = 100.0
-box.height = 200.0
-</pre>
-
-<p>This code creates a new <code>Rectangle</code> object with two
-floating-point attributes.  To specify the upper-left corner, we can embed an
-object within an object!</p>
-
-<pre class="python">
-box.corner = Point()
-box.corner.x = 0.0;
-box.corner.y = 0.0;
-</pre>
-
-<p>The dot operator composes.  The expression <code>box.corner.x</code> means,
-<q>Go to the object <code>box</code> refers to and select the attribute named
-<code>corner</code>; then go to that object and select the attribute named
-<code>x</code>.</q></p>
-
-<p>The figure shows the state of this object:</p>
-
-<img src="illustrations/rectangle.png" />
-
-<h2>Instances as return values</h2>
-<span class="index" value="instance" />
-<span class="index" value="return value" />
-
-<p>Functions can return instances.  For example, <code>find_center</code>
-takes a <code>Rectangle</code> as an argument and returns a <code>Point</code>
-that contains the coordinates of the center of the <code>Rectangle</code>:</p>
-
-<pre class="python">
-def find_center(box):
-    p = Point()
-    p.x = box.corner.x + box.width/2.0
-    p.y = box.corner.y - box.height/2.0
-    return p
-</pre>
-
-<p>To call this function, pass <code>box</code> as an argument and assign the
-result to a variable:</p>
-
-<pre class="python-interpreter">
->>> center = find_center(box)
->>> print_point(center)
-(50.0, 100.0)
-</pre>
-
-
-<h2>Objects are mutable</h2>
-<span class="index" value="object!mutable" />
-<span class="index" value="mutable!object" />
-
-<p>We can change the state of an object by making an assignment to one of its
-attributes.  For example, to change the size of a rectangle without changing
-its position, we could modify the values of <code>width</code> and
-<code>height</code>:</p>
-
-<pre class="python">
-box.width = box.width + 50
-box.height = box.height + 100
-</pre>
-
-<h2>Copying</h2>
-<a name="embedded" />
-<span class="index" value="aliasing" />
-<span class="index" value="copying" />
-<span class="index" value="copy module" />
-<span class="index" value="module!copy" />
-
-<p>Aliasing can make a program difficult to read because changes made in one
-place might have unexpected effects in another place.  It is hard to keep track 
-of all the variables that might refer to a given object.</p>
-
-<p>Copying an object is often an alternative to aliasing.  The <code>copy</code>
-module contains a function called <code>copy</code> that can duplicate any
-object:</p>
-
-<pre class="python-interpreter">
->>> import copy
->>> p1 = Point()
->>> p1.x = 3
->>> p1.y = 4
->>> p2 = copy.copy(p1)
->>> p1 == p2
-False
->>> same_point(p1, p2)
-True
-</pre>
-
-<p>Once we import the <code>copy</code> module, we can use the <code>copy</code>
-method to make a new <code>Point</code>.  <code>p1</code> and <code>p2</code>
-are not the same point, but they contain the same data.</p>
-
-<p>To copy a simple object like a <code>Point</code>, which doesn't contain any 
-embedded objects, <code>copy</code> is sufficient.  This is called
-<b>shallow copying</b>.</p>
-
-<p>For something like a <code>Rectangle</code>, which contains a reference
-to a <code>Point</code>, <code>copy</code> doesn't do quite the right thing.
-It copies the reference to the <code>Point</code> object, so both the old
-<code>Rectangle</code> and the new one refer to a single <code>Point</code>.
-</p>
-
-<span class="index" value="embedded reference" />
-<span class="index" value="reference!embedded" />
-
-<p>If we create a box, <code>b1</code>, in the usual way and then make a copy,
-<code>b2</code>, using <code>copy</code>, the resulting state diagram looks
+<p>As another example of a user-defined type, we'll define a class called
+<code>Time</code> that records the time of day.  The class definition looks
 like this:</p>
 
-<img src="illustrations/rectangle2.png" />
-
-<p>This is almost certainly not what we want.  In this case, invoking
-<code>grow_rect</code> on one of the <code>Rectangles</code> would not affect
-the other, but invoking <code>move_rect</code> on either would affect both!
-This behavior is confusing and error-prone.</p>
-
-<p>Fortunately, the <code>copy</code> module contains a method named
-<code>deepcopy</code> that copies not only the object but also any embedded
-objects.  You will not be surprised to learn that this operation is called a
-<b>deep copy</b>.</p>
-
-<pre class="python-interpreter">
->>> b2 = copy.deepcopy(b1)
+<pre class="python">
+class Time:
+    pass
 </pre>
 
-<p>Now <code>b1</code> and <code>b2</code> are completely separate objects.</p>
-
-<p>We can use <code>deepcopy</code> to rewrite <code>grow_rect</code> so that
-instead of modifying an existing <code>Rectangle</code>, it creates a new
-<code>Rectangle</code> that has the same location as the old one but new
-dimensions:</p>
+<p>We can create a new <code>Time</code> object and assign attributes for hours,
+minutes, and seconds:</p>
 
 <pre class="python">
-def grow_rect(box, dwidth, dheight):
-    import copy
-    new_box = copy.deepcopy(box)
-    new_box.width = new_box.width + dwidth
-    new_box.height = new_box.height + dheight
-    return new_box
+time = Time()
+time.hours = 11
+time.minutes = 59
+time.seconds = 30
 </pre>
+
+<p>The state diagram for the <code>Time</code> object looks like this:</p>
+
+<img src="illustrations/time.png" />
+
+
+<h2>Pure functions</h2>
+<span class="index" value="pure function" />
+<span class="index" value="function type!pure" />
+
+<p>In the next few sections, we'll write two versions of a function called
+<code>add_time</code>, which calculates the sum of two <code>Time</code>s.
+They will demonstrate two kinds of functions: pure functions and modifiers.</p>
+
+<p>The following is a rough version of <code>add_time</code>:</p>
+
+<pre class="python">
+def add_time(t1, t2):
+    sum = Time()
+    sum.hours = t1.hours + t2.hours
+    sum.minutes = t1.minutes + t2.minutes
+    sum.seconds = t1.seconds + t2.seconds
+    return sum
+</pre>
+
+<p>The function creates a new <code>Time</code> object, initializes its
+attributes, and returns a reference to the new object.  This is called a
+<b>pure function</b> because it does not modify any of the objects
+passed to it as parameters and it has no side effects, such as displaying a
+value or getting user input.</p>
+
+<p>Here is an example of how to use this function.  We'll create two
+<code>Time</code> objects: <code>current_time</code>, which contains the current 
+time; and <code>bread_time</code>, which contains the amount of time it takes
+for a breadmaker to make bread.  Then we'll use <code>add_time</code> to figure
+out when the bread will be done.  If you haven't finished writing
+<code>print_time</code> yet, take a look ahead to
+Section <!-- reference print_time --> before you try this:</p>
+
+<pre class="python-interpreter">
+>>> current_time = Time()
+>>> current_time.hours = 9
+>>> current_time.minutes = 14
+>>> current_time.seconds =  30
+>>> bread_time = Time()
+>>> bread_time.hours = 3
+>>> bread_time.minutes = 35
+>>> bread_time.seconds = 0
+>>> done_time = add_time(current_time, bread_time)
+>>> print_time(done_time)
+12:49:30
+</pre>
+
+<p>The output of this program is <code>12:49:30</code>, which is correct. On
+the other hand, there are cases where the result is not correct.  Can you
+think of one?</p>
+
+<p>The problem is that this function does not deal with cases where the number
+of seconds or minutes adds up to more than sixty.  When that happens, we have
+to <q>carry</q> the extra seconds into the minutes column or the extra minutes
+into the hours column.</p>
+
+<p>Here's a second corrected version of the function:</p>
+
+<pre class="python">
+def add_time(t1, t2):
+    sum = Time()
+    sum.hours = t1.hours + t2.hours
+    sum.minutes = t1.minutes + t2.minutes
+    sum.seconds = t1.seconds + t2.seconds
+   
+    if sum.seconds &gt;= 60:
+        sum.seconds = sum.seconds - 60
+        sum.minutes = sum.minutes + 1
+   
+    if sum.minutes &gt;= 60:
+        sum.minutes = sum.minutes - 60
+        sum.hours = sum.hours + 1
+   
+    return sum
+</pre>
+
+<p>Although this function is correct, it is starting to get big.  Later we will 
+suggest an alternative approach that yields shorter code.</p>
+
+
+<h2>Modifiers</h2>
+<a name="increment" />
+<span class="index" value="modifier" />
+<span class="index" value="function type!modifier" />
+
+<p>There are times when it is useful for a function to modify one or more of
+the objects it gets as parameters.  Usually, the caller keeps a reference to
+the objects it passes, so any changes the function makes are visible to the
+caller.  Functions that work this way are called <b>modifiers</b>.
+</p>
+
+<p><code>increment</code>, which adds a given number of seconds to a
+<code>Time</code> object, would be written most naturally as a modifier.  A
+rough draft of the function looks like this:</p>
+
+<pre class="python">
+def increment(time, seconds):
+    time.seconds = time.seconds + seconds
+   
+    if time.seconds &gt;= 60:
+        time.seconds = time.seconds - 60
+        time.minutes = time.minutes + 1
+   
+    if time.minutes &gt;= 60:
+        time.minutes = time.minutes - 60
+        time.hours = time.hours + 1
+</pre>
+
+<p>The first line performs the basic operation; the remainder deals
+with the special cases we saw before.</p>
+
+<p>Is this function correct?  What happens if the parameter
+<code>seconds</code> is much greater than sixty?  In that case, it is not
+enough to carry once; we have to keep doing it until <code>seconds</code> is
+less than sixty.  One solution is to replace the <code>if</code> statements
+with <code>while</code> statements:</p>
+
+<pre class="python">
+def increment(time, seconds):
+    time.seconds = time.seconds + seconds
+   
+    while time.seconds &gt;= 60:
+        time.seconds = time.seconds - 60
+        time.minutes = time.minutes + 1
+   
+    while time.minutes &gt;= 60:
+        time.minutes = time.minutes - 60
+        time.hours = time.hours + 1
+</pre>
+
+<p>This function is now correct, but it is not the most efficient solution.</p>
+
+
+<h2>Prototype development versus planning</h2>
+<a name="convert" />
+<span class="index" value="prototype development" />
+
+<p>In this chapter, we demonstrated an approach to program development that we
+call <b>prototype development</b>. In each case, we wrote a rough
+draft (or prototype) that performed the basic calculation and then tested it on 
+a few cases, correcting flaws as we found them.</p>
+
+<p>Although this approach can be effective, it can lead to code that is
+unnecessarily complicated---since it deals with many special cases---and
+unreliable---since it is hard to know if you have found all the errors.</p>
+
+<p>An alternative is <b>planned development</b>, in which high-level
+insight into the problem can make the programming much easier.  In this case,
+the insight is that a <code>Time</code> object is really a three-digit number
+in base 60!  The <code>second</code> component is the <q>ones column,</q> the
+<code>minute</code> component is the <q>sixties column,</q> and the
+<code>hour</code> component is the <q>thirty-six hundreds column.</q></p>
+
+<p>When we wrote <code>add_time</code> and <code>increment</code>, we were
+effectively doing addition in base 60, which is why we had to carry from one
+column to the next.</p>
+
+<p>This observation suggests another approach to the whole problem---we can
+convert a <code>Time</code> object into a single number and take advantage of
+the fact that the computer knows how to do arithmetic with numbers.  The
+following function converts a <code>Time</code> object into an integer:</p>
+
+<pre class="python">
+def convert_to_seconds(t):
+    minutes = t.hours * 60 + t.minutes
+    seconds = minutes * 60 + t.seconds
+    return seconds
+</pre>
+
+<p>Now, all we need is a way to convert from an integer to a <code>Time</code>
+object:</p>
+
+<pre class="python">
+def make_time(seconds):
+    time = Time()
+    time.hours = seconds/3600
+    seconds = seconds - time.hours * 3600
+    time.minutes = seconds/60
+    seconds = seconds - time.minutes * 60
+    time.seconds = seconds
+    return time
+</pre>
+
+<p>You might have to think a bit to convince yourself that this technique
+to convert from one base to another is correct.  Assuming you are convinced,
+you can use these functions to rewrite <code>add_time</code>:</p>
+
+<pre class="python">
+def add_time(t1, t2):
+    seconds = convert_to_seconds(t1) + convert_to_seconds(t2)
+    return make_time(seconds)
+</pre>
+
+<p>This version is much shorter than the original, and it is much easier to
+demonstrate that it is correct (assuming, as usual, that the functions it
+calls are correct).</p>
+
+
+<h2>Generalization</h2>
+<span class="index" value="generalization" />
+
+<p>In some ways, converting from base 60 to base 10 and back is harder than
+just dealing with times.  Base conversion is more abstract; our intuition for
+dealing with times is better.</p>
+
+<p>But if we have the insight to treat times as base 60 numbers and make the
+investment of writing the conversion functions (<code>convert_to_seconds</code>
+and <code>make_time</code>), we get a program that is shorter, easier to read
+and debug, and more reliable.</p>
+
+<p>It is also easier to add features later.  For example, imagine subtracting
+two <code>Time</code>s to find the duration between them.  The naive approach
+would be to implement subtraction with borrowing.  Using the conversion
+functions would be easier and more likely to be correct.</p>
+
+<p>Ironically, sometimes making a problem harder (or more general) makes it
+easier (because there are fewer special cases and fewer opportunities for
+error).</p>
+
+
+<h2>Algorithms</h2>
+<span class="index" value="algorithm" />
+
+<p>When you write a general solution for a class of problems, as opposed to a
+specific solution to a single problem, you have written an
+<b>algorithm</b>.  We mentioned this word before but did not define
+it carefully.  It is not easy to define, so we will try a couple of approaches.
+</p>
+
+<p>First, consider something that is not an algorithm.  When you learned to
+multiply single-digit numbers, you probably memorized the multiplication table. 
+In effect, you memorized 100 specific solutions.  That kind of knowledge is not 
+algorithmic.</p>
+
+<p>But if you were <q>lazy,</q> you probably cheated by learning a few tricks.  
+For example, to find the product of <code>n</code> and 9, you can write
+<code>n-1</code> as the first digit and <code>10-n</code> as the second digit.  
+This trick is a general solution for multiplying any single-digit number by 9.  
+That's an algorithm!</p>
+
+<p>Similarly, the techniques you learned for addition with carrying,
+subtraction with borrowing, and long division are all algorithms.  One of the
+characteristics of algorithms is that they do not require any intelligence to
+carry out.  They are mechanical processes in which each step follows from the
+last according to a simple set of rules.</p>
+
+<p>In our opinion, it is embarrassing that humans spend so much time in school
+learning to execute algorithms that, quite literally, require no intelligence.
+</p>
+
+<p>On the other hand, the process of designing algorithms is interesting,
+intellectually challenging, and a central part of what we call programming.</p>
+
+<p>Some of the things that people do naturally, without difficulty or conscious 
+thought, are the hardest to express algorithmically.  Understanding natural
+language is a good example.  We all do it, but so far no one has been able to
+explain <em>how</em> we do it, at least not in the form of an algorithm.</p>
 
 
 <h2>Glossary</h2>
-<span class="index" value="class" />
-<span class="index" value="instantiate" />
-<span class="index" value="instance" />
-<span class="index" value="object" />
-<span class="index" value="constructor" />
-<span class="index" value="attribute" />
-<span class="index" value="shallow equality" />
-<span class="index" value="deep equality" />
-<span class="index" value="shallow copy" />
-<span class="index" value="deep copy" />
+<span class="index" value="pure function"/>
+<span class="index" value="modifier"/>
+<span class="index" value="functional programming style"/>
+<span class="index" value="incremental development"/>
+<span class="index" value="development!incremental"/>
+<span class="index" value="planned development"/>
+<span class="index" value="development!planned"/>
+<span class="index" value="algorithm"/>
 
 <dl>
-<dt>class:</dt>
-<dd>A user-defined compound type.  A class can also be thought of as a template 
-for the objects that are instances of it.</dd>
+<dt>pure function:</dt>
+<dd>A function that does not modify any of the objects it receives as
+parameters.  Most pure functions are fruitful.</dd>
 
-<dt>instantiate:</dt>
-<dd>To create an instance of a class.</dd>
+<dt>modifier:</dt>
+<dd>A function that changes one or more of the objects it receives as
+parameters.  Most modifiers are void.</dd>
 
-<dt>instance:</dt>
-<dd>An object that belongs to a class.</dd>
+<dt>functional programming style:</dt>
+<dd>A style of program design in which the majority of functions are pure.</dd>
 
-<dt>object:</dt>
-<dd>A compound data type that is often used to model a thing or concept in the
-real world.</dd>
+<dt>prototype development:</dt>
+<dd>A way of developing programs starting with a prototype and gradually
+testing and improving it.</dd>
 
-<dt>constructor:</dt>
-<dd>A method used to create new objects.</dd>
+<dt>planned development:</dt>
+<dd>A way of developing programs that involves high-level insight into the
+problem and more planning than incremental development or prototype
+development.</dd>
 
-<dt>attribute:</dt>
-<dd>One of the named data items that makes up an instance.</dd>
-
-<dt>shallow equality:</dt>
-<dd>Equality of references, or two references that point to the same object.
-</dd>
-
-<dt>deep equality:</dt>
-<dd>Equality of values, or two references that point to objects that have the
-same value.</dd>
-
-<dt>shallow copy:</dt>
-<dd>To copy the contents of an object, including any references to embedded
-objects; implemented by the <code>copy</code> function in the <code>copy</code> 
-module.</dd>
-
-<dt>deep copy:</dt>
-<dd>To copy the contents of an object as well as any embedded objects, and any
-objects embedded in them, and so on;
-implemented by the <code>deepcopy</code> function in the <code>copy</code> module.</dd>
+<dt>algorithm:</dt>
+<dd>A set of instructions for solving a class of problems by a mechanical,
+unintelligent process.</dd>
 </dl>
 
 
 <h2>Exercises</h2>
 <ol>
 <li><div class="exercise">
-Create and print a <code>Point</code> object, and then use <code>id</code> to
-print the object's unique identifier.  Translate the hexadecimal form into
-decimal and confirm that they match.
+Write a function <code>print_time</code> that takes a <code>Time</code> object
+as an argument and prints it in the form <code>hours:minutes:seconds</code>.
 </div></li>
 
 <li><div class="exercise">
-Rewrite the <code>distance</code> function from chapter 5 so that it takes two
-<code>Point</code>s as parameters instead of four numbers.
+Write a boolean function <code>after</code> that takes two <code>Time</code>
+objects, <code>t1</code> and <code>t2</code>, as arguments, and returns
+<code>True</code> if <code>t1</code> follows <code>t2</code> chronologically
+and <code>False</code> otherwise.
 </div></li>
 
 <li><div class="exercise">
-Write a function named <code>move_rect</code> that takes a
-<code>Rectangle</code> and two parameters named <code>dx</code> and
-<code>dy</code>.  It should change the location of the rectangle by adding
-<code>dx</code> to the <code>x</code> coordinate of <code>corner</code> and
-adding <code>dy</code> to the <code>y</code> coordinate of <code>corner</code>.
+Rewrite the <code>increment</code> function so that it doesn't contain any
+loops.
 </div></li>
 
 <li><div class="exercise">
-Rewrite <code>move_rect</code> so that it creates and returns a new
-<code>Rectangle</code> instead of modifying the old one.
+Now rewrite <code>increment</code> as a pure function, and write function calls 
+to both versions.
 </div></li>
 </ol>
 
