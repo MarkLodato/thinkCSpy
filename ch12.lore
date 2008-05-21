@@ -631,6 +631,49 @@ $
 </pre>
 </div></li>
 
+
+<li><div class="exercise">
+Give the Python interpreter's response to each of the following from a
+continuous interpreter session:
+<ol style="list-style-type: lower-alpha;">
+  <li><pre class='python-interpreter'>
+  >>> d = {'apples': 15, 'bananas': 35, 'grapes': 12} 
+  >>> d['banana'] 
+  </pre></li>
+
+  <li><pre class='python-interpreter'>
+  >>> d['oranges'] = 20
+  >>> len(d) 
+  </pre></li>
+
+  <li><pre class='python-interpreter'>
+  >>> 
+  </pre></li>
+
+  <li><pre class='python-interpreter'>
+  >>> 
+  </pre></li>
+
+  <li><pre class='python-interpreter'>
+  >>> 
+  </pre></li>
+</ol>
+Be sure you understand why you get each result.  Then apply what you have
+learned to fill in the body of the function below:
+<pre class='python'>
+def (, , ):
+    """
+    
+
+       >>> 
+       
+       >>> 
+       
+    """
+</pre>
+Your solution should pass the doctests.
+</div></li>
+
 <li><div class="exercise">
 Write a program called <code>alice_words.py</code> that creates a text
 file named <code>alice_words.txt</code> containing an alphabetical listing
