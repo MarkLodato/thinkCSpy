@@ -233,11 +233,11 @@ like this one:</p>
 <p>The list representation contains a lot of zeroes:</p>
 
 <pre class="python">
-matrix = [ [0,0,0,1,0],
-   [0,0,0,0,0],
-   [0,2,0,0,0],
-   [0,0,0,0,0],
-   [0,0,0,3,0] ]
+matrix = [[0, 0, 0, 1, 0],
+          [0, 0, 0, 0, 0],
+          [0, 2, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 3, 0]]
 </pre>
 
 <p>An alternative is to use a dictionary.  For the keys, we can use tuples
@@ -245,7 +245,7 @@ that contain the row and column numbers.  Here is the dictionary
 representation of the same matrix:</p>
 
 <pre class="python">
-matrix = {(0,3): 1, (2, 1): 2, (4, 3): 3}
+matrix = {(0, 3): 1, (2, 1): 2, (4, 3): 3}
 </pre>
 
 <p>We only need three key-value pairs, one for each nonzero element of the
