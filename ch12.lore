@@ -647,27 +647,37 @@ continuous interpreter session:
   </pre></li>
 
   <li><pre class='python-interpreter'>
-  >>> 
+  >>> d.has_key('grapes')
   </pre></li>
 
   <li><pre class='python-interpreter'>
-  >>> 
+  >>> d['pears']
   </pre></li>
 
   <li><pre class='python-interpreter'>
-  >>> 
+  >>> d.get('pears', 0)
+  </pre></li>
+
+  <li><pre class='python-interpreter'>
+  >>> fruits = d.keys()
+  >>> fruits.sort()
+  >>> print fruits
+  </pre></li>
+
+  <li><pre class='python-interpreter'>
+  >>> del d['apples']
+  >>> d.has_key('apples') 
   </pre></li>
 </ol>
 Be sure you understand why you get each result.  Then apply what you have
 learned to fill in the body of the function below:
 <pre class='python'>
-def (, , ):
+def add_fruit(inventory, fruit, quantity=0):
     """
-    
+    Adds quantity of fruit to inventory. 
 
-       >>> 
-       
-       >>> 
+       >>> new_inventory = {}
+       >>> add_fruit(
        
     """
 </pre>
