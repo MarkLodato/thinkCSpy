@@ -225,7 +225,8 @@ that contains pairs of opposites:</p>
 <span class="index" value="list!nested" />
 
 <p>We previously used a list of lists to represent a matrix.  That is a good
-choice for a matrix with mostly nonzero values, but consider a sparse matrix
+choice for a matrix with mostly nonzero values, but consider a
+<a href="http://en.wikipedia.org/wiki/Sparse_matrix">sparse matrix</a>
 like this one:</p>
 
 <img src="illustrations/sparse.png" />
@@ -304,16 +305,16 @@ finishes instantly, <code>fibonacci(30)</code> takes about a second, and
 <code>fibonacci(40)</code> takes roughly forever.</p>
 
 <p>To understand why, consider this <b>call graph</b> for <code>fibonacci</code>
-with <code>n=4</code>:</p>
+with <code>n = 4</code>:</p>
 
 <img src="illustrations/fibonacci.png" />
 
 <p>A call graph shows a set function frames, with lines connecting each frame
 to the frames of the functions it calls.  At the top of the graph,
-<code>fibonacci</code> with <code>n=4</code> calls <code>fibonacci</code> with
-<code>n=3</code> and <code>n=2</code>.  In turn, <code>fibonacci</code> with
-<code>n=3</code> calls <code>fibonacci</code> with <code>n=2</code> and
-<code>n=1</code>.  And so on.</p>
+<code>fibonacci</code> with <code>n = 4</code> calls <code>fibonacci</code>
+with <code>n = 3</code> and <code>n = 2</code>.  In turn,
+<code>fibonacci</code> with <code>n = 3</code> calls <code>fibonacci</code>
+with <code>n = 2</code> and <code>n = 1</code>.  And so on.</p>
 
 <span class="index" value="function frame" />
 <span class="index" value="frame" />
@@ -541,7 +542,7 @@ if __name__ == '__main__':
 
 <p>Programs like this one that involve interacting with the user through
 <b>events</b> such as key presses and mouse clicks are called
-<b>event-driven programs</b>.</p>
+<b><a href="http://en.wikipedia.org/wiki/Event_driven_programming">event-driven programs</a></b>.</p>
 
 <p>The main <b>event loop</b> at this stage is simply:</p>
 
@@ -550,14 +551,24 @@ if __name__ == '__main__':
         finished = move_player(player)
 </pre>
 
+<p>The event handling is done inside the <code>move_player</code> function.
+<code>update_when('key_pressed')</code> waits until a key has been pressed
+before moving to the next statement.  The multi-way branching statement then
+handles the all keys relevent to game play.</p>
+
+<p>Pressing the escape key causes <code>move_player</code> to return true,
+making <code>not finished</code> false, thus exiting the main loop and ending
+the game.  The 4, 7, 8, 9, 6, 3, 2, and 1 keys all cause the player to move
+in the appropriate direction, if she isn't blocked by the edge of a window.
+</p>  
+
 
 <h2>Glossary</h2>
 <span class="index" value="dictionary" />
+<span class="index" value="mapping type" />
 <span class="index" value="key" />
 <span class="index" value="key-value pair" />
 <span class="index" value="hint" />
-<span class="index" value="method" />
-<span class="index" value="invoke" />
 <span class="index" value="event" />
 <span class="index" value="event-driven program" />
 <span class="index" value="event loop" />
@@ -567,18 +578,22 @@ if __name__ == '__main__':
 <dd>A collection of key-value pairs that maps from keys to values.  The keys
 can be any immutable type, and the values can be any type.</dd>
 
+<dt>mapping type:</dt>
+<dd>
+A mapping type is a data type comprised of a collection of keys and associated
+values.   Python's only built-in mapping type is the dictionary.  Dictionaries
+implement the 
+<a href="http://en.wikipedia.org/wiki/Associative_array">associative array</a>
+abstract data type.
+</dd>
+
 <dt>key:</dt>
-<dd>A value that is used to look up an entry in a dictionary.</dd>
+<dd>A data item that is <em>mapped to</em> a value in a dictionary.  Keys
+are used to look up values in a dictionary.</dd>
 
 <dt>key-value pair:</dt>
-<dd>One of the items in a dictionary.</dd>
-
-<dt>method:</dt>
-<dd>A kind of function that is called with a different syntax and invoked
-<q>on</q> an object.</dd>
-
-<dt>invoke:</dt>
-<dd>To call a method.</dd>
+<dd>One of the pairs of items in a dictionary.  Values are looked up in a
+dictionary by key.</dd>
 
 <dt>hint:</dt>
 <dd>Temporary storage of a precomputed value to avoid redundant computation.
@@ -714,6 +729,9 @@ How many times does the word, <code>alice</code>, occur in the book?
 <li><div class="exercise">
 What is the longest word in <q>Alice in Wonderland</q>?  How many charactes
 does it have?
+</div></li>
+
+<li><div class="exercise">
 </div></li>
 
 </ol>
