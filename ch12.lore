@@ -470,7 +470,7 @@ forced into a corner and loose every time.
 </p>
 
 
-<h3>Setting up the world and the main loop</h3>
+<h3>Setting up the world, the player, and the main loop</h3>
 
 <p>
 Let's start with a program that places the player on the screen and has a
@@ -563,6 +563,43 @@ in the appropriate direction, if she isn't blocked by the edge of a window.
 </p>  
 
 
+<h3>Adding a robot</h3>
+
+<p>Now let's add a single robot that heads toward the player each time the
+player moves.</p>
+
+<p>Add the following <code>place_robot</code> function between
+<code>place_player</code> and <code>move_player</code>:</p>
+
+<pre class="python">
+def place_robot():
+    x = random.randint(0, GRID_WIDTH)
+    y = random.randint(0, GRID_HEIGHT)
+    return {'shape': Box((10*x, 10*y), 10, 10), 'x': x, 'y': y}
+</pre>
+
+<p>Add <code>move_robot</code> immediately after <code>move_player</code>:</p>
+
+<pre class="python">
+def move_robot(robot, player):
+    if robot['x'] &lt; player['x']: robot['x'] += 1
+    elif robot['x'] &gt; player['x']: robot['x'] -= 1
+
+    if robot['y'] &lt; player['y']: robot['y'] += 1
+    elif robot['y'] &gt; player['y']: robot['y'] -= 1
+
+    move_to(robot['shape'], (10*robot['x'], 10*robot['y']))
+</pre>
+
+<p>We need to pass both the robot and the player to this function so that
+it can compare their locations and move the robot toward the player.</p>
+
+<p>Now add the line <code>robot = place_robot()</code> in the main body of
+the program immediately after the line <code>player = place_player()</code>,
+and add the <code>move_robot(robot, player)</code> call inside the main loop
+immediately after <code>finished = move_player(player)</code>.</p>
+
+
 <h2>Glossary</h2>
 <span class="index" value="dictionary" />
 <span class="index" value="mapping type" />
@@ -572,6 +609,7 @@ in the appropriate direction, if she isn't blocked by the edge of a window.
 <span class="index" value="event" />
 <span class="index" value="event-driven program" />
 <span class="index" value="event loop" />
+<span class="index" value="overflow" />
 
 <dl>
 <dt>dictionary:</dt>
@@ -732,10 +770,23 @@ does it have?
 </div></li>
 
 <li><div class="exercise">
+Copy the code from the <em>Setting up the world, the player, and the main
+loop</em> section into a file named <code>robots.py</code> and run it.  You
+should be able to move the player around the screen using the numeric keypad
+and to quit the program by pressing the escape key.
+</div></li>
+
+<li><div class="exercise">
 Laptops usually have smaller keyboards than desktop computers that do not
 include a seperate numeric keypad.  Modify the robots program so that it uses
 'a', 'q', 'w', 'e', 'd', 'c', 'x', and 'z' instead of '4', '7', '8', '9', '6',
 '3', '2', and '1' so that it will work on a typical laptop keyboard.
+</div></li>
+
+<li><div class="exercise">
+Add all the necessary code from the <em>Adding a robot</em> section in the
+places indicated.  Make sure the program works and that you now have a robot
+following around your player.
 </div></li>
 
 </ol>
