@@ -605,7 +605,7 @@ happen is for the game to end as soon as the player is caught.  The following
 function will determine if that has happened:</p>
 
 <pre class="python">
-def collided(player, robot):
+def collided(robot, player):
     return player['x'] == robot['x'] and player['y'] == robot['y']
 </pre>
 
@@ -624,7 +624,7 @@ def play_game():
         if quit:
             break
         move_robot(robot, player)
-        defeated = collided(player, robot)
+        defeated = collided(robot, player)
 
     if defeated:
         remove_from_screen(player['shape'])
@@ -642,6 +642,72 @@ the program as well, since we check for <code>quit</code> and break out of
 the main loop if it is true.  Finally, we check for <code>defeated</code>
 immediately after the main loop and display an appropriate message if it is
 true.</p>
+
+
+<h3>Adding more robots</h3>
+
+<p>There are several things we could do next:</p>
+
+<ul>
+  <li>provide <q>safe</q> placement of the player so that it never starts
+  on top of a robot.</li>
+
+  <li>give the player the ability to <em>teleport</em> to another location
+  to escape pursuit.</li>
+
+  <li>add more robots.</li>
+</ul>
+
+<p>While anyone of these tasks could be taken on first, we will start with
+the last one: adding more robots.</p>
+
+<p>To add a second robot, we could just create another variable named something
+like <code>robot2</code> with another call to <code>place_robot</code>.
+The problem with this approach is that we will soon want lots of robots, and
+giving them all their own names will be cumbersome.  A more elegant solution
+will is to place all the robots in a list:</p>
+
+<pre class="python">
+def place_robots(numbots):
+    robots = []
+    for i in range(numbots):
+        robots.append(place_robot())
+    return robots
+</pre>
+
+<p>Now instead of calling <code>place_robot</code> in <code>play_game</code>,
+call <code>place_robots</code> instead:</p>
+
+<pre class="python">
+    robots = place_robots(2)
+</pre>
+
+<p>Now that we have placed more than one robot, we have to move each one of
+them:</p>
+
+<pre class="python">
+def move_robots(robots, player):
+    for robot in robots:
+        move_robot(robot, player)
+</pre>
+
+<p>Add <code>move_robots</code> immediately after <code>move_robot</code>, and
+change <code>play_game</code> to call <code>move_robots</code> instead of
+<code>move_robot</code>.</p>
+
+<p>We now need to check each robot to see if it has collided with the player:
+</p>
+
+<pre class="python">
+def check_collisions(robots, player):
+    for robot in robots:
+        if collided(robot, player):
+            return True
+    return False
+</pre>
+
+<p>We change the line in <code>play_game</code> that sets <code>defeated</code>
+to call <code>check_collisions</code> instead of <code>collided</code>.</p>
 
 
 <h2>Glossary</h2>
