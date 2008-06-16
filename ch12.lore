@@ -556,11 +556,11 @@ if __name__ == '__main__':
 before moving to the next statement.  The multi-way branching statement then
 handles the all keys relevent to game play.</p>
 
-<p>Pressing the escape key causes <code>move_player</code> to return true,
-making <code>not finished</code> false, thus exiting the main loop and ending
-the game.  The 4, 7, 8, 9, 6, 3, 2, and 1 keys all cause the player to move
-in the appropriate direction, if she isn't blocked by the edge of a window.
-</p>  
+<p>Pressing the escape key causes <code>move_player</code> to return
+<code>True</code>, making <code>not finished</code> false, thus exiting the
+main loop and ending the game.  The 4, 7, 8, 9, 6, 3, 2, and 1 keys all cause
+the player to move in the appropriate direction, if she isn't blocked by the
+edge of a window.</p>  
 
 
 <h3>Adding a robot</h3>
@@ -598,6 +598,50 @@ it can compare their locations and move the robot toward the player.</p>
 the program immediately after the line <code>player = place_player()</code>,
 and add the <code>move_robot(robot, player)</code> call inside the main loop
 immediately after <code>finished = move_player(player)</code>.</p>
+
+<p>We now have a robot that moves relentlessly toward our player, but once it
+catches her it just follows her around wherever she goes.  What we want to
+happen is for the game to end as soon as the player is caught.  The following
+function will determine if that has happened:</p>
+
+<pre class="python">
+def collided(player, robot):
+    return player['x'] == robot['x'] and player['y'] == robot['y']
+</pre>
+
+<p>Place this new function immediately below the <code>move_player</code>
+function.  Now let's modify <code>play_game</code> to check for collisions:</p>
+
+<pre class="python">
+def play_game():
+    begin_graphics(SCREEN_WIDTH, SCREEN_HEIGHT)
+    player = place_player()
+    robot = place_robot()
+    defeated = False
+
+    while not defeated:
+        quit =  move_player(player)
+        if quit:
+            break
+        move_robot(robot, player)
+        defeated = collided(player, robot)
+
+    if defeated:
+        remove_from_screen(player['shape'])
+        remove_from_screen(robot['shape'])
+        Text("They got you!", (240, 240), size=32)
+        sleep(3)
+
+    end_graphics()
+</pre>
+
+<p>We introduce a new variable, <code>defeated</code> which is set to the
+result of <code>collided</code>.  The main loop now runs as long as
+<code>defeated</code> is false.  Pressing the &lt;Escape&gt; key still ends
+the program as well, since we check for <code>quit</code> and break out of
+the main loop if it is true.  Finally, we check for <code>defeated</code>
+immediately after the main loop and display an appropriate message if it is
+true.</p>
 
 
 <h2>Glossary</h2>
