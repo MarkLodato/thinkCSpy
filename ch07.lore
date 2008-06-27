@@ -327,7 +327,7 @@ True
 True
 </pre>
 
-<p>Combining the <code>in</code> operator with sting concatination using
+<p>Combining the <code>in</code> operator with sting concatenation using
 <code>+</code>, we can write a function that removes all the vowels from
 a string:</p>
 
@@ -401,12 +401,12 @@ print count
 
 
 
-<h2>Optional paramters</h2>
+<h2>Optional parameters</h2>
 <span class="index" value="optional parameter" />
 <span class="index" value="parameter!optional" />
 <span class="index" value="default value" />
 
-<p>To find the locations of the second or third occurance of a character in a
+<p>To find the locations of the second or third occurence of a character in a
 string, we can modify the <code>find</code> function, adding a third parameter
 for the starting postion in the search string:</p>
 
@@ -421,7 +421,9 @@ def find2(strng, ch, start):
 </pre>
 
 <p>The call <code>find2('banana', 'a', 2)</code> now returns <code>3</code>,
-the index of the second 'a' in 'banana'.</p>
+the index of the first occurance of 'a' in 'banana' after index 2.  What does 
+<code>find2('banana', 'n', 3)</code> return?  If you said, 4, there is a good
+chance you understand how <code>find2</code> works.</p>
 
 <p>Better still, we can combine <code>find</code> and <code>find2</code> using
 an <b>optional parameter</b>:</p>
