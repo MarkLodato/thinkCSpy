@@ -676,14 +676,16 @@ def place_robots(numbots):
 </pre>
 
 <p>Now instead of calling <code>place_robot</code> in <code>play_game</code>,
-call <code>place_robots</code> instead:</p>
+call <code>place_robots</code>, which returns a single list containing all the
+robots:</p>
 
 <pre class="python">
     robots = place_robots(2)
 </pre>
 
-<p>Now that we have placed more than one robot, we have to move each one of
-them:</p>
+<p>With more than one robot placed, we have to handle moving each one of
+them.  We already have solved the problem of moving a single robot, however,
+so simply traversing the list and moving each one in turn does the trick:</p>
 
 <pre class="python">
 def move_robots(robots, player):
