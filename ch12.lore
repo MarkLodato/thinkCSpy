@@ -901,6 +901,14 @@ places indicated.  Make sure the program works and that you now have a robot
 following around your player.
 </div></li>
 
+<li><div class="exercise">
+Add all the necessary code from the <em>Adding more robots</em> section in the
+places indicated.  Make sure the program works and that you now have two robots
+following around your player.  Change the argument from 2 to 4 in
+<code>robots = place_robots(2)</code> and confirm that you have 4 robots all
+working as expected.
+</div></li>
+
 </ol>
 
 </body>

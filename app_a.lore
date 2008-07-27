@@ -115,7 +115,7 @@ home directory:
 <pre class='boxed'>
 PATH=$HOME/bin:$PATH
 PYTHONPATH=$HOME/lib/python
-EDITOR=vi
+EDITOR=vim
 
 export PATH PYTHONPATH EDITOR
 </pre>
