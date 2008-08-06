@@ -142,7 +142,7 @@ ball back in the opposite verticle direction.</p>
 <code>pitch.py</code>:</p>
 
 <pre class='python'>
-if y &gt;= 590 or y &lt;= 10:
+if ball_y &gt;= 590 or ball_y &lt;= 10:
     dy *= -1
 </pre>
 

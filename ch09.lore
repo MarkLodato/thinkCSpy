@@ -1063,7 +1063,7 @@ the string <code>ai</code> as the delimiter:</p>
 <p>Notice that the delimiter doesn't appear in the list.</p>
 
 <p><code>string.join</code> is the inverse of <code>string.split</code>.  It
-takes two arguments: a list of strings and a <em>seperator</em> which will be
+takes two arguments: a list of strings and a <em>separator</em> which will be
 placed between each element in the list in the resultant string.</p>
 
 <pre class="python-interpreter">
