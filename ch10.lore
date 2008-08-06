@@ -491,7 +491,7 @@ including the next newline character:</p>
 
 <pre class="python-interpreter">
 >>> infile = open("test.dat","r")
->>> print inf.readline()
+>>> print infile.readline()
 line one
    
 >>>
