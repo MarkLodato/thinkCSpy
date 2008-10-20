@@ -327,7 +327,7 @@ True
 True
 </pre>
 
-<p>Combining the <code>in</code> operator with sting concatenation using
+<p>Combining the <code>in</code> operator with string concatenation using
 <code>+</code>, we can write a function that removes all the vowels from
 a string:</p>
 
