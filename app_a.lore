@@ -77,8 +77,8 @@ Add Mathew Gallagher's personal package archive to your apt sources:
 <li>click the <code>+ Add</code> button</li>
 <li>paste the following into the <code>APT line:</code> text entry box:
 <pre class='boxed'>
-deb http://ppa.launchpad.net/mattva01/ubuntu intrepid main restricted universe
-multiverse </pre>
+deb http://ppa.launchpad.net/mattva01/ubuntu intrepid main restricted universe multiverse
+</pre>
 </li>
 <li>click the <code>Close</code> button</li>
 <li>click the <code>Reload</code> button in <code>The information about
