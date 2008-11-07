@@ -665,7 +665,7 @@ the last one: adding more robots.</p>
 like <code>robot2</code> with another call to <code>place_robot</code>.
 The problem with this approach is that we will soon want lots of robots, and
 giving them all their own names will be cumbersome.  A more elegant solution
-will is to place all the robots in a list:</p>
+is to place all the robots in a list:</p>
 
 <pre class="python">
 def place_robots(numbots):
@@ -684,8 +684,8 @@ robots:</p>
 </pre>
 
 <p>With more than one robot placed, we have to handle moving each one of
-them.  We already have solved the problem of moving a single robot, however,
-so simply traversing the list and moving each one in turn does the trick:</p>
+them.  We have already solved the problem of moving a single robot, however,
+so traversing the list and moving each one in turn does the trick:</p>
 
 <pre class="python">
 def move_robots(robots, player):
