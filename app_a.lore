@@ -6,7 +6,7 @@
 <body>
 <h1>Configuring Ubuntu for Python Development</h1>
 
-<p>What follows are instructions for setting up an Ubuntu 8.04 ("Hardy Heron")
+<p>What follows are instructions for setting up an Ubuntu 8.10 (<q>Intrepid</q>)
 home environment for use with this book.  I use Ubuntu GNU/Linux for both
 development and testing of the book, so it is the only system about which I
 can personally answer setup and configuration questions.</p>
@@ -77,8 +77,8 @@ Add Mathew Gallagher's personal package archive to your apt sources:
 <li>click the <code>+ Add</code> button</li>
 <li>paste the following into the <code>APT line:</code> text entry box:
 <pre class='boxed'>
-deb http://ppa.launchpad.net/mattva01/ubuntu hardy main restricted universe multiverse
-</pre>
+deb http://ppa.launchpad.net/mattva01/ubuntu intrepid main restricted universe
+multiverse </pre>
 </li>
 <li>click the <code>Close</code> button</li>
 <li>click the <code>Reload</code> button in <code>The information about
@@ -113,15 +113,16 @@ mkdir lib/python
 Add the following lines to the bottom of your <code>.bashrc</code> in your
 home directory:
 <pre class='boxed'>
-PATH=$HOME/bin:$PATH
 PYTHONPATH=$HOME/lib/python
 EDITOR=vim
 
-export PATH PYTHONPATH EDITOR
+export PYTHONPATH EDITOR
 </pre>
 This will set your prefered editor to Vim, add your own <code>lib/python</code>
 subdirectory for your Python libraries to your Python path, and add your own
-<code>bin</code> directory as a place to put executable scripts.
+<code>bin</code> directory as a place to put executable scripts.  You need to
+logout and log back in before your local <code>bin</code> directory will be
+in your <a href="http://en.wikipedia.org/wiki/Path_(variable)">search path</a>.
 </li>
 </ol>
 
@@ -147,7 +148,6 @@ Move <code>myscript.py</code> into your <code>bin</code> directory, and it
 will be runnable from anywhere.
 </li>
 </ol>
-
 
 </body>
 </html>
