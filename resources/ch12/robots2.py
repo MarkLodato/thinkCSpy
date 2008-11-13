@@ -15,6 +15,12 @@ def place_player():
     return {'shape': Circle((10*x+5, 10*y+5), 5, filled=True), 'x': x, 'y': y}
 
 
+def place_robot():
+    x = random.randint(0, GRID_WIDTH)
+    y = random.randint(0, GRID_HEIGHT)
+    return {'shape': Box((10*x, 10*y), 10, 10), 'x': x, 'y': y}
+
+
 def move_player(player):
     update_when('key_pressed')
     if key_pressed('escape'):
@@ -47,12 +53,25 @@ def move_player(player):
     return False
 
 
+def move_robot(robot, player):
+    if robot['x'] < player['x']: robot['x'] += 1
+    elif robot['x'] > player['x']: robot['x'] -= 1
+
+    if robot['y'] < player['y']: robot['y'] += 1
+    elif robot['y'] > player['y']: robot['y'] -= 1
+
+    move_to(robot['shape'], (10*robot['x'], 10*robot['y']))
+
+
+
 def play_game():
     begin_graphics(SCREEN_WIDTH, SCREEN_HEIGHT)
     player = place_player()
+    robot = place_robot()
     finished = False
     while not finished:
         finished = move_player(player)
+        move_robot(robot, player)
     end_graphics()
 
 
