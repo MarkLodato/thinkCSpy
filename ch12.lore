@@ -599,6 +599,9 @@ the program immediately after the line <code>player = place_player()</code>,
 and add the <code>move_robot(robot, player)</code> call inside the main loop
 immediately after <code>finished = move_player(player)</code>.</p>
 
+
+<h3>Checking for Collisions</h3>
+
 <p>We now have a robot that moves relentlessly toward our player, but once it
 catches her it just follows her around wherever she goes.  What we want to
 happen is for the game to end as soon as the player is caught.  The following
@@ -635,13 +638,12 @@ def play_game():
     end_graphics()
 </pre>
 
-<p>We introduce a new variable, <code>defeated</code> which is set to the
-result of <code>collided</code>.  The main loop now runs as long as
-<code>defeated</code> is false.  Pressing the &lt;Escape&gt; key still ends
-the program as well, since we check for <code>quit</code> and break out of
-the main loop if it is true.  Finally, we check for <code>defeated</code>
-immediately after the main loop and display an appropriate message if it is
-true.</p>
+<p>We rename the variable <code>finished</code> to <code>defeated</code>, which
+is now set to the result of <code>collided</code>.  The main loop runs as long
+as <code>defeated</code> is false.  Pressing the &lt;Escape&gt; key still ends
+the program, since we check for <code>quit</code> and break out of the main
+loop if it is true.  Finally, we check for <code>defeated</code> immediately
+after the main loop and display an appropriate message if it is true.</p>
 
 
 <h3>Adding more robots</h3>
@@ -649,17 +651,18 @@ true.</p>
 <p>There are several things we could do next:</p>
 
 <ul>
-  <li>provide <q>safe</q> placement of the player so that it never starts
-  on top of a robot.</li>
-
   <li>give the player the ability to <em>teleport</em> to another location
   to escape pursuit.</li>
+
+  <li>provide <q>safe</q> placement of the player so that it never starts
+  on top of a robot.</li>
 
   <li>add more robots.</li>
 </ul>
 
-<p>While anyone of these tasks could be taken on first, we will start with
-the last one: adding more robots.</p>
+<p>Since each of these tasks is independent of the others, any one of them
+could be taken on first.  Teleporting to a random location is easy enough to
+do that it is assigned to you as an exercise.</p>
 
 <p>To add a second robot, we could just create another variable named something
 like <code>robot2</code> with another call to <code>place_robot</code>.
@@ -896,9 +899,25 @@ include a seperate numeric keypad.  Modify the robots program so that it uses
 </div></li>
 
 <li><div class="exercise">
-Add all the necessary code from the <em>Adding a robot</em> section in the
-places indicated.  Make sure the program works and that you now have a robot
-following around your player.
+Add all the code from the <em>Adding a robot</em> section in the places
+indicated.  Make sure the program works and that you now have a robot following
+around your player.
+</div></li>
+
+<li><div class="exercise">
+Add all the code from the <em>Checking for Collisions</em> section in the
+places indicated. Verify that the program ends when the robot catches the
+player after displaying a <q>They got you!</q> message for 3 seconds.
+</div></li>
+
+<li><div class="exercise">
+Modify the <code>move_player</code> function to add the ability for the player
+to jump to a random location whenever the <code>0</code> key is pressed.
+(<em>hint:</em>  <code>place_player</code> already has the logic needed to
+place the player in a random location.  Just add another conditional branch
+to <code>move_player</code> that uses this logic when
+<code>key_pressed('0')</code> is true.)  Test the program to verify that your
+player can now teleport to a random place on the screen to get out of trouble.
 </div></li>
 
 <li><div class="exercise">
