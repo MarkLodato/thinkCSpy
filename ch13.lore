@@ -320,8 +320,8 @@ object within an object!</p>
 
 <pre class="python">
 box.corner = Point()
-box.corner.x = 0.0;
-box.corner.y = 0.0;
+box.corner.x = 0.0
+box.corner.y = 0.0
 </pre>
 
 <p>The dot operator composes.  The expression <code>box.corner.x</code> means,
