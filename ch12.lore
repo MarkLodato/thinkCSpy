@@ -660,9 +660,11 @@ after the main loop and display an appropriate message if it is true.</p>
   <li>add more robots.</li>
 </ul>
 
-<p>Since each of these tasks is independent of the others, any one of them
-could be taken on first.  Teleporting to a random location is easy enough to
-do that it is assigned to you as an exercise.</p>
+<p>Adding the ability to teleport to a random location is the easiest task, and
+it has been left to you to complete as an exercise.</p>
+
+<p>How we provide safe placement of the player will depend on how we represent
+multiple robots, so it makes sense to tackle adding more robots first.</p> 
 
 <p>To add a second robot, we could just create another variable named something
 like <code>robot2</code> with another call to <code>place_robot</code>.
@@ -711,8 +713,12 @@ def check_collisions(robots, player):
     return False
 </pre>
 
-<p>We change the line in <code>play_game</code> that sets <code>defeated</code>
+<p>Add <code>check_collisions</code> immediately after <code>collided</code>
+and change the line in <code>play_game</code> that sets <code>defeated</code>
 to call <code>check_collisions</code> instead of <code>collided</code>.</p>
+
+
+
 
 
 <h2>Glossary</h2>
@@ -921,11 +927,12 @@ player can now teleport to a random place on the screen to get out of trouble.
 </div></li>
 
 <li><div class="exercise">
-Add all the necessary code from the <em>Adding more robots</em> section in the
-places indicated.  Make sure the program works and that you now have two robots
-following around your player.  Change the argument from 2 to 4 in
-<code>robots = place_robots(2)</code> and confirm that you have 4 robots all
-working as expected.
+Make all the changes to your program indicated in <em>Adding more robots</em>.
+Test your program to verify that there are now two robots chasing your player.  Change the argument from 2 to 4 in
+<code>robots = place_robots(2)</code> and confirm that you have 4 robots.
+</div></li>
+
+<li><div class="exercise">
 </div></li>
 
 </ol>
