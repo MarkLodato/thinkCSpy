@@ -718,7 +718,19 @@ and change the line in <code>play_game</code> that sets <code>defeated</code>
 to call <code>check_collisions</code> instead of <code>collided</code>.</p>
 
 
+<h3>Turning robots into junk</h3>
 
+<p>The biggest problem left in our game is that there is no way to win. The
+robots are both relentless and <em>indestructible</em>.  With careful
+maneuvering and a bit of luck teleporting, we can reach the point where it
+appears there is only one robot chasing the player (all the robots will
+actually just be on top of each other). This moving pile of robots will
+continue chasing our player until it catches it, either by a bad move on our
+part or a teleport that lands the player directly on the robots.</p>
+
+<p>When two robots collide they are supposed to die, leaving behind a pile of
+junk.  A robot (or the player) is also supposed to die when it collides with a
+pile of junk.</p>
 
 
 <h2>Glossary</h2>
