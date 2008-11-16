@@ -191,9 +191,11 @@ it often leads to errors.  For whimsical reasons, programming errors are
 called <b>bugs</b> and the process of tracking them down and
 correcting them is called <b>debugging</b>.</p>
 
-<p>Three kinds of errors can occur in a program: syntax errors, runtime errors, 
-and semantic errors. It is useful to distinguish between them in order to track 
-them down more quickly.</p>
+<p>Three kinds of errors can occur in a program:
+<a href="http://en.wikipedia.org/wiki/Syntax_error">syntax errors</a>,
+<a href="http://en.wikipedia.org/wiki/Runtime_error">runtime errors</a>, and
+<a href="http://en.wikipedia.org/wiki/Logic_error">semantic errors</a>. It is
+useful to distinguish between them in order to track them down more quickly.</p>
 
 
 <h2>Syntax errors</h2>

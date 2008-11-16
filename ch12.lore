@@ -767,7 +767,7 @@ def collided(thing1, thing2):
 </pre>
 
 <p>We now introduce a new empty list named <code>junk</code> immediately after
-the call to <code>place_robots<code>:
+the call to <code>place_robots</code>:</p>
 
 <pre class="python">
     junk = []
