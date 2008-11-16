@@ -717,20 +717,92 @@ def check_collisions(robots, player):
 and change the line in <code>play_game</code> that sets <code>defeated</code>
 to call <code>check_collisions</code> instead of <code>collided</code>.</p>
 
+<p>Finally, we need to loop over <code>robots</code> to remove each one in
+turn if <code>defeated</code> becomes true.  Adding this has been left as
+an exercise.</p>
 
-<h3>Turning robots into junk</h3>
+
+<h3>Winning the game</h3>
 
 <p>The biggest problem left in our game is that there is no way to win. The
 robots are both relentless and <em>indestructible</em>.  With careful
 maneuvering and a bit of luck teleporting, we can reach the point where it
 appears there is only one robot chasing the player (all the robots will
 actually just be on top of each other). This moving pile of robots will
-continue chasing our player until it catches it, either by a bad move on our
-part or a teleport that lands the player directly on the robots.</p>
+continue chasing our hapless player until it catches it, either by a bad move
+on our part or a teleport that lands the player directly on the robots.</p>
 
 <p>When two robots collide they are supposed to die, leaving behind a pile of
 junk.  A robot (or the player) is also supposed to die when it collides with a
-pile of junk.</p>
+pile of junk.  The logic for doing this is quite tricky.  After the player
+and each of the robots have moved, we need to:</p>
+<ol>
+  <li>Check whether the player has collided with a robot or a pile of junk.  If
+  so, set <code>defeated</code> to true and break out of the game loop.</li>
+
+  <li>Check each robot in the <code>robots</code> list to see if it has
+  collided with a pile of junk.  If it has, disgard the robot (remove it from
+  the <code>robots</code> list.</li>
+
+  <li>Check each of the remaining robots to see if they have collided with
+  another robot.  If they have, disgard all the robots that have collided and
+  place a pile of junk at the locations they occupied.</li>
+
+  <li>Check if any robots remain.  If not, end the game and mark the player
+  the winner.</li>
+</ol>
+
+<p>Let's take on each of these tasks in turn.</p>
+
+
+<h3>Adding <code>junk</code></h3>
+
+<p>Most of this work will take place inside our <code>check_collisions</code>
+function.  Let's start by modifying <code>collided</code>, changing the names
+of the parameters to reflect its more general purpose use:</p>
+
+<pre class="python">
+def collided(thing1, thing2):
+    return thing1['x'] == thing2['x'] and thing1['y'] == thing2['y']
+</pre>
+
+<p>We now introduce a new empty list named <code>junk</code> immediately after
+the call to <code>place_robots<code>:
+
+<pre class="python">
+    junk = []
+</pre>
+
+<p>and modify <code>check_collisions</code> to incorporate the new list:</p>
+
+<pre class="python">
+def check_collisions(robots, junk, player):
+    for thing in robots + junk:
+        if collided(thing, player):
+            return True
+    return False
+</pre>
+
+<p>Again, we need to fix the <code>defeated</code> logic to remove the new
+<code>junk</code> from the screen before displaying the <q>They got you!</q>
+message:</p>
+
+<pre class="python">
+        for thing in robots + junk:
+            remove_from_screen(thing['shape'])
+</pre>
+
+<p>Since at this point <code>junk</code> is always an empty list, we haven't
+changed the behavior of our program.  To test whether our new logic is actually
+working, we could introduce a single junk pile and run our player into it,
+at which point the game should remove all items from the screen and display
+the ending message.  We leave that to you as an exercise.</p>
+
+
+<h3>Removing robots that hit junk</h3>
+
+
+<h3>Turning robots into junk</h3>
 
 
 <h2>Glossary</h2>
@@ -940,11 +1012,27 @@ player can now teleport to a random place on the screen to get out of trouble.
 
 <li><div class="exercise">
 Make all the changes to your program indicated in <em>Adding more robots</em>.
-Test your program to verify that there are now two robots chasing your player.  Change the argument from 2 to 4 in
-<code>robots = place_robots(2)</code> and confirm that you have 4 robots.
+Be sure to loop over the <code>robots</code> list, removing each robot in turn,
+after <code>defeated</code> becomes true.  Test your program to verify that
+there are now two robots chasing your player.  Let a robot catch you to test
+whether you have correctly handled removing all the robots. Change the argument
+from 2 to 4 in <code>robots = place_robots(2)</code> and confirm that you have
+4 robots.
 </div></li>
 
 <li><div class="exercise">
+<p>Make the changes to your program indicated in
+<em>Adding <code>junk</code></em>.  We will represent piles of junk as a solid
+black <code>Box</code>.  To test our lastest code, temporarily change:</p>
+<pre class="python">
+    junk = []
+</pre>
+<p>to:</p>
+<pre class="python">
+    junk = [{'shape': Box((320, 240), 10, 10, filled=True), 'x': 32, 'y': 24}]
+</pre>
+
+
 </div></li>
 
 </ol>
