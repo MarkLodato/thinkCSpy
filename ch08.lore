@@ -45,7 +45,7 @@ end_graphics()
 <p>As the ball moves across the screen, you will see a graphics window that
 looks like this:</p>
 
-<img src="illustrations/gasp03.png" />
+<p><img src="illustrations/gasp03.png" /></p>
 
 <p>Trace the first few iterations of this program to be sure you see what is
 happening to the variables <code>x</code> and <code>y</code>.</p>

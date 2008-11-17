@@ -1344,8 +1344,8 @@ Verify that <code>mult_lists</code> passes the doctests above.
 </div></li>
 
 <li><div class="exercise">
-Add the following two functions to <code>matrices.py</code> introduced in
-section on test-driven development:
+Add the following two functions to the <code>matrices.py</code> module
+introduced in the section on test-driven development:
 <pre class="python">
 def add_row(matrix):
     """
@@ -1373,7 +1373,10 @@ def add_column(matrix):
 </pre>
 Your new functions should pass the doctests.  Note that the last doctest in
 each function assures that <code>add_row</code> and <code>add_column</code>
-are pure functions.
+are pure functions.  (<em>hint:</em> Python has a <code>copy</code> module with
+a function named <code>deepcopy</code> that could make your task easier here.
+We will talk more about <code>deepcopy</code> in chapter 13, but google
+<q>python copy module</q> if you would like to try it now.)
 </div></li>
 
 <li><div class="exercise">

@@ -48,7 +48,7 @@ def move_player(player):
 
 
 def play_game():
-    begin_graphics(SCREEN_WIDTH, SCREEN_HEIGHT)
+    begin_graphics(SCREEN_WIDTH, SCREEN_HEIGHT, title="Robots")
     player = place_player()
     finished = False
     while not finished:

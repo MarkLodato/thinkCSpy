@@ -528,7 +528,7 @@ def move_player(player):
 
 
 def play_game():
-    begin_graphics(SCREEN_WIDTH, SCREEN_HEIGHT)
+    begin_graphics(SCREEN_WIDTH, SCREEN_HEIGHT, title="Robots")
     player = place_player()
     finished = False
     while not finished:
@@ -777,15 +777,20 @@ the call to <code>place_robots</code>:</p>
 
 <pre class="python">
 def check_collisions(robots, junk, player):
+    # check whether player has collided with anything
     for thing in robots + junk:
         if collided(thing, player):
             return True
     return False
 </pre>
 
-<p>Again, we need to fix the <code>defeated</code> logic to remove the new
-<code>junk</code> from the screen before displaying the <q>They got you!</q>
-message:</p>
+<p>Be sure to modify the call to <code>check_collisions</code>
+(currently <code>defeated = check_collisions(robots, player)</code>) to include
+<code>junk</code> as a new argument.</p>
+
+<p>Again, we need to fix the logic after <code>if defeated:</code> to remove
+the new <code>junk</code> from the screen before displaying the <q>They got
+you!</q> message:</p>
 
 <pre class="python">
         for thing in robots + junk:
@@ -796,10 +801,85 @@ message:</p>
 changed the behavior of our program.  To test whether our new logic is actually
 working, we could introduce a single junk pile and run our player into it,
 at which point the game should remove all items from the screen and display
-the ending message.  We leave that to you as an exercise.</p>
+the ending message.</p>
+
+<p>It will be helpful to modify our program temporarily to change the the
+random placement of robots and player to predetermined locations for testing.
+We plan to use solid boxes to represent junk piles.  We observe that placing a
+robot is very similar to placing a junk pile, and modify
+<code>place_robot</code> to do both:</p>
+
+<pre class="python">
+def place_robot(x, y, junk=False):
+    return {'shape': Box((10*x, 10*y), 10, 10, filled=junk), 'x': x, 'y': y}
+</pre>
+
+<p>Notice that <code>x</code> and <code>y</code> are now parameters, along
+with a new parameter that we will use to set <code>filled</code> to true for
+piles of junk.</p>
+
+<p>Our program is now broken, since the call in <code>place_robots</code>
+to <code>place_robot</code> does not pass arguments for <code>x</code> and
+<code>y</code>.  Fixing this and setting up the program for testing is left 
+to you as an exercise.</p>
 
 
 <h3>Removing robots that hit junk</h3>
+<span class="index" value="nested loop" />
+<span class="index" value="reversed" />
+<span class="index" value="reversed built-in function" />
+<span class="index" value="built-in functions!reversed" />
+
+<p>To remove robots that collide with piles of junk, we add a 
+<em>nested loop</em> to <code>check_collisions</code> between each robot and
+each pile of junk.  Our first attempt at this does not work:</p>
+
+<pre class="python">
+def check_collisions(robots, junk, player):
+    # check whether player has collided with anything
+    for thing in robots + junk:
+        if collided(thing, player):
+            return True
+
+    # remove robots that have collided with a pile of junk
+    for robot in robots:
+        for pile in junk:
+            if collided(robot, pile):
+                robots.remove(robot)
+
+    return False
+</pre>
+
+<p>Running this new code with the program as setup in exercise 11, we find
+a bug.  It appears that the robots continue to pass through the pile of junk
+as before.</p>
+
+<p>Actually, the bug is more subtle.  Since we have two robots on top of each
+other, when the the collision of the first one is detected and that robot is
+removed, we move the second robot into the first position in the list and
+<em>it is missed by the next iteration</em>.  It is generally dangerous to
+modify a list while you are iterating over it.  Doing so can introduce a host
+of difficult to find errors into your program.</p>
+
+<p>The solution in this case is to loop over the <code>robots</code> list
+backwards, so that when we remove a robot from the list all the robots whose
+list indeces change as a result are robots we have already evaluated.</p>
+
+<p>As usual, Python provides an elegant way to do this.  The built-in function,
+<code>reversed</code> provides for backward iteration over a sequence.
+Replacing:</p>
+
+<pre class="python">
+    for robot in robots:
+</pre>
+
+<p>with:</p>
+
+<pre class="python">
+    for robot in reversed(robots):
+</pre>
+
+<p>will make our program work like we wanted.</p>
 
 
 <h3>Turning robots into junk</h3>
@@ -1022,19 +1102,45 @@ from 2 to 4 in <code>robots = place_robots(2)</code> and confirm that you have
 
 <li><div class="exercise">
 <p>Make the changes to your program indicated in
-<em>Adding <code>junk</code></em>.  We will represent piles of junk as a solid
-black <code>Box</code>.  To test our lastest code, temporarily change:</p>
-<pre class="python">
+<em>Adding <code>junk</code></em>.  Fix <code>place_robots</code> by moving 
+the random generation of values for <code>x</code> and <code>y</code> to the
+appropriate location and passing these values as arguments in the call to
+<code>place_robot</code>.  Now we are ready to make temporary modifications to
+our program to remove the randomness so we can control it for testing.</p>
+
+<p>We can start by placing a pile of junk in the center of our game board.
+Change:</p>
+<pre class='python'>
     junk = []
 </pre>
 <p>to:</p>
-<pre class="python">
-    junk = [{'shape': Box((320, 240), 10, 10, filled=True), 'x': 32, 'y': 24}]
+<pre class='python'>
+    junk = [place_robot(GRID_WIDTH/2, GRID_HEIGHT/2, junk=True)]
 </pre>
-
-
+<p>Run the program and confirm that there is a black box in the center of the
+board.</p>
+<p>Now change <code>place_player</code> so that it looks like this:</p>
+<pre class='python'>
+def place_player():
+    # x = random.randint(0, GRID_WIDTH)
+    # y = random.randint(0, GRID_HEIGHT)
+    x, y = GRID_WIDTH/2 + 3, GRID_HEIGHT/2
+    return {'shape': Circle((10*x+5, 10*y+5), 5, filled=True), 'x': x, 'y': y}
+</pre>
+<p>When you start your program now, it should look like this:</p>
+<p><img src="illustrations/robots01.png" /></p>
+<p>When you run this program and either stay still (by pressing the
+<code>5</code> repeatedly) or move away from the pile of junk, you can confirm
+that the robots move through it unharmed.  When you move into the junk pile,
+on the other hand, you die.</p>
 </div></li>
 
+<li><div class="exercise">
+Make the changes to the program discussed in <em>Removing robots that hit
+junk</em>.  Run it without iterating backwards over the <code>robots</code>
+and confirm that there is a bug.  Then use the built-in <code>reveresed</code>
+function to fix the bug.
+</div></li>
 </ol>
 
 </body>

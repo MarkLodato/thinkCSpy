@@ -10,15 +10,25 @@ GRID_HEIGHT = SCREEN_HEIGHT/10 - 1
 
 
 def place_player():
-    x = random.randint(0, GRID_WIDTH)
-    y = random.randint(0, GRID_HEIGHT)
+    # x = random.randint(0, GRID_WIDTH)
+    # y = random.randint(0, GRID_HEIGHT)
+    x, y = GRID_WIDTH/2 + 3, GRID_HEIGHT/2
     return {'shape': Circle((10*x+5, 10*y+5), 5, filled=True), 'x': x, 'y': y}
 
 
-def place_robot():
-    x = random.randint(0, GRID_WIDTH)
-    y = random.randint(0, GRID_HEIGHT)
-    return {'shape': Box((10*x, 10*y), 10, 10), 'x': x, 'y': y}
+def place_robot(x, y, junk=False):
+    return {'shape': Box((10*x, 10*y), 10, 10, filled=junk), 'x': x, 'y': y}
+
+
+def place_robots(numbots):
+    robots = []
+    # for i in range(numbots):
+    #    x = random.randint(0, GRID_WIDTH)
+    #    y = random.randint(0, GRID_HEIGHT)
+    #    robots.append(place_robot(x, y))
+    robots.append(place_robot(GRID_WIDTH/2 - 4, GRID_HEIGHT/2 + 2))
+    robots.append(place_robot(GRID_WIDTH/2 - 4, GRID_HEIGHT/2 - 2))
+    return robots
 
 
 def move_player(player):
@@ -45,6 +55,9 @@ def move_player(player):
     elif key_pressed('1'):
         if player['x'] > 0: player['x'] -= 1
         if player['y'] > 0: player['y'] -= 1
+    elif key_pressed('0'):
+        player['x'] = random.randint(0, GRID_WIDTH)
+        player['y'] = random.randint(0, GRID_HEIGHT)
     else:
         return False
 
@@ -53,8 +66,23 @@ def move_player(player):
     return False
 
 
-def collided(robot, player):
-    return player['x'] == robot['x'] and player['y'] == robot['y']
+def collided(thing1, thing2):
+    return thing1['x'] == thing2['x'] and thing1['y'] == thing2['y']
+
+
+def check_collisions(robots, junk, player):
+    # check whether player has collided with anything
+    for thing in robots + junk:
+        if collided(thing, player):
+            return True
+
+    # remove robots that have collided with a pile of junk
+    for robot in reversed(robots):
+        for pile in junk:
+            if collided(robot, pile):
+                robots.remove(robot)
+
+    return False
 
 
 def move_robot(robot, player):
@@ -67,23 +95,29 @@ def move_robot(robot, player):
     move_to(robot['shape'], (10*robot['x'], 10*robot['y']))
 
 
+def move_robots(robots, player):
+    for robot in robots:
+        move_robot(robot, player)
+
 
 def play_game():
     begin_graphics(SCREEN_WIDTH, SCREEN_HEIGHT, title="Robots")
     player = place_player()
-    robot = place_robot()
+    robots = place_robots(2)
+    junk = [place_robot(GRID_WIDTH/2, GRID_HEIGHT/2, junk=True)]
     defeated = False
 
     while not defeated:
         quit = move_player(player)
         if quit:
             break
-        move_robot(robot, player)
-        defeated = collided(robot, player)
+        move_robots(robots, player)
+        defeated = check_collisions(robots, junk, player)
 
     if defeated:
         remove_from_screen(player['shape'])
-        remove_from_screen(robot['shape'])
+        for thing in robots + junk:
+            remove_from_screen(thing['shape'])
         Text("They got you!", (240, 240), size=32)
         sleep(3)
 

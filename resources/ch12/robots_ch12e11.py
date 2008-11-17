@@ -10,21 +10,24 @@ GRID_HEIGHT = SCREEN_HEIGHT/10 - 1
 
 
 def place_player():
-    x = random.randint(0, GRID_WIDTH)
-    y = random.randint(0, GRID_HEIGHT)
+    # x = random.randint(0, GRID_WIDTH)
+    # y = random.randint(0, GRID_HEIGHT)
+    x, y = GRID_WIDTH/2 + 3, GRID_HEIGHT/2
     return {'shape': Circle((10*x+5, 10*y+5), 5, filled=True), 'x': x, 'y': y}
 
 
-def place_robot():
-    x = random.randint(0, GRID_WIDTH)
-    y = random.randint(0, GRID_HEIGHT)
-    return {'shape': Box((10*x, 10*y), 10, 10), 'x': x, 'y': y}
+def place_robot(x, y, junk=False):
+    return {'shape': Box((10*x, 10*y), 10, 10, filled=junk), 'x': x, 'y': y}
 
 
 def place_robots(numbots):
     robots = []
-    for i in range(numbots):
-        robots.append(place_robot())
+    # for i in range(numbots):
+    #    x = random.randint(0, GRID_WIDTH)
+    #    y = random.randint(0, GRID_HEIGHT)
+    #    robots.append(place_robot(x, y))
+    robots.append(place_robot(GRID_WIDTH/2 - 4, GRID_HEIGHT/2 + 2))
+    robots.append(place_robot(GRID_WIDTH/2 - 4, GRID_HEIGHT/2 - 2))
     return robots
 
 
@@ -68,6 +71,7 @@ def collided(thing1, thing2):
 
 
 def check_collisions(robots, junk, player):
+    # check whether player has collided with anything
     for thing in robots + junk:
         if collided(thing, player):
             return True
@@ -90,10 +94,10 @@ def move_robots(robots, player):
 
 
 def play_game():
-    begin_graphics(SCREEN_WIDTH, SCREEN_HEIGHT)
+    begin_graphics(SCREEN_WIDTH, SCREEN_HEIGHT, title="Robots")
     player = place_player()
     robots = place_robots(2)
-    junk = [{'shape': Box((320, 240), 10, 10, filled=True), 'x': 32, 'y': 24}]
+    junk = [place_robot(GRID_WIDTH/2, GRID_HEIGHT/2, junk=True)]
     defeated = False
 
     while not defeated:
