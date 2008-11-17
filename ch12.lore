@@ -803,11 +803,11 @@ working, we could introduce a single junk pile and run our player into it,
 at which point the game should remove all items from the screen and display
 the ending message.</p>
 
-<p>It will be helpful to modify our program temporarily to change the the
-random placement of robots and player to predetermined locations for testing.
-We plan to use solid boxes to represent junk piles.  We observe that placing a
-robot is very similar to placing a junk pile, and modify
-<code>place_robot</code> to do both:</p>
+<p>It will be helpful to modify our program temporarily to change the random
+placement of robots and player to predetermined locations for testing.  We plan
+to use solid boxes to represent junk piles.  We observe that placing a robot is
+very similar to placing a junk pile, and modify <code>place_robot</code> to do
+both:</p>
 
 <pre class="python">
 def place_robot(x, y, junk=False):
@@ -855,7 +855,7 @@ a bug.  It appears that the robots continue to pass through the pile of junk
 as before.</p>
 
 <p>Actually, the bug is more subtle.  Since we have two robots on top of each
-other, when the the collision of the first one is detected and that robot is
+other, when the collision of the first one is detected and that robot is
 removed, we move the second robot into the first position in the list and
 <em>it is missed by the next iteration</em>.  It is generally dangerous to
 modify a list while you are iterating over it.  Doing so can introduce a host
@@ -879,10 +879,25 @@ Replacing:</p>
     for robot in reversed(robots):
 </pre>
 
-<p>will make our program work like we wanted.</p>
+<p>will make our program work the way we intended.</p>
 
 
 <h3>Turning robots into junk</h3>
+
+<p>We now want to check each robot to see if it has collided with any other
+robots and remove all the robots that collided, leaving a single pile of
+junk in their wake.  Once again we have to be careful not to introduce bugs
+related to removing things from a list over which we are iterating.</p>
+
+<p>Here is the plan:</p>
+
+<ol>
+  <li>for each robot in <code>robots</code> (the outer loop going forward)</li>
+  <li>compare it with each robot from the end of the list to the one which
+  follows it (the inner loop going backward)</li>
+  <li>if the two robots have collided, mark the first one as junk and remove
+  the second one.</li>
+</ol>
 
 
 <h2>Glossary</h2>
