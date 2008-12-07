@@ -77,7 +77,7 @@ Add Mathew Gallagher's personal package archive to your apt sources:
 <li>click the <code>+ Add</code> button</li>
 <li>paste the following into the <code>APT line:</code> text entry box:
 <pre class='boxed'>
-deb http://ppa.launchpad.net/mattva01/ubuntu intrepid main restricted universe multiverse
+deb http://ppa.launchpad.net/gasp-deb/ubuntu intrepid main
 </pre>
 </li>
 <li>click the <code>Close</code> button</li>
@@ -92,6 +92,7 @@ Install GASP by typing the following at a command prompt:
 <pre class='shell'>
 sudo apt-get install python-gasp
 </pre>
+Or use the synaptic package manager.
 </li>
 </ol>
 
