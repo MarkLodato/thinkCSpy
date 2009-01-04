@@ -17,7 +17,8 @@ def place_player():
 
 
 def place_robot(x, y, junk=False):
-    return {'shape': Box((10*x, 10*y), 10, 10, filled=junk), 'x': x, 'y': y}
+    return {'shape': Box((10*x, 10*y), 10, 10, filled=junk),
+            'x': x, 'y': y, 'junk': junk}
 
 
 def place_robots(numbots):
@@ -74,7 +75,7 @@ def check_collisions(robots, junk, player):
     # check whether player has collided with anything
     for thing in robots + junk:
         if collided(thing, player):
-            return True
+            return "robots" 
 
     # remove robots that have collided with a pile of junk
     for robot in reversed(robots):
@@ -82,7 +83,24 @@ def check_collisions(robots, junk, player):
             if collided(robot, pile):
                 robots.remove(robot)
 
-    return False
+    # remove robots that collide and leave a pile of junk
+    for index, robot1 in enumerate(robots):
+        for robot2 in reversed(robots[index+1:]):
+            if collided(robot1, robot2):
+                robot1['junk'] = True
+                junk.append(place_robot(robot1['x'], robot1['y'], True))
+                remove_from_screen(robot2['shape'])
+                robots.remove(robot2)
+
+    for robot in reversed(robots):
+        if robot['junk']:
+            remove_from_screen(robot['shape'])
+            robots.remove(robot)
+
+    if not robots:
+        return "player"
+
+    return "" 
 
 
 def move_robot(robot, player):
@@ -105,20 +123,23 @@ def play_game():
     player = place_player()
     robots = place_robots(2)
     junk = [place_robot(GRID_WIDTH/2, GRID_HEIGHT/2, junk=True)]
-    defeated = False
+    winner = ""
 
-    while not defeated:
+    while not winner:
         quit = move_player(player)
         if quit:
             break
         move_robots(robots, player)
-        defeated = check_collisions(robots, junk, player)
+        winner = check_collisions(robots, junk, player)
 
-    if defeated:
+    if winner:
         remove_from_screen(player['shape'])
         for thing in robots + junk:
             remove_from_screen(thing['shape'])
-        Text("They got you!", (240, 240), size=32)
+        if winner == "robots":
+            Text("They got you!", (240, 240), size=32)
+        else:
+            Text("You win!", (240, 240), size=32)
         sleep(3)
 
     end_graphics()

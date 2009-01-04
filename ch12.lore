@@ -742,7 +742,7 @@ and each of the robots have moved, we need to:</p>
 
   <li>Check each robot in the <code>robots</code> list to see if it has
   collided with a pile of junk.  If it has, disgard the robot (remove it from
-  the <code>robots</code> list.</li>
+  the <code>robots</code> list).</li>
 
   <li>Check each of the remaining robots to see if they have collided with
   another robot.  If they have, disgard all the robots that have collided and
@@ -882,22 +882,81 @@ Replacing:</p>
 <p>will make our program work the way we intended.</p>
 
 
-<h3>Turning robots into junk</h3>
+<h3>Turning robots into junk and enabling the player to win</h3>
 
 <p>We now want to check each robot to see if it has collided with any other
-robots and remove all the robots that collided, leaving a single pile of
-junk in their wake.  Once again we have to be careful not to introduce bugs
-related to removing things from a list over which we are iterating.</p>
+robots.  We will remove all robots that have collided, leaving a single pile of
+junk in their wake.  If we reach a state where there are no more robots, the
+player wins.</p>
+
+<p>Once again we have to be careful not to introduce bugs related to removing
+things from a list over which we are iterating.</p>
 
 <p>Here is the plan:</p>
-
 <ol>
-  <li>for each robot in <code>robots</code> (the outer loop going forward)</li>
-  <li>compare it with each robot from the end of the list to the one which
-  follows it (the inner loop going backward)</li>
-  <li>if the two robots have collided, mark the first one as junk and remove
-  the second one.</li>
+  <li>Check each robot in <code>robots</code> (an outer loop, traversing
+  forward).
+  </li>
+  <li>Compare it with every robot that follows it (an inner loop, traversing 
+  backward).</li>
+  <li>If the two robots have collided, add a piece of junk at their location,
+  mark the first robot as junk, and remove the second one.</li>
+  <li>Once all robots have been checked for collisions, traverse the robots
+  list once again in reverse, removing all robots marked as junk.</li>
+  <li>Check to see if any robots remain.  If not, declare the player the
+  winner.</li>
 </ol>
+
+<p>Adding the following to <code>check_collisions</code> will accomplish most
+of what we need to do:</p> 
+
+<pre class="python">
+    # remove robots that collide and leave a pile of junk
+    for index, robot1 in enumerate(robots):
+        for robot2 in reversed(robots[index+1:]):
+            if collided(robot1, robot2):
+                robot1['junk'] = True
+                junk.append(place_robot(robot1['x'], robot1['y'], True))
+                remove_from_screen(robot2['shape'])
+                robots.remove(robot2)
+
+    for robot in reversed(robots):
+        if robot['junk']:
+            remove_from_screen(robot['shape'])
+            robots.remove(robot)
+</pre>
+
+<span class="index" value="enumerate" />
+
+<p>We make use of the <code>enumerate</code> function we saw in Chapter 9 to
+get both the index and value of each robot as we traverse forward.  Then a
+reverse traversal of the slice of the remaining robots,
+<code>reversed(robots[index+1:])</code>, sets up the collision check.</p>
+
+<p>Whenever two robots collide, our plan calls for adding a piece of junk at
+that location, marking the first robot for later removal (we still need it to
+compare with the other robots), and immediately removing the second one.
+The body of the <code>if collided(robot1, robot2):</code> conditional is
+designed to do just that, but if you look carefully at the line:</p>
+
+<pre class="python">
+                robot1['junk'] = True
+</pre>
+
+<p>you should notice a problem.  <code>robot1['junk']</code> will result in
+a systax error, since our robot dictionary does not yet contain a
+<code>'junk'</code> key.  To fix this we modify <code>place_robot</code> to
+accomodate the new key:</p>
+
+<pre class="python">
+def place_robot(x, y, junk=False):
+    return {'shape': Box((10*x, 10*y), 10, 10, filled=junk),
+            'x': x, 'y': y, 'junk': junk}
+</pre>
+
+<p>It is not at all unusual for data structures to change as program
+development proceeds.  <b>Stepwise refinement</b> of a program is a normal
+part of the <b>structured programming</b> process.</p>
 
 
 <h2>Glossary</h2>
@@ -910,6 +969,8 @@ related to removing things from a list over which we are iterating.</p>
 <span class="index" value="event-driven program" />
 <span class="index" value="event loop" />
 <span class="index" value="overflow" />
+<span class="index" value="stepwise refinement" />
+<span class="index" value="structured programming" />
 
 <dl>
 <dt>dictionary:</dt>

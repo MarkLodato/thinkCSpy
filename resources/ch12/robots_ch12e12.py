@@ -75,6 +75,13 @@ def check_collisions(robots, junk, player):
     for thing in robots + junk:
         if collided(thing, player):
             return True
+
+    # remove robots that have collided with a pile of junk
+    for robot in reversed(robots):
+        for pile in junk:
+            if collided(robot, pile):
+                robots.remove(robot)
+
     return False
 
 
