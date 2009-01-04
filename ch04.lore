@@ -865,7 +865,7 @@ Box((80, 80), 20, 20)          # the right window
 Line((20, 120), (70, 160))     # the left roof
 Line((70, 160), (120, 120))    # the right roof
 
-pause()                        # keep the canvas open until a key is pressed
+update_when('key_pressed')     # keep the canvas open until a key is pressed
 end_graphics()                 # close the canvas (which would happen anyway,
                                # since the script ends here, but it is better
                                # to be explicit).
