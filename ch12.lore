@@ -547,8 +547,8 @@ if __name__ == '__main__':
 <p>The main <b>event loop</b> at this stage is simply:</p>
 
 <pre class="python">
-    while not finished:
-        finished = move_player(player)
+while not finished:
+    finished = move_player(player)
 </pre>
 
 <p>The event handling is done inside the <code>move_player</code> function.
@@ -759,7 +759,7 @@ and each of the robots have moved, we need to:</p>
 
 <p>Most of this work will take place inside our <code>check_collisions</code>
 function.  Let's start by modifying <code>collided</code>, changing the names
-of the parameters to reflect its more general purpose use:</p>
+of the parameters to reflect its more general use:</p>
 
 <pre class="python">
 def collided(thing1, thing2):
@@ -793,8 +793,8 @@ the new <code>junk</code> from the screen before displaying the <q>They got
 you!</q> message:</p>
 
 <pre class="python">
-        for thing in robots + junk:
-            remove_from_screen(thing['shape'])
+for thing in robots + junk:
+    remove_from_screen(thing['shape'])
 </pre>
 
 <p>Since at this point <code>junk</code> is always an empty list, we haven't
@@ -870,13 +870,13 @@ list indeces change as a result are robots we have already evaluated.</p>
 Replacing:</p>
 
 <pre class="python">
-    for robot in robots:
+for robot in robots:
 </pre>
 
 <p>with:</p>
 
 <pre class="python">
-    for robot in reversed(robots):
+for robot in reversed(robots):
 </pre>
 
 <p>will make our program work the way we intended.</p>
@@ -911,19 +911,19 @@ things from a list over which we are iterating.</p>
 of what we need to do:</p> 
 
 <pre class="python">
-    # remove robots that collide and leave a pile of junk
-    for index, robot1 in enumerate(robots):
-        for robot2 in reversed(robots[index+1:]):
-            if collided(robot1, robot2):
-                robot1['junk'] = True
-                junk.append(place_robot(robot1['x'], robot1['y'], True))
-                remove_from_screen(robot2['shape'])
-                robots.remove(robot2)
+# remove robots that collide and leave a pile of junk
+for index, robot1 in enumerate(robots):
+    for robot2 in reversed(robots[index+1:]):
+        if collided(robot1, robot2):
+            robot1['junk'] = True
+            junk.append(place_robot(robot1['x'], robot1['y'], True))
+            remove_from_screen(robot2['shape'])
+            robots.remove(robot2)
 
-    for robot in reversed(robots):
-        if robot['junk']:
-            remove_from_screen(robot['shape'])
-            robots.remove(robot)
+for robot in reversed(robots):
+    if robot['junk']:
+        remove_from_screen(robot['shape'])
+        robots.remove(robot)
 </pre>
 
 <span class="index" value="enumerate" />
@@ -940,7 +940,7 @@ The body of the <code>if collided(robot1, robot2):</code> conditional is
 designed to do just that, but if you look carefully at the line:</p>
 
 <pre class="python">
-                robot1['junk'] = True
+robot1['junk'] = True
 </pre>
 
 <p>you should notice a problem.  <code>robot1['junk']</code> will result in
@@ -955,8 +955,89 @@ def place_robot(x, y, junk=False):
 </pre>
 
 <p>It is not at all unusual for data structures to change as program
-development proceeds.  <b>Stepwise refinement</b> of a program is a normal
-part of the <b>structured programming</b> process.</p>
+development proceeds.  <b>Stepwise refinement</b> of both program data and
+logic is a normal part of the <b>structured programming</b> process.</p>
+
+<p>After <code>robot1</code> is marked as junk, we add a pile of junk to
+the junk list at the same location with
+<code>junk.append(place_robot(robot1['x'], robot1['y'], True))</code>,
+and then remove <code>robot2</code> from the game by first removing its
+shape from the graphics window and then removing it from the robots list.</p>
+
+<p>The next loop traverses backward over the robots list removing all
+the robots previously marked as junk.  Since the player wins when all the
+robots die, and the robot list will be empty when it no longer contains live
+robots, we can simply check whether <code>robots</code> is empty to determine
+whether or not the player has won.</p>
+
+<p>This can be done in <code>check_collisions</code> immediately after we
+finish checking robot collisions and removing dead robots by adding:</p>
+
+<pre class="python">
+if not robots:
+    return ... 
+</pre>
+
+<p>Hmmm... What should we return?  In its current state,
+<code>check_collisions</code> is a boolean function that returns true when
+the player has collided with something and lost the game, and false when
+the player has not lost and the game should continue.  That is why the variable
+in the <code>play_game</code> function that catches the return value is called
+<code>defeated</code>.</p>
+
+<p>Now we have three possible states:</p>
+<ol>
+  <li><code>robots</code> is not empty and the player has not collided with
+  anything -- the game is still in play</li>
+
+  <li>the player has collided with something -- the robots win</li> 
+
+  <li>the player has not collided with anything and <code>robots</code> is
+  empty -- the player wins</li> 
+</ol>
+
+<p>In order to handle this with as few changes as possible to our present
+program, we will take advantage of the way that Python permits sequence types
+to live a double lives as boolean values.   We will return an empty string --
+which is false -- when game play should continue, and either
+<code>"robots_win"</code> or <code>"player_wins"</code> to handle the other
+two cases.  <code>check_collisions</code> should now look like this:</p>
+
+<pre class="python">
+def check_collisions(robots, junk, player):
+    # check whether player has collided with anything
+    for thing in robots + junk:
+        if collided(thing, player):
+            return "robots_win"
+
+    # remove robots that have collided with a pile of junk
+    for robot in reversed(robots):
+        for pile in junk:
+            if collided(robot, pile):
+                robots.remove(robot)
+
+    # remove robots that collide and leave a pile of junk
+    for index, robot1 in enumerate(robots):
+        for robot2 in reversed(robots[index+1:]):
+            if collided(robot1, robot2):
+                robot1['junk'] = True
+                junk.append(place_robot(robot1['x'], robot1['y'], True))
+                remove_from_screen(robot2['shape'])
+                robots.remove(robot2)
+
+    for robot in reversed(robots):
+        if robot['junk']:
+            remove_from_screen(robot['shape'])
+            robots.remove(robot)
+
+    if not robots:
+        return "player_wins"
+
+    return ""
+</pre>
+
+<p>A few corresponding changes need to be made to <code>play_game</code> to
+use the new return values.  These are left as an exercise.</p>
 
 
 <h2>Glossary</h2>
@@ -1203,6 +1284,21 @@ def place_player():
     x, y = GRID_WIDTH/2 + 3, GRID_HEIGHT/2
     return {'shape': Circle((10*x+5, 10*y+5), 5, filled=True), 'x': x, 'y': y}
 </pre>
+<p>Finally, temporarily <b>comment out</b> the random generation of
+<code>x</code> and <code>y</code> values in <code>place_robots</code> and
+the creation of <code>numbots</code> robots.  Replace this logic with code to
+create two robots in fixed locations:</p>
+<pre class='python'>
+def place_robots(numbots):
+    robots = []
+    # for i in range(numbots):
+    #    x = random.randint(0, GRID_WIDTH)
+    #    y = random.randint(0, GRID_HEIGHT)
+    #    robots.append(place_robot(x, y))
+    robots.append(place_robot(GRID_WIDTH/2 - 4, GRID_HEIGHT/2 + 2))
+    robots.append(place_robot(GRID_WIDTH/2 - 4, GRID_HEIGHT/2 - 2))
+    return robots
+</pre>
 <p>When you start your program now, it should look like this:</p>
 <p><img src="illustrations/robots01.png" /></p>
 <p>When you run this program and either stay still (by pressing the
@@ -1212,10 +1308,13 @@ on the other hand, you die.</p>
 </div></li>
 
 <li><div class="exercise">
-Make the changes to the program discussed in <em>Removing robots that hit
-junk</em>.  Run it without iterating backwards over the <code>robots</code>
-and confirm that there is a bug.  Then use the built-in <code>reveresed</code>
-function to fix the bug.
+<p>Make the following modifications to <code>play_game</code> to integrate with
+the changes made in <em>Turning robots into junk and enabling the player to
+win</em>:</p>
+<ol>
+  <li>Rename <code>defeated</code> to <code>winner</code> and initialize it
+  to the empty string instead of <code>False</code>.</li>
+</ol>
 </div></li>
 </ol>
 

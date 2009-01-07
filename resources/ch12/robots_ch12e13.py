@@ -75,7 +75,7 @@ def check_collisions(robots, junk, player):
     # check whether player has collided with anything
     for thing in robots + junk:
         if collided(thing, player):
-            return "robots" 
+            return "robots_win" 
 
     # remove robots that have collided with a pile of junk
     for robot in reversed(robots):
@@ -98,7 +98,7 @@ def check_collisions(robots, junk, player):
             robots.remove(robot)
 
     if not robots:
-        return "player"
+        return "player_wins"
 
     return "" 
 
@@ -136,7 +136,7 @@ def play_game():
         remove_from_screen(player['shape'])
         for thing in robots + junk:
             remove_from_screen(thing['shape'])
-        if winner == "robots":
+        if winner == "robots_win":
             Text("They got you!", (240, 240), size=32)
         else:
             Text("You win!", (240, 240), size=32)
