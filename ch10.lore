@@ -210,7 +210,7 @@ printing n after calling g: 11
 </pre>
 
 <p>The three <code>n</code>'s here do not collide since they are each in a
-different namepace.</p>
+different namespace.</p>
 
 <p>Namespaces permit several programmers to work on the same project without
 having naming collisions.</p>
