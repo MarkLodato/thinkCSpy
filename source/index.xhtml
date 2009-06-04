@@ -3,7 +3,205 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <head>
 <title>How to Think Like a Computer Scientist: Learning with Python</title>
-<link href="cover.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+body {
+    margin: 0px;
+    padding: 0px;
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-color: #ffffff;
+    color: #000000;
+}
+#svg {
+    margin: 0px 0px 100px 116px;
+    padding: 0px;
+    position: absolute; right: 0px; top: 0px;
+}
+#Header {
+    color: #007700;
+    margin: 194px 0px 0px 116px;
+    padding: 0px;
+}
+#Footer {
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+}
+.Content {
+    margin: 5px 125px 5px;
+    padding: 20px;
+    padding-left: 50px;
+    color: #000000;
+    background-color: #fdfdda;
+    border: 1px solid #000000;
+}
+.leftcolumn {
+    margin: 0px 50px 0px 20px;
+    float: left;
+    width: 50%;
+    text-align: justify;
+}
+.rightcolumn {
+    margin: 0px 20px 0px 20px;
+    float: right;
+    width: 50%;
+}
+p {
+    font-size: 14px;
+    line-height: 22px;
+    font-family: verdana, arial, helvetica, sans-serif;
+    margin: 0px 12px 12px;	
+}
+#Content>p {
+    margin: 0px;
+}
+#Content>p+p {
+    text-indent: 30px;
+}
+
+a {
+    color: #d97405;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: verdana, arial, helvetica, sans-serif;
+}
+a:link {
+    color: #d97405;
+}
+a:visited {
+    color: #d97405;
+}
+a:hover {
+    background-color: white;
+}
+h1 {
+    padding: 0px;
+    color: #009100;
+    font: 32px/32px verdana, arial, helvetica, sans-serif;
+    font-weight: 900;
+    text-align: center;
+}
+h2 {
+    padding: 0px;
+    color:#333333;
+    font: 20px verdana, arial, helvetica, sans-serif;
+    font-weight: 700;
+    margin:0px 0px 5px;
+    text-align: center;
+}
+h3 {
+    padding: 0px;
+    color: #666666;
+    font-size: 15px;
+    font-weight: 800;
+    margin: 5px 0px 5px;
+    text-align: center;
+}
+h4 {
+    text-align: center;
+}
+
+img {
+    border-width: 0px;
+}
+img.thumb {
+    margin: 10px 1px;
+}
+
+#Copyright {
+    clear: both;
+    padding: 50px 0px 100px 0px;
+    text-align: center;
+    font-weight: 800;
+    color: #999999;
+}
+#copyrightText {
+    position: relative;
+    left: -17px;
+}
+
+.first {
+    margin-top: 0px;
+    padding-top: 0px;
+}
+td {
+    width: 50%;
+    padding: 0px 20px 0px 20px;
+    text-align: justify;
+    vertical-align: top;
+}
+.Content {
+    margin-top:100px;
+}
+
+
+.cssbtn {
+    display: inline;
+    width: 50px;
+    margin: 0.2em;
+    padding: 1px;
+    font-size: 9px;
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: left;
+    background: #cdf;
+    color: #333;
+    border: 1px solid black;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.cssbtn[class] {
+    width: auto;
+    min-width: 50px;
+}
+.cssbtn strong {
+    font-weight: bold;
+    background: white;
+    color: #06c;
+}
+.cssbtn:hover {
+    background: black;
+    color: white;
+}
+.cssbtn:hover strong {
+    background: #ccc;
+    color: black;
+}
+.btnw3c {
+    background: #06c;
+    color: white;
+}
+.btnxml {
+    background: #f90;
+    color:black;
+}
+.btnw4d {
+    background:#090;
+    color: white;
+}
+.btnw4d strong {
+    color: #090;
+}
+.btnpwr {
+    background: #006;
+    color: white;
+}
+.btnpwr strong {
+    background: #ccf;
+    color: #006;
+}
+.btnauth {
+    background: #dd9;
+    color: black;
+}
+.btnauth strong {
+    background: #003;
+    color: #ffc
+}
+</style>
 <!--
 Permission is granted to copy, distribute and/or modify this
 document under the terms of the GNU Free Documentation License,
@@ -70,35 +268,35 @@ in the section entitled "GNU Free Documentation License".
 
 <h3>by Jeffrey Elkner, Allen B. Downey and Chris Meyers</h3>
 
-<p><a href="foreword.xhtml">Foreword</a></p>
-<p><a href="preface.xhtml">Preface</a></p>
-<p><a href="contrib.xhtml">Contributor List</a></p>
-<p><a href="ch01.xhtml">Chapter 1</a> -- <i>The way of the program</i></p>
-<p><a href="ch02.xhtml">Chapter 2</a> -- 
+<p><a href="foreword.html">Foreword</a></p>
+<p><a href="preface.html">Preface</a></p>
+<p><a href="contrib.html">Contributor List</a></p>
+<p><a href="ch01.html">Chapter 1</a> -- <i>The way of the program</i></p>
+<p><a href="ch02.html">Chapter 2</a> -- 
 <i>Variables, expressions, and statements</i></p>
-<p><a href="ch03.xhtml">Chapter 3</a> -- <i>Functions</i></p>
-<p><a href="ch04.xhtml">Chapter 4</a> -- <i>Conditionals</i></p>
-<p><a href="ch05.xhtml">Chapter 5</a> -- <i>Fruitful functions</i></p>
-<p><a href="ch06.xhtml">Chapter 6</a> -- <i>Iteration</i></p>
-<p><a href="ch07.xhtml">Chapter 7</a> -- <i>Strings</i></p>
-<p><a href="ch08.xhtml">Chapter 8</a> -- <i>Case Study: Catch</i></p>
-<p><a href="ch09.xhtml">Chapter 9</a> -- <i>Lists</i></p>
-<p><a href="ch10.xhtml">Chapter 10</a> -- <i>Modules and files</i></p> 
-<p><a href="ch11.xhtml">Chapter 11</a> -- <i>Recursion and exceptions</i></p>
-<p><a href="ch12.xhtml">Chapter 12</a> -- <i>Dictionaries</i></p>
-<p><a href="ch13.xhtml">Chapter 13</a> -- <i>Classes and objects</i></p>
-<p><a href="app_a.xhtml">Appendix A</a> --
+<p><a href="ch03.html">Chapter 3</a> -- <i>Functions</i></p>
+<p><a href="ch04.html">Chapter 4</a> -- <i>Conditionals</i></p>
+<p><a href="ch05.html">Chapter 5</a> -- <i>Fruitful functions</i></p>
+<p><a href="ch06.html">Chapter 6</a> -- <i>Iteration</i></p>
+<p><a href="ch07.html">Chapter 7</a> -- <i>Strings</i></p>
+<p><a href="ch08.html">Chapter 8</a> -- <i>Case Study: Catch</i></p>
+<p><a href="ch09.html">Chapter 9</a> -- <i>Lists</i></p>
+<p><a href="ch10.html">Chapter 10</a> -- <i>Modules and files</i></p> 
+<p><a href="ch11.html">Chapter 11</a> -- <i>Recursion and exceptions</i></p>
+<p><a href="ch12.html">Chapter 12</a> -- <i>Dictionaries</i></p>
+<p><a href="ch13.html">Chapter 13</a> -- <i>Classes and objects</i></p>
+<p><a href="app_a.html">Appendix A</a> --
 <i>Configuring Ubuntu for Python Development</i></p>
 <p><a href="fdl.txt">GNU Free Document License</a></p>
-<p><a href="dex.xhtml">Index</a></p>
+<p><a href="dex.html">Index</a></p>
 
-<h4>Download a gzipped tar file of the lore source and XHTML 
-<a href="thinkCSpy2.tgz">here</a>.</h4>
+<h4>The reStructuredText source files for this book are located on the
+launchpad site <a href="http://launchpad.net/thinkcspy">here</a>.</h4>
 
 </div>
 
 <div id="Footer">
-<p>Copyright &copy; 2008 <a href="mailto:jeff@elkner.net">Jeffrey Elkner</a>,
+<p>Copyright &copy; 2009 <a href="mailto:jeff@elkner.net">Jeffrey Elkner</a>,
 <a href="http://allendowney.com/">Allen B. Downey</a> and
 <a href="mailto:cmeyers@guardnet.com">Chris Meyers</a>.
 Front page designed by David Cox.</p>
