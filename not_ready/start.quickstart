@@ -1,0 +1,74 @@
+.. How to Think Like a Computer Scientist: Learning with Python documentation master file, created by
+   sphinx-quickstart on Thu Jun  4 14:46:50 2009.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+How to Think Like a Computer Scientist: Learning with Python
+============================================================
+
+Contents:
+
+`Foreword`_
+
+`Preface`_
+
+`Contributor List`_
+
+`Chapter 1`_ -- *The way of the program*
+
+`Chapter 2`_ -- *Variables, expressions, and statements*
+
+`Chapter 3`_ -- *Functions*
+
+`Chapter 4`_ -- *Conditionals*
+
+`Chapter 5`_ -- *Fruitful functions*
+
+`Chapter 6`_ -- *Iteration*
+
+`Chapter 7`_ -- *Strings*
+
+`Chapter 8`_ -- *Case Study: Catch*
+
+`Chapter 9`_ -- *Lists*
+
+`Chapter 10`_ -- *Modules and files*
+
+`Chapter 11`_ -- *Recursion and exceptions*
+
+`Chapter 12`_ -- *Dictionaries*
+
+`Chapter 13`_ -- *Classes and objects*
+
+`Appendix A`_ -- *Configuring Ubuntu for Python Development*
+
+`GNU Free Document License`_
+
+.. _Foreword: foreword.html
+.. _Preface: preface.html
+.. _Contributor List: contrib.html
+.. _Chapter 1: ch01.html
+.. _Chapter 2: ch02.html
+.. _Chapter 3: ch03.html
+.. _Chapter 4: ch04.html
+.. _Chapter 5: ch05.html
+.. _Chapter 6: ch06.html
+.. _Chapter 7: ch07.html
+.. _Chapter 8: ch08.html
+.. _Chapter 9: ch09.html
+.. _Chapter 10: ch10.html
+.. _Chapter 11: ch11.html
+.. _Chapter 12: ch12.html
+.. _Chapter 13: ch13.html
+.. _Appendix A: app_a.html
+.. _GNU Free Document License: fdl.txt
+
+.. toctree::
+   :maxdepth: 2
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
