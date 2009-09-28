@@ -1,9 +1,5 @@
-
-
-
 GASP: Graphics API for Students of Python
 =========================================
-
 
 Coordinates
 -----------
@@ -15,19 +11,15 @@ Coordinates are given in units of one pixel.
 All functions that take coordinates take them as a tuple (x, y).
 
 .. sourcecode:: python
-
     
     Circle((300, 200), 10)     # :) This is good
     Circle(300, 200, 10)       # :( This is bad
 
-
-
 Colors
 ------
 
-To access the color module GASP has to offer. Call `color.*` where `*`
-is the color you wish to call. For example:
-` color.black `
+To access the color module GASP has to offer. Call `color.*` where `*` is the
+color you wish to call. For example: ` color.black `
 This is the color black. Check out the gasp color refrence chart to
 see all of the availble color options.
 
@@ -45,7 +37,6 @@ The Essentials
     ... 			# all of your code
     
     end_graphics()
-    
 
 
 These are the essentials. ` from gasp import * ` imports the gasp
@@ -77,15 +68,12 @@ a title of Gasp, and a background color of white.
   either be a color or an image
 
 
-
 end_graphics()
 ~~~~~~~~~~~~~~
 
 .. sourcecode:: python
-
     
     endgraphics() 
-
 
 Ends a graphics window.
 
@@ -94,10 +82,8 @@ clear_screen()
 ~~~~~~~~~~~~~~
 
 .. sourcecode:: python
-
     
     clear_screen()
-
 
 Clears everything off of the graphics window. It looks like a new
 graphcs window as if you just called begin_graphics().
@@ -107,16 +93,13 @@ remove_from_screen()
 ~~~~~~~~~~~~~~~~~~~~
 
 .. sourcecode:: python
-
     
     remove_from_screen(obj)
-
 
 removes those objects from the screen
 
 :obj: A screen object of a list of screen_objects you would like to
   remove from the screen
-
 
 
 Screen Objects
@@ -130,10 +113,8 @@ Plot
 ~~~~
 
 .. sourcecode:: python
-
     
     Plot(pos, color=color.black, size=1)
-
 
 It puts a dot on the screen.
 
@@ -142,15 +123,12 @@ It puts a dot on the screen.
 :size: An integer that determinse the size the of the dot
 
 
-
 Line
 ~~~~
 
 .. sourcecode:: python
-
     
     Line(start, end, color=color.black)
-
 
 Creates a line on the screen.
 
@@ -159,15 +137,12 @@ Creates a line on the screen.
 :color: The color of the line
 
 
-
 Box
 ~~~
 
 .. sourcecode:: python
-
     
     Box(center, width, height, filled=False, color=color.black, thickness=1)
-
 
 This creates a Box on the screen
 
@@ -179,15 +154,12 @@ This creates a Box on the screen
 :thickness: The thickness in pixels of your box's lines.
 
 
-
 Polygon
 ~~~~~~~
 
 .. sourcecode:: python
-
     
     Polygon(points, filled=False, color=color.black, thickness=1) 
-
 
 Creates a polygon on the screen
 
@@ -199,15 +171,12 @@ Creates a polygon on the screen
 :thickness: An integer that determines the thickness of the lines.
 
 
-
 Circle
 ~~~~~~
 
 .. sourcecode:: python
 
-    
     Circle(center, radius, filled=False, color=color.black, thickness=1)
-
 
 Draws a circle, its `center` is a set of coordinates, and the `radius`
 is in pixels. It defaults to not being filled and the color black.
@@ -219,15 +188,12 @@ is in pixels. It defaults to not being filled and the color black.
 :thickness: The thickness in pixels of the circles lines.
 
 
-
 Arc
 ~~~
 
 .. sourcecode:: python
-
     
     Arc(center, radius, start_angle, end_angle, filled=False, color=color.black, thickness=1)
-
 
 Creates an arc on the screen.
 
@@ -241,15 +207,12 @@ Creates an arc on the screen.
 :thickness: The thickness in pixels of the arc
 
 
-
 Oval
 ~~~~
 
 .. sourcecode:: python
-
     
     Oval(center, width, height, filled=False, color=color.black, thickness=1)
-
 
 Puts an oval on the screen wherever you want.
 
@@ -262,15 +225,12 @@ Puts an oval on the screen wherever you want.
 :thickness: The thickness of the ovals lines
 
 
-
 Image
 ~~~~~
 
 .. sourcecode:: python
-
     
     Image(self, file_path, center, width=None, height=None):
-
 
 It uploads an image onto the screen. If you only pass width and not a
 height it automatically scales the height to fit the width you passed
@@ -284,7 +244,6 @@ it. It is the same for the height.
   defaults to the image files height
 
 
-
 Screen Object Methods
 ---------------------
 
@@ -295,10 +254,8 @@ move_to()
 ~~~~~~~~~
 
 .. sourcecode:: python
-
     
     move_to(obj, pos)
-
 
 Move a screen object to a pos
 
@@ -306,15 +263,12 @@ Move a screen object to a pos
 :pos: The coordinate on the screen that the object will move to
 
 
-
 move_by()
 ~~~~~~~~~
 
 .. sourcecode:: python
 
-    
     move_by(obj, dx, dy)
-
 
 Move a screen object relative to it's position
 
@@ -325,15 +279,12 @@ Move a screen object relative to it's position
   value.
 
 
-
 rotate_to()
 ~~~~~~~~~~~
 
 .. sourcecode:: python
-
     
     rotate_to(obj, angle)
-
 
 Rotate an object to an angle
 
@@ -341,15 +292,12 @@ Rotate an object to an angle
 :angle: The angle in degrees that the object will be rotated to
 
 
-
 rotate_by()
 ~~~~~~~~~~~
 
 .. sourcecode:: python
-
     
     rotate_by(obj, angle)
-
 
 Rotate an object a certain degree.
 
@@ -358,21 +306,16 @@ Rotate an object a certain degree.
   negative.
 
 
-
 Text
 ----
-
-
 
 
 Text()
 ~~~~~~
 
 .. sourcecode:: python
-
     
     Text(text, pos, color=color.black, size=12)
-
 
 Puts text on the screen
 
@@ -380,7 +323,6 @@ Puts text on the screen
 :pos: The center coordinate of the text
 :color: The color of the text
 :size: The font size
-
 
 
 Sound
@@ -404,15 +346,12 @@ Creates a sound object
   object out of
 
 
-
 play_sound()
 ~~~~~~~~~~~~
 
 .. sourcecode:: python
-
     
     play_sound(obj, loop=False)
-
 
 Plays a sound object
 
@@ -420,7 +359,6 @@ Plays a sound object
 :loop: If loop equals false in will play the file all the way through
   one time. If loop equals True it will repeat the file untill it is
   stopped
-
 
 
 stop_sound()
@@ -431,7 +369,6 @@ stop_sound()
     
     stop_sound(obj, finish=False, fade=True)
 
-
 It stops a sound object that was playing
 
 :obj: The sound object you wish to stop
@@ -440,33 +377,24 @@ It stops a sound object that was playing
 :fade: If True it will fade out. If False it will stop the sound
 
 
-
 Mouse
 -----
-
-
-
 
 mouse_position()
 ~~~~~~~~~~~~~~~~
 
 .. sourcecode:: python
-
     
     mouse_position()
 
-
 Returns the current mouse coordinate
-
 
 mouse_buttons()
 ~~~~~~~~~~~~~~~
 
 .. sourcecode:: python
-
     
     mouse_buttons()
-
 
 returns a dictionary of the buttons state. There is a 'left',
 'middle', and 'right' key.
@@ -475,17 +403,12 @@ returns a dictionary of the buttons state. There is a 'left',
 Keyboard
 --------
 
-
-
-
 keys_pressed()
 ~~~~~~~~~~~~~~
 
 .. sourcecode:: python
-
     
     keys_pressed()
-
 
 returns a list of all of the keys pressed at that moment.
 
@@ -493,20 +416,14 @@ returns a list of all of the keys pressed at that moment.
 Gasp Tools
 ----------
 
-
 screen_shot
 ~~~~~~~~~~~
 
 .. sourcecode:: python
-
     
     screen_shot(filename)
-
 
 It saves a screenshot of the current graphics screen to a png file.
 
 :filename: The file path relative to the current directory that the
   image will be written to.
-
-
-
