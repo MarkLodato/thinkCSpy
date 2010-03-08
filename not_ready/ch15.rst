@@ -691,6 +691,3 @@ Exercises
    defined, not when it is called. When `find` is defined, `str` doesn't
    exist yet, so you can't find its length.
 #.  
-
-
-
