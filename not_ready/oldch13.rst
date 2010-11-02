@@ -177,12 +177,12 @@ To solve this problem we add an **initialization method** to our class.
             self.x = x
             self.y = y 
 
-A **method** behaves like a function but it is part of an object instance.
+A  **method** behaves like a function but it is part of an object instance.
 Like a data attribute it is accessed using dot notation.  The initialization
 method is called automatically when the class is called.
 
-Let's add another method, ``distance_from_origin``, to see better how methods
-work:
+Let's add another method, ``distance_from_origin``, to see how methods
+behave more clearly:
 
 .. sourcecode:: python
     
@@ -194,32 +194,7 @@ work:
         def distance_from_origin(self):
             return ((self.x ** 2) + (self.y ** 2) ** 0.5)
 
-Creating a few point instances and looking at their attributes and calling
-our new method on them shows how to use ``Points``:
 
-.. sourcecode:: python
-
-    >>> p = Point(3, 4)
-    >>> p.x
-    3
-    >>> p.y
-    4
-    >>> p.distance_from_origin()
-    5.0
-    >>> q = Point(5, 12)
-    >>> q.x
-    5
-    >>> q.y
-    12
-    >>> q.distance_from_origin()
-    13.0
-    >>> r = Point()
-    >>> r.x
-    0
-    >>> r.y
-    0
-    >>> r.distance_from_origin()
-    0.0
 
 Instances as parameters
 -----------------------
@@ -233,6 +208,74 @@ You can pass an instance as a parameter in the usual way. For example:
 
 ``print_point`` takes a point as an argument and displays it in the standard
 format. If you call ``print_point(blank)``, the output is ``(3, 4)``.
+
+
+Sameness
+--------
+
+The meaning of the word same seems perfectly clear until you give it some
+thought, and then you realize there is more to it than you expected.
+
+For example, if you say, Chris and I have the same car, you mean that his car
+and yours are the same make and model, but that they are two different cars. If
+you say, Chris and I have the same mother, you mean that his mother and yours
+are the same person.
+
+When you talk about objects, there is a similar ambiguity. For example, if two
+``Point``\ s are the same, does that mean they contain the same data
+(coordinates) or that they are actually the same object?
+
+To find out if two references refer to the same object, Python has the ``is``
+operator.
+
+.. sourcecode:: python
+    
+    >>> p1 = Point()
+    >>> p1.x = 3
+    >>> p1.y = 4
+    >>> p2 = Point()
+    >>> p2.x = 3
+    >>> p2.y = 4
+    >>> p1 == p2
+    False
+
+Even though ``p1`` and ``p2`` contain the same coordinates, they are not the
+same object. If we assign ``p1`` to ``p2``, then the two variables are aliases
+of the same object:
+
+.. sourcecode:: python
+    
+    >>> p2 = p1
+    >>> p1 == p2
+    True
+
+This type of equality is called **shallow equality** because it compares only
+the references, not the contents of the objects.
+
+To compare the contents of the objects --- **deep equality** --- we can write a
+function called ``same_point``:
+
+.. sourcecode:: python
+    
+    def same_point(p1, p2):
+        return (p1.x == p2.x) and (p1.y == p2.y)
+
+Now if we create two different objects that contain the same data, we can use
+``same_point`` to find out if they represent the same point.
+
+.. sourcecode:: python
+    
+    >>> p1 = Point()
+    >>> p1.x = 3
+    >>> p1.y = 4
+    >>> p2 = Point()
+    >>> p2.x = 3
+    >>> p2.y = 4
+    >>> same_point(p1, p2)
+    True
+
+Of course, if the two variables refer to the same object, they have both
+shallow and deep equality.
 
 
 Rectangles
